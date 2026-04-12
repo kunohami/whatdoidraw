@@ -4,9 +4,9 @@
 ## 1. Contexto del Proyecto
 **whatdoidraw? (wdid?)** es una aplicación móvil nativa (Flutter) diseñada como una red social colaborativa para superar el bloqueo creativo. 
 El flujo de inspiración es flexible y se basa en tres tipos de contenido interconectados:
-1. **Idea (Prompt):** Un usuario publica texto libre.
-2. **Doodle (Boceto):** Un usuario usa el lienzo integrado para dibujar. Puede ser libre o estar inspirado en una Idea.
-3. **Artwork (Arte Final):** Un artista enlaza su obra final alojada externamente. Un Artwork puede estar inspirado directamente en una Idea, o basarse en un Doodle. No es un flujo estrictamente lineal.
+1. **Idea (Prompt):** Publicación de texto.
+2. **Doodle (Boceto):** Dibujo ejecutado en la app. Puede crearse de forma libre e independiente, o estar vinculado al ID de una Idea.
+3. **Artwork (Arte Final):** Publicación que enlaza una obra alojada externamente. Requiere que el usuario seleccione una Idea o Doodle de su sección de "Guardados" (Bookmarks) para establecer el origen de la inspiración. El flujo de creación principal (Pestaña Crear) debe ofrecer opciones diferenciadas para iniciar cualquiera de los tres formatos.
 
 ## 2. Stack Tecnológico
 - **Frontend:** Flutter (Dart).
@@ -21,6 +21,7 @@ El flujo de inspiración es flexible y se basa en tres tipos de contenido interc
 2. **Gestión de Estado:** Usa SIEMPRE Riverpod para la lógica de negocio y llamadas a backend. Usa `AsyncNotifier` o `FutureProvider` según corresponda para manejar estados de carga y error.
 3. **Consultas a Base de Datos:** Usa el SDK oficial `supabase_flutter`. Aprovecha que las relaciones ya están definidas en SQL al consultar datos.
 4. **Manejo de Errores:** Siempre incluye bloques `try-catch` al interactuar con Supabase y expón los errores al usuario mediante la UI (SnackBar/Toast).
+5. **Enfoque Educativo:** Documenta exhaustivamente cada parte compleja del código desarrollado usando bloques de comentarios explicativos con el formato `// [DOC]: explicación...`. El objetivo es que el usuario aprenda las entrañas de Flutter, cómo Riverpod interopera con Supabase, y el diseño de interfaces mientras avanza el proyecto.
 
 ## 4. Referencia de Base de Datos (PostgreSQL en Supabase)
 
