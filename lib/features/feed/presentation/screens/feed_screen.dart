@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'feed_provider.dart';
-import '../content_creation/doodle_canvas_screen.dart';
+import '../providers/feed_provider.dart';
+import '../../../content_creation/presentation/screens/doodle_canvas_screen.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});

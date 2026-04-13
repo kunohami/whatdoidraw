@@ -12,7 +12,7 @@ El flujo de inspiración es flexible y se basa en tres tipos de contenido interc
 - **Frontend:** Flutter (Dart).
 - **Backend/BaaS:** Supabase (PostgreSQL + Auth).
 - **Gestión de Estado:** Riverpod (usando los paquetes `flutter_riverpod` y `riverpod_annotation` para la generación de código).
-- **Arquitectura:** Feature-first (agrupado por funcionalidades: auth, feed, profile, creation).
+- **Arquitectura:** Feature-Driven Clean Architecture (separación estricta de responsabilidades mediante Domain, Data y Presentation en cada feature).
 
 ## 3. 🚨 REGLAS ESTRICTAS PARA EL AGENTE DE IA (LEER SIEMPRE) 🚨
 1. **NO ALOJAMOS IMÁGENES DE PUBLICACIONES EN LA APP:**
@@ -20,8 +20,9 @@ El flujo de inspiración es flexible y se basa en tres tipos de contenido interc
    - Los **Artworks** finales están alojados externamente (Instagram, Twitter, etc.). Solo guardamos el `external_link` y un `preview_url`.
 2. **Gestión de Estado:** Usa SIEMPRE Riverpod para la lógica de negocio y llamadas a backend. Usa `AsyncNotifier` o `FutureProvider` según corresponda para manejar estados de carga y error.
 3. **Consultas a Base de Datos:** Usa el SDK oficial `supabase_flutter`. Aprovecha que las relaciones ya están definidas en SQL al consultar datos.
-4. **Manejo de Errores:** Siempre incluye bloques `try-catch` al interactuar con Supabase y expón los errores al usuario mediante la UI (SnackBar/Toast).
-5. **Enfoque Educativo:** Documenta exhaustivamente cada parte compleja del código desarrollado usando bloques de comentarios explicativos con el formato `// [DOC]: explicación...`. El objetivo es que el usuario aprenda las entrañas de Flutter, cómo Riverpod interopera con Supabase, y el diseño de interfaces mientras avanza el proyecto.
+4. **Manejo de Errores:** Siempre incluye bloques `try-catch` interactuando a nivel de la capa Data.
+5. **Arquitectura Clean Estricta:** Ningún gestor de estado (Riverpod `Notifier`) debe incluir referencias o llamadas directas a Supabase u otras bases de datos. Deben inyectar y consumir exclusivamente **UseCases** de la capa de `domain`. La implementación de red vivirá rigurosamente en `data/datasources` conformando el contrato de `domain/repositories`.
+6. **Enfoque Educativo:** Documenta exhaustivamente cada capa con el formato `// [DOC]: explicación...`.
 
 ## 4. Referencia de Base de Datos (PostgreSQL en Supabase)
 

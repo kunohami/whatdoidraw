@@ -41,7 +41,7 @@ final class DoodleCanvasProvider
   }
 }
 
-String _$doodleCanvasHash() => r'0ff82d8d3f5520feed1458eb7f77c27ba3cbee3f';
+String _$doodleCanvasHash() => r'861146be06b2dc0e27ac19373cef420200d8d061';
 
 abstract class _$DoodleCanvas extends $Notifier<List<StrokeModel>> {
   List<StrokeModel> build();

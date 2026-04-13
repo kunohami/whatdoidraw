@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'providers/doodle_canvas_provider.dart';
-import 'widgets/doodle_painter.dart';
+import '../providers/doodle_canvas_provider.dart';
+import '../widgets/doodle_painter.dart';
 
 class DoodleCanvasScreen extends ConsumerWidget {
   final String? ideaId; // Identificador enlazado (Foreign key)

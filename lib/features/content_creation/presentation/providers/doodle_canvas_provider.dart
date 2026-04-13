@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../shared/models/stroke_model.dart';
-import '../../../core/providers/supabase_provider.dart';
+import '../../../../shared/models/stroke_model.dart';
+import '../../../../core/providers/supabase_provider.dart';
+import 'content_creation_di.dart';
 
 part 'doodle_canvas_provider.g.dart';
 
@@ -57,28 +58,22 @@ class DoodleCanvas extends _$DoodleCanvas {
     state = [];
   }
 
-  // [DOC]: Esta función transformará todos nuestros Trazo -> lista de puntos -> a un objeto JSON puro,
-  // y lo enviará a Supabase referenciando la Idea original. ¡Sin usar convertidores externos!
+  // [DOC]: [LAYER: PRESENTATION]
+  // Ya no usamos raw SQL/Json inserts. Llamamos a nuestro guardián del negocio.
   Future<void> submitDoodle(String? ideaId) async {
-    if (state.isEmpty) return; // No permitimos panales vacíos
+    if (state.isEmpty) return; 
 
-    // 1. Transformamos DART a JSON invocando el .toJson() automático de Freezed.
-    final doodleJsonArray = state.map((stroke) => stroke.toJson()).toList();
-
-    // 2. Extraer dependencias
     final supabase = ref.read(supabaseClientProvider);
     final userId = supabase.auth.currentUser?.id;
 
     if (userId == null) throw Exception('Inicia sesión para subir Doodles');
 
-    // 3. Enviamos a la tabla
-    await supabase.from('doodles').insert({
-      'user_id': userId,
-      'idea_id': ideaId,
-      'doodle_data': doodleJsonArray, // Almacenado como JSONB
-    });
+    await ref.read(submitDoodleUseCaseProvider).call(
+      strokes: state, // Omitimos transformarlo a JSON aquí, el Repository lo hará
+      userId: userId,
+      ideaId: ideaId,
+    );
     
-    // Limpiamos el tapiz tras publicarlo
     clear();
   }
 }

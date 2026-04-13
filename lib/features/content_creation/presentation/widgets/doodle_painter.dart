@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../shared/models/stroke_model.dart';
+import '../../../../shared/models/stroke_model.dart';
 import 'dart:ui';
 
 // [DOC]: Esta es la pieza arquitectónica clave. CustomPainter es el "pincel"

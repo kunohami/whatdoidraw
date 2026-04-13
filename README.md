@@ -22,30 +22,31 @@ La pestaña de creación de la aplicación funcionará como un centro de distrib
 - **Frontend:** Flutter (Dart).
 - **Backend/Base de Datos:** Supabase (PostgreSQL, Auth).
 - **Gestión de Estado:** Riverpod.
-- **Arquitectura:** Feature-first.
+- **Arquitectura:** Feature-Driven Clean Architecture.
 
 ## 📁 Estructura del Proyecto Flutter
 
 ```text
 lib/
-│
-├── core/                   # Configuraciones globales y utilidades
-│   ├── constants/          # Colores, tamaños, estilos de texto
-│   ├── theme/              # Configuración del ThemeData
-│   └── utils/              # Funciones de ayuda 
-│
-├── shared/                 # Componentes UI reutilizables
-│   ├── widgets/            # Botones, avatares, modales
-│   └── models/             # Clases base
-│
-├── features/               # Módulos principales de la aplicación
-│   ├── auth/               # Pantallas y lógica de Login/Registro
-│   ├── feed/               # Listas de descubrimiento
-│   ├── content_creation/   # Formularios de Ideas y el Canvas para Doodles
-│   ├── profile/            # Perfil de usuario y bookmarks
-│   └── interaction/        # Lógica de Likes, Bookmarks y Reportes
-│
-└── main.dart               # Punto de entrada de la aplicación
+├── core/                       # Integraciones troncales y configuraciones
+│   ├── network/                # inyección del Core de Supabase
+│   ├── theme/                  # Paletas de colores
+│   └── constants/              
+├── features/                   # División modular del proyecto
+│   └── [feature_name]/         # (ej: auth, feed, content_creation)
+│       ├── domain/             # (Puro Dart, cero Flutter)
+│       │   ├── entities/       # Modelos del negocio
+│       │   ├── repositories/   # Interfaces contracturales
+│       │   └── usecases/       # Acciones atómicas aisladas
+│       ├── data/               # (Comunicación DB externa)
+│       │   ├── models/         # (Supresión si Freezed opera como Entidad)
+│       │   ├── datasources/    # Consultas RPC/PostgreSQL Supabase
+│       │   └── repositories/   # Implementación del contrato de dominio
+│       └── presentation/       # (UI y Lógica de Interfaz)
+│           ├── screens/        # Vistas de Flutter
+│           ├── widgets/        # Componentes UI locales
+│           └── providers/      # Controladores Riverpod
+└── main.dart                   
 ```
 
 
@@ -55,10 +56,12 @@ lib/
 - [x] Crear formulario para publicar un prompt de texto (Idea).
 - [x] Feed simple que muestra todas las Ideas.
 
-### Iteración 2: Perfiles y Lienzo de Dibujo 🔄 [EN PROGRESO]
-- [ ] Pantalla de Perfil de Usuario con historial.
-- [/] Implementación del `DrawingView` (lienzo con librería scribble).
-- [ ] Funcionalidad para guardar y publicar un Doodle vinculado a una Idea.
+### Iteración 2: El Motor de Dibujo y Arquitectura Clean ✅
+- [x] Transición total del esqueleto hacia Feature-Driven Clean Architecture.
+- [x] Motor de renderizado vectorial de dibujo construido desde cero (sin librerías).
+- [x] Hub de Creación centralizado.
+- [x] Funcionalidad para guardar y publicar un Doodle libre o enlazado a una Idea.
+- [ ] Pantalla de Perfil de Usuario con historial (Pendiente).
 
 ### Iteración 3: Feeds y Descubrimiento
 - [ ] Pantallas de descubrimiento completas (Tabs para Ideas, Doodles, Artworks).
