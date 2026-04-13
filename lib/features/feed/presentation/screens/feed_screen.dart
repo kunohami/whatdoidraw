@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'feed_provider.dart';
+import '../providers/feed_provider.dart';
+import '../../../content_creation/presentation/screens/doodle_canvas_screen.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
@@ -55,9 +56,21 @@ class FeedScreen extends ConsumerWidget {
                                 color: Colors.grey,
                               ),
                             ),
+                            // [DOC]: Navegación en Flutter. Pasamos parámetros directamente 
+                            // por el constructor del Widget destino.
                             IconButton(
                               icon: const Icon(Icons.draw_outlined),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DoodleCanvasScreen(
+                                      ideaId: idea.id,
+                                      ideaPrompt: idea.content,
+                                    ),
+                                  ),
+                                );
+                              },
                               tooltip: 'Dibujar esta idea',
                             ),
                           ],

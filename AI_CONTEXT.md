@@ -4,15 +4,15 @@
 ## 1. Contexto del Proyecto
 **whatdoidraw? (wdid?)** es una aplicación móvil nativa (Flutter) diseñada como una red social colaborativa para superar el bloqueo creativo. 
 El flujo de inspiración es flexible y se basa en tres tipos de contenido interconectados:
-1. **Idea (Prompt):** Un usuario publica texto libre.
-2. **Doodle (Boceto):** Un usuario usa el lienzo integrado para dibujar. Puede ser libre o estar inspirado en una Idea.
-3. **Artwork (Arte Final):** Un artista enlaza su obra final alojada externamente. Un Artwork puede estar inspirado directamente en una Idea, o basarse en un Doodle. No es un flujo estrictamente lineal.
+1. **Idea (Prompt):** Publicación de texto.
+2. **Doodle (Boceto):** Dibujo ejecutado en la app. Puede crearse de forma libre e independiente, o estar vinculado al ID de una Idea.
+3. **Artwork (Arte Final):** Publicación que enlaza una obra alojada externamente. Requiere que el usuario seleccione una Idea o Doodle de su sección de "Guardados" (Bookmarks) para establecer el origen de la inspiración. El flujo de creación principal (Pestaña Crear) debe ofrecer opciones diferenciadas para iniciar cualquiera de los tres formatos.
 
 ## 2. Stack Tecnológico
 - **Frontend:** Flutter (Dart).
 - **Backend/BaaS:** Supabase (PostgreSQL + Auth).
 - **Gestión de Estado:** Riverpod (usando los paquetes `flutter_riverpod` y `riverpod_annotation` para la generación de código).
-- **Arquitectura:** Feature-first (agrupado por funcionalidades: auth, feed, profile, creation).
+- **Arquitectura:** Feature-Driven Clean Architecture (separación estricta de responsabilidades mediante Domain, Data y Presentation en cada feature).
 
 ## 3. 🚨 REGLAS ESTRICTAS PARA EL AGENTE DE IA (LEER SIEMPRE) 🚨
 1. **NO ALOJAMOS IMÁGENES DE PUBLICACIONES EN LA APP:**
@@ -20,7 +20,9 @@ El flujo de inspiración es flexible y se basa en tres tipos de contenido interc
    - Los **Artworks** finales están alojados externamente (Instagram, Twitter, etc.). Solo guardamos el `external_link` y un `preview_url`.
 2. **Gestión de Estado:** Usa SIEMPRE Riverpod para la lógica de negocio y llamadas a backend. Usa `AsyncNotifier` o `FutureProvider` según corresponda para manejar estados de carga y error.
 3. **Consultas a Base de Datos:** Usa el SDK oficial `supabase_flutter`. Aprovecha que las relaciones ya están definidas en SQL al consultar datos.
-4. **Manejo de Errores:** Siempre incluye bloques `try-catch` al interactuar con Supabase y expón los errores al usuario mediante la UI (SnackBar/Toast).
+4. **Manejo de Errores:** Siempre incluye bloques `try-catch` interactuando a nivel de la capa Data.
+5. **Arquitectura Clean Estricta:** Ningún gestor de estado (Riverpod `Notifier`) debe incluir referencias o llamadas directas a Supabase u otras bases de datos. Deben inyectar y consumir exclusivamente **UseCases** de la capa de `domain`. La implementación de red vivirá rigurosamente en `data/datasources` conformando el contrato de `domain/repositories`.
+6. **Enfoque Educativo:** Documenta exhaustivamente cada capa con el formato `// [DOC]: explicación...`.
 
 ## 4. Referencia de Base de Datos (PostgreSQL en Supabase)
 

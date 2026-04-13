@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'create_idea_provider.dart';
+import '../providers/create_idea_provider.dart';
 
 class CreateIdeaScreen extends ConsumerStatefulWidget {
   const CreateIdeaScreen({super.key});

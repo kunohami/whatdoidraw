@@ -42,7 +42,7 @@ final class CreateIdeaControllerProvider
 }
 
 String _$createIdeaControllerHash() =>
-    r'22dd1254016741a11f131c4d6e98128f3a3f9b9c';
+    r'972085e6c28ba28bb777c8bb9be936fc31ae7369';
 
 abstract class _$CreateIdeaController extends $Notifier<bool> {
   bool build();

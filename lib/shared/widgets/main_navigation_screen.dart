@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../features/feed/feed_screen.dart';
-import '../../features/content_creation/create_idea_screen.dart';
+import '../../features/feed/presentation/screens/feed_screen.dart';
+import '../../features/content_creation/presentation/screens/creation_hub_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -14,7 +14,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final List<Widget> _screens = const [
     FeedScreen(),
-    CreateIdeaScreen(),
+    CreationHubScreen(),
     Placeholder(child: Center(child: Text("Perfil en construcción"))),
   ];
 
