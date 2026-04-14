@@ -1,0 +1,35 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el codigo del repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar el entorno (Instalar Flutter)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Instalar dependencias 
+        run: flutter pub get
+        
+      - name: Revisar el formato del codigo
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Revisar las reglas del Linter (Equivalente de ESLint)
+        run: flutter analyze --fatal-infos --fatal-warnings
+
+      - name: Ejecutar los tests de pruebas
+        run: flutter test
+
+      - name: Probar el Build
+        run: flutter build apk --debug
