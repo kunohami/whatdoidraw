@@ -22,6 +22,11 @@ jobs:
       - name: Instalar dependencias 
         run: flutter pub get
         
+      - name: Inyectar variables de entorno (GitHub Secrets)
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
+          echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
+
       - name: Revisar el formato del codigo
         run: dart format --output=none --set-exit-if-changed .
 

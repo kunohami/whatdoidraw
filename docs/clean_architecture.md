@@ -7,7 +7,7 @@ La app utiliza una fusión entre la estructura modular por funcionalidades de Fl
 
 ## Estructura de Directorios (Aislada por cada Feature)
 
-Al entrar a `lib/features/[nombre]`, encontrarás esta división sagrada:
+Al entrar a `lib/features/[nombre]`, se encuentra esta división sagrada:
 
 ```text
 lib/
@@ -26,7 +26,7 @@ lib/
             └── providers/      # Inyección de dependencias e interfaces reactivas Riverpod
 ```
 
-## Reglas de Oro para Colaboradores
+## Reglas para Colaboradores
 1. **El Estado jamás habla con Supabase:** Un Riverpod Provider no debe importar el SDK de bases de datos de forma directa en ningún escenario de producción. Solo deben depender de `UseCases`.
-2. **Principio de Responsabilidad Única (SRP):** Los UseCases solo hacen UNA cosa. Si necesitas enviar un dibujo, crea un `SubmitDoodleUseCase`. Si hay reglas que filtrar palabras prohibidas, sucederán dentro de este UseCase antes de despacharse a red. 
+2. **Principio de Responsabilidad Única (SRP):** Los UseCases solo hacen UNA cosa. Para enviar un dibujo, se debe crear un `SubmitDoodleUseCase`. Si hay reglas que filtrar palabras prohibidas, sucederán dentro de este UseCase antes de despacharse a red. 
 3. **Flujo Acíclico:** `UI` ➔ Pide al `Provider` ➔ Ejecuta el `UseCase` ➔ Delega a la interfaz `Repository` ➔ Resuelto por `RepositoryImpl` ➔ Llama internamente a `DataSource`.
