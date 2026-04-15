@@ -22,30 +22,26 @@ La pestaña de creación de la aplicación funcionará como un centro de distrib
 - **Frontend:** Flutter (Dart).
 - **Backend/Base de Datos:** Supabase (PostgreSQL, Auth).
 - **Gestión de Estado:** Riverpod.
-- **Arquitectura:** Feature-Driven Clean Architecture.
+- **Arquitectura:** Feature-Driven MVVM.
 
 ## 📁 Estructura del Proyecto Flutter
 
 ```text
 lib/
 ├── core/                       # Integraciones troncales y configuraciones
-│   ├── network/                # inyección del Core de Supabase
+│   ├── providers/              # Proveedores globales (Supabase, etc.)
 │   ├── theme/                  # Paletas de colores
 │   └── constants/              
 ├── features/                   # División modular del proyecto
 │   └── [feature_name]/         # (ej: auth, feed, content_creation)
-│       ├── domain/             # (Puro Dart, cero Flutter)
-│       │   ├── entities/       # Modelos del negocio
-│       │   ├── repositories/   # Interfaces contracturales
-│       │   └── usecases/       # Acciones atómicas aisladas
-│       ├── data/               # (Comunicación DB externa)
-│       │   ├── models/         # (Supresión si Freezed opera como Entidad)
-│       │   ├── datasources/    # Consultas RPC/PostgreSQL Supabase
-│       │   └── repositories/   # Implementación del contrato de dominio
-│       └── presentation/       # (UI y Lógica de Interfaz)
-│           ├── screens/        # Vistas de Flutter
-│           ├── widgets/        # Componentes UI locales
-│           └── providers/      # Controladores Riverpod
+│       ├── services/           # Conectividad directa (Supabase, APIs)
+│       ├── viewmodels/         # Riverpod Notifiers (Estado reactivo)
+│       └── views/              # Interfaz de usuario
+│           ├── screens/        # Vistas completas
+│           └── widgets/        # Componentes locales
+├── shared/                     # Código compartido entre features
+│   ├── models/                 # Modelos de datos únicos (Freezed)
+│   └── widgets/                # UI reutilizable globalmente
 └── main.dart                   
 ```
 
@@ -56,8 +52,8 @@ lib/
 - [x] Crear formulario para publicar un prompt de texto (Idea).
 - [x] Feed simple que muestra todas las Ideas.
 
-### Iteración 2: El Motor de Dibujo y Arquitectura Clean ✅
-- [x] Transición total del esqueleto hacia Feature-Driven Clean Architecture.
+### Iteración 2: El Motor de Dibujo y Arquitectura MVVM ✅
+- [x] Transición total del esqueleto hacia Feature-Driven MVVM.
 - [x] Motor de renderizado vectorial de dibujo construido desde cero (sin librerías).
 - [x] Hub de Creación centralizado.
 - [x] Funcionalidad para guardar y publicar un Doodle libre o enlazado a una Idea.

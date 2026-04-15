@@ -12,7 +12,7 @@ El flujo de inspiración es flexible y se basa en tres tipos de contenido interc
 - **Frontend:** Flutter (Dart).
 - **Backend/BaaS:** Supabase (PostgreSQL + Auth).
 - **Gestión de Estado:** Riverpod (usando los paquetes `flutter_riverpod` y `riverpod_annotation` para la generación de código).
-- **Arquitectura:** Feature-Driven Clean Architecture (separación estricta de responsabilidades mediante Domain, Data y Presentation en cada feature).
+- **Arquitectura:** Feature-Driven MVVM (Model-View-ViewModel). Separación de responsabilidades mediante View, ViewModel y Service por cada funcionalidad.
 
 ## 3. 🚨 REGLAS ESTRICTAS PARA EL AGENTE DE IA (LEER SIEMPRE) 🚨
 1. **NO ALOJAMOS IMÁGENES DE PUBLICACIONES EN LA APP:**
@@ -21,8 +21,8 @@ El flujo de inspiración es flexible y se basa en tres tipos de contenido interc
 2. **Gestión de Estado:** Usa SIEMPRE Riverpod para la lógica de negocio y llamadas a backend. Usa `AsyncNotifier` o `FutureProvider` según corresponda para manejar estados de carga y error.
 3. **Consultas a Base de Datos:** Usa el SDK oficial `supabase_flutter`. Aprovecha que las relaciones ya están definidas en SQL al consultar datos.
 4. **Manejo de Errores:** Siempre incluye bloques `try-catch` interactuando a nivel de la capa Data.
-5. **Arquitectura Clean Estricta:** Ningún gestor de estado (Riverpod `Notifier`) debe incluir referencias o llamadas directas a Supabase u otras bases de datos. Deben inyectar y consumir exclusivamente **UseCases** de la capa de `domain`. La implementación de red vivirá rigurosamente en `data/datasources` conformando el contrato de `domain/repositories`.
-6. **Enfoque Educativo:** Documenta exhaustivamente cada capa con el formato `// [DOC]: explicación...`.
+5. **Arquitectura MVVM Estricta:** Las pantallas (`views`) no deben invocar directamente a Supabase u otros servicios externos. La comunicación debe seguir el flujo: `View` ➔ `ViewModel` (Riverpod Notifier) ➔ `Service` (Infraestructura). Los servicios se encargan de la comunicación con el SDK de Supabase o APIs.
+6. **Modelos Centralizados:** Usa siempre los modelos alojados en `lib/shared/models/` (generados con Freezed) para mantener la consistencia de datos en toda la aplicación.
 
 ## 4. Referencia de Base de Datos (PostgreSQL en Supabase)
 

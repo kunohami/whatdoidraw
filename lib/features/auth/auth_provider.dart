@@ -42,7 +42,7 @@ class AuthController extends _$AuthController {
         });
       }
     } catch (e) {
-      print('Error al asegurar perfil en tabla publica: $e');
+      // Error silencioso en perfil público. En producción usar un logger.
     }
   }
 }
