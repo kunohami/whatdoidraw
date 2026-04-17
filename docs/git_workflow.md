@@ -39,9 +39,9 @@ El proyecto cuenta con un *workflow* automatizado a través de **GitHub Actions*
 
 ### Fusión (Merge) Responsable
 
-> **Importante para repositorios privados:** Debido a limitaciones del plan gratuito de GitHub en repositorios privados, resulta imposible forzar un bloqueo técnico en el botón de Merge para requerir que pasen los análisis.
+> **Para repositorios privados:** Si el repositorio es privado, resulta imposible forzar un bloqueo técnico en el botón de Merge para requerir que pasen los análisis.
 
 Por norma estricta del proyecto, los desarrolladores deben **auto-regularse** de la siguiente manera:
 1. Al crear una PR, **se debe esperar a que termine el proceso** de integración (aproximadamente 2 - 4 minutos).
-2. Si el proceso arroja aspas rojas (❌), **ESTÁ TOTALMENTE PROHIBIDO OPRIMIR EL BOTÓN DE "MERGE"**. Se deben solucionar los errores localmente y actualizar la rama.
-3. El Squash and Merge se permite de forma exclusiva, sin excepción, ante la total presencia de las comprobaciones exitosas y marcas verdes (✅).
+2. Si el proceso arroja una x roja (❌), **NO SE DEBE HACER "MERGE"**. Se deben solucionar los errores localmente y actualizar la rama.
+3. El Squash and Merge se permite de forma exclusiva, sin excepción, ante la total presencia de las comprobaciones exitosas.
