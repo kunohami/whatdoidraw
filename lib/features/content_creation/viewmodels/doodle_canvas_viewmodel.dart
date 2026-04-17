@@ -9,7 +9,7 @@ part 'doodle_canvas_viewmodel.freezed.dart';
 part 'doodle_canvas_viewmodel.g.dart';
 
 /// Representa el estado atómico y reactivo del lienzo de dibujo.
-/// 
+///
 /// Siguiendo las mejores prácticas de MVVM, este objeto agrupa todos los datos
 /// que la interfaz de usuario necesita para renderizarse y reaccionar a eventos
 /// de negocio (como la carga o errores).
@@ -18,10 +18,10 @@ abstract class DoodleCanvasState with _$DoodleCanvasState {
   const factory DoodleCanvasState({
     /// Lista de trazos vectoriales dibujados actualmente.
     @Default([]) List<StrokeModel> strokes,
-    
+
     /// Indica si se está realizando una operación asíncrona (como subir a la nube).
     @Default(false) bool isSubmitting,
-    
+
     /// Almacena un mensaje de error descriptivo si algo falla.
     String? errorMessage,
   }) = _DoodleCanvasState;
@@ -40,7 +40,7 @@ class DoodleCanvas extends _$DoodleCanvas {
   }
 
   /// Inicia un nuevo trazo en el lienzo al detectar el toque inicial.
-  /// 
+  ///
   /// Recibe las coordenadas [x] e [y] locales al área de dibujo.
   void startStroke(double x, double y) {
     final newStroke = StrokeModel(
@@ -48,7 +48,7 @@ class DoodleCanvas extends _$DoodleCanvas {
       colorValue: 0xFFEEEEEE, // Gris claro por defecto
       strokeWidth: 4.0,
     );
-    
+
     // Actualizamos el estado sustituyendo la lista por una nueva copia (Reactividad).
     state = state.copyWith(
       strokes: [...state.strokes, newStroke],
@@ -87,7 +87,7 @@ class DoodleCanvas extends _$DoodleCanvas {
   }
 
   /// Persiste el dibujo actual en el servidor.
-  /// 
+  ///
   /// Utiliza el [contentCreationServiceProvider] para la red y el
   /// [authControllerProvider] para identificar al autor de forma abstracta.
   Future<void> submitDoodle(String? ideaId) async {
@@ -100,26 +100,24 @@ class DoodleCanvas extends _$DoodleCanvas {
       // Obtenemos el usuario actual del controlador de autenticación central.
       // Notese que el ViewModel ya no conoce "Supabase" directamente.
       final user = ref.read(authControllerProvider).value;
-      
+
       if (user == null) {
         throw Exception('Inicia sesión para poder publicar tus dibujos.');
       }
 
-      await ref.read(contentCreationServiceProvider).insertDoodle(
-        state.strokes,
-        user.id,
-        ideaId,
-      );
+      await ref
+          .read(contentCreationServiceProvider)
+          .insertDoodle(state.strokes, user.id, ideaId);
 
       // Si tiene éxito, limpiamos y desactivamos carga
       state = state.copyWith(strokes: [], isSubmitting: false);
     } catch (e) {
       // En caso de error, lo exponemos de forma declarativa en el estado
       state = state.copyWith(
-        isSubmitting: false, 
-        errorMessage: e.toString().contains('Exception:') 
-            ? e.toString().split('Exception: ')[1] 
-            : 'Error inesperado al publicar'
+        isSubmitting: false,
+        errorMessage: e.toString().contains('Exception:')
+            ? e.toString().split('Exception: ')[1]
+            : 'Error inesperado al publicar',
       );
     }
   }

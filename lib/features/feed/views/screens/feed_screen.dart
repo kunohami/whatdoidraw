@@ -12,14 +12,13 @@ class FeedScreen extends ConsumerWidget {
     final ideasAsyncValue = ref.watch(ideasStreamProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('💡 Últimas Ideas'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('💡 Últimas Ideas'), centerTitle: true),
       body: ideasAsyncValue.when(
         data: (ideas) {
           if (ideas.isEmpty) {
-            return const Center(child: Text('Sé el primero en aportar una idea.'));
+            return const Center(
+              child: Text('Sé el primero en aportar una idea.'),
+            );
           }
           return RefreshIndicator(
             onRefresh: () async {
@@ -43,21 +42,20 @@ class FeedScreen extends ConsumerWidget {
                       children: [
                         Text(
                           idea.content,
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            height: 1.4,
-                          ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(height: 1.4),
                         ),
                         const SizedBox(height: 12),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Una idea de un soñador', 
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Colors.grey,
-                              ),
+                              'Una idea de un soñador',
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: Colors.grey),
                             ),
-                            // [DOC]: Navegación en Flutter. Pasamos parámetros directamente 
+                            // [DOC]: Navegación en Flutter. Pasamos parámetros directamente
                             // por el constructor del Widget destino.
                             IconButton(
                               icon: const Icon(Icons.draw_outlined),
@@ -75,7 +73,7 @@ class FeedScreen extends ConsumerWidget {
                               tooltip: 'Dibujar esta idea',
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),

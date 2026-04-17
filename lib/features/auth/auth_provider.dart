@@ -10,7 +10,7 @@ class AuthController extends _$AuthController {
   @override
   FutureOr<User?> build() async {
     final supabase = ref.watch(supabaseClientProvider);
-    
+
     final session = supabase.auth.currentSession;
     if (session == null) {
       // No hay sesión, iniciar anónimo. Si falla, Riverpod atrapará la excepción.
@@ -34,7 +34,7 @@ class AuthController extends _$AuthController {
           .select()
           .eq('id', userId)
           .maybeSingle();
-      
+
       if (existingUser == null) {
         // Crear usuario "dummy" autogenerado basado en su ID anónimo
         await supabase.from('users').insert({

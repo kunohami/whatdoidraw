@@ -8,10 +8,10 @@ import 'package:whatdoidraw/shared/widgets/main_navigation_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Cargar variables de entorno
   await dotenv.load(fileName: ".env");
-  
+
   // Inicializar Supabase
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL'] ?? '',
@@ -20,9 +20,7 @@ Future<void> main() async {
 
   runApp(
     // ProviderScope es necesario para Riverpod
-    const ProviderScope(
-      child: WdidApp(),
-    ),
+    const ProviderScope(child: WdidApp()),
   );
 }
 
@@ -52,7 +50,7 @@ class AuthGate extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authControllerProvider);
-    
+
     return authState.when(
       data: (user) {
         if (user != null) {
@@ -60,18 +58,14 @@ class AuthGate extends ConsumerWidget {
           return const MainNavigationScreen();
         } else {
           return const Scaffold(
-            body: Center(
-              child: Text("Error al arrancar la sesión anónima."),
-            ),
+            body: Center(child: Text("Error al arrancar la sesión anónima.")),
           );
         }
       },
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
-      error: (error, stack) => Scaffold(
-        body: Center(child: Text("Error de Auth: $error")),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, stack) =>
+          Scaffold(body: Center(child: Text("Error de Auth: $error"))),
     );
   }
 }

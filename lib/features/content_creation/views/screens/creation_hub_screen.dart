@@ -4,8 +4,8 @@ import 'package:whatdoidraw/features/content_creation/views/screens/create_idea_
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 
 // [DOC]: Esta pantalla actúa como un "Hub" o enrutador visual.
-// Ya no obliga al usuario a rellenar texto al pulsar 'Crear', 
-// sino que despliega las ramificaciones de arquitectura de negocio definidas 
+// Ya no obliga al usuario a rellenar texto al pulsar 'Crear',
+// sino que despliega las ramificaciones de arquitectura de negocio definidas
 // en AI_CONTEXT.md (Idea, Doodle o Artwork).
 
 class CreationHubScreen extends StatelessWidget {
@@ -31,7 +31,9 @@ class CreationHubScreen extends StatelessWidget {
               // [DOC]: Navigator.push apila la pantalla nueva encima del Hub.
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const CreateIdeaScreen()),
+                MaterialPageRoute(
+                  builder: (context) => const CreateIdeaScreen(),
+                ),
               );
             },
           ),
@@ -46,7 +48,9 @@ class CreationHubScreen extends StatelessWidget {
               // Como no depende de una idea previa, los parámetros son nulos.
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const DoodleCanvasScreen()),
+                MaterialPageRoute(
+                  builder: (context) => const DoodleCanvasScreen(),
+                ),
               );
             },
           ),
@@ -89,14 +93,19 @@ class CreationHubScreen extends StatelessWidget {
       elevation: 0,
       color: Theme.of(context).colorScheme.surfaceContainerHighest,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      clipBehavior: Clip.antiAlias, // [DOC]: Evita que el efecto "tinta" de presionado (Ripple) se salga de las esquinas redondas
+      clipBehavior: Clip
+          .antiAlias, // [DOC]: Evita que el efecto "tinta" de presionado (Ripple) se salga de las esquinas redondas
       child: InkWell(
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Row(
             children: [
-              Icon(icon, size: 36, color: Theme.of(context).colorScheme.primary),
+              Icon(
+                icon,
+                size: 36,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               const SizedBox(width: 20),
               Expanded(
                 child: Column(
