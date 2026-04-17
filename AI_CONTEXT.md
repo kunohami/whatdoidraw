@@ -12,17 +12,29 @@ El flujo de inspiración es flexible y se basa en tres tipos de contenido interc
 - **Frontend:** Flutter (Dart).
 - **Backend/BaaS:** Supabase (PostgreSQL + Auth).
 - **Gestión de Estado:** Riverpod (usando los paquetes `flutter_riverpod` y `riverpod_annotation` para la generación de código).
-- **Arquitectura:** Feature-Driven Clean Architecture (separación estricta de responsabilidades mediante Domain, Data y Presentation en cada feature).
+- **Arquitectura:** MVVM Pragmático (Feature-Driven). Separación de responsabilidades mediante View, ViewModel y Service, evitando el "boilerplate" excesivo de Clean Architecture pero manteniendo el desacoplamiento.
 
 ## 3. 🚨 REGLAS ESTRICTAS PARA EL AGENTE DE IA (LEER SIEMPRE) 🚨
 1. **NO ALOJAMOS IMÁGENES DE PUBLICACIONES EN LA APP:**
    - Los **Doodles** se dibujan en un lienzo en la app y sus trazos se guardan como JSON en el campo de la base de datos `doodle_data`. NO generes código para subir PNGs de doodles a Supabase Storage.
    - Los **Artworks** finales están alojados externamente (Instagram, Twitter, etc.). Solo guardamos el `external_link` y un `preview_url`.
-2. **Gestión de Estado:** Usa SIEMPRE Riverpod para la lógica de negocio y llamadas a backend. Usa `AsyncNotifier` o `FutureProvider` según corresponda para manejar estados de carga y error.
-3. **Consultas a Base de Datos:** Usa el SDK oficial `supabase_flutter`. Aprovecha que las relaciones ya están definidas en SQL al consultar datos.
-4. **Manejo de Errores:** Siempre incluye bloques `try-catch` interactuando a nivel de la capa Data.
-5. **Arquitectura Clean Estricta:** Ningún gestor de estado (Riverpod `Notifier`) debe incluir referencias o llamadas directas a Supabase u otras bases de datos. Deben inyectar y consumir exclusivamente **UseCases** de la capa de `domain`. La implementación de red vivirá rigurosamente en `data/datasources` conformando el contrato de `domain/repositories`.
-6. **Enfoque Educativo:** Documenta exhaustivamente cada capa con el formato `// [DOC]: explicación...`.
+2. **Gestión de Estado (MVVM Robusto):** 
+   - Usa SIEMPRE Riverpod (`Notifier` / `AsyncNotifier`) con generadores (`@riverpod`).
+   - El estado de los ViewModels debe ser un objeto `@freezed` que incluya campos de carga (`isLoading`), errores (`errorMessage`) y los datos resultantes.
+3. **Abstracción de Autenticación:** 
+   - Nunca dependas directamente de `SupabaseAuth` dentro de los ViewModels. Utiliza siempre `authControllerProvider` para abstraer la infraestructura de identidad.
+4. **Testing Obligatorio:** 
+   - Cada nuevo ViewModel o servicio crítico DEBE tener un test unitario correspondiente en el directorio `test/`. Utiliza `mocktail` para la inyección de dependencias y sigue la guía de `docs/testing_strategy.md`.
+5. **Estilo y Análisis Estático:** 
+   - El código DEBE pasar `flutter analyze` sin errores ni warnings.
+   - Usa SIEMPRE imports de paquete (`package:whatdoidraw/...`) en lugar de imports relativos.
+   - Sigue las reglas de ordenamiento de directivas y el uso de `final` para variables locales.
+6. **Consultas a Base de Datos:** 
+   - Usa el SDK oficial `supabase_flutter`. Aprovecha que las relaciones ya están definidas en SQL al consultar datos.
+6. **Manejo de Errores:** 
+   - Centraliza el manejo de errores en el ViewModel, capturando excepciones de los servicios y mapeándolas a un campo `errorMessage` en el estado para que la View las consuma de forma declarativa.
+7. **Modelos Centralizados:** 
+   - Usa siempre los modelos alojados en `lib/shared/models/` para consistencia y reutilización de código.
 
 ## 4. Referencia de Base de Datos (PostgreSQL en Supabase)
 

@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../core/providers/supabase_provider.dart';
+
+import 'package:whatdoidraw/core/providers/supabase_provider.dart';
 
 part 'auth_provider.g.dart';
 
@@ -9,7 +10,7 @@ class AuthController extends _$AuthController {
   @override
   FutureOr<User?> build() async {
     final supabase = ref.watch(supabaseClientProvider);
-    
+
     final session = supabase.auth.currentSession;
     if (session == null) {
       // No hay sesión, iniciar anónimo. Si falla, Riverpod atrapará la excepción.
@@ -33,7 +34,7 @@ class AuthController extends _$AuthController {
           .select()
           .eq('id', userId)
           .maybeSingle();
-      
+
       if (existingUser == null) {
         // Crear usuario "dummy" autogenerado basado en su ID anónimo
         await supabase.from('users').insert({
@@ -42,7 +43,7 @@ class AuthController extends _$AuthController {
         });
       }
     } catch (e) {
-      print('Error al asegurar perfil en tabla publica: $e');
+      // Error silencioso en perfil público. En producción usar un logger.
     }
   }
 }

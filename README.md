@@ -21,31 +21,27 @@ La pestaña de creación de la aplicación funcionará como un centro de distrib
 ## 🛠️ Stack Tecnológico
 - **Frontend:** Flutter (Dart).
 - **Backend/Base de Datos:** Supabase (PostgreSQL, Auth).
-- **Gestión de Estado:** Riverpod.
-- **Arquitectura:** Feature-Driven Clean Architecture.
+- **Gestión de Estado:** Riverpod (Notifier/AsyncNotifier).
+- **Arquitectura:** MVVM Pragmático (Feature-Driven).
 
 ## 📁 Estructura del Proyecto Flutter
+
+El proyecto sigue una organización por funcionalidades (**Features**) para facilitar la escalabilidad sin la sobrecarga de carpetas vacías de Clean Architecture.
 
 ```text
 lib/
 ├── core/                       # Integraciones troncales y configuraciones
-│   ├── network/                # inyección del Core de Supabase
-│   ├── theme/                  # Paletas de colores
+│   ├── providers/              # Proveedores globales (Supabase, etc.)
+│   ├── theme/                  # Paletas de colores y estilos
 │   └── constants/              
-├── features/                   # División modular del proyecto
+├── features/                   # División modular del proyecto por funcionalidad
 │   └── [feature_name]/         # (ej: auth, feed, content_creation)
-│       ├── domain/             # (Puro Dart, cero Flutter)
-│       │   ├── entities/       # Modelos del negocio
-│       │   ├── repositories/   # Interfaces contracturales
-│       │   └── usecases/       # Acciones atómicas aisladas
-│       ├── data/               # (Comunicación DB externa)
-│       │   ├── models/         # (Supresión si Freezed opera como Entidad)
-│       │   ├── datasources/    # Consultas RPC/PostgreSQL Supabase
-│       │   └── repositories/   # Implementación del contrato de dominio
-│       └── presentation/       # (UI y Lógica de Interfaz)
-│           ├── screens/        # Vistas de Flutter
-│           ├── widgets/        # Componentes UI locales
-│           └── providers/      # Controladores Riverpod
+│       ├── services/           # Lógica de infraestructura y red (Supabase)
+│       ├── viewmodels/         # Notifiers de Riverpod (Estado y Lógica de Negocio)
+│       └── views/              # Interfaz de usuario (Screens y Widgets)
+├── shared/                     # Código compartido y modelos de dominio
+│   ├── models/                 # Modelos de datos únicos (Freezed + JSON)
+│   └── widgets/                # UI reutilizable globalmente
 └── main.dart                   
 ```
 
@@ -56,8 +52,8 @@ lib/
 - [x] Crear formulario para publicar un prompt de texto (Idea).
 - [x] Feed simple que muestra todas las Ideas.
 
-### Iteración 2: El Motor de Dibujo y Arquitectura Clean ✅
-- [x] Transición total del esqueleto hacia Feature-Driven Clean Architecture.
+### Iteración 2: El Motor de Dibujo y Arquitectura MVVM ✅
+- [x] Transición total del esqueleto hacia Feature-Driven MVVM.
 - [x] Motor de renderizado vectorial de dibujo construido desde cero (sin librerías).
 - [x] Hub de Creación centralizado.
 - [x] Funcionalidad para guardar y publicar un Doodle libre o enlazado a una Idea.

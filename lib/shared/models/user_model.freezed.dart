@@ -15,7 +15,13 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserModel {
 
- String get id; String get username;@JsonKey(name: 'avatar_url') String? get avatarUrl;@JsonKey(name: 'is_artist') bool get isArtist;@JsonKey(name: 'portfolio_url') String? get portfolioUrl;@JsonKey(name: 'created_at') DateTime? get createdAt;
+/// Identificador único vinculado al sistema de autenticación (Supabase Auth).
+ String get id;/// Nombre visible del usuario elegido al registrarse.
+ String get username;/// Enlace a la imagen de perfil alojada en el storage.
+@JsonKey(name: 'avatar_url') String? get avatarUrl;/// Indica si el usuario ha sido verificado como artista profesional.
+@JsonKey(name: 'is_artist') bool get isArtist;/// Enlace personal a la web o redes del artista.
+@JsonKey(name: 'portfolio_url') String? get portfolioUrl;/// Fecha en la que el usuario se unió a la comunidad.
+@JsonKey(name: 'created_at') DateTime? get createdAt;
 /// Create a copy of UserModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -217,11 +223,17 @@ class _UserModel implements UserModel {
   const _UserModel({required this.id, required this.username, @JsonKey(name: 'avatar_url') this.avatarUrl, @JsonKey(name: 'is_artist') this.isArtist = false, @JsonKey(name: 'portfolio_url') this.portfolioUrl, @JsonKey(name: 'created_at') this.createdAt});
   factory _UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
+/// Identificador único vinculado al sistema de autenticación (Supabase Auth).
 @override final  String id;
+/// Nombre visible del usuario elegido al registrarse.
 @override final  String username;
+/// Enlace a la imagen de perfil alojada en el storage.
 @override@JsonKey(name: 'avatar_url') final  String? avatarUrl;
+/// Indica si el usuario ha sido verificado como artista profesional.
 @override@JsonKey(name: 'is_artist') final  bool isArtist;
+/// Enlace personal a la web o redes del artista.
 @override@JsonKey(name: 'portfolio_url') final  String? portfolioUrl;
+/// Fecha en la que el usuario se unió a la comunidad.
 @override@JsonKey(name: 'created_at') final  DateTime? createdAt;
 
 /// Create a copy of UserModel
