@@ -1,7 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../../core/providers/supabase_provider.dart';
-import '../../../../shared/models/idea_model.dart';
+
+import 'package:whatdoidraw/core/providers/supabase_provider.dart';
+import 'package:whatdoidraw/shared/models/idea_model.dart';
 
 part 'feed_service.g.dart';
 

@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../shared/models/idea_model.dart';
-import '../services/feed_service.dart';
+
+import 'package:whatdoidraw/features/feed/services/feed_service.dart';
+import 'package:whatdoidraw/shared/models/idea_model.dart';
 
 part 'feed_viewmodel.g.dart';
 

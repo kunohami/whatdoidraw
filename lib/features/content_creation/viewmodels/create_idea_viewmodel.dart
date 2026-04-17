@@ -1,6 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../core/providers/supabase_provider.dart';
-import '../services/content_creation_service.dart';
+
+import 'package:whatdoidraw/core/providers/supabase_provider.dart';
+import 'package:whatdoidraw/features/content_creation/services/content_creation_service.dart';
 
 part 'create_idea_viewmodel.g.dart';
 

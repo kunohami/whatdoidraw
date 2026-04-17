@@ -1,8 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../shared/models/stroke_model.dart';
-import '../../../../features/auth/auth_provider.dart';
-import '../services/content_creation_service.dart';
+
+import 'package:whatdoidraw/features/auth/auth_provider.dart';
+import 'package:whatdoidraw/features/content_creation/services/content_creation_service.dart';
+import 'package:whatdoidraw/shared/models/stroke_model.dart';
 
 part 'doodle_canvas_viewmodel.freezed.dart';
 part 'doodle_canvas_viewmodel.g.dart';

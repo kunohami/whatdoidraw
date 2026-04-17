@@ -20,12 +20,21 @@ El flujo de inspiración es flexible y se basa en tres tipos de contenido interc
    - Los **Artworks** finales están alojados externamente (Instagram, Twitter, etc.). Solo guardamos el `external_link` y un `preview_url`.
 2. **Gestión de Estado (MVVM Robusto):** 
    - Usa SIEMPRE Riverpod (`Notifier` / `AsyncNotifier`) con generadores (`@riverpod`).
-   - El estado de los ViewModels debe ser un objeto `@freezed` (ej: `FeatureState`) que incluya campos de carga (`isLoading`), errores (`errorMessage`) y los datos resultantes. No expongas tipos primitivos o listas directamente como estado si el ViewModel requiere lógica compleja.
-3. **Desacoplamiento de Servicios:**
-   - Los ViewModels NO deben acceder directamente al cliente de Supabase para obtener el usuario actual. Usa `ref.watch(authControllerProvider)` para abstraer la infraestructura de identidad.
-4. **Consultas a Base de Datos:** Usa el SDK oficial `supabase_flutter`. Aprovecha que las relaciones ya están definidas en SQL al consultar datos.
-5. **Manejo de Errores:** Centraliza el manejo de errores en el ViewModel, capturando excepciones de los servicios y mapeándolas a un campo `errorMessage` en el estado para que la View las consuma de forma declarativa (ej: SnackBars).
-6. **Modelos Centralizados:** Usa siempre los modelos alojados en `lib/shared/models/` para consistencia.
+   - El estado de los ViewModels debe ser un objeto `@freezed` que incluya campos de carga (`isLoading`), errores (`errorMessage`) y los datos resultantes.
+3. **Abstracción de Autenticación:** 
+   - Nunca dependas directamente de `SupabaseAuth` dentro de los ViewModels. Utiliza siempre `authControllerProvider` para abstraer la infraestructura de identidad.
+4. **Testing Obligatorio:** 
+   - Cada nuevo ViewModel o servicio crítico DEBE tener un test unitario correspondiente en el directorio `test/`. Utiliza `mocktail` para la inyección de dependencias y sigue la guía de `docs/testing_strategy.md`.
+5. **Estilo y Análisis Estático:** 
+   - El código DEBE pasar `flutter analyze` sin errores ni warnings.
+   - Usa SIEMPRE imports de paquete (`package:whatdoidraw/...`) en lugar de imports relativos.
+   - Sigue las reglas de ordenamiento de directivas y el uso de `final` para variables locales.
+6. **Consultas a Base de Datos:** 
+   - Usa el SDK oficial `supabase_flutter`. Aprovecha que las relaciones ya están definidas en SQL al consultar datos.
+6. **Manejo de Errores:** 
+   - Centraliza el manejo de errores en el ViewModel, capturando excepciones de los servicios y mapeándolas a un campo `errorMessage` en el estado para que la View las consuma de forma declarativa.
+7. **Modelos Centralizados:** 
+   - Usa siempre los modelos alojados en `lib/shared/models/` para consistencia y reutilización de código.
 
 ## 4. Referencia de Base de Datos (PostgreSQL en Supabase)
 

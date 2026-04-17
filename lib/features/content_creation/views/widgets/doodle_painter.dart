@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../shared/models/stroke_model.dart';
+
+import 'package:whatdoidraw/shared/models/stroke_model.dart';
 
 /// Motor gráfico encargado de renderizar los trazos en la GPU.
 /// 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../viewmodels/create_idea_viewmodel.dart';
+
+import 'package:whatdoidraw/features/content_creation/viewmodels/create_idea_viewmodel.dart';
 
 class CreateIdeaScreen extends ConsumerStatefulWidget {
   const CreateIdeaScreen({super.key});

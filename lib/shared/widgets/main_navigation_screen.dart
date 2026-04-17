@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../features/feed/views/screens/feed_screen.dart';
-import '../../features/content_creation/views/screens/creation_hub_screen.dart';
+
+import 'package:whatdoidraw/features/content_creation/views/screens/creation_hub_screen.dart';
+import 'package:whatdoidraw/features/feed/views/screens/feed_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});

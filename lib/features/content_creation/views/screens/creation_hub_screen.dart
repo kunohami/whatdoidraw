@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'create_idea_screen.dart';
-import 'doodle_canvas_screen.dart';
+
+import 'package:whatdoidraw/features/content_creation/views/screens/create_idea_screen.dart';
+import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 
 // [DOC]: Esta pantalla actúa como un "Hub" o enrutador visual.
 // Ya no obliga al usuario a rellenar texto al pulsar 'Crear', 

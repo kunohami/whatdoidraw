@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../viewmodels/doodle_canvas_viewmodel.dart';
-import '../widgets/doodle_painter.dart';
+import 'package:whatdoidraw/features/content_creation/viewmodels/doodle_canvas_viewmodel.dart';
+import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 
 /// Pantalla principal para la creación de dibujos vectoriales (Doodles).
 /// 

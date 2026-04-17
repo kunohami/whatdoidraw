@@ -1,7 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../../shared/models/stroke_model.dart';
-import '../../../../core/providers/supabase_provider.dart';
+
+import 'package:whatdoidraw/core/providers/supabase_provider.dart';
+import 'package:whatdoidraw/shared/models/stroke_model.dart';
 
 part 'content_creation_service.g.dart';
 
