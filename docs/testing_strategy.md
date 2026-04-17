@@ -94,3 +94,34 @@ genhtml coverage/lcov.info -o coverage/html
 1.  **Independencia**: Cada test debe ser independiente. No debe depender del resultado de un test anterior.
 2.  **Determinismo**: Los tests deben pasar siempre bajo las mismas condiciones. Nunca deben depender de una conexión activa a internet. (Usar Mocks).
 3.  **Nombramiento Claro**: El nombre del test debe describir el comportamiento esperado (ej: `should update state with new stroke when startStroke is called`).
+
+---
+
+## ✅ Checklist Pre-Pull Request 
+
+Para evitar fallos en el CI y asegurar que el código es profesional, ejecuta estos 3 comandos en orden antes de hacer `git push`. 
+
+### 1. Formateo Estricto
+Asegurar que el código sigue el estándar de estilo de Flutter.
+```bash
+dart format .
+```
+
+### 2. Análisis Estático
+Buscar errores de lógica, código no usado o violaciones de las reglas del proyecto.
+```bash
+flutter analyze
+```
+
+### 3. Pruebas Unitarias
+Verificar que no se ha roto ninguna funcionalidad existente (regresiones).
+```bash
+flutter test
+```
+
+> [!TIP]
+> **¿Se ha cambiado algún modelo o provider?**
+> Si se han editado archivos con `@freezed` o `@riverpod`, hay que regenerar el código antes de los pasos anteriores:
+> ```bash
+> dart run build_runner build --delete-conflicting-outputs
+> ```
