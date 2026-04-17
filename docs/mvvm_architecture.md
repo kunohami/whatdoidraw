@@ -1,26 +1,96 @@
-# Arquitectura MVVM (Model-View-ViewModel) Orientada a Features
+# Arquitectura MVVM Pragmática (Feature-Driven)
 
-Este documento detalla la estructura base del proyecto para facilitar la integración de nuevos desarrolladores al entorno visual e interno de `whatdoidraw?`.
+Este documento detalla el diseño técnico de `whatdoidraw?`. Se ha optado por una arquitectura **MVVM Pragmática** orientada a funcionalidades (**Features**), que equilibra la robustez de los estándares profesionales con la agilidad necesaria para un proyecto dinámico.
 
-## Concepto
-La app utiliza una fusión entre la estructura modular por funcionalidades de Flutter (Feature-first) y el patrón **MVVM** (Model-View-ViewModel) combinado de forma nativa con **Riverpod** para la inyección de dependencias y el manejo de estados reactivos.
+---
 
-## Estructura de Directorios (Aislada por cada Feature)
+## 🧐 ¿Por qué "Pragmática"?
 
-Al entrar a `lib/features/[nombre]`, se encuentra esta división sagrada:
+A diferencia de la *Clean Architecture* tradicional, que puede volverse excesivamente burocrática con capas de `domain` y `data` vacías, la arquitectura empleada simplifica la jerarquía sin perder el desacoplamiento. 
 
-```text
-lib/
-└── features/
-    └── [nombre_feature]/
-        ├── services/       # Conectividad directa (SupabaseClient, APIs externas, HTTP)
-        ├── viewmodels/     # Riverpod Notifiers (El "ViewModel", estado reactivo)
-        └── views/          # (LA CARA) UI
-            ├── screens/      # Vistas de Flutter completas
-            └── widgets/      # Componentes de presentación (botones, cards, modales)
+- **Menos carpetas, más claridad:** Solo 4 capas por feature.
+- **Enfoque en el Estado:** El estado es el corazón de la reactividad.
+- **Independencia de Infraestructura:** El código de negocio permanece agnóstico al uso de Supabase.
+
+---
+
+## 🏗️ Las 4 Capas de una Feature
+
+Cada funcionalidad (ej: `content_creation`) reside en su propio directorio dentro de `lib/features/` y se divide en:
+
+### 1. La Vista (`Views`)
+Es la capa de interfaz pura.
+- **Responsabilidad:** Renderizar widgets y delegar eventos del usuario.
+- **Regla:** No debe contener lógica de negocio ni llamadas a base de datos.
+- **Patrón:** Utiliza `ref.watch()` para redibujarse ante cambios de estado y `ref.listen()` para efectos secundarios (como mostrar un SnackBar ante un error).
+
+### 2. El Estado (`State`)
+Definido usualmente como una clase `@freezed`.
+- **Responsabilidad:** Ser la única fuente de verdad técnica de la pantalla.
+- **Campos Obligatorios:**
+  - `isLoading`: Para mostrar spinners en la UI.
+  - `errorMessage`: Para comunicación declarativa de fallos.
+  - `data`: Los datos de dominio (ej: `List<StrokeModel>`).
+
+### 3. El ViewModel (`Viewmodels`)
+Orquestado por Riverpod (`Notifier` / `AsyncNotifier`).
+- **Responsabilidad:** Transformar eventos de UI en mutaciones de estado inmutable.
+- **Lógica:** Orquesta la comunicación con los servicios. El acceso al SDK de Supabase nunca se realiza de forma directa; se solicitan los datos a la capa de `Services`.
+
+### 4. El Servicio (`Services`)
+La capa de infraestructura.
+- **Responsabilidad:** Comunicación con el mundo exterior (Supabase, APIs, Dispositivo).
+- **Abstracción:** Retorna modelos de datos limpios o lanza excepciones controladas.
+
+---
+
+## 🔄 Flujo de Datos y Reactividad
+
+El ciclo de vida de una operación (ej: Publicar un dibujo) sigue este flujo unidireccional:
+
+```mermaid
+sequenceDiagram
+    participant V as View (UI)
+    participant VM as ViewModel (Riverpod)
+    participant S as Service (Supabase)
+
+    V->>VM: Usuario pulsa "Publicar"
+    VM->>VM: state = state.copyWith(isLoading: true)
+    V-->>V: Renderiza Spinner (Automático)
+    VM->>S: insertDoodle(data)
+    S-->>VM: Éxito / Error
+    alt Éxito
+        VM->>VM: state = state.copyWith(isLoading: false, data: [])
+        VM->>V: Notifica cambio
+        V->>V: Navigator.pop()
+    else Error
+        VM->>VM: state = state.copyWith(isLoading: false, errorMessage: '...')
+        V-->>V: Muestra SnackBar (vía ref.listen)
+    end
 ```
 
-## Reglas para Colaboradores
-1. **Aislamiento del Estado:** Las pantallas (`views`) no deben hablar directamente con un `Service`. Un botón llama al `ViewModel` a través de Riverpod (`ref.read(...)`), y es el ViewModel quien orquesta la lógica y se comunica con el Service.
-2. **Uso Exclusivo de Modelos Compartidos:** Preferiblemente, cualquier entidad física de datos (ej., una clase `IdeaModel` o `DoodleModel`) debe residir en `lib/shared/models/` para unificar el casteo de JSON (`freezed` / `json_serializable`) en lugar de aislar un modelo por cada feature que impida reutilizar código.
-3. **Flujo Acíclico de MVVM:** `View (UI)` ➔ Ejecuta un método en el `ViewModel` ➔ El ViewModel pide operaciones al `Service` ➔ El Service retorna data/Status ➔ El ViewModel actualiza su estado interno ➔ La View se reconstruye automáticamente escuchando esos cambios (usando `ref.watch()`).
+---
+
+## 🔑 Patrones Clave
+
+### Inversión de Control (IoC)
+Para evitar que el ViewModel dependa de tecnologías específicas, se inyectan los servicios a través de Riverpod. Por ejemplo, el `DoodleCanvas` consume el usuario actual a través de un `authControllerProvider` abstracto, lo que permite cambiar de Supabase a Firebase, por ejemplo,  sin modificar la lógica de dibujo.
+
+### Inmutabilidad Estricta
+Se emplea **Freezed** para garantizar que el estado no se pueda mutar accidentalmente. Para realizar cambios en un dato, se debe emitir un nuevo objeto de estado (`state = state.copyWith(...)`), lo que asegura que Riverpod detecte siempre el cambio y la UI sea coherente.
+
+### Manejo Declarativo de Errores
+En lugar de saturar los widgets con bloques `try-catch`, el ViewModel captura el error y lo sitúa en el estado (`errorMessage`). La View "escucha" este campo y reacciona en consecuencia. Esto mantiene la UI limpia y predecible.
+
+---
+
+## 📁 Resumen de Directorios
+
+```text
+lib/features/[nombre]/
+├── services/       # Conectividad (SDKs, APIs)
+├── viewmodels/     # Lógica y Notifiers
+└── views/
+    ├── screens/    # Pantallas completas
+    └── widgets/    # Componentes reutilizables de la feature
+```
