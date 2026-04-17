@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PointModel {
 
- double get x; double get y;
+/// La posición horizontal desde el borde izquierdo del lienzo.
+ double get x;/// La posición vertical desde el borde superior del lienzo.
+ double get y;
 /// Create a copy of PointModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -213,7 +215,9 @@ class _PointModel implements PointModel {
   const _PointModel({required this.x, required this.y});
   factory _PointModel.fromJson(Map<String, dynamic> json) => _$PointModelFromJson(json);
 
+/// La posición horizontal desde el borde izquierdo del lienzo.
 @override final  double x;
+/// La posición vertical desde el borde superior del lienzo.
 @override final  double y;
 
 /// Create a copy of PointModel
@@ -281,7 +285,9 @@ as double,
 /// @nodoc
 mixin _$StrokeModel {
 
- List<PointModel> get points; int get colorValue;// Color base blanco/negro en Integer
+/// Lista ordenada de puntos que componen el recorrido del trazo.
+ List<PointModel> get points;/// Valor entero que representa el color en formato ARGB (ej: 0xFFFFFFFF para blanco).
+ int get colorValue;/// El grosor de la línea en píxeles lógicos.
  double get strokeWidth;
 /// Create a copy of StrokeModel
 /// with the given fields replaced by the non-null parameter values.
@@ -481,15 +487,18 @@ class _StrokeModel implements StrokeModel {
   const _StrokeModel({required final  List<PointModel> points, this.colorValue = 0xFFFFFFFF, this.strokeWidth = 3.0}): _points = points;
   factory _StrokeModel.fromJson(Map<String, dynamic> json) => _$StrokeModelFromJson(json);
 
+/// Lista ordenada de puntos que componen el recorrido del trazo.
  final  List<PointModel> _points;
+/// Lista ordenada de puntos que componen el recorrido del trazo.
 @override List<PointModel> get points {
   if (_points is EqualUnmodifiableListView) return _points;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_points);
 }
 
+/// Valor entero que representa el color en formato ARGB (ej: 0xFFFFFFFF para blanco).
 @override@JsonKey() final  int colorValue;
-// Color base blanco/negro en Integer
+/// El grosor de la línea en píxeles lógicos.
 @override@JsonKey() final  double strokeWidth;
 
 /// Create a copy of StrokeModel

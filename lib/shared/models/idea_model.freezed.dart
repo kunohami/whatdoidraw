@@ -15,7 +15,13 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$IdeaModel {
 
- String get id;@JsonKey(name: 'user_id') String get userId; String get content; List<String> get tags;@JsonKey(name: 'is_active') bool get isActive;@JsonKey(name: 'created_at') DateTime? get createdAt;
+/// Identificador único universal (UUID) de la idea.
+ String get id;/// ID del usuario que creó y publicó la idea originalmente.
+@JsonKey(name: 'user_id') String get userId;/// El contenido textual de la idea (ej: "Un gato en Marte").
+ String get content;/// Etiquetas opcionales para categorizar y buscar ideas.
+ List<String> get tags;/// Indica si la idea sigue visible para la comunidad.
+@JsonKey(name: 'is_active') bool get isActive;/// Fecha y hora de creación de la publicación.
+@JsonKey(name: 'created_at') DateTime? get createdAt;
 /// Create a copy of IdeaModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -217,17 +223,24 @@ class _IdeaModel implements IdeaModel {
   const _IdeaModel({required this.id, @JsonKey(name: 'user_id') required this.userId, required this.content, final  List<String> tags = const [], @JsonKey(name: 'is_active') this.isActive = true, @JsonKey(name: 'created_at') this.createdAt}): _tags = tags;
   factory _IdeaModel.fromJson(Map<String, dynamic> json) => _$IdeaModelFromJson(json);
 
+/// Identificador único universal (UUID) de la idea.
 @override final  String id;
+/// ID del usuario que creó y publicó la idea originalmente.
 @override@JsonKey(name: 'user_id') final  String userId;
+/// El contenido textual de la idea (ej: "Un gato en Marte").
 @override final  String content;
+/// Etiquetas opcionales para categorizar y buscar ideas.
  final  List<String> _tags;
+/// Etiquetas opcionales para categorizar y buscar ideas.
 @override@JsonKey() List<String> get tags {
   if (_tags is EqualUnmodifiableListView) return _tags;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_tags);
 }
 
+/// Indica si la idea sigue visible para la comunidad.
 @override@JsonKey(name: 'is_active') final  bool isActive;
+/// Fecha y hora de creación de la publicación.
 @override@JsonKey(name: 'created_at') final  DateTime? createdAt;
 
 /// Create a copy of IdeaModel

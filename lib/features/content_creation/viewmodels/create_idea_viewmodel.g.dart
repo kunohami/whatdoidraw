@@ -8,12 +8,24 @@ part of 'create_idea_viewmodel.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Controlador encargado de gestionar el estado de creación de una nueva idea.
+///
+/// Mantiene un estado booleano simple que indica si el proceso de subida
+/// (publicación) está en curso para mostrar indicadores de carga en la UI.
 
 @ProviderFor(CreateIdeaController)
 final createIdeaControllerProvider = CreateIdeaControllerProvider._();
 
+/// Controlador encargado de gestionar el estado de creación de una nueva idea.
+///
+/// Mantiene un estado booleano simple que indica si el proceso de subida
+/// (publicación) está en curso para mostrar indicadores de carga en la UI.
 final class CreateIdeaControllerProvider
     extends $NotifierProvider<CreateIdeaController, bool> {
+  /// Controlador encargado de gestionar el estado de creación de una nueva idea.
+  ///
+  /// Mantiene un estado booleano simple que indica si el proceso de subida
+  /// (publicación) está en curso para mostrar indicadores de carga en la UI.
   CreateIdeaControllerProvider._()
     : super(
         from: null,
@@ -42,7 +54,12 @@ final class CreateIdeaControllerProvider
 }
 
 String _$createIdeaControllerHash() =>
-    r'd78016de175615710ced7c186227b28c83cf4fb7';
+    r'4991c2c5a139e75665e1d14c1babef92249414ad';
+
+/// Controlador encargado de gestionar el estado de creación de una nueva idea.
+///
+/// Mantiene un estado booleano simple que indica si el proceso de subida
+/// (publicación) está en curso para mostrar indicadores de carga en la UI.
 
 abstract class _$CreateIdeaController extends $Notifier<bool> {
   bool build();

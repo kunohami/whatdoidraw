@@ -8,9 +8,18 @@ part of 'content_creation_service.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Servicio responsable de persistir las creaciones de los usuarios en la nube.
+///
+/// Gestiona tanto la publicación de prompts de texto (Ideas) como la subida
+/// de datos vectoriales complejos (Doodles).
 
 @ProviderFor(contentCreationService)
 final contentCreationServiceProvider = ContentCreationServiceProvider._();
+
+/// Servicio responsable de persistir las creaciones de los usuarios en la nube.
+///
+/// Gestiona tanto la publicación de prompts de texto (Ideas) como la subida
+/// de datos vectoriales complejos (Doodles).
 
 final class ContentCreationServiceProvider
     extends
@@ -20,6 +29,10 @@ final class ContentCreationServiceProvider
           ContentCreationService
         >
     with $Provider<ContentCreationService> {
+  /// Servicio responsable de persistir las creaciones de los usuarios en la nube.
+  ///
+  /// Gestiona tanto la publicación de prompts de texto (Ideas) como la subida
+  /// de datos vectoriales complejos (Doodles).
   ContentCreationServiceProvider._()
     : super(
         from: null,

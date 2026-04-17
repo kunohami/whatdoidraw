@@ -8,13 +8,29 @@ part of 'feed_service.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Servicio encargado de la recuperación de datos para el muro de ideas (Feed).
+///
+/// En la arquitectura MVVM, los Servicios se encargan de la comunicación
+/// directa con fuentes externas (BaaS, APIs) y transforman los datos crudos
+/// en modelos de objetos útiles para la aplicación.
 
 @ProviderFor(feedService)
 final feedServiceProvider = FeedServiceProvider._();
 
+/// Servicio encargado de la recuperación de datos para el muro de ideas (Feed).
+///
+/// En la arquitectura MVVM, los Servicios se encargan de la comunicación
+/// directa con fuentes externas (BaaS, APIs) y transforman los datos crudos
+/// en modelos de objetos útiles para la aplicación.
+
 final class FeedServiceProvider
     extends $FunctionalProvider<FeedService, FeedService, FeedService>
     with $Provider<FeedService> {
+  /// Servicio encargado de la recuperación de datos para el muro de ideas (Feed).
+  ///
+  /// En la arquitectura MVVM, los Servicios se encargan de la comunicación
+  /// directa con fuentes externas (BaaS, APIs) y transforman los datos crudos
+  /// en modelos de objetos útiles para la aplicación.
   FeedServiceProvider._()
     : super(
         from: null,

@@ -15,7 +15,15 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ArtworkModel {
 
- String get id;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'doodle_id') String? get doodleId;@JsonKey(name: 'preview_url') String? get previewUrl;@JsonKey(name: 'external_link') String get externalLink; List<String> get tags;@JsonKey(name: 'is_active') bool get isActive;@JsonKey(name: 'created_at') DateTime? get createdAt;
+/// UUID único de la publicación del artwork.
+ String get id;/// Referencia al autor de la obra.
+@JsonKey(name: 'user_id') String get userId;/// Referencia opcional al boceto (Doodle) que inspiró esta obra final.
+@JsonKey(name: 'doodle_id') String? get doodleId;/// URL opcional de una miniatura o previsualización.
+@JsonKey(name: 'preview_url') String? get previewUrl;/// Enlace obligatorio a la plataforma externa donde reside la obra original.
+@JsonKey(name: 'external_link') String get externalLink;/// Etiquetas descriptivas.
+ List<String> get tags;/// Estado de visibilidad de la publicación.
+@JsonKey(name: 'is_active') bool get isActive;/// Fecha de publicación.
+@JsonKey(name: 'created_at') DateTime? get createdAt;
 /// Create a copy of ArtworkModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -219,19 +227,28 @@ class _ArtworkModel implements ArtworkModel {
   const _ArtworkModel({required this.id, @JsonKey(name: 'user_id') required this.userId, @JsonKey(name: 'doodle_id') this.doodleId, @JsonKey(name: 'preview_url') this.previewUrl, @JsonKey(name: 'external_link') required this.externalLink, final  List<String> tags = const [], @JsonKey(name: 'is_active') this.isActive = true, @JsonKey(name: 'created_at') this.createdAt}): _tags = tags;
   factory _ArtworkModel.fromJson(Map<String, dynamic> json) => _$ArtworkModelFromJson(json);
 
+/// UUID único de la publicación del artwork.
 @override final  String id;
+/// Referencia al autor de la obra.
 @override@JsonKey(name: 'user_id') final  String userId;
+/// Referencia opcional al boceto (Doodle) que inspiró esta obra final.
 @override@JsonKey(name: 'doodle_id') final  String? doodleId;
+/// URL opcional de una miniatura o previsualización.
 @override@JsonKey(name: 'preview_url') final  String? previewUrl;
+/// Enlace obligatorio a la plataforma externa donde reside la obra original.
 @override@JsonKey(name: 'external_link') final  String externalLink;
+/// Etiquetas descriptivas.
  final  List<String> _tags;
+/// Etiquetas descriptivas.
 @override@JsonKey() List<String> get tags {
   if (_tags is EqualUnmodifiableListView) return _tags;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_tags);
 }
 
+/// Estado de visibilidad de la publicación.
 @override@JsonKey(name: 'is_active') final  bool isActive;
+/// Fecha de publicación.
 @override@JsonKey(name: 'created_at') final  DateTime? createdAt;
 
 /// Create a copy of ArtworkModel

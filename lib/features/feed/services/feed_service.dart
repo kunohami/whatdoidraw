@@ -5,19 +5,29 @@ import '../../../../shared/models/idea_model.dart';
 
 part 'feed_service.g.dart';
 
-// [DOC]: [LAYER: SERVICE (MVVM)]
-// Provee acceso directo a los datos del Feed.
-
+/// Servicio encargado de la recuperación de datos para el muro de ideas (Feed).
+/// 
+/// En la arquitectura MVVM, los Servicios se encargan de la comunicación
+/// directa con fuentes externas (BaaS, APIs) y transforman los datos crudos
+/// en modelos de objetos útiles para la aplicación.
 @riverpod
 FeedService feedService(Ref ref) {
   return FeedService(ref.watch(supabaseClientProvider));
 }
 
 class FeedService {
+  /// Cliente de Supabase inyectado para realizar peticiones.
   final SupabaseClient supabaseClient;
 
   FeedService(this.supabaseClient);
 
+  /// Obtiene un flujo de datos (Stream) en tiempo real de las ideas publicadas.
+  /// 
+  /// Al usar `.stream()`, la aplicación reaccionará automáticamente a nuevos
+  /// insertos o actualizaciones en la tabla de la base de datos sin necesidad
+  /// de recargar la pantalla manualmente.
+  /// 
+  /// Retorna una lista de objetos [IdeaModel] ordenados por fecha de creación.
   Stream<List<IdeaModel>> streamIdeas() {
     return supabaseClient
         .from('ideas')

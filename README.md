@@ -21,26 +21,26 @@ La pestaña de creación de la aplicación funcionará como un centro de distrib
 ## 🛠️ Stack Tecnológico
 - **Frontend:** Flutter (Dart).
 - **Backend/Base de Datos:** Supabase (PostgreSQL, Auth).
-- **Gestión de Estado:** Riverpod.
-- **Arquitectura:** Feature-Driven MVVM.
+- **Gestión de Estado:** Riverpod (Notifier/AsyncNotifier).
+- **Arquitectura:** MVVM Pragmático (Feature-Driven).
 
 ## 📁 Estructura del Proyecto Flutter
+
+El proyecto sigue una organización por funcionalidades (**Features**) para facilitar la escalabilidad sin la sobrecarga de carpetas vacías de Clean Architecture.
 
 ```text
 lib/
 ├── core/                       # Integraciones troncales y configuraciones
 │   ├── providers/              # Proveedores globales (Supabase, etc.)
-│   ├── theme/                  # Paletas de colores
+│   ├── theme/                  # Paletas de colores y estilos
 │   └── constants/              
-├── features/                   # División modular del proyecto
+├── features/                   # División modular del proyecto por funcionalidad
 │   └── [feature_name]/         # (ej: auth, feed, content_creation)
-│       ├── services/           # Conectividad directa (Supabase, APIs)
-│       ├── viewmodels/         # Riverpod Notifiers (Estado reactivo)
-│       └── views/              # Interfaz de usuario
-│           ├── screens/        # Vistas completas
-│           └── widgets/        # Componentes locales
-├── shared/                     # Código compartido entre features
-│   ├── models/                 # Modelos de datos únicos (Freezed)
+│       ├── services/           # Lógica de infraestructura y red (Supabase)
+│       ├── viewmodels/         # Notifiers de Riverpod (Estado y Lógica de Negocio)
+│       └── views/              # Interfaz de usuario (Screens y Widgets)
+├── shared/                     # Código compartido y modelos de dominio
+│   ├── models/                 # Modelos de datos únicos (Freezed + JSON)
 │   └── widgets/                # UI reutilizable globalmente
 └── main.dart                   
 ```

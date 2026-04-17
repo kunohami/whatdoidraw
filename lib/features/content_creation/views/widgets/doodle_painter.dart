@@ -1,52 +1,56 @@
 import 'package:flutter/material.dart';
 import '../../../../shared/models/stroke_model.dart';
 
-// [DOC]: Esta es la pieza arquitectónica clave. CustomPainter es el "pincel"
-// nativo de bajo nivel de Flutter. 
-// A diferencia de un Widget, esto dibuja instrucciones crudas sobre la GPU 
-// cada vez que hay cambios en los parámetros. Sumamente rápido e ideal para juegos.
-
+/// Motor gráfico encargado de renderizar los trazos en la GPU.
+/// 
+/// Al heredar de [CustomPainter], estamos hablando directamente con la capa
+/// de bajo nivel de Flutter. Es ideal para aplicaciones de alto rendimiento
+/// como lienzos de dibujo o videojuegos simples.
 class DoodlePainter extends CustomPainter {
+  /// Lista de trazos que el pintor debe dibujar en cada frame.
   final List<StrokeModel> strokes;
 
   DoodlePainter({required this.strokes});
 
   @override
   void paint(Canvas canvas, Size size) {
-
+    // Iteramos sobre cada trazo almacenado en el ViewModel.
     for (final stroke in strokes) {
       if (stroke.points.isEmpty) continue;
 
-      // [DOC]: 'Paint' es la brocha en sí. 
-      // Le ajustamos el borde redondeado para que las intersecciones de 
-      // puntos no se vean afiladas ni pixeladas.
+      /// Configuramos la 'brocha' ([Paint]) para este trazo específico.
       final paint = Paint()
         ..color = Color(stroke.colorValue)
         ..strokeWidth = stroke.strokeWidth
-        ..strokeCap = StrokeCap.round
-        ..strokeJoin = StrokeJoin.round
-        ..style = PaintingStyle.stroke; // Obligatorio 'stroke', sino pinta manchas.
+        ..strokeCap = StrokeCap.round // Bordes redondeados para suavidad.
+        ..strokeJoin = StrokeJoin.round // Uniones redondeadas.
+        ..style = PaintingStyle.stroke; // Modo dibujo de líneas (no relleno).
 
-      // [DOC]: Un 'Path' (Camino) agrupa uniones de puntos.
+      /// Un 'Path' es un objeto que agrupa una serie de instrucciones de 
+      /// movimiento para crear formas complejas.
       final path = Path();
       
-      // Movemos la brocha (en el aire, sin pintar) a la coordenada de inicio
+      // Situamos el origen del camino en el primer punto del trazo.
       path.moveTo(stroke.points.first.x, stroke.points.first.y);
 
-      // Deslizamos la brocha rozando el papel sobre el resto de coordenadas
+      // Conectamos el resto de puntos con líneas rectas.
+      // Debido a la alta frecuencia de actualización, estas líneas cortas
+      // parecen curvas suaves al ojo humano.
       for (int i = 1; i < stroke.points.length; i++) {
         path.lineTo(stroke.points[i].x, stroke.points[i].y);
       }
 
-      // Le pasamos el diseño al motor gráfico nativo.
+      // Enviamos las instrucciones finales al [Canvas] nativo.
       canvas.drawPath(path, paint);
     }
   }
 
+  /// Determina si el sistema debe redibujar el lienzo.
+  /// 
+  /// Retornar `true` garantiza que cada vez que la lista de [strokes] cambie
+  /// en el ViewModel, Flutter ejecute el métido [paint] de nuevo.
   @override
   bool shouldRepaint(covariant DoodlePainter oldDelegate) {
-    // Si devuelves "true", obliga a redibujar el papel cuando detecta mínimos cambios.
-    // Riverpod invocará este repintado cuando state cambie de número de elementos.
     return true; 
   }
 }

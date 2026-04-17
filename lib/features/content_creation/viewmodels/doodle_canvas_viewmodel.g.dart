@@ -8,12 +8,24 @@ part of 'doodle_canvas_viewmodel.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+/// Gestor de la lógica de negocio para el lienzo de dibujo (ViewModel).
+///
+/// Este Notifier orquestra cómo los trazos físicos se transforman en estado
+/// inmutable y cómo se persiste la creación del usuario.
 
 @ProviderFor(DoodleCanvas)
 final doodleCanvasProvider = DoodleCanvasProvider._();
 
+/// Gestor de la lógica de negocio para el lienzo de dibujo (ViewModel).
+///
+/// Este Notifier orquestra cómo los trazos físicos se transforman en estado
+/// inmutable y cómo se persiste la creación del usuario.
 final class DoodleCanvasProvider
-    extends $NotifierProvider<DoodleCanvas, List<StrokeModel>> {
+    extends $NotifierProvider<DoodleCanvas, DoodleCanvasState> {
+  /// Gestor de la lógica de negocio para el lienzo de dibujo (ViewModel).
+  ///
+  /// Este Notifier orquestra cómo los trazos físicos se transforman en estado
+  /// inmutable y cómo se persiste la creación del usuario.
   DoodleCanvasProvider._()
     : super(
         from: null,
@@ -33,27 +45,32 @@ final class DoodleCanvasProvider
   DoodleCanvas create() => DoodleCanvas();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<StrokeModel> value) {
+  Override overrideWithValue(DoodleCanvasState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<List<StrokeModel>>(value),
+      providerOverride: $SyncValueProvider<DoodleCanvasState>(value),
     );
   }
 }
 
-String _$doodleCanvasHash() => r'b2dd57f3126f9ea02b5ad3ee492a6a3798146d74';
+String _$doodleCanvasHash() => r'9e6d61d8239777acf9178ce66646710b71fde571';
 
-abstract class _$DoodleCanvas extends $Notifier<List<StrokeModel>> {
-  List<StrokeModel> build();
+/// Gestor de la lógica de negocio para el lienzo de dibujo (ViewModel).
+///
+/// Este Notifier orquestra cómo los trazos físicos se transforman en estado
+/// inmutable y cómo se persiste la creación del usuario.
+
+abstract class _$DoodleCanvas extends $Notifier<DoodleCanvasState> {
+  DoodleCanvasState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<List<StrokeModel>, List<StrokeModel>>;
+    final ref = this.ref as $Ref<DoodleCanvasState, DoodleCanvasState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<List<StrokeModel>, List<StrokeModel>>,
-              List<StrokeModel>,
+              AnyNotifier<DoodleCanvasState, DoodleCanvasState>,
+              DoodleCanvasState,
               Object?,
               Object?
             >;
