@@ -30,11 +30,7 @@ class FeedScreen extends StatelessWidget {
           ),
         ),
         body: const TabBarView(
-          children: [
-            _IdeasFeedTab(),
-            _DoodlesFeedTab(),
-            _ArtworksFeedTab(),
-          ],
+          children: [_IdeasFeedTab(), _DoodlesFeedTab(), _ArtworksFeedTab()],
         ),
       ),
     );

@@ -9,7 +9,7 @@ import 'package:whatdoidraw/shared/models/user_model.dart';
 part 'profile_service.g.dart';
 
 /// Proveedor de Riverpod para instanciar el [ProfileService].
-/// 
+///
 /// Inyecta automáticamente el cliente de Supabase asegurando
 /// que toda la aplicación comparta la misma conexión.
 @riverpod
@@ -29,7 +29,7 @@ class ProfileService {
   ProfileService(this.supabase);
 
   /// Obtiene los datos públicos del perfil de un usuario dado su [userId].
-  /// 
+  ///
   /// Hace una consulta a la tabla `users` asegurando un solo elemento (`.single()`).
   Future<UserModel> getUserProfile(String userId) async {
     final response = await supabase
@@ -37,12 +37,12 @@ class ProfileService {
         .select()
         .eq('id', userId)
         .single();
-    
+
     return UserModel.fromJson(response);
   }
 
   /// Obtiene el historial de Ideas (prompts) creadas por un usuario con [userId].
-  /// 
+  ///
   /// Ordena los resultados desde el más reciente al más antiguo.
   Future<List<IdeaModel>> getUserIdeas(String userId) async {
     final response = await supabase
@@ -50,13 +50,13 @@ class ProfileService {
         .select()
         .eq('user_id', userId)
         .order('created_at', ascending: false);
-    
+
     return (response as List).map((data) => IdeaModel.fromJson(data)).toList();
   }
 
   /// Obtiene todos los Doodles dibujados por el usuario especificado.
-  /// 
-  /// Trae los datos vectoriales brutos, listos para ser renderizados por 
+  ///
+  /// Trae los datos vectoriales brutos, listos para ser renderizados por
   /// el motor gráfico nativo de la app.
   Future<List<DoodleModel>> getUserDoodles(String userId) async {
     final response = await supabase
@@ -64,7 +64,9 @@ class ProfileService {
         .select()
         .eq('user_id', userId)
         .order('created_at', ascending: false);
-    
-    return (response as List).map((data) => DoodleModel.fromJson(data)).toList();
+
+    return (response as List)
+        .map((data) => DoodleModel.fromJson(data))
+        .toList();
   }
 }

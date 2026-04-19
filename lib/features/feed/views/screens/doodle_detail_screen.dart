@@ -36,7 +36,11 @@ class DoodleDetailScreen extends ConsumerWidget {
             tooltip: 'Compartir Artwork',
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Próximamente: Integración con Redes o Exportar Imagen.')),
+                const SnackBar(
+                  content: Text(
+                    'Próximamente: Integración con Redes o Exportar Imagen.',
+                  ),
+                ),
               );
             },
           ),
@@ -95,7 +99,7 @@ class DoodleDetailScreen extends ConsumerWidget {
               width: double.infinity,
               child: FilledButton.icon(
                 onPressed: () {
-                  // TODO: El Canvas requiere por ahora un Idea. Podríamos extender el logic 
+                  // TODO: El Canvas requiere por ahora un Idea. Podríamos extender el logic
                   // para soportar basarse en doodles o sencillamente hacer uno libre "inspirado por".
                   Navigator.push(
                     context,
@@ -137,12 +141,16 @@ class DoodleDetailScreen extends ConsumerWidget {
               Navigator.pop(ctx);
               try {
                 // Delegamos la eliminación al ViewModel o Service
-                await ref.read(contentCreationServiceProvider).deleteDoodle(doodle.id);
-                
+                await ref
+                    .read(contentCreationServiceProvider)
+                    .deleteDoodle(doodle.id);
+
                 if (context.mounted) {
                   Navigator.pop(context); // Vuelve atrás tras eliminar
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Doodle eliminado correctamente')),
+                    const SnackBar(
+                      content: Text('Doodle eliminado correctamente'),
+                    ),
                   );
                 }
               } catch (e) {

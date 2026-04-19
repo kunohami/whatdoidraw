@@ -24,13 +24,11 @@ class DoodleCard extends StatelessWidget {
 
     return Card(
       clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 2,
       child: InkWell(
         onTap: () {
-          // [DOC]: Navegación limpia parametrizada. 
+          // [DOC]: Navegación limpia parametrizada.
           Navigator.push(
             context,
             MaterialPageRoute(

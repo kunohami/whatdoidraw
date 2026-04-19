@@ -17,10 +17,7 @@ class ProfileScreen extends ConsumerWidget {
     final profileAsync = ref.watch(currentUserProfileProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mi Perfil'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Mi Perfil'), centerTitle: true),
       body: profileAsync.when(
         data: (profile) {
           if (profile == null) {
@@ -38,9 +35,11 @@ class ProfileScreen extends ConsumerWidget {
                     children: [
                       CircleAvatar(
                         radius: 50,
-                        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                        backgroundImage: profile.avatarUrl != null 
-                            ? NetworkImage(profile.avatarUrl!) 
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.primaryContainer,
+                        backgroundImage: profile.avatarUrl != null
+                            ? NetworkImage(profile.avatarUrl!)
                             : null,
                         child: profile.avatarUrl == null
                             ? const Icon(Icons.person, size: 50)
@@ -49,19 +48,26 @@ class ProfileScreen extends ConsumerWidget {
                       const SizedBox(height: 16),
                       Text(
                         profile.username,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       if (profile.isArtist)
                         Container(
                           margin: const EdgeInsets.only(top: 8),
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondaryContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.secondaryContainer,
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Text('Artista Verificado', style: TextStyle(fontSize: 12)),
+                          child: const Text(
+                            'Artista Verificado',
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
                     ],
                   ),
@@ -76,10 +82,7 @@ class ProfileScreen extends ConsumerWidget {
                 // Tab Views
                 const Expanded(
                   child: TabBarView(
-                    children: [
-                      _UserIdeasTab(),
-                      _UserDoodlesTab(),
-                    ],
+                    children: [_UserIdeasTab(), _UserDoodlesTab()],
                   ),
                 ),
               ],
@@ -115,7 +118,8 @@ class _UserIdeasTab extends ConsumerWidget {
           itemBuilder: (context, index) {
             return IdeaCard(
               idea: ideas[index],
-              showDrawButton: false, // Opcional, pero en tu perfil quizás sólo quieres verlas
+              showDrawButton:
+                  false, // Opcional, pero en tu perfil quizás sólo quieres verlas
             );
           },
         );
@@ -130,7 +134,7 @@ class _UserIdeasTab extends ConsumerWidget {
 ///
 /// Muestra las miniaturas de los dibujos generándolos en tiempo real.
 /// Se usa [FittedBox] sobre un canvas fijo para escalar los puntos vectoriales
-/// guardados originalmemente, logrando visualizaciones reducidas de alta calidad 
+/// guardados originalmemente, logrando visualizaciones reducidas de alta calidad
 /// sin penalizaciones de rendimiento.
 class _UserDoodlesTab extends ConsumerWidget {
   const _UserDoodlesTab();
@@ -142,7 +146,9 @@ class _UserDoodlesTab extends ConsumerWidget {
     return doodlesAsync.when(
       data: (doodles) {
         if (doodles.isEmpty) {
-          return const Center(child: Text("Aún no has dibujado ningún doodle."));
+          return const Center(
+            child: Text("Aún no has dibujado ningún doodle."),
+          );
         }
         return GridView.builder(
           padding: const EdgeInsets.all(16),

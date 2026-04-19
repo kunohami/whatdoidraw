@@ -10,7 +10,7 @@ part 'profile_viewmodel.g.dart';
 
 /// Proveedor que retorna el perfil del usuario autenticado actual.
 ///
-/// Combina el estado de la sesión (`authControllerProvider`) con 
+/// Combina el estado de la sesión (`authControllerProvider`) con
 /// el backend (`profileServiceProvider`) para exponer directamente
 /// la información del creador en la UI de forma reactiva.
 @riverpod

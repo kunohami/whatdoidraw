@@ -160,7 +160,9 @@ class DoodleCanvasScreen extends ConsumerWidget {
                           width: double.infinity,
                           height: double.infinity,
                           child: CustomPaint(
-                            painter: DoodlePainter(strokes: canvasState.strokes),
+                            painter: DoodlePainter(
+                              strokes: canvasState.strokes,
+                            ),
                             size: const Size(600, 800),
                           ),
                         ),

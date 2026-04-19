@@ -12,20 +12,14 @@ class IdeaCard extends StatelessWidget {
   final IdeaModel idea;
   final bool showDrawButton;
 
-  const IdeaCard({
-    super.key,
-    required this.idea,
-    this.showDrawButton = true,
-  });
+  const IdeaCard({super.key, required this.idea, this.showDrawButton = true});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(bottom: 16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -33,7 +27,9 @@ class IdeaCard extends StatelessWidget {
           children: [
             Text(
               idea.content,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(height: 1.4),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(height: 1.4),
             ),
             const SizedBox(height: 12),
             Row(
@@ -41,7 +37,9 @@ class IdeaCard extends StatelessWidget {
               children: [
                 Text(
                   'Una idea de un soñador',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                 ),
                 if (showDrawButton)
                   // [DOC]: Navegación en Flutter. Pasamos parámetros directamente

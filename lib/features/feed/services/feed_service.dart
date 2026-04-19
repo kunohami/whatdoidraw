@@ -2,8 +2,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:whatdoidraw/core/providers/supabase_provider.dart';
-import 'package:whatdoidraw/shared/models/idea_model.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
+import 'package:whatdoidraw/shared/models/idea_model.dart';
 
 part 'feed_service.g.dart';
 
@@ -39,7 +39,7 @@ class FeedService {
   }
 
   /// Obtiene un flujo en tiempo real de todos los Doodles públicos.
-  /// 
+  ///
   /// Ordena los dibujos publicados globalmente por fecha, para
   /// mostrarlos en la pestaña de exploración.
   Stream<List<DoodleModel>> streamDoodles() {
