@@ -63,3 +63,49 @@ final class IdeasStreamProvider
 }
 
 String _$ideasStreamHash() => r'60f017b5d926df90861fad88f98537aa8e0f122f';
+
+/// Proveedor reactivo que expone el flujo constante de Doodles.
+
+@ProviderFor(doodlesStream)
+final doodlesStreamProvider = DoodlesStreamProvider._();
+
+/// Proveedor reactivo que expone el flujo constante de Doodles.
+
+final class DoodlesStreamProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<DoodleModel>>,
+          List<DoodleModel>,
+          Stream<List<DoodleModel>>
+        >
+    with
+        $FutureModifier<List<DoodleModel>>,
+        $StreamProvider<List<DoodleModel>> {
+  /// Proveedor reactivo que expone el flujo constante de Doodles.
+  DoodlesStreamProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'doodlesStreamProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$doodlesStreamHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<List<DoodleModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<DoodleModel>> create(Ref ref) {
+    return doodlesStream(ref);
+  }
+}
+
+String _$doodlesStreamHash() => r'2e53a06994768e8dc4fa6170619704ce2780b40a';
