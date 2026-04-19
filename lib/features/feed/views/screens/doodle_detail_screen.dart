@@ -56,25 +56,33 @@ class DoodleDetailScreen extends ConsumerWidget {
               maxScale: 3.0,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: FittedBox(
-                  child: Container(
-                    width: 400,
-                    height: 600,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 10,
-                          spreadRadius: 2,
+                child: Center(
+                  child: AspectRatio(
+                    aspectRatio: 3 / 4,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: SizedBox(
+                          width: 600,
+                          height: 800,
+                          child: CustomPaint(
+                            painter: DoodlePainter(strokes: strokes),
+                            size: const Size(600, 800),
+                          ),
                         ),
-                      ],
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    child: CustomPaint(
-                      painter: DoodlePainter(strokes: strokes),
-                      size: const Size(400, 600),
+                      ),
                     ),
                   ),
                 ),

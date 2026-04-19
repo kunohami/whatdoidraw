@@ -44,14 +44,16 @@ class DoodleCard extends StatelessWidget {
             Container(color: Colors.white), // Lienzo blanco
             Padding(
               padding: const EdgeInsets.all(8.0),
-              // FittedBox escala automáticamente los trazos dentro del Card
-              child: FittedBox(
-                child: SizedBox(
-                  width: 400,
-                  height: 600,
-                  child: CustomPaint(
-                    painter: DoodlePainter(strokes: strokes),
-                    size: Size.infinite,
+              child: Center(
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: SizedBox(
+                    width: 600,
+                    height: 800,
+                    child: CustomPaint(
+                      painter: DoodlePainter(strokes: strokes),
+                      size: const Size(600, 800),
+                    ),
                   ),
                 ),
               ),

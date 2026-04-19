@@ -116,33 +116,57 @@ class DoodleCanvasScreen extends ConsumerWidget {
             ),
 
           // Área interactiva de dibujo
-          AbsorbPointer(
-            absorbing:
-                canvasState.isSubmitting, // Bloquea el dibujo mientras se sube
-            child: GestureDetector(
-              onPanStart: (details) {
-                ref
-                    .read(doodleCanvasProvider.notifier)
-                    .startStroke(
-                      details.localPosition.dx,
-                      details.localPosition.dy,
-                    );
-              },
-              onPanUpdate: (details) {
-                ref
-                    .read(doodleCanvasProvider.notifier)
-                    .updateStroke(
-                      details.localPosition.dx,
-                      details.localPosition.dy,
-                    );
-              },
+          Center(
+            child: AspectRatio(
+              aspectRatio: 3 / 4,
               child: Container(
-                color: Colors.transparent,
-                width: double.infinity,
-                height: double.infinity,
-                child: CustomPaint(
-                  painter: DoodlePainter(strokes: canvasState.strokes),
-                  size: Size.infinite,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.1),
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: AbsorbPointer(
+                  absorbing: canvasState.isSubmitting,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: SizedBox(
+                      width: 600,
+                      height: 800,
+                      child: GestureDetector(
+                        onPanStart: (details) {
+                          ref
+                              .read(doodleCanvasProvider.notifier)
+                              .startStroke(
+                                details.localPosition.dx,
+                                details.localPosition.dy,
+                              );
+                        },
+                        onPanUpdate: (details) {
+                          ref
+                              .read(doodleCanvasProvider.notifier)
+                              .updateStroke(
+                                details.localPosition.dx,
+                                details.localPosition.dy,
+                              );
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: CustomPaint(
+                            painter: DoodlePainter(strokes: canvasState.strokes),
+                            size: const Size(600, 800),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
