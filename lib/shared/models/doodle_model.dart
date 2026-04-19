@@ -9,7 +9,7 @@ abstract class DoodleModel with _$DoodleModel {
     required String id,
     @JsonKey(name: 'user_id') required String userId,
     @JsonKey(name: 'idea_id') String? ideaId,
-    @JsonKey(name: 'doodle_data') required Map<String, dynamic> doodleData,
+    @JsonKey(name: 'doodle_data') required List<dynamic> doodleData,
     @Default([]) List<String> tags,
     @JsonKey(name: 'is_active') @Default(true) bool isActive,
     @JsonKey(name: 'created_at') DateTime? createdAt,

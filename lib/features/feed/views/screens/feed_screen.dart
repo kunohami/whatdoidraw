@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
+
 import 'package:whatdoidraw/features/feed/viewmodels/feed_viewmodel.dart';
+import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
@@ -29,55 +30,7 @@ class FeedScreen extends ConsumerWidget {
               padding: const EdgeInsets.all(16),
               itemBuilder: (context, index) {
                 final idea = ideas[index];
-                return Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          idea.content,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(height: 1.4),
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Una idea de un soñador',
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: Colors.grey),
-                            ),
-                            // [DOC]: Navegación en Flutter. Pasamos parámetros directamente
-                            // por el constructor del Widget destino.
-                            IconButton(
-                              icon: const Icon(Icons.draw_outlined),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DoodleCanvasScreen(
-                                      ideaId: idea.id,
-                                      ideaPrompt: idea.content,
-                                    ),
-                                  ),
-                                );
-                              },
-                              tooltip: 'Dibujar esta idea',
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+                return IdeaCard(idea: idea);
               },
             ),
           );
