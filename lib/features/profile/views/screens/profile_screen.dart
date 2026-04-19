@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
-import 'package:whatdoidraw/shared/models/stroke_model.dart';
+import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 
 /// Pantalla principal del perfil de usuario autenticado.
@@ -154,37 +153,7 @@ class _UserDoodlesTab extends ConsumerWidget {
           ),
           itemCount: doodles.length,
           itemBuilder: (context, index) {
-            final doodle = doodles[index];
-            return Card(
-              clipBehavior: Clip.antiAlias,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Container(color: Colors.white), // Fondo blanco para los doodles
-                  IgnorePointer(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FittedBox(
-                        // Asumimos un tamaño de canvas promedio para encajar los trazos en la vista miniatura
-                        child: SizedBox(
-                          width: 400,
-                          height: 600,
-                          child: CustomPaint(
-                            painter: DoodlePainter(
-                              strokes: doodle.doodleData
-                                  .map((e) => StrokeModel.fromJson(e as Map<String, dynamic>))
-                                  .toList(),
-                            ),
-                            size: Size.infinite,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
+            return DoodleCard(doodle: doodles[index]);
           },
         );
       },

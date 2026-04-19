@@ -50,4 +50,12 @@ class ContentCreationService {
       'doodle_data': doodleData,
     });
   }
+
+  /// Elimina un dibujo (Doodle) de la base de datos.
+  /// 
+  /// Utiliza RLS (Row Level Security) nativo de Supabase para asegurar
+  /// que solo el usuario autenticado creador del Doodle pueda borrarlo.
+  Future<void> deleteDoodle(String doodleId) async {
+    await supabaseClient.from('doodles').delete().eq('id', doodleId);
+  }
 }
