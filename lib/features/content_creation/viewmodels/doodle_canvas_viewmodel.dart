@@ -45,7 +45,7 @@ class DoodleCanvas extends _$DoodleCanvas {
   void startStroke(double x, double y) {
     final newStroke = StrokeModel(
       points: [PointModel(x: x, y: y)],
-      colorValue: 0xFFEEEEEE, // Gris claro por defecto
+      colorValue: 0xFF000000, // Negro absoluto por defecto
       strokeWidth: 4.0,
     );
 

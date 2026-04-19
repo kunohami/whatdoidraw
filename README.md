@@ -57,19 +57,23 @@ lib/
 - [x] Motor de renderizado vectorial de dibujo construido desde cero (sin librerías).
 - [x] Hub de Creación centralizado.
 - [x] Funcionalidad para guardar y publicar un Doodle libre o enlazado a una Idea.
-- [ ] Pantalla de Perfil de Usuario con historial (Pendiente).
+- [x] Pantalla de Perfil de Usuario con historial.
 
 ### Iteración 3: Feeds y Descubrimiento
-- [ ] Pantallas de descubrimiento completas (Tabs para Ideas, Doodles, Artworks).
-- [ ] Implementación de listas (`ListView`/`GridView`) para los feeds.
-- [ ] Filtros ("Top Ideas", "Random", "Recientes").
+- [x] Pantallas de descubrimiento completas (Tabs para Ideas, Doodles, Artworks).
+- [x] Implementación de listas (`ListView`/`GridView`) para los feeds.
+- [ ] Implementar un sistema de Etiquetas (Tags) aplicables a Ideas, Doodles y Artworks.
+- [ ] Incorporar Filtros de búsqueda (por "Tags", "Top Ideas", "Recientes").
+- [ ] Filtro automático de idioma: Auto-filtrar Ideas utilizando los tags `spanish` o `english` acorde al idioma del usuario (manteniendo opción de ver ambos).
 
 ### Iteración 4: Interacción Social y Artworks
 - [ ] Sistema de Bookmarks (Guardar contenido) y visualización en el perfil.
 - [ ] Formulario para publicar Artwork final (enlazando url externa).
 - [ ] Lógica de filtrado por "popularidad" (Likes).
 
-### Iteración 5: Pulido y Notificaciones
-- [ ] Sistema de reportes de usuarios/contenido.
-- [ ] (Opcional) Notificaciones push para avisar al creador original cuando su contenido se usa.
+### Iteración 5: Internacionalización (i18n) y Pulido
+- [ ] Soporte Bilingüe Nativo (Inglés y Español) en toda la UI de la aplicación.
+- [ ] Implementar un Filtro de Profanidad (Profanity Filter) para bloquear la publicación de Ideas de texto con palabras prohibidas (en inglés y español).
+- [ ] Sistema de reportes de usuarios/contenido ofensivo.
+- [ ] Notificaciones push para avisar al creador original cuando su contenido se usa.
 - [ ] Pruebas de usabilidad.

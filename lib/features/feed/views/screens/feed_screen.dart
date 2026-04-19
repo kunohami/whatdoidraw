@@ -1,89 +1,129 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
-import 'package:whatdoidraw/features/feed/viewmodels/feed_viewmodel.dart';
 
-class FeedScreen extends ConsumerWidget {
+import 'package:whatdoidraw/features/feed/viewmodels/feed_viewmodel.dart';
+import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
+import 'package:whatdoidraw/shared/widgets/idea_card.dart';
+
+/// Pantalla principal de Exploración ("Feed").
+///
+/// Divide el contenido público en tres categorías principales mediante pestañas:
+/// Ideas, Doodles y Artworks (futuro).
+class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Descubrimiento'),
+          centerTitle: true,
+          bottom: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.lightbulb_outline), text: 'Ideas'),
+              Tab(icon: Icon(Icons.brush), text: 'Doodles'),
+              Tab(icon: Icon(Icons.art_track), text: 'Artworks'),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [_IdeasFeedTab(), _DoodlesFeedTab(), _ArtworksFeedTab()],
+        ),
+      ),
+    );
+  }
+}
+
+/// Pestaña que gestiona el feed cronológico de [IdeaModel].
+///
+/// Refleja la mentalidad declarativa conectándose vía [ConsumerWidget]
+/// al `ideasStreamProvider` para reconstruir la lista autónomamente.
+class _IdeasFeedTab extends ConsumerWidget {
+  const _IdeasFeedTab();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ideasAsyncValue = ref.watch(ideasStreamProvider);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('💡 Últimas Ideas'), centerTitle: true),
-      body: ideasAsyncValue.when(
-        data: (ideas) {
-          if (ideas.isEmpty) {
-            return const Center(
-              child: Text('Sé el primero en aportar una idea.'),
-            );
-          }
-          return RefreshIndicator(
-            onRefresh: () async {
-              // El stream se actualiza automáticamente
-            },
-            child: ListView.builder(
-              itemCount: ideas.length,
-              padding: const EdgeInsets.all(16),
-              itemBuilder: (context, index) {
-                final idea = ideas[index];
-                return Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          idea.content,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(height: 1.4),
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Una idea de un soñador',
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: Colors.grey),
-                            ),
-                            // [DOC]: Navegación en Flutter. Pasamos parámetros directamente
-                            // por el constructor del Widget destino.
-                            IconButton(
-                              icon: const Icon(Icons.draw_outlined),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DoodleCanvasScreen(
-                                      ideaId: idea.id,
-                                      ideaPrompt: idea.content,
-                                    ),
-                                  ),
-                                );
-                              },
-                              tooltip: 'Dibujar esta idea',
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('Error: $error')),
+    return ideasAsyncValue.when(
+      data: (ideas) {
+        if (ideas.isEmpty) {
+          return const Center(child: Text('Aún no hay ideas globales.'));
+        }
+        return ListView.builder(
+          itemCount: ideas.length,
+          padding: const EdgeInsets.all(16),
+          itemBuilder: (context, index) {
+            return IdeaCard(idea: ideas[index]);
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(child: Text('Error: $error')),
+    );
+  }
+}
+
+/// Pestaña que delega la visualización del muro global de `Doodles`.
+///
+/// Expone un `GridView` con aspecto fijamente parametrizado a 3:4.
+/// Cada elemento devuelto por el stream reacciona creando una [DoodleCard]
+/// que reutiliza nuestra lógica centralizada de renderizado vectorial.
+class _DoodlesFeedTab extends ConsumerWidget {
+  const _DoodlesFeedTab();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final doodlesAsyncValue = ref.watch(doodlesStreamProvider);
+
+    return doodlesAsyncValue.when(
+      data: (doodles) {
+        if (doodles.isEmpty) {
+          return const Center(child: Text('Sé el primero en hacer un doodle.'));
+        }
+        return GridView.builder(
+          padding: const EdgeInsets.all(16.0),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16.0,
+            mainAxisSpacing: 16.0,
+            childAspectRatio: 0.75, // Proporción de tarjeta 3:4 asegurada
+          ),
+          itemCount: doodles.length,
+          itemBuilder: (context, index) {
+            return DoodleCard(doodle: doodles[index]);
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(child: Text('Error: $error')),
+    );
+  }
+}
+
+/// Pestaña de estado en desarrollo (Placeholder) para la futura vista de Artworks.
+///
+/// Preparada para la Iteración 4, donde se exhibirán las obras maestras y
+/// el proceso del usuario (Bookmarks).
+class _ArtworksFeedTab extends StatelessWidget {
+  const _ArtworksFeedTab();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.construction, size: 64, color: Colors.grey),
+          SizedBox(height: 16),
+          Text(
+            'Artworks: Próximamente (Iteración 4)',
+            style: TextStyle(color: Colors.grey, fontSize: 16),
+          ),
+        ],
       ),
     );
   }

@@ -35,6 +35,8 @@ El flujo de inspiración es flexible y se basa en tres tipos de contenido interc
    - Centraliza el manejo de errores en el ViewModel, capturando excepciones de los servicios y mapeándolas a un campo `errorMessage` en el estado para que la View las consuma de forma declarativa.
 7. **Modelos Centralizados:** 
    - Usa siempre los modelos alojados en `lib/shared/models/` para consistencia y reutilización de código.
+8. **Documentación** 
+   - Documentar adecuadamente el código y añadir explicaciones didácticas. Hay que llevar los DartDocs al día. 
 
 ## 4. Referencia de Base de Datos (PostgreSQL en Supabase)
 
