@@ -41,6 +41,10 @@ class FeedScreen extends StatelessWidget {
   }
 }
 
+/// Pestaña que gestiona el feed cronológico de [IdeaModel].
+///
+/// Refleja la mentalidad declarativa conectándose vía [ConsumerWidget]
+/// al `ideasStreamProvider` para reconstruir la lista autónomamente.
 class _IdeasFeedTab extends ConsumerWidget {
   const _IdeasFeedTab();
 
@@ -67,6 +71,11 @@ class _IdeasFeedTab extends ConsumerWidget {
   }
 }
 
+/// Pestaña que delega la visualización del muro global de `Doodles`.
+///
+/// Expone un `GridView` con aspecto fijamente parametrizado a 3:4.
+/// Cada elemento devuelto por el stream reacciona creando una [DoodleCard]
+/// que reutiliza nuestra lógica centralizada de renderizado vectorial.
 class _DoodlesFeedTab extends ConsumerWidget {
   const _DoodlesFeedTab();
 
@@ -99,6 +108,10 @@ class _DoodlesFeedTab extends ConsumerWidget {
   }
 }
 
+/// Pestaña de estado en desarrollo (Placeholder) para la futura vista de Artworks.
+///
+/// Preparada para la Iteración 4, donde se exhibirán las obras maestras y
+/// el proceso del usuario (Bookmarks).
 class _ArtworksFeedTab extends StatelessWidget {
   const _ArtworksFeedTab();
 
