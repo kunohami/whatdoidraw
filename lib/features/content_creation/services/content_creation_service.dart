@@ -24,10 +24,16 @@ class ContentCreationService {
   /// Registra una nueva idea textual en la base de datos.
   ///
   /// Recibe el [content] (texto) y el [userId] del autor.
-  Future<void> insertIdea(String content, String userId) async {
+  /// Opcionalmente acepta una lista de [tags] para categorización.
+  Future<void> insertIdea(
+    String content,
+    String userId, {
+    List<String> tags = const [],
+  }) async {
     await supabaseClient.from('ideas').insert({
       'content': content,
       'user_id': userId,
+      if (tags.isNotEmpty) 'tags': tags,
     });
   }
 
@@ -36,11 +42,13 @@ class ContentCreationService {
   /// Transforma la lista de [strokes] (trazos) en un objeto JSON compatible
   /// con el campo JSONB de PostgreSQL. Opcionalmente se puede vincular a
   /// un [ideaId] si el dibujo fue inspirado por una idea del feed.
+  /// Acepta [tags] opcionales para categorización.
   Future<void> insertDoodle(
     List<StrokeModel> strokes,
     String userId,
-    String? ideaId,
-  ) async {
+    String? ideaId, {
+    List<String> tags = const [],
+  }) async {
     // Transformación: Cada StrokeModel sabe convertirse a Map gracias a freezed.
     final doodleData = strokes.map((s) => s.toJson()).toList();
 
@@ -48,6 +56,7 @@ class ContentCreationService {
       'user_id': userId,
       'idea_id': ideaId,
       'doodle_data': doodleData,
+      if (tags.isNotEmpty) 'tags': tags,
     });
   }
 

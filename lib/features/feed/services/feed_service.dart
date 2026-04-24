@@ -1,7 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:whatdoidraw/core/constants/feed_constants.dart';
 import 'package:whatdoidraw/core/providers/supabase_provider.dart';
+import 'package:whatdoidraw/features/feed/models/feed_sort_order.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
 import 'package:whatdoidraw/shared/models/idea_model.dart';
 
@@ -9,9 +11,9 @@ part 'feed_service.g.dart';
 
 /// Servicio encargado de la recuperación de datos para el muro de ideas (Feed).
 ///
-/// En la arquitectura MVVM, los Servicios se encargan de la comunicación
-/// directa con fuentes externas (BaaS, APIs) y transforman los datos crudos
-/// en modelos de objetos útiles para la aplicación.
+/// Utiliza queries paginadas en lugar de streams en tiempo real para controlar
+/// el coste de consultas a Supabase. La UI puede solicitar más datos
+/// explícitamente mediante el patrón "cargar más".
 @riverpod
 FeedService feedService(Ref ref) {
   return FeedService(ref.watch(supabaseClientProvider));
@@ -23,30 +25,84 @@ class FeedService {
 
   FeedService(this.supabaseClient);
 
-  /// Obtiene un flujo de datos (Stream) en tiempo real de las ideas publicadas.
+  /// Obtiene una página de ideas con filtros y ordenación opcionales.
   ///
-  /// Al usar `.stream()`, la aplicación reaccionará automáticamente a nuevos
-  /// insertos o actualizaciones en la tabla de la base de datos sin necesidad
-  /// de recargar la pantalla manualmente.
-  ///
-  /// Retorna una lista de objetos [IdeaModel] ordenados por fecha de creación.
-  Stream<List<IdeaModel>> streamIdeas() {
-    return supabaseClient
+  /// - [offset]: posición desde la que empezar (para paginación).
+  /// - [limit]: número máximo de items a devolver.
+  /// - [query]: texto libre para buscar en el contenido de la idea.
+  /// - [tags]: lista de tags por los que filtrar (todos deben coincidir).
+  /// - [sort]: ordenación por fecha reciente o aleatoria (shuffle en cliente).
+  Future<List<IdeaModel>> fetchIdeas({
+    int offset = 0,
+    int limit = kIdeasPageSize,
+    String query = '',
+    List<String> tags = const [],
+    FeedSortOrder sort = FeedSortOrder.recent,
+  }) async {
+    // En modo aleatorio pedimos un lote grande para hacer shuffle en cliente.
+    final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
+
+    var queryBuilder = supabaseClient
         .from('ideas')
-        .stream(primaryKey: ['id'])
+        .select()
+        .eq('is_active', true);
+
+    if (query.isNotEmpty) {
+      queryBuilder = queryBuilder.ilike('content', '%$query%');
+    }
+
+    if (tags.isNotEmpty) {
+      queryBuilder = queryBuilder.contains('tags', tags);
+    }
+
+    final data = await queryBuilder
         .order('created_at', ascending: false)
-        .map((data) => data.map((e) => IdeaModel.fromJson(e)).toList());
+        .range(offset, offset + fetchLimit - 1);
+
+    final ideas = (data as List).map((e) => IdeaModel.fromJson(e)).toList();
+
+    if (sort == FeedSortOrder.random) {
+      ideas.shuffle();
+      return ideas.take(limit).toList();
+    }
+
+    return ideas;
   }
 
-  /// Obtiene un flujo en tiempo real de todos los Doodles públicos.
+  /// Obtiene una página de doodles con filtros y ordenación opcionales.
   ///
-  /// Ordena los dibujos publicados globalmente por fecha, para
-  /// mostrarlos en la pestaña de exploración.
-  Stream<List<DoodleModel>> streamDoodles() {
-    return supabaseClient
+  /// - [offset]: posición desde la que empezar (para paginación).
+  /// - [limit]: número máximo de items a devolver.
+  /// - [tags]: lista de tags por los que filtrar (todos deben coincidir).
+  /// - [sort]: ordenación por fecha reciente o aleatoria (shuffle en cliente).
+  Future<List<DoodleModel>> fetchDoodles({
+    int offset = 0,
+    int limit = kDoodlesPageSize,
+    List<String> tags = const [],
+    FeedSortOrder sort = FeedSortOrder.random,
+  }) async {
+    final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
+
+    var queryBuilder = supabaseClient
         .from('doodles')
-        .stream(primaryKey: ['id'])
+        .select()
+        .eq('is_active', true);
+
+    if (tags.isNotEmpty) {
+      queryBuilder = queryBuilder.contains('tags', tags);
+    }
+
+    final data = await queryBuilder
         .order('created_at', ascending: false)
-        .map((data) => data.map((e) => DoodleModel.fromJson(e)).toList());
+        .range(offset, offset + fetchLimit - 1);
+
+    final doodles = (data as List).map((e) => DoodleModel.fromJson(e)).toList();
+
+    if (sort == FeedSortOrder.random) {
+      doodles.shuffle();
+      return doodles.take(limit).toList();
+    }
+
+    return doodles;
   }
 }

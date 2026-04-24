@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 mixin _$DoodleCanvasState {
 
 /// Lista de trazos vectoriales dibujados actualmente.
- List<StrokeModel> get strokes;/// Indica si se está realizando una operación asíncrona (como subir a la nube).
+ List<StrokeModel> get strokes;/// Etiquetas que el usuario ha asignado al doodle antes de publicarlo.
+ List<String> get tags;/// Indica si se está realizando una operación asíncrona (como subir a la nube).
  bool get isSubmitting;/// Almacena un mensaje de error descriptivo si algo falla.
  String? get errorMessage;
 /// Create a copy of DoodleCanvasState
@@ -28,16 +29,16 @@ $DoodleCanvasStateCopyWith<DoodleCanvasState> get copyWith => _$DoodleCanvasStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DoodleCanvasState&&const DeepCollectionEquality().equals(other.strokes, strokes)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DoodleCanvasState&&const DeepCollectionEquality().equals(other.strokes, strokes)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(strokes),isSubmitting,errorMessage);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(strokes),const DeepCollectionEquality().hash(tags),isSubmitting,errorMessage);
 
 @override
 String toString() {
-  return 'DoodleCanvasState(strokes: $strokes, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
+  return 'DoodleCanvasState(strokes: $strokes, tags: $tags, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $DoodleCanvasStateCopyWith<$Res>  {
   factory $DoodleCanvasStateCopyWith(DoodleCanvasState value, $Res Function(DoodleCanvasState) _then) = _$DoodleCanvasStateCopyWithImpl;
 @useResult
 $Res call({
- List<StrokeModel> strokes, bool isSubmitting, String? errorMessage
+ List<StrokeModel> strokes, List<String> tags, bool isSubmitting, String? errorMessage
 });
 
 
@@ -65,10 +66,11 @@ class _$DoodleCanvasStateCopyWithImpl<$Res>
 
 /// Create a copy of DoodleCanvasState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? strokes = null,Object? isSubmitting = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? strokes = null,Object? tags = null,Object? isSubmitting = null,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
 strokes: null == strokes ? _self.strokes : strokes // ignore: cast_nullable_to_non_nullable
-as List<StrokeModel>,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
+as List<StrokeModel>,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
+as List<String>,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
 as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -155,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<StrokeModel> strokes,  bool isSubmitting,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<StrokeModel> strokes,  List<String> tags,  bool isSubmitting,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DoodleCanvasState() when $default != null:
-return $default(_that.strokes,_that.isSubmitting,_that.errorMessage);case _:
+return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -176,10 +178,10 @@ return $default(_that.strokes,_that.isSubmitting,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<StrokeModel> strokes,  bool isSubmitting,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<StrokeModel> strokes,  List<String> tags,  bool isSubmitting,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _DoodleCanvasState():
-return $default(_that.strokes,_that.isSubmitting,_that.errorMessage);case _:
+return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +198,10 @@ return $default(_that.strokes,_that.isSubmitting,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<StrokeModel> strokes,  bool isSubmitting,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<StrokeModel> strokes,  List<String> tags,  bool isSubmitting,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _DoodleCanvasState() when $default != null:
-return $default(_that.strokes,_that.isSubmitting,_that.errorMessage);case _:
+return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage);case _:
   return null;
 
 }
@@ -211,7 +213,7 @@ return $default(_that.strokes,_that.isSubmitting,_that.errorMessage);case _:
 
 
 class _DoodleCanvasState implements DoodleCanvasState {
-  const _DoodleCanvasState({final  List<StrokeModel> strokes = const [], this.isSubmitting = false, this.errorMessage}): _strokes = strokes;
+  const _DoodleCanvasState({final  List<StrokeModel> strokes = const [], final  List<String> tags = const [], this.isSubmitting = false, this.errorMessage}): _strokes = strokes,_tags = tags;
   
 
 /// Lista de trazos vectoriales dibujados actualmente.
@@ -221,6 +223,15 @@ class _DoodleCanvasState implements DoodleCanvasState {
   if (_strokes is EqualUnmodifiableListView) return _strokes;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_strokes);
+}
+
+/// Etiquetas que el usuario ha asignado al doodle antes de publicarlo.
+ final  List<String> _tags;
+/// Etiquetas que el usuario ha asignado al doodle antes de publicarlo.
+@override@JsonKey() List<String> get tags {
+  if (_tags is EqualUnmodifiableListView) return _tags;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tags);
 }
 
 /// Indica si se está realizando una operación asíncrona (como subir a la nube).
@@ -238,16 +249,16 @@ _$DoodleCanvasStateCopyWith<_DoodleCanvasState> get copyWith => __$DoodleCanvasS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DoodleCanvasState&&const DeepCollectionEquality().equals(other._strokes, _strokes)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DoodleCanvasState&&const DeepCollectionEquality().equals(other._strokes, _strokes)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_strokes),isSubmitting,errorMessage);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_strokes),const DeepCollectionEquality().hash(_tags),isSubmitting,errorMessage);
 
 @override
 String toString() {
-  return 'DoodleCanvasState(strokes: $strokes, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
+  return 'DoodleCanvasState(strokes: $strokes, tags: $tags, isSubmitting: $isSubmitting, errorMessage: $errorMessage)';
 }
 
 
@@ -258,7 +269,7 @@ abstract mixin class _$DoodleCanvasStateCopyWith<$Res> implements $DoodleCanvasS
   factory _$DoodleCanvasStateCopyWith(_DoodleCanvasState value, $Res Function(_DoodleCanvasState) _then) = __$DoodleCanvasStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<StrokeModel> strokes, bool isSubmitting, String? errorMessage
+ List<StrokeModel> strokes, List<String> tags, bool isSubmitting, String? errorMessage
 });
 
 
@@ -275,10 +286,11 @@ class __$DoodleCanvasStateCopyWithImpl<$Res>
 
 /// Create a copy of DoodleCanvasState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? strokes = null,Object? isSubmitting = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? strokes = null,Object? tags = null,Object? isSubmitting = null,Object? errorMessage = freezed,}) {
   return _then(_DoodleCanvasState(
 strokes: null == strokes ? _self._strokes : strokes // ignore: cast_nullable_to_non_nullable
-as List<StrokeModel>,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
+as List<StrokeModel>,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
+as List<String>,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
 as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

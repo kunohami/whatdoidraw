@@ -19,6 +19,9 @@ abstract class DoodleCanvasState with _$DoodleCanvasState {
     /// Lista de trazos vectoriales dibujados actualmente.
     @Default([]) List<StrokeModel> strokes,
 
+    /// Etiquetas que el usuario ha asignado al doodle antes de publicarlo.
+    @Default([]) List<String> tags,
+
     /// Indica si se está realizando una operación asíncrona (como subir a la nube).
     @Default(false) bool isSubmitting,
 
@@ -86,10 +89,16 @@ class DoodleCanvas extends _$DoodleCanvas {
     state = state.copyWith(strokes: [], errorMessage: null);
   }
 
+  /// Actualiza las etiquetas que se asociarán al doodle al publicarlo.
+  void setTags(List<String> tags) {
+    state = state.copyWith(tags: tags);
+  }
+
   /// Persiste el dibujo actual en el servidor.
   ///
   /// Utiliza el [contentCreationServiceProvider] para la red y el
   /// [authControllerProvider] para identificar al autor de forma abstracta.
+  /// Incluye los [tags] presentes en el estado del lienzo.
   Future<void> submitDoodle(String? ideaId) async {
     if (state.strokes.isEmpty) return;
 
@@ -107,10 +116,10 @@ class DoodleCanvas extends _$DoodleCanvas {
 
       await ref
           .read(contentCreationServiceProvider)
-          .insertDoodle(state.strokes, user.id, ideaId);
+          .insertDoodle(state.strokes, user.id, ideaId, tags: state.tags);
 
       // Si tiene éxito, limpiamos y desactivamos carga
-      state = state.copyWith(strokes: [], isSubmitting: false);
+      state = state.copyWith(strokes: [], tags: [], isSubmitting: false);
     } catch (e) {
       // En caso de error, lo exponemos de forma declarativa en el estado
       state = state.copyWith(
