@@ -34,12 +34,13 @@ class FakeGoTrueClient extends Fake implements GoTrueClient {
 
 class MockGoogleSignIn extends Mock implements GoogleSignIn {}
 
-class FakeGoogleSignInAuthentication extends Fake implements GoogleSignInAuthentication {
+class FakeGoogleSignInAuthentication extends Fake
+    implements GoogleSignInAuthentication {
   final String? _idToken;
   final String? _accessToken;
   FakeGoogleSignInAuthentication({String? idToken, String? accessToken})
-      : _idToken = idToken,
-        _accessToken = accessToken;
+    : _idToken = idToken,
+      _accessToken = accessToken;
 
   String? get idToken => _idToken;
   String? get accessToken => _accessToken;
@@ -53,6 +54,7 @@ class FakeGoogleSignInAccount extends Fake implements GoogleSignInAccount {
 }
 
 class MockSession extends Mock implements Session {}
+
 class FakeUser extends Fake implements User {
   @override
   String get id => 'fake-user-id';
@@ -76,9 +78,7 @@ void main() {
     when(() => mockSupabase.auth).thenReturn(fakeAuth);
   });
 
-  ProviderContainer createContainer({
-    List overrides = const [],
-  }) {
+  ProviderContainer createContainer({List overrides = const []}) {
     final container = ProviderContainer(overrides: overrides.cast());
     addTearDown(container.dispose);
     return container;
@@ -89,9 +89,7 @@ void main() {
       fakeAuth.session = null;
 
       final container = createContainer(
-        overrides: [
-          supabaseClientProvider.overrideWithValue(mockSupabase),
-        ],
+        overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
       );
 
       final state = await container.read(authControllerProvider.future);
@@ -105,54 +103,58 @@ void main() {
       fakeAuth.session = mockSession;
 
       final container = createContainer(
-        overrides: [
-          supabaseClientProvider.overrideWithValue(mockSupabase),
-        ],
+        overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
       );
 
       final state = await container.read(authControllerProvider.future);
       expect(state, equals(mockUser));
     });
 
-    test('signInWithGoogle success', () async {
-      fakeAuth.session = null;
-      
-      // Mock Google flow
-      when(() => mockGoogleSignIn.initialize(
-        clientId: any(named: 'clientId'),
-        serverClientId: any(named: 'serverClientId'),
-      )).thenAnswer((_) async => mockGoogleSignIn);
+    test(
+      'signInWithGoogle success',
+      () async {
+        fakeAuth.session = null;
 
-      final fakeGoogleAuth = FakeGoogleSignInAuthentication(
-        idToken: 'fake-id-token',
-        accessToken: 'fake-access-token',
-      );
-      final fakeGoogleAccount = FakeGoogleSignInAccount(fakeGoogleAuth);
+        // Mock Google flow
+        when(
+          () => mockGoogleSignIn.initialize(
+            clientId: any(named: 'clientId'),
+            serverClientId: any(named: 'serverClientId'),
+          ),
+        ).thenAnswer((_) async => mockGoogleSignIn);
 
-      when(() => mockGoogleSignIn.authenticate()).thenAnswer((_) async => fakeGoogleAccount);
+        final fakeGoogleAuth = FakeGoogleSignInAuthentication(
+          idToken: 'fake-id-token',
+          accessToken: 'fake-access-token',
+        );
+        final fakeGoogleAccount = FakeGoogleSignInAccount(fakeGoogleAuth);
 
-      // Setup Fake response
-      final mockUser = FakeUser();
-      fakeAuth.response = AuthResponse(
-        user: mockUser,
-        session: MockSession(),
-      );
+        when(
+          () => mockGoogleSignIn.authenticate(),
+        ).thenAnswer((_) async => fakeGoogleAccount);
 
-      final container = createContainer(
-        overrides: [
-          supabaseClientProvider.overrideWithValue(mockSupabase),
-        ],
-      );
+        // Setup Fake response
+        final mockUser = FakeUser();
+        fakeAuth.response = AuthResponse(
+          user: mockUser,
+          session: MockSession(),
+        );
 
-      final controller = container.read(authControllerProvider.notifier);
-      controller.googleSignIn = mockGoogleSignIn;
+        final container = createContainer(
+          overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
+        );
 
-      await controller.signInWithGoogle();
+        final controller = container.read(authControllerProvider.notifier);
+        controller.googleSignIn = mockGoogleSignIn;
 
-      final state = container.read(authControllerProvider);
-      
-      expect(state.hasError, isFalse);
-      expect(state.value, equals(mockUser));
-    }, skip: 'Skipped to unblock CI. Needs more complex mock setup.');
+        await controller.signInWithGoogle();
+
+        final state = container.read(authControllerProvider);
+
+        expect(state.hasError, isFalse);
+        expect(state.value, equals(mockUser));
+      },
+      skip: 'Skipped to unblock CI. Needs more complex mock setup.',
+    );
   });
 }

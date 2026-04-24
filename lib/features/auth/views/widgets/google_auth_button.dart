@@ -21,9 +21,8 @@ class GoogleAuthButton extends ConsumerWidget {
         width: double.infinity,
         height: 50,
         child: OutlinedButton.icon(
-          onPressed: () => ref
-              .read(authControllerProvider.notifier)
-              .signInWithGoogle(),
+          onPressed: () =>
+              ref.read(authControllerProvider.notifier).signInWithGoogle(),
           icon: const Icon(Icons.g_mobiledata, size: 30),
           label: const Text('Continuar con Google'),
           style: OutlinedButton.styleFrom(

@@ -47,9 +47,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     final authState = ref.read(authControllerProvider);
     if (authState is AsyncError) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${authState.error}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${authState.error}')));
       }
     }
   }
@@ -120,7 +120,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             border: OutlineInputBorder(),
                           ),
                           keyboardType: TextInputType.emailAddress,
-                          validator: (val) => (val == null || !val.contains('@'))
+                          validator: (val) =>
+                              (val == null || !val.contains('@'))
                               ? 'Email inválido'
                               : null,
                         ),
@@ -144,10 +145,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           child: ElevatedButton(
                             onPressed: isLoading ? null : _submit,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                              foregroundColor:
-                                  Theme.of(context).colorScheme.onPrimary,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
+                              foregroundColor: Theme.of(
+                                context,
+                              ).colorScheme.onPrimary,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),

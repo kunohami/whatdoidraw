@@ -33,7 +33,7 @@ class AuthController extends _$AuthController {
 
   Future<void> _initializeGoogle() async {
     if (_isGoogleInitialized) return;
-    
+
     const webClientId =
         '451289377302-u6a4t3g12hdr6aj0obb3eefv2tqfrur9.apps.googleusercontent.com';
 
@@ -55,7 +55,7 @@ class AuthController extends _$AuthController {
 
       final googleSignIn = _googleInstance;
 
-      // En v7.x authenticate() devuelve el usuario. 
+      // En v7.x authenticate() devuelve el usuario.
       // Si el usuario cancela, suele lanzar una excepción o podemos capturarlo.
       final googleUser = await googleSignIn.authenticate();
 
