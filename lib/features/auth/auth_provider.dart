@@ -10,6 +10,13 @@ part 'auth_provider.g.dart';
 @Riverpod(keepAlive: true)
 class AuthController extends _$AuthController {
   bool _isGoogleInitialized = false;
+  GoogleSignIn? _googleSignIn;
+
+  // Permite inyectar un mock en tests
+  @visibleForTesting
+  set googleSignIn(GoogleSignIn value) => _googleSignIn = value;
+
+  GoogleSignIn get _googleInstance => _googleSignIn ?? GoogleSignIn.instance;
 
   @override
   FutureOr<User?> build() async {
@@ -30,7 +37,7 @@ class AuthController extends _$AuthController {
     const webClientId =
         '451289377302-u6a4t3g12hdr6aj0obb3eefv2tqfrur9.apps.googleusercontent.com';
 
-    await GoogleSignIn.instance.initialize(
+    await _googleInstance.initialize(
       clientId: kIsWeb ? webClientId : null,
       serverClientId: kIsWeb ? null : webClientId,
     );
@@ -46,7 +53,7 @@ class AuthController extends _$AuthController {
         await _initializeGoogle();
       }
 
-      final googleSignIn = GoogleSignIn.instance;
+      final googleSignIn = _googleInstance;
 
       // En v7.x authenticate() devuelve el usuario. 
       // Si el usuario cancela, suele lanzar una excepción o podemos capturarlo.
