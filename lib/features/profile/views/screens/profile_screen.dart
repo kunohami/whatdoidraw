@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
@@ -17,7 +18,19 @@ class ProfileScreen extends ConsumerWidget {
     final profileAsync = ref.watch(currentUserProfileProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Mi Perfil'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Mi Perfil'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(authControllerProvider.notifier).signOut();
+            },
+            icon: const Icon(Icons.logout),
+            tooltip: 'Cerrar sesión',
+          ),
+        ],
+      ),
       body: profileAsync.when(
         data: (profile) {
           if (profile == null) {

@@ -12,38 +12,63 @@ class AuthController extends _$AuthController {
     final supabase = ref.watch(supabaseClientProvider);
 
     final session = supabase.auth.currentSession;
-    if (session == null) {
-      // No hay sesión, iniciar anónimo. Si falla, Riverpod atrapará la excepción.
-      final response = await supabase.auth.signInAnonymously();
+    return session?.user;
+  }
+
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String username,
+  }) async {
+    state = const AsyncLoading();
+    final supabase = ref.read(supabaseClientProvider);
+
+    try {
+      final response = await supabase.auth.signUp(
+        email: email,
+        password: password,
+        data: {'username': username},
+      );
+
       if (response.user != null) {
-        await _ensureUserExistsInPublicTable(response.user!.id);
+        await _ensureUserExistsInPublicTable(response.user!.id, username);
+        state = AsyncData(response.user);
       }
-      return response.user;
-    } else {
-      // Ya hay sesión, garantizar que existe en la DB pública
-      await _ensureUserExistsInPublicTable(session.user.id);
-      return session.user;
+    } catch (e, st) {
+      state = AsyncError(e, st);
     }
   }
 
-  Future<void> _ensureUserExistsInPublicTable(String userId) async {
+  Future<void> signIn({required String email, required String password}) async {
+    state = const AsyncLoading();
+    final supabase = ref.read(supabaseClientProvider);
+
+    try {
+      final response = await supabase.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+      state = AsyncData(response.user);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
+
+  Future<void> signOut() async {
+    final supabase = ref.read(supabaseClientProvider);
+    await supabase.auth.signOut();
+    state = const AsyncData(null);
+  }
+
+  Future<void> _ensureUserExistsInPublicTable(
+    String userId,
+    String username,
+  ) async {
     final supabase = ref.read(supabaseClientProvider);
     try {
-      final existingUser = await supabase
-          .from('users')
-          .select()
-          .eq('id', userId)
-          .maybeSingle();
-
-      if (existingUser == null) {
-        // Crear usuario "dummy" autogenerado basado en su ID anónimo
-        await supabase.from('users').insert({
-          'id': userId,
-          'username': 'creator_${userId.substring(0, 6)}',
-        });
-      }
+      await supabase.from('users').upsert({'id': userId, 'username': username});
     } catch (e) {
-      // Error silencioso en perfil público. En producción usar un logger.
+      // Error silencioso en perfil público.
     }
   }
 }
