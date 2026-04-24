@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
+import 'package:whatdoidraw/features/auth/views/screens/auth_screen.dart';
 import 'package:whatdoidraw/shared/widgets/main_navigation_screen.dart';
 
 Future<void> main() async {
@@ -57,9 +58,7 @@ class AuthGate extends ConsumerWidget {
           // Usuario autenticado exitosamente
           return const MainNavigationScreen();
         } else {
-          return const Scaffold(
-            body: Center(child: Text("Error al arrancar la sesión anónima.")),
-          );
+          return const AuthScreen();
         }
       },
       loading: () =>
