@@ -1,18 +1,82 @@
+import 'dart:async'; // Para unawaited
+import 'package:flutter/foundation.dart'; // Para kIsWeb
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'package:whatdoidraw/core/providers/supabase_provider.dart';
 
 part 'auth_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class AuthController extends _$AuthController {
+  bool _isGoogleInitialized = false;
+
   @override
   FutureOr<User?> build() async {
     final supabase = ref.watch(supabaseClientProvider);
 
+    // Inicialización proactiva para Web
+    if (kIsWeb && !_isGoogleInitialized) {
+      unawaited(_initializeGoogle());
+    }
+
     final session = supabase.auth.currentSession;
     return session?.user;
+  }
+
+  Future<void> _initializeGoogle() async {
+    if (_isGoogleInitialized) return;
+    
+    const webClientId =
+        '451289377302-u6a4t3g12hdr6aj0obb3eefv2tqfrur9.apps.googleusercontent.com';
+
+    await GoogleSignIn.instance.initialize(
+      clientId: kIsWeb ? webClientId : null,
+      serverClientId: kIsWeb ? null : webClientId,
+    );
+    _isGoogleInitialized = true;
+  }
+
+  Future<void> signInWithGoogle() async {
+    state = const AsyncLoading();
+    final supabase = ref.read(supabaseClientProvider);
+
+    try {
+      if (!_isGoogleInitialized) {
+        await _initializeGoogle();
+      }
+
+      final googleSignIn = GoogleSignIn.instance;
+
+      // En v7.x authenticate() devuelve el usuario. 
+      // Si el usuario cancela, suele lanzar una excepción o podemos capturarlo.
+      final googleUser = await googleSignIn.authenticate();
+
+      // El getter 'authentication' ahora es síncrono y solo contiene el idToken
+      final googleAuth = googleUser.authentication;
+      final idToken = googleAuth.idToken;
+
+      if (idToken == null) {
+        throw 'No se pudo obtener el ID Token de Google';
+      }
+
+      final response = await supabase.auth.signInWithIdToken(
+        provider: OAuthProvider.google,
+        idToken: idToken,
+      );
+
+      if (response.user != null) {
+        // Aseguramos perfil en tabla pública usando el nombre de Google si no existe
+        await _ensureUserExistsInPublicTable(
+          response.user!.id,
+          response.user!.userMetadata?['full_name'] ?? 'Google User',
+        );
+      }
+
+      state = AsyncData(response.user);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
   }
 
   Future<void> signUp({
@@ -66,7 +130,11 @@ class AuthController extends _$AuthController {
   ) async {
     final supabase = ref.read(supabaseClientProvider);
     try {
-      await supabase.from('users').upsert({'id': userId, 'username': username});
+      // Usamos upsert para no fallar si ya existe
+      await supabase.from('users').upsert({
+        'id': userId,
+        'username': username,
+      }, onConflict: 'id');
     } catch (e) {
       // Error silencioso en perfil público.
     }

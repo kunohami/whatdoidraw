@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
+import 'package:whatdoidraw/features/auth/views/widgets/google_auth_button.dart';
 
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
@@ -153,8 +154,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             ),
                             child: isLoading
                                 ? const CircularProgressIndicator(
-                                  color: Colors.white,
-                                )
+                                    color: Colors.white,
+                                  )
                                 : Text(_isLogin ? 'Entrar' : 'Registrarse'),
                           ),
                         ),
@@ -171,6 +172,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                 : '¿Ya tienes cuenta? Inicia sesión',
                           ),
                         ),
+                        const SizedBox(height: 16),
+                        const Row(
+                          children: [
+                            Expanded(child: Divider()),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text('O'),
+                            ),
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        const GoogleAuthButton(),
                       ],
                     ),
                   ),
