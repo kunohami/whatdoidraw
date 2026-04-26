@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:whatdoidraw/features/content_creation/viewmodels/create_idea_viewmodel.dart';
+import 'package:whatdoidraw/shared/widgets/tag_input_field.dart';
 
 class CreateIdeaScreen extends ConsumerStatefulWidget {
   const CreateIdeaScreen({super.key});
@@ -12,6 +13,7 @@ class CreateIdeaScreen extends ConsumerStatefulWidget {
 
 class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
   final _controller = TextEditingController();
+  List<String> _tags = [];
 
   @override
   void dispose() {
@@ -25,12 +27,13 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
     try {
       await ref
           .read(createIdeaControllerProvider.notifier)
-          .submitIdea(_controller.text);
+          .submitIdea(_controller.text, _tags);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('¡Idea publicada exitosamente!')),
         );
         _controller.clear();
+        setState(() => _tags = []);
       }
     } catch (e) {
       if (mounted) {
@@ -69,6 +72,11 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
                 filled: true,
               ),
               enabled: !isLoading,
+            ),
+            const SizedBox(height: 16),
+            TagInputField(
+              onTagsChanged: (tags) => setState(() => _tags = tags),
+              initialTags: _tags,
             ),
             const Spacer(),
             ElevatedButton(

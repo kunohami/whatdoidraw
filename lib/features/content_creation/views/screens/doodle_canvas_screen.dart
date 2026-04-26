@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:whatdoidraw/features/content_creation/viewmodels/doodle_canvas_viewmodel.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
+import 'package:whatdoidraw/shared/widgets/tag_input_field.dart';
 
 /// Pantalla principal para la creación de dibujos vectoriales (Doodles).
 ///
@@ -17,6 +18,72 @@ class DoodleCanvasScreen extends ConsumerWidget {
   final String? ideaPrompt;
 
   const DoodleCanvasScreen({super.key, this.ideaId, this.ideaPrompt});
+
+  /// Muestra un BottomSheet para añadir tags antes de publicar.
+  Future<void> _showPublishSheet(
+    BuildContext context,
+    WidgetRef ref,
+    String? ideaId,
+  ) async {
+    List<String> pendingTags = [];
+
+    final confirmed = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            top: 24,
+            bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Añadir etiquetas',
+                style: Theme.of(ctx).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Ayuda a otros a descubrir tu doodle con etiquetas descriptivas.',
+                style: Theme.of(ctx).textTheme.bodySmall,
+              ),
+              const SizedBox(height: 20),
+              StatefulBuilder(
+                builder: (_, setState) =>
+                    TagInputField(onTagsChanged: (tags) => pendingTags = tags),
+              ),
+              const SizedBox(height: 24),
+              FilledButton(
+                onPressed: () => Navigator.pop(ctx, true),
+                child: const Text('Publicar Doodle'),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: const Text('Cancelar'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (confirmed == true && context.mounted) {
+      ref.read(doodleCanvasProvider.notifier).setTags(pendingTags);
+      await ref.read(doodleCanvasProvider.notifier).submitDoodle(ideaId);
+      // Si tras el envío el lienzo se limpió (éxito), volvemos atrás.
+      if (context.mounted && ref.read(doodleCanvasProvider).strokes.isEmpty) {
+        Navigator.pop(context);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,7 +123,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
             tooltip: 'Limpiar lienzo',
           ),
           const SizedBox(width: 8),
-          // Botón Publicar: Muestra estado de carga si es necesario.
+          // Botón Publicar: Abre el BottomSheet de tags antes de publicar.
           canvasState.isSubmitting
               ? const Center(
                   child: Padding(
@@ -73,19 +140,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
                   child: FilledButton.tonal(
                     onPressed: canvasState.strokes.isEmpty
                         ? null
-                        : () async {
-                            await ref
-                                .read(doodleCanvasProvider.notifier)
-                                .submitDoodle(ideaId);
-                            // Si tras el envío el lienzo se limpió (éxito), volvemos atrás.
-                            if (context.mounted &&
-                                ref
-                                    .read(doodleCanvasProvider)
-                                    .strokes
-                                    .isEmpty) {
-                              Navigator.pop(context);
-                            }
-                          },
+                        : () => _showPublishSheet(context, ref, ideaId),
                     child: const Text('PUBLICAR'),
                   ),
                 ),
@@ -174,7 +229,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
             ),
           ),
 
-          // Overlay de carga bloqueante (opcional, ya tenemos el spinner arriba)
+          // Overlay de carga bloqueante
           if (canvasState.isSubmitting)
             Container(
               color: Colors.black12,

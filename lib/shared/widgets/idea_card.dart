@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 import 'package:whatdoidraw/shared/models/idea_model.dart';
+import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 
 /// Widget reutilizable que visualiza una idea de forma estandarizada.
 ///
@@ -12,7 +13,19 @@ class IdeaCard extends StatelessWidget {
   final IdeaModel idea;
   final bool showDrawButton;
 
-  const IdeaCard({super.key, required this.idea, this.showDrawButton = true});
+  /// Callback opcional para filtrar el feed por un tag al pulsarlo.
+  final ValueChanged<String>? onTagTap;
+
+  /// Lista de tags actualmente activos en el filtro del feed (para estilo "activo").
+  final List<String> activeFilterTags;
+
+  const IdeaCard({
+    super.key,
+    required this.idea,
+    this.showDrawButton = true,
+    this.onTagTap,
+    this.activeFilterTags = const [],
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +44,21 @@ class IdeaCard extends StatelessWidget {
                 context,
               ).textTheme.titleMedium?.copyWith(height: 1.4),
             ),
+            // Etiquetas de la idea
+            if (idea.tags.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 6,
+                runSpacing: 4,
+                children: idea.tags.map((tag) {
+                  return TagChip(
+                    tag: tag,
+                    isActive: activeFilterTags.contains(tag),
+                    onTap: onTagTap != null ? () => onTagTap!(tag) : null,
+                  );
+                }).toList(),
+              ),
+            ],
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

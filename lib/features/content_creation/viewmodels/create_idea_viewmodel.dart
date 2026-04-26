@@ -17,13 +17,13 @@ class CreateIdeaController extends _$CreateIdeaController {
     return false;
   }
 
-  /// Ejecuta la lógica para publicar una idea con el [content] proporcionado.
+  /// Ejecuta la lógica para publicar una idea con el [content] y [tags] dados.
   ///
   /// 1. Cambia el estado a `true` (activando el spinner en la View).
   /// 2. Valida la sesión del usuario.
-  /// 3. Llama al servicio de persistencia.
+  /// 3. Llama al servicio de persistencia con el contenido y las etiquetas.
   /// 4. Maneja posibles errores asíncronos.
-  Future<void> submitIdea(String content) async {
+  Future<void> submitIdea(String content, List<String> tags) async {
     state = true;
     try {
       final supabase = ref.read(supabaseClientProvider);
@@ -33,7 +33,7 @@ class CreateIdeaController extends _$CreateIdeaController {
 
       await ref
           .read(contentCreationServiceProvider)
-          .insertIdea(content, userId);
+          .insertIdea(content, userId, tags: tags);
     } catch (e) {
       // Nota: En una app comercial aquí loggeríamos el error a Sentry/Crashlytics.
       rethrow;
