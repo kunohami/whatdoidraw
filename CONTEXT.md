@@ -20,7 +20,11 @@ The feed uses **paginated queries** (not real-time streams) to control Supabase 
 - Page sizes: 15 ideas, 20 doodles. Random mode fetches 60 items and shuffles client-side.
 - Full spec: **[docs/TAGS_SYSTEM.md](docs/TAGS_SYSTEM.md)**
 
-## 4. 🚨 STRICT AI AGENT RULES (ALWAYS READ) 🚨
+## 4. 🚨 STRICT AGENT RULES (ALWAYS READ) 🚨
+0. **NO GIT / GITHUB OPERATIONS — EVER:**
+   - The agent MUST NEVER run any `git` command automatically (no `git add`, `git commit`, `git push`, `git merge`, `git rebase`, or any other git subcommand).
+   - All version control operations are the exclusive responsibility of the developer and must be performed manually.
+   - When finishing a task, the agent may **suggest** the exact git commands to run, but must NOT execute them.
 1. **NO IMAGE HOSTING FOR APP POSTS:**
    - **Doodles** are drawn on an in-app canvas and strokes are saved as JSON in the `doodle_data` database field. DO NOT generate code to upload PNGs of doodles to Supabase Storage.
    - **Artworks** are hosted externally. We only store the `external_link` and a `preview_url`.
