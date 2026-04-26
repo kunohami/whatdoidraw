@@ -4,7 +4,7 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 
 ## 🚦 Estado General
 - **Backend**: 90% (Supabase integrado, Auth nativo configurado).
-- **Frontend**: 70% (Lienzo funcional, Feeds en progreso).
+- **Frontend**: 80% (Lienzo funcional, Feeds con búsqueda y paginación implementados).
 - **Diseño**: 80% (Sistema de diseño MVVM establecido).
 
 ---
@@ -23,16 +23,18 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [x] Funcionalidad para guardar y publicar un Doodle libre o enlazado a una Idea.
 - [x] Pantalla de Perfil de Usuario con historial y Logout.
 
-### Iteración 3: Feeds y Descubrimiento 🏗️
+### Iteración 3: Feeds, Descubrimiento y Tags ✅
 - [x] Pantallas de descubrimiento completas (Tabs para Ideas, Doodles, Artworks).
 - [x] Implementación de listas (`ListView`/`GridView`) para los feeds.
-- [ ] Implementar un sistema de Etiquetas (Tags) aplicables a Ideas, Doodles y Artworks.
-- [ ] Incorporar Filtros de búsqueda (por "Tags", "Top Ideas", "Recientes").
-- [ ] Filtro automático de idioma: Auto-filtrar Ideas utilizando los tags `spanish` o `english` acorde al idioma del usuario.
+- [x] **Sistema de Tags**: chips visuales en creación (Ideas y Doodles), máx. 5 tags, normalización automática.
+- [x] **Filtros de búsqueda**: texto libre en Ideas + filtro por tags en Ideas y Doodles.
+- [x] **Paginación**: botón "Ver más" con 15 ideas / 20 doodles por página.
+- [x] **Ordenación**: modo cronológico (reciente) y modo aleatorio (shuffle en cliente).
+- [ ] Filtro automático de idioma: Auto-filtrar Ideas con tags `spanish` / `english` según el idioma del usuario.
 
 ### Iteración 4: Interacción Social y Artworks
 - [ ] Sistema de Bookmarks (Guardar contenido) y visualización en el perfil.
-- [ ] Formulario para publicar Artwork final (enlazando url externa).
+- [ ] Formulario para publicar Artwork final (enlazando url externa) con soporte de tags.
 - [ ] Lógica de filtrado por "popularidad" (Likes).
 
 ### Iteración 5: Internacionalización (i18n) y Pulido Final
@@ -41,7 +43,8 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [ ] Soporte de **Google Sign-In para Web** (Optimización GSI).
 - [ ] Integración con **Discord Login** (OAuth2).
 - [ ] Notificaciones push para avisar al creador original cuando su contenido se usa.
+- [ ] Tags sugeridos y populares en el formulario de creación.
 - [ ] Pruebas de usabilidad y lanzamiento.
 
 ---
-*Última actualización: 24 de Abril de 2026*
+*Última actualización: 26 de Abril de 2026*
