@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
+import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
 import 'package:whatdoidraw/shared/models/idea_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 
@@ -70,22 +71,40 @@ class IdeaCard extends StatelessWidget {
                   ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                 ),
                 if (showDrawButton)
-                  // [DOC]: Navegación en Flutter. Pasamos parámetros directamente
-                  // por el constructor del Widget destino.
-                  IconButton(
-                    icon: const Icon(Icons.draw_outlined),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DoodleCanvasScreen(
-                            ideaId: idea.id,
-                            ideaPrompt: idea.content,
-                          ),
-                        ),
-                      );
-                    },
-                    tooltip: 'Dibujar esta idea',
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.publish_outlined),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CreateArtworkScreen(
+                                ideaId: idea.id,
+                              ),
+                            ),
+                          );
+                        },
+                        tooltip: 'Publicar Artwork final',
+                      ),
+                      // [DOC]: Navegación en Flutter. Pasamos parámetros directamente
+                      // por el constructor del Widget destino.
+                      IconButton(
+                        icon: const Icon(Icons.draw_outlined),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DoodleCanvasScreen(
+                                ideaId: idea.id,
+                                ideaPrompt: idea.content,
+                              ),
+                            ),
+                          );
+                        },
+                        tooltip: 'Dibujar esta idea',
+                      ),
+                    ],
                   ),
               ],
             ),
