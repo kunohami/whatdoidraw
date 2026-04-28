@@ -43,6 +43,7 @@ El componente clave es `TagInputField` (`lib/shared/widgets/tag_input_field.dart
 |---|---|
 | `CreateIdeaScreen` | Debajo del campo de texto de la idea, antes del botón "Enviar Idea" |
 | `DoodleCanvasScreen` | Dentro del **BottomSheet de publicación** que aparece al pulsar "PUBLICAR" |
+| `CreateArtworkScreen` | Debajo de la URL de DeviantArt. Se pre-cargan las etiquetas de la idea/doodle original. |
 
 > [!NOTE]
 > En el canvas de doodle, el `TagInputField` no bloquea el flujo de dibujo. El usuario dibuja primero y, solo al pulsar PUBLICAR, se le presenta el BottomSheet donde puede añadir tags opcionalmente antes de confirmar el envío.
@@ -60,9 +61,12 @@ tags VARCHAR[]
 -- En la tabla doodles
 tags VARCHAR[]
 
--- En la tabla artworks (preparado, no implementado aún)
+-- En la tabla artworks
 tags VARCHAR[]
 ```
+
+> [!NOTE]
+> En `artworks`, las etiquetas son completamente editables por el usuario durante la publicación, incluso si se han heredado de una idea o doodle original.
 
 Solo se incluyen en el payload de inserción si la lista no está vacía (optimización de escritura):
 
@@ -118,7 +122,7 @@ const int kRandomFetchSize = 60; // Lote para modo aleatorio
 |---|---|---|
 | **Ideas** | ✅ (`ilike` en columna `content`) | ✅ (`contains` en columna `tags`) |
 | **Doodles** | ❌ | ✅ (`contains` en columna `tags`) |
-| **Artworks** | ❌ (pendiente) | ❌ (pendiente) |
+| **Artworks** | ✅ (`ilike` en `username` del artista o `tags`) | ✅ (`contains` en columna `tags`) |
 
 La búsqueda de texto en Ideas usa un **debounce de 400 ms** para no lanzar una query por cada tecla pulsada.
 
@@ -188,7 +192,7 @@ abstract class DoodleCanvasState with _$DoodleCanvasState {
 
 ## Pendiente / Próximas mejoras
 
-- [ ] **Artworks**: añadir `TagInputField` al formulario de publicación de Artwork.
+- [x] **Artworks**: añadir `TagInputField` al formulario de publicación de Artwork.
 - [ ] **Filtro de idioma automático**: usar los tags `spanish` / `english` para auto-filtrar el feed según el idioma del dispositivo.
 - [ ] **Tags sugeridos**: mostrar un conjunto de tags predefinidos y populares como sugerencias al usuario.
 - [ ] **Búsqueda de Doodles por texto** (descripción libre) si se añade una columna `description` en el futuro.
@@ -196,4 +200,4 @@ abstract class DoodleCanvasState with _$DoodleCanvasState {
 
 ---
 
-*Última actualización: 26 de Abril de 2026*
+*Última actualización: 28 de Abril de 2026*

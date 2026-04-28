@@ -118,6 +118,7 @@ class DoodleCard extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => CreateArtworkScreen(
                           doodleId: doodle.id,
+                          initialTags: doodle.tags,
                         ),
                       ),
                     );

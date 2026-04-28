@@ -18,6 +18,9 @@ abstract class ArtworkModel with _$ArtworkModel {
     /// Referencia al autor de la obra.
     @JsonKey(name: 'user_id') required String userId,
 
+    /// Nombre de usuario del autor (traído mediante JOIN en el Feed).
+    String? authorName,
+
     /// Referencia opcional a la idea original del feed.
     @JsonKey(name: 'idea_id') String? ideaId,
 

@@ -6,11 +6,13 @@ import 'package:whatdoidraw/features/artworks/services/deviantart_service.dart';
 class CreateArtworkScreen extends ConsumerStatefulWidget {
   final String? ideaId;
   final String? doodleId;
+  final List<String> initialTags;
 
   const CreateArtworkScreen({
     super.key,
     this.ideaId,
     this.doodleId,
+    this.initialTags = const [],
   });
 
   @override
@@ -19,11 +21,20 @@ class CreateArtworkScreen extends ConsumerStatefulWidget {
 
 class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
   final _urlController = TextEditingController();
+  final _tagController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  late List<String> _tags;
+
+  @override
+  void initState() {
+    super.initState();
+    _tags = List.from(widget.initialTags);
+  }
 
   @override
   void dispose() {
     _urlController.dispose();
+    _tagController.dispose();
     super.dispose();
   }
 
@@ -38,6 +49,7 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
       url: _urlController.text,
       ideaId: widget.ideaId,
       doodleId: widget.doodleId,
+      tags: _tags,
     );
 
     if (success && mounted) {
@@ -46,6 +58,22 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
       );
       Navigator.of(context).pop(); // Volver atrás
     }
+  }
+
+  void _addTag() {
+    final tag = _tagController.text.trim();
+    if (tag.isNotEmpty && !_tags.contains(tag)) {
+      setState(() {
+        _tags.add(tag);
+        _tagController.clear();
+      });
+    }
+  }
+
+  void _removeTag(String tag) {
+    setState(() {
+      _tags.remove(tag);
+    });
   }
 
   @override
@@ -92,7 +120,43 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                   }
                 },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
+              const Text(
+                'Etiquetas (Tags)',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                children: _tags.map((tag) {
+                  return Chip(
+                    label: Text(tag),
+                    onDeleted: () => _removeTag(tag),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _tagController,
+                      decoration: const InputDecoration(
+                        hintText: 'Añadir etiqueta...',
+                        border: OutlineInputBorder(),
+                      ),
+                      onSubmitted: (_) => _addTag(),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: _addTag,
+                    icon: const Icon(Icons.add_circle_outline),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: state.isLoading ? null : _loadPreview,
                 child: state.isLoading

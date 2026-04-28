@@ -81,6 +81,7 @@ class IdeaCard extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => CreateArtworkScreen(
                                 ideaId: idea.id,
+                                initialTags: idea.tags,
                               ),
                             ),
                           );

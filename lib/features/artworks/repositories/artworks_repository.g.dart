@@ -55,4 +55,4 @@ final class ArtworksRepositoryProvider
 }
 
 String _$artworksRepositoryHash() =>
-    r'e880da382c2220d9a18c5cf1e4db4044153a7316';
+    r'ccbe0801182a4a9954d2c3a83da2e30a845b36a9';

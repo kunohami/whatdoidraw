@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:whatdoidraw/features/feed/models/feed_sort_order.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/artworks_feed_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/doodles_feed_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/ideas_feed_notifier.dart';
+import 'package:whatdoidraw/shared/widgets/artwork_card.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 import 'package:whatdoidraw/shared/widgets/load_more_button.dart';
@@ -46,7 +48,12 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
   void _onSearchChanged(String query) {
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      ref.read(ideasFeedProvider.notifier).updateSearch(query);
+      final tab = _tabController.index;
+      if (tab == 0) {
+        ref.read(ideasFeedProvider.notifier).updateSearch(query);
+      } else if (tab == 2) {
+        ref.read(artworksFeedProvider.notifier).updateSearch(query);
+      }
     });
   }
 
@@ -56,6 +63,8 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
       ref.read(ideasFeedProvider.notifier).refresh();
     } else if (tab == 1) {
       ref.read(doodlesFeedProvider.notifier).refresh();
+    } else if (tab == 2) {
+      ref.read(artworksFeedProvider.notifier).refresh();
     }
   }
 
@@ -65,6 +74,8 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
       ref.read(ideasFeedProvider.notifier).toggleSortOrder();
     } else if (tab == 1) {
       ref.read(doodlesFeedProvider.notifier).toggleSortOrder();
+    } else if (tab == 2) {
+      ref.read(artworksFeedProvider.notifier).toggleSortOrder();
     }
   }
 
@@ -72,11 +83,14 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
   Widget build(BuildContext context) {
     final ideasState = ref.watch(ideasFeedProvider);
     final doodlesState = ref.watch(doodlesFeedProvider);
+    final artworksState = ref.watch(artworksFeedProvider);
 
     // Determinamos el sort order según la pestaña activa para el icono del botón.
     final currentSort = _tabController.index == 0
         ? ideasState.sortOrder
-        : doodlesState.sortOrder;
+        : _tabController.index == 1
+        ? doodlesState.sortOrder
+        : artworksState.sortOrder;
 
     return DefaultTabController(
       length: 3,
@@ -128,12 +142,13 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
             ListenableBuilder(
               listenable: _tabController,
               builder: (context, _) {
-                if (_tabController.index != 0) return const SizedBox.shrink();
+                if (_tabController.index == 1) return const SizedBox.shrink();
+                final isArtworks = _tabController.index == 2;
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                   child: SearchBar(
                     controller: _searchController,
-                    hintText: 'Buscar ideas...',
+                    hintText: isArtworks ? 'Buscar por artista o tag...' : 'Buscar ideas...',
                     leading: const Icon(Icons.search),
                     trailing: [
                       if (_searchController.text.isNotEmpty)
@@ -141,9 +156,11 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                           icon: const Icon(Icons.clear),
                           onPressed: () {
                             _searchController.clear();
-                            ref
-                                .read(ideasFeedProvider.notifier)
-                                .updateSearch('');
+                            if (isArtworks) {
+                              ref.read(artworksFeedProvider.notifier).updateSearch('');
+                            } else {
+                              ref.read(ideasFeedProvider.notifier).updateSearch('');
+                            }
                           },
                         ),
                     ],
@@ -158,10 +175,14 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
               builder: (context, _) {
                 final isIdeasTab = _tabController.index == 0;
                 final isDoodlesTab = _tabController.index == 1;
+                final isArtworksTab = _tabController.index == 2;
+                
                 final activeTags = isIdeasTab
                     ? ideasState.selectedTags
                     : isDoodlesTab
                     ? doodlesState.selectedTags
+                    : isArtworksTab
+                    ? artworksState.selectedTags
                     : <String>[];
 
                 if (activeTags.isEmpty) return const SizedBox.shrink();
@@ -186,6 +207,10 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                                   ref
                                       .read(doodlesFeedProvider.notifier)
                                       .toggleTag(tag);
+                                } else if (isArtworksTab) {
+                                  ref
+                                      .read(artworksFeedProvider.notifier)
+                                      .toggleTag(tag);
                                 }
                               },
                             );
@@ -199,6 +224,10 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                           } else if (isDoodlesTab) {
                             ref
                                 .read(doodlesFeedProvider.notifier)
+                                .clearFilters();
+                          } else if (isArtworksTab) {
+                            ref
+                                .read(artworksFeedProvider.notifier)
                                 .clearFilters();
                           }
                         },
@@ -325,24 +354,45 @@ class _DoodlesFeedTab extends ConsumerWidget {
   }
 }
 
-/// Pestaña placeholder para Artworks (Iteración futura).
-class _ArtworksFeedTab extends StatelessWidget {
+/// Pestaña de Artworks con lista paginada y búsqueda.
+class _ArtworksFeedTab extends ConsumerWidget {
   const _ArtworksFeedTab();
 
   @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.construction, size: 64, color: Colors.grey),
-          SizedBox(height: 16),
-          Text(
-            'Artworks: Próximamente (Iteración 4)',
-            style: TextStyle(color: Colors.grey, fontSize: 16),
-          ),
-        ],
-      ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(artworksFeedProvider);
+    final notifier = ref.read(artworksFeedProvider.notifier);
+
+    if (state.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state.errorMessage != null) {
+      return Center(child: Text('Error: ${state.errorMessage}'));
+    }
+
+    if (state.artworks.isEmpty) {
+      return const Center(child: Text('No hay obras que coincidan.'));
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      itemCount: state.artworks.length + 1,
+      itemBuilder: (context, index) {
+        if (index == state.artworks.length) {
+          return LoadMoreButton(
+            hasMore: state.hasMore,
+            isLoading: state.isLoadingMore,
+            isRandomMode: state.sortOrder == FeedSortOrder.random,
+            onPressed: () => notifier.loadMore(),
+          );
+        }
+        return ArtworkCard(
+          artwork: state.artworks[index],
+          activeFilterTags: state.selectedTags,
+          onTagTap: (tag) => notifier.toggleTag(tag),
+        );
+      },
     );
   }
 }
