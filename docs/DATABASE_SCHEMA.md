@@ -51,12 +51,16 @@ CREATE TABLE doodles (
 CREATE TABLE artworks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  idea_id UUID REFERENCES ideas(id) ON DELETE SET NULL,
   doodle_id UUID REFERENCES doodles(id) ON DELETE SET NULL,
   preview_url VARCHAR,
   external_link VARCHAR NOT NULL,
   tags VARCHAR[],
   is_active BOOLEAN DEFAULT TRUE,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  CONSTRAINT artwork_must_have_parent CHECK (
+    (idea_id IS NOT NULL) OR (doodle_id IS NOT NULL)
+  )
 );
 ```
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
@@ -103,6 +103,29 @@ class DoodleCard extends StatelessWidget {
                   ),
                 ),
               ),
+            Positioned(
+              top: 4,
+              right: 4,
+              child: Material(
+                color: Colors.white.withValues(alpha: 0.8),
+                shape: const CircleBorder(),
+                child: IconButton(
+                  icon: const Icon(Icons.publish_outlined, size: 20),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateArtworkScreen(
+                          doodleId: doodle.id,
+                          initialTags: doodle.tags,
+                        ),
+                      ),
+                    );
+                  },
+                  tooltip: 'Publicar Artwork final',
+                ),
+              ),
+            ),
           ],
         ),
       ),

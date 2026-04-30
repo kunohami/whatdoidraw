@@ -10,6 +10,8 @@ _ArtworkModel _$ArtworkModelFromJson(Map<String, dynamic> json) =>
     _ArtworkModel(
       id: json['id'] as String,
       userId: json['user_id'] as String,
+      authorName: json['authorName'] as String?,
+      ideaId: json['idea_id'] as String?,
       doodleId: json['doodle_id'] as String?,
       previewUrl: json['preview_url'] as String?,
       externalLink: json['external_link'] as String,
@@ -26,6 +28,8 @@ Map<String, dynamic> _$ArtworkModelToJson(_ArtworkModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'user_id': instance.userId,
+      'authorName': instance.authorName,
+      'idea_id': instance.ideaId,
       'doodle_id': instance.doodleId,
       'preview_url': instance.previewUrl,
       'external_link': instance.externalLink,
