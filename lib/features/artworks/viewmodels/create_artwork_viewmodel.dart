@@ -1,9 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:uuid/uuid.dart';
 import 'package:whatdoidraw/features/artworks/repositories/artworks_repository.dart';
 import 'package:whatdoidraw/features/artworks/services/deviantart_service.dart';
-import 'package:whatdoidraw/shared/models/artwork_model.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
-import 'package:uuid/uuid.dart';
+import 'package:whatdoidraw/shared/models/artwork_model.dart';
 
 part 'create_artwork_viewmodel.g.dart';
 
@@ -12,11 +12,7 @@ class CreateArtworkState {
   final String? error;
   final DeviantArtPreview? preview;
 
-  const CreateArtworkState({
-    this.isLoading = false,
-    this.error,
-    this.preview,
-  });
+  const CreateArtworkState({this.isLoading = false, this.error, this.preview});
 
   CreateArtworkState copyWith({
     bool? isLoading,
@@ -25,7 +21,8 @@ class CreateArtworkState {
   }) {
     return CreateArtworkState(
       isLoading: isLoading ?? this.isLoading,
-      error: error, // Si no se pasa, se queda nulo a menos que se fuerce, pero en Riverpod solemos sobreescribir.
+      error:
+          error, // Si no se pasa, se queda nulo a menos que se fuerce, pero en Riverpod solemos sobreescribir.
       preview: preview ?? this.preview,
     );
   }
@@ -43,9 +40,12 @@ class CreateArtworkViewModel extends _$CreateArtworkViewModel {
     try {
       final service = ref.read(deviantArtServiceProvider);
       final preview = await service.getPreview(url);
-      
+
       if (preview == null) {
-        state = state.copyWith(isLoading: false, error: 'No se pudo obtener la vista previa.');
+        state = state.copyWith(
+          isLoading: false,
+          error: 'No se pudo obtener la vista previa.',
+        );
       } else {
         state = state.copyWith(isLoading: false, preview: preview);
       }
@@ -72,7 +72,8 @@ class CreateArtworkViewModel extends _$CreateArtworkViewModel {
       if (userId == null) throw Exception('Usuario no autenticado');
 
       final artwork = ArtworkModel(
-        id: const Uuid().v4(), // Esto se ignorará en el repository si se remueve, pero el modelo requiere id.
+        id: const Uuid()
+            .v4(), // Esto se ignorará en el repository si se remueve, pero el modelo requiere id.
         userId: userId,
         ideaId: ideaId,
         doodleId: doodleId,
@@ -85,7 +86,10 @@ class CreateArtworkViewModel extends _$CreateArtworkViewModel {
       state = state.copyWith(isLoading: false);
       return true;
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Error al publicar: ${e.toString()}');
+      state = state.copyWith(
+        isLoading: false,
+        error: 'Error al publicar: ${e.toString()}',
+      );
       return false;
     }
   }

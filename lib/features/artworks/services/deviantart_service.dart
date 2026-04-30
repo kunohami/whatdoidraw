@@ -1,6 +1,6 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'deviantart_service.g.dart';
@@ -37,7 +37,7 @@ class DeviantArtService {
   bool isValidDeviantArtUrl(String url) {
     final uri = Uri.tryParse(url);
     if (uri == null) return false;
-    
+
     final host = uri.host.toLowerCase();
     return host.contains('deviantart.com');
   }
@@ -49,13 +49,13 @@ class DeviantArtService {
     }
 
     try {
-      final requestUrl = Uri.parse('$oEmbedBaseUrl?url=${Uri.encodeComponent(url)}');
-      
+      final requestUrl = Uri.parse(
+        '$oEmbedBaseUrl?url=${Uri.encodeComponent(url)}',
+      );
+
       final response = await http.get(
         requestUrl,
-        headers: {
-          'User-Agent': 'whatdoidraw-app/1.0',
-        },
+        headers: {'User-Agent': 'whatdoidraw-app/1.0'},
       );
 
       if (response.statusCode == 200) {

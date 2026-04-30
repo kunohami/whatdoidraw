@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatdoidraw/features/artworks/viewmodels/create_artwork_viewmodel.dart';
 import 'package:whatdoidraw/features/artworks/services/deviantart_service.dart';
+import 'package:whatdoidraw/features/artworks/viewmodels/create_artwork_viewmodel.dart';
 
 class CreateArtworkScreen extends ConsumerStatefulWidget {
   final String? ideaId;
@@ -16,7 +16,8 @@ class CreateArtworkScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<CreateArtworkScreen> createState() => _CreateArtworkScreenState();
+  ConsumerState<CreateArtworkScreen> createState() =>
+      _CreateArtworkScreenState();
 }
 
 class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
@@ -40,17 +41,21 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
 
   void _loadPreview() {
     if (_formKey.currentState!.validate()) {
-      ref.read(createArtworkViewModelProvider.notifier).loadPreview(_urlController.text);
+      ref
+          .read(createArtworkViewModelProvider.notifier)
+          .loadPreview(_urlController.text);
     }
   }
 
   void _publish() async {
-    final success = await ref.read(createArtworkViewModelProvider.notifier).publishArtwork(
-      url: _urlController.text,
-      ideaId: widget.ideaId,
-      doodleId: widget.doodleId,
-      tags: _tags,
-    );
+    final success = await ref
+        .read(createArtworkViewModelProvider.notifier)
+        .publishArtwork(
+          url: _urlController.text,
+          ideaId: widget.ideaId,
+          doodleId: widget.doodleId,
+          tags: _tags,
+        );
 
     if (success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -81,9 +86,7 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
     final state = ref.watch(createArtworkViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Publicar Artwork'),
-      ),
+      appBar: AppBar(title: const Text('Publicar Artwork')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -108,7 +111,9 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                   if (value == null || value.isEmpty) {
                     return 'Introduce una URL';
                   }
-                  if (!ref.read(deviantArtServiceProvider).isValidDeviantArtUrl(value)) {
+                  if (!ref
+                      .read(deviantArtServiceProvider)
+                      .isValidDeviantArtUrl(value)) {
                     return 'Debe ser un enlace válido de DeviantArt';
                   }
                   return null;
@@ -116,7 +121,9 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                 onChanged: (_) {
                   // Si el usuario cambia la URL, limpiamos la preview.
                   if (state.preview != null) {
-                    ref.read(createArtworkViewModelProvider.notifier).clearPreview();
+                    ref
+                        .read(createArtworkViewModelProvider.notifier)
+                        .clearPreview();
                   }
                 },
               ),
@@ -187,11 +194,15 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) =>
                             const SizedBox(
-                          height: 200,
-                          child: Center(
-                            child: Icon(Icons.broken_image, size: 50, color: Colors.grey),
-                          ),
-                        ),
+                              height: 200,
+                              child: Center(
+                                child: Icon(
+                                  Icons.broken_image,
+                                  size: 50,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
                       ),
                       ListTile(
                         title: Text(state.preview!.title),

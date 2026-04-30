@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dart';
-import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
 import 'package:whatdoidraw/shared/models/stroke_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';

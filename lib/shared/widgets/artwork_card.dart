@@ -52,8 +52,8 @@ class ArtworkCard extends StatelessWidget {
                   Text(
                     'Obra de ${artwork.authorName ?? "Artista desconocido"}',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   if (artwork.tags.isNotEmpty) ...[
                     const SizedBox(height: 8),

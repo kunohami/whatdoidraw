@@ -131,7 +131,9 @@ class FeedService {
     if (query.isNotEmpty) {
       // Búsqueda por username del artista o tags (usando or)
       // Nota: Para filtrar por nombre de usuario en el join usamos la sintaxis de Supabase
-      queryBuilder = queryBuilder.or('users.username.ilike.%$query%,tags.cs.{"$query"}');
+      queryBuilder = queryBuilder.or(
+        'users.username.ilike.%$query%,tags.cs.{"$query"}',
+      );
     }
 
     if (tags.isNotEmpty) {

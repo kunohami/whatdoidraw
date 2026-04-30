@@ -15,7 +15,7 @@ class ArtworksRepository {
     // Remover id y created_at para que Supabase los genere.
     data.remove('id');
     data.remove('created_at');
-    
+
     await _supabase.from('artworks').insert(data);
   }
 }

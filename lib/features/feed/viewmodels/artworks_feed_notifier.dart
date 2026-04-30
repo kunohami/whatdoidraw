@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:whatdoidraw/core/constants/feed_constants.dart';
 import 'package:whatdoidraw/features/feed/models/feed_sort_order.dart';
 import 'package:whatdoidraw/features/feed/services/feed_service.dart';
 import 'package:whatdoidraw/shared/models/artwork_model.dart';
@@ -66,7 +65,9 @@ class ArtworksFeed extends _$ArtworksFeed {
     _offset = 0;
     state = state.copyWith(isLoading: true, artworks: [], errorMessage: null);
     try {
-      final artworks = await ref.read(feedServiceProvider).fetchArtworks(
+      final artworks = await ref
+          .read(feedServiceProvider)
+          .fetchArtworks(
             offset: 0,
             query: state.searchQuery,
             tags: state.selectedTags,
@@ -76,7 +77,8 @@ class ArtworksFeed extends _$ArtworksFeed {
       state = state.copyWith(
         artworks: artworks,
         isLoading: false,
-        hasMore: artworks.length >= 10, // Usando el valor por defecto del servicio
+        hasMore:
+            artworks.length >= 10, // Usando el valor por defecto del servicio
       );
     } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
@@ -91,7 +93,9 @@ class ArtworksFeed extends _$ArtworksFeed {
     }
     state = state.copyWith(isLoadingMore: true);
     try {
-      final newArtworks = await ref.read(feedServiceProvider).fetchArtworks(
+      final newArtworks = await ref
+          .read(feedServiceProvider)
+          .fetchArtworks(
             offset: _offset,
             query: state.searchQuery,
             tags: state.selectedTags,

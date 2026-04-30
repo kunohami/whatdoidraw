@@ -148,7 +148,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                   child: SearchBar(
                     controller: _searchController,
-                    hintText: isArtworks ? 'Buscar por artista o tag...' : 'Buscar ideas...',
+                    hintText: isArtworks
+                        ? 'Buscar por artista o tag...'
+                        : 'Buscar ideas...',
                     leading: const Icon(Icons.search),
                     trailing: [
                       if (_searchController.text.isNotEmpty)
@@ -157,9 +159,13 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                           onPressed: () {
                             _searchController.clear();
                             if (isArtworks) {
-                              ref.read(artworksFeedProvider.notifier).updateSearch('');
+                              ref
+                                  .read(artworksFeedProvider.notifier)
+                                  .updateSearch('');
                             } else {
-                              ref.read(ideasFeedProvider.notifier).updateSearch('');
+                              ref
+                                  .read(ideasFeedProvider.notifier)
+                                  .updateSearch('');
                             }
                           },
                         ),
@@ -176,7 +182,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                 final isIdeasTab = _tabController.index == 0;
                 final isDoodlesTab = _tabController.index == 1;
                 final isArtworksTab = _tabController.index == 2;
-                
+
                 final activeTags = isIdeasTab
                     ? ideasState.selectedTags
                     : isDoodlesTab
