@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:whatdoidraw/core/providers/locale_provider.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/auth/views/screens/auth_screen.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/main_navigation_screen.dart';
 
 Future<void> main() async {
@@ -25,14 +27,19 @@ Future<void> main() async {
   );
 }
 
-class WdidApp extends StatelessWidget {
+class WdidApp extends ConsumerWidget {
   const WdidApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentLocale = ref.watch(appLocaleProvider);
+
     return MaterialApp(
       title: 'whatdoidraw?',
       debugShowCheckedModeBanner: false,
+      locale: currentLocale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurpleAccent,

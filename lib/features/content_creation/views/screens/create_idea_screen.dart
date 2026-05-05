@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,6 +16,14 @@ class CreateIdeaScreen extends ConsumerStatefulWidget {
 class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
   final _controller = TextEditingController();
   List<String> _tags = [];
+  late String _selectedLanguage;
+
+  @override
+  void initState() {
+    super.initState();
+    final locale = PlatformDispatcher.instance.locale.languageCode;
+    _selectedLanguage = locale.startsWith('es') ? 'es' : 'en';
+  }
 
   @override
   void dispose() {
@@ -27,7 +37,7 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
     try {
       await ref
           .read(createIdeaControllerProvider.notifier)
-          .submitIdea(_controller.text, _tags);
+          .submitIdea(_controller.text, _tags, _selectedLanguage);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('¡Idea publicada exitosamente!')),
@@ -77,6 +87,19 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
             TagInputField(
               onTagsChanged: (tags) => setState(() => _tags = tags),
               initialTags: _tags,
+            ),
+            const SizedBox(height: 16),
+            SegmentedButton<String>(
+              segments: const [
+                ButtonSegment(value: 'en', label: Text('English')),
+                ButtonSegment(value: 'es', label: Text('Español')),
+              ],
+              selected: {_selectedLanguage},
+              onSelectionChanged: (Set<String> newSelection) {
+                setState(() {
+                  _selectedLanguage = newSelection.first;
+                });
+              },
             ),
             const Spacer(),
             ElevatedButton(

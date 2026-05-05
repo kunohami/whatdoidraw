@@ -30,7 +30,7 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [x] **Filtros de búsqueda**: texto libre en Ideas + filtro por tags en Ideas y Doodles.
 - [x] **Paginación**: botón "Ver más" con 15 ideas / 20 doodles por página.
 - [x] **Ordenación**: modo cronológico (reciente) y modo aleatorio (shuffle en cliente).
-- [ ] Filtro automático de idioma: Auto-filtrar Ideas con tags `spanish` / `english` según el idioma del usuario.
+- [x] **Filtro de idioma**: Auto-filtrar Ideas según el idioma del usuario y permitir selección en creación.
 
 ### Iteración 4: Interacción Social y Artworks
 - [ ] Sistema de Bookmarks (Guardar contenido) y visualización en el perfil.
@@ -44,6 +44,7 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [ ] Integración con **Discord Login** (OAuth2).
 - [ ] Notificaciones push para avisar al creador original cuando su contenido se usa.
 - [ ] Tags sugeridos y populares en el formulario de creación.
+- [ ] Traducción automática de Ideas usando una API externa.
 - [ ] Pruebas de usabilidad y lanzamiento.
 
 ---

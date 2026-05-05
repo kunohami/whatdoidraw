@@ -20,7 +20,8 @@ mixin _$IdeaModel {
 @JsonKey(name: 'user_id') String get userId;/// El contenido textual de la idea (ej: "Un gato en Marte").
  String get content;/// Etiquetas opcionales para categorizar y buscar ideas.
  List<String> get tags;/// Indica si la idea sigue visible para la comunidad.
-@JsonKey(name: 'is_active') bool get isActive;/// Fecha y hora de creación de la publicación.
+@JsonKey(name: 'is_active') bool get isActive;/// Idioma de la idea ('en' o 'es')
+ String get language;/// Fecha y hora de creación de la publicación.
 @JsonKey(name: 'created_at') DateTime? get createdAt;
 /// Create a copy of IdeaModel
 /// with the given fields replaced by the non-null parameter values.
@@ -34,16 +35,16 @@ $IdeaModelCopyWith<IdeaModel> get copyWith => _$IdeaModelCopyWithImpl<IdeaModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IdeaModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IdeaModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.language, language) || other.language == language)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,content,const DeepCollectionEquality().hash(tags),isActive,createdAt);
+int get hashCode => Object.hash(runtimeType,id,userId,content,const DeepCollectionEquality().hash(tags),isActive,language,createdAt);
 
 @override
 String toString() {
-  return 'IdeaModel(id: $id, userId: $userId, content: $content, tags: $tags, isActive: $isActive, createdAt: $createdAt)';
+  return 'IdeaModel(id: $id, userId: $userId, content: $content, tags: $tags, isActive: $isActive, language: $language, createdAt: $createdAt)';
 }
 
 
@@ -54,7 +55,7 @@ abstract mixin class $IdeaModelCopyWith<$Res>  {
   factory $IdeaModelCopyWith(IdeaModel value, $Res Function(IdeaModel) _then) = _$IdeaModelCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'user_id') String userId, String content, List<String> tags,@JsonKey(name: 'is_active') bool isActive,@JsonKey(name: 'created_at') DateTime? createdAt
+ String id,@JsonKey(name: 'user_id') String userId, String content, List<String> tags,@JsonKey(name: 'is_active') bool isActive, String language,@JsonKey(name: 'created_at') DateTime? createdAt
 });
 
 
@@ -71,14 +72,15 @@ class _$IdeaModelCopyWithImpl<$Res>
 
 /// Create a copy of IdeaModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? content = null,Object? tags = null,Object? isActive = null,Object? createdAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? content = null,Object? tags = null,Object? isActive = null,Object? language = null,Object? createdAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
 as List<String>,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as bool,language: null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
@@ -164,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId,  String content,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId,  String content,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive,  String language, @JsonKey(name: 'created_at')  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IdeaModel() when $default != null:
-return $default(_that.id,_that.userId,_that.content,_that.tags,_that.isActive,_that.createdAt);case _:
+return $default(_that.id,_that.userId,_that.content,_that.tags,_that.isActive,_that.language,_that.createdAt);case _:
   return orElse();
 
 }
@@ -185,10 +187,10 @@ return $default(_that.id,_that.userId,_that.content,_that.tags,_that.isActive,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId,  String content,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId,  String content,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive,  String language, @JsonKey(name: 'created_at')  DateTime? createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _IdeaModel():
-return $default(_that.id,_that.userId,_that.content,_that.tags,_that.isActive,_that.createdAt);case _:
+return $default(_that.id,_that.userId,_that.content,_that.tags,_that.isActive,_that.language,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +207,10 @@ return $default(_that.id,_that.userId,_that.content,_that.tags,_that.isActive,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'user_id')  String userId,  String content,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'user_id')  String userId,  String content,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive,  String language, @JsonKey(name: 'created_at')  DateTime? createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _IdeaModel() when $default != null:
-return $default(_that.id,_that.userId,_that.content,_that.tags,_that.isActive,_that.createdAt);case _:
+return $default(_that.id,_that.userId,_that.content,_that.tags,_that.isActive,_that.language,_that.createdAt);case _:
   return null;
 
 }
@@ -220,7 +222,7 @@ return $default(_that.id,_that.userId,_that.content,_that.tags,_that.isActive,_t
 @JsonSerializable()
 
 class _IdeaModel implements IdeaModel {
-  const _IdeaModel({required this.id, @JsonKey(name: 'user_id') required this.userId, required this.content, final  List<String> tags = const [], @JsonKey(name: 'is_active') this.isActive = true, @JsonKey(name: 'created_at') this.createdAt}): _tags = tags;
+  const _IdeaModel({required this.id, @JsonKey(name: 'user_id') required this.userId, required this.content, final  List<String> tags = const [], @JsonKey(name: 'is_active') this.isActive = true, this.language = 'en', @JsonKey(name: 'created_at') this.createdAt}): _tags = tags;
   factory _IdeaModel.fromJson(Map<String, dynamic> json) => _$IdeaModelFromJson(json);
 
 /// Identificador único universal (UUID) de la idea.
@@ -240,6 +242,8 @@ class _IdeaModel implements IdeaModel {
 
 /// Indica si la idea sigue visible para la comunidad.
 @override@JsonKey(name: 'is_active') final  bool isActive;
+/// Idioma de la idea ('en' o 'es')
+@override@JsonKey() final  String language;
 /// Fecha y hora de creación de la publicación.
 @override@JsonKey(name: 'created_at') final  DateTime? createdAt;
 
@@ -256,16 +260,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IdeaModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IdeaModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.language, language) || other.language == language)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,content,const DeepCollectionEquality().hash(_tags),isActive,createdAt);
+int get hashCode => Object.hash(runtimeType,id,userId,content,const DeepCollectionEquality().hash(_tags),isActive,language,createdAt);
 
 @override
 String toString() {
-  return 'IdeaModel(id: $id, userId: $userId, content: $content, tags: $tags, isActive: $isActive, createdAt: $createdAt)';
+  return 'IdeaModel(id: $id, userId: $userId, content: $content, tags: $tags, isActive: $isActive, language: $language, createdAt: $createdAt)';
 }
 
 
@@ -276,7 +280,7 @@ abstract mixin class _$IdeaModelCopyWith<$Res> implements $IdeaModelCopyWith<$Re
   factory _$IdeaModelCopyWith(_IdeaModel value, $Res Function(_IdeaModel) _then) = __$IdeaModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'user_id') String userId, String content, List<String> tags,@JsonKey(name: 'is_active') bool isActive,@JsonKey(name: 'created_at') DateTime? createdAt
+ String id,@JsonKey(name: 'user_id') String userId, String content, List<String> tags,@JsonKey(name: 'is_active') bool isActive, String language,@JsonKey(name: 'created_at') DateTime? createdAt
 });
 
 
@@ -293,14 +297,15 @@ class __$IdeaModelCopyWithImpl<$Res>
 
 /// Create a copy of IdeaModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? content = null,Object? tags = null,Object? isActive = null,Object? createdAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? content = null,Object? tags = null,Object? isActive = null,Object? language = null,Object? createdAt = freezed,}) {
   return _then(_IdeaModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
 as List<String>,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as bool,language: null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }

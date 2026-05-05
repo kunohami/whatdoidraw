@@ -26,6 +26,9 @@ abstract class IdeaModel with _$IdeaModel {
     /// Indica si la idea sigue visible para la comunidad.
     @JsonKey(name: 'is_active') @Default(true) bool isActive,
 
+    /// Idioma de la idea ('en' o 'es')
+    @Default('en') String language,
+
     /// Fecha y hora de creación de la publicación.
     @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _IdeaModel;

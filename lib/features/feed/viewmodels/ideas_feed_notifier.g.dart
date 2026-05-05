@@ -56,7 +56,7 @@ final class IdeasFeedNotifierProvider
   }
 }
 
-String _$ideasFeedNotifierHash() => r'621ceda31e253031d1577843b0c1ed12f9e0656a';
+String _$ideasFeedNotifierHash() => r'65ec066785621d14116a9448b137bbf8433b6979';
 
 /// ViewModel que gestiona el feed de Ideas con paginación, búsqueda y ordenación.
 ///

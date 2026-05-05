@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
+import 'package:whatdoidraw/features/profile/views/screens/settings_screen.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 
@@ -22,6 +23,16 @@ class ProfileScreen extends ConsumerWidget {
         title: const Text('Mi Perfil'),
         centerTitle: true,
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsScreen()),
+              );
+            },
+            icon: const Icon(Icons.settings),
+            tooltip: 'Ajustes',
+          ),
           IconButton(
             onPressed: () {
               ref.read(authControllerProvider.notifier).signOut();

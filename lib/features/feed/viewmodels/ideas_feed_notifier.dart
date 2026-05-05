@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:whatdoidraw/core/constants/feed_constants.dart';
@@ -31,6 +33,9 @@ class IdeasFeedState {
   /// Modo de ordenación activo.
   final FeedSortOrder sortOrder;
 
+  /// Filtro de idioma activo ('en', 'es', o 'all').
+  final String? languageFilter;
+
   /// Mensaje de error, si lo hay.
   final String? errorMessage;
 
@@ -42,6 +47,7 @@ class IdeasFeedState {
     this.searchQuery = '',
     this.selectedTags = const [],
     this.sortOrder = FeedSortOrder.recent,
+    this.languageFilter,
     this.errorMessage,
   });
 
@@ -53,6 +59,7 @@ class IdeasFeedState {
     String? searchQuery,
     List<String>? selectedTags,
     FeedSortOrder? sortOrder,
+    String? languageFilter,
     String? errorMessage,
   }) {
     return IdeasFeedState(
@@ -63,6 +70,7 @@ class IdeasFeedState {
       searchQuery: searchQuery ?? this.searchQuery,
       selectedTags: selectedTags ?? this.selectedTags,
       sortOrder: sortOrder ?? this.sortOrder,
+      languageFilter: languageFilter ?? this.languageFilter,
       errorMessage: errorMessage,
     );
   }
@@ -79,9 +87,12 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
 
   @override
   IdeasFeedState build() {
+    final locale = PlatformDispatcher.instance.locale.languageCode;
+    final defaultLanguage = locale.startsWith('es') ? 'es' : 'en';
+
     // Cargamos la primera página automáticamente al inicializar.
     Future.microtask(loadInitial);
-    return const IdeasFeedState();
+    return IdeasFeedState(languageFilter: defaultLanguage);
   }
 
   /// Carga la primera página desde cero (usado en la inicialización y refresh).
@@ -96,6 +107,7 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
             query: state.searchQuery,
             tags: state.selectedTags,
             sort: state.sortOrder,
+            language: state.languageFilter,
           );
       _offset = ideas.length;
       state = state.copyWith(
@@ -125,6 +137,7 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
             query: state.searchQuery,
             tags: state.selectedTags,
             sort: state.sortOrder,
+            language: state.languageFilter,
           );
       _offset += newIdeas.length;
       state = state.copyWith(
@@ -140,6 +153,12 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
   /// Actualiza el texto de búsqueda y recarga desde la primera página.
   Future<void> updateSearch(String query) async {
     state = state.copyWith(searchQuery: query);
+    await loadInitial();
+  }
+
+  /// Cambia el filtro de idioma y recarga.
+  Future<void> setLanguageFilter(String? language) async {
+    state = state.copyWith(languageFilter: language);
     await loadInitial();
   }
 
@@ -166,10 +185,14 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
 
   /// Limpia todos los filtros activos y recarga.
   Future<void> clearFilters() async {
+    final locale = PlatformDispatcher.instance.locale.languageCode;
+    final defaultLanguage = locale.startsWith('es') ? 'es' : 'en';
+
     state = state.copyWith(
       searchQuery: '',
       selectedTags: [],
       sortOrder: FeedSortOrder.recent,
+      languageFilter: defaultLanguage,
     );
     await loadInitial();
   }
