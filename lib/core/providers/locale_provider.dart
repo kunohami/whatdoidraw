@@ -7,7 +7,7 @@ part 'locale_provider.g.dart';
 /// Notifier que maneja el idioma global de la aplicación.
 ///
 /// Inicialmente detecta el idioma del sistema y lo expone a MaterialApp.
-/// Permite ser actualizado desde la pantalla de Ajustes para cambiar 
+/// Permite ser actualizado desde la pantalla de Ajustes para cambiar
 /// el idioma en tiempo real sin reiniciar la app.
 @riverpod
 class AppLocale extends _$AppLocale {

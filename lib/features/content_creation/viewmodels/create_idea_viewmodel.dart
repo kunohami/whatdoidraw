@@ -23,7 +23,11 @@ class CreateIdeaController extends _$CreateIdeaController {
   /// 2. Valida la sesión del usuario.
   /// 3. Llama al servicio de persistencia con el contenido y las etiquetas.
   /// 4. Maneja posibles errores asíncronos.
-  Future<void> submitIdea(String content, List<String> tags, String language) async {
+  Future<void> submitIdea(
+    String content,
+    List<String> tags,
+    String language,
+  ) async {
     state = true;
     try {
       final supabase = ref.read(supabaseClientProvider);

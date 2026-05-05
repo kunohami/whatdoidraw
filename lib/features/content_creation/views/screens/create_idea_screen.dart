@@ -91,14 +91,8 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
             const SizedBox(height: 16),
             SegmentedButton<String>(
               segments: const [
-                ButtonSegment(
-                  value: 'en',
-                  label: Text('English'),
-                ),
-                ButtonSegment(
-                  value: 'es',
-                  label: Text('Español'),
-                ),
+                ButtonSegment(value: 'en', label: Text('English')),
+                ButtonSegment(value: 'es', label: Text('Español')),
               ],
               selected: {_selectedLanguage},
               onSelectionChanged: (Set<String> newSelection) {

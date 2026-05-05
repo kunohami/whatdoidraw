@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 
 /// Pantalla de ajustes de la aplicación.
 class SettingsScreen extends ConsumerWidget {
@@ -13,9 +13,7 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.settingsTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: ListView(
         children: [
           ListTile(

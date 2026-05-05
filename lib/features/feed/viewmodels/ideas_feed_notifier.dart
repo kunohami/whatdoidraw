@@ -89,7 +89,7 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
   IdeasFeedState build() {
     final locale = PlatformDispatcher.instance.locale.languageCode;
     final defaultLanguage = locale.startsWith('es') ? 'es' : 'en';
-    
+
     // Cargamos la primera página automáticamente al inicializar.
     Future.microtask(loadInitial);
     return IdeasFeedState(languageFilter: defaultLanguage);

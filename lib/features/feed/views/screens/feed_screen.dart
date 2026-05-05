@@ -104,20 +104,25 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
               listenable: _tabController,
               builder: (context, _) {
                 if (_tabController.index != 0) return const SizedBox.shrink();
-                
+
                 final currentLang = ref.watch(ideasFeedProvider).languageFilter;
-                
+
                 return PopupMenuButton<String>(
                   icon: const Icon(Icons.language),
                   tooltip: 'Filtrar por idioma',
                   initialValue: currentLang ?? 'all',
                   onSelected: (value) {
-                    ref.read(ideasFeedProvider.notifier).setLanguageFilter(value == 'all' ? null : value);
+                    ref
+                        .read(ideasFeedProvider.notifier)
+                        .setLanguageFilter(value == 'all' ? null : value);
                   },
                   itemBuilder: (context) => const [
                     PopupMenuItem(value: 'en', child: Text('English')),
                     PopupMenuItem(value: 'es', child: Text('Español')),
-                    PopupMenuItem(value: 'all', child: Text('Todos los idiomas')),
+                    PopupMenuItem(
+                      value: 'all',
+                      child: Text('Todos los idiomas'),
+                    ),
                   ],
                 );
               },
