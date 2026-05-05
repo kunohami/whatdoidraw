@@ -39,6 +39,7 @@ class FeedService {
     String query = '',
     List<String> tags = const [],
     FeedSortOrder sort = FeedSortOrder.recent,
+    String? language,
   }) async {
     // En modo aleatorio pedimos un lote grande para hacer shuffle en cliente.
     final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
@@ -54,6 +55,10 @@ class FeedService {
 
     if (tags.isNotEmpty) {
       queryBuilder = queryBuilder.contains('tags', tags);
+    }
+
+    if (language != null && language != 'all') {
+      queryBuilder = queryBuilder.eq('language', language);
     }
 
     final data = await queryBuilder

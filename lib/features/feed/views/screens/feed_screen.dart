@@ -99,6 +99,29 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
           title: const Text('Descubrimiento'),
           centerTitle: true,
           actions: [
+            // Filtro de idioma (solo para Ideas)
+            ListenableBuilder(
+              listenable: _tabController,
+              builder: (context, _) {
+                if (_tabController.index != 0) return const SizedBox.shrink();
+                
+                final currentLang = ref.watch(ideasFeedProvider).languageFilter;
+                
+                return PopupMenuButton<String>(
+                  icon: const Icon(Icons.language),
+                  tooltip: 'Filtrar por idioma',
+                  initialValue: currentLang ?? 'all',
+                  onSelected: (value) {
+                    ref.read(ideasFeedProvider.notifier).setLanguageFilter(value == 'all' ? null : value);
+                  },
+                  itemBuilder: (context) => const [
+                    PopupMenuItem(value: 'en', child: Text('English')),
+                    PopupMenuItem(value: 'es', child: Text('Español')),
+                    PopupMenuItem(value: 'all', child: Text('Todos los idiomas')),
+                  ],
+                );
+              },
+            ),
             // Toggle de ordenación (solo en pestañas Ideas y Doodles)
             ListenableBuilder(
               listenable: _tabController,

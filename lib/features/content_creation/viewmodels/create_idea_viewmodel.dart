@@ -23,7 +23,7 @@ class CreateIdeaController extends _$CreateIdeaController {
   /// 2. Valida la sesión del usuario.
   /// 3. Llama al servicio de persistencia con el contenido y las etiquetas.
   /// 4. Maneja posibles errores asíncronos.
-  Future<void> submitIdea(String content, List<String> tags) async {
+  Future<void> submitIdea(String content, List<String> tags, String language) async {
     state = true;
     try {
       final supabase = ref.read(supabaseClientProvider);
@@ -33,7 +33,7 @@ class CreateIdeaController extends _$CreateIdeaController {
 
       await ref
           .read(contentCreationServiceProvider)
-          .insertIdea(content, userId, tags: tags);
+          .insertIdea(content, userId, language, tags: tags);
     } catch (e) {
       // Nota: En una app comercial aquí loggeríamos el error a Sentry/Crashlytics.
       rethrow;

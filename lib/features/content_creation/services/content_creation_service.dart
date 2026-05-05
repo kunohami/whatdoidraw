@@ -27,12 +27,14 @@ class ContentCreationService {
   /// Opcionalmente acepta una lista de [tags] para categorización.
   Future<void> insertIdea(
     String content,
-    String userId, {
+    String userId,
+    String language, {
     List<String> tags = const [],
   }) async {
     await supabaseClient.from('ideas').insert({
       'content': content,
       'user_id': userId,
+      'language': language,
       if (tags.isNotEmpty) 'tags': tags,
     });
   }

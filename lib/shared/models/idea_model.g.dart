@@ -14,6 +14,7 @@ _IdeaModel _$IdeaModelFromJson(Map<String, dynamic> json) => _IdeaModel(
       (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       const [],
   isActive: json['is_active'] as bool? ?? true,
+  language: json['language'] as String? ?? 'en',
   createdAt: json['created_at'] == null
       ? null
       : DateTime.parse(json['created_at'] as String),
@@ -26,5 +27,6 @@ Map<String, dynamic> _$IdeaModelToJson(_IdeaModel instance) =>
       'content': instance.content,
       'tags': instance.tags,
       'is_active': instance.isActive,
+      'language': instance.language,
       'created_at': instance.createdAt?.toIso8601String(),
     };
