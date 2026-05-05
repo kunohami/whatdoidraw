@@ -27,6 +27,7 @@ CREATE TABLE ideas (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
   content TEXT NOT NULL,
+  language TEXT NOT NULL DEFAULT 'en',
   tags VARCHAR[],
   is_active BOOLEAN DEFAULT TRUE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()

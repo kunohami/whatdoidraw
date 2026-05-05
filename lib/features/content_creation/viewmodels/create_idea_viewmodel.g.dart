@@ -54,7 +54,7 @@ final class CreateIdeaControllerProvider
 }
 
 String _$createIdeaControllerHash() =>
-    r'c11b20a8cc84ed6ff9903fd647c43c91be1d110b';
+    r'1810ca2bced1de763b52f0a05ff150c1048beb59';
 
 /// Controlador encargado de gestionar el estado de creación de una nueva idea.
 ///
