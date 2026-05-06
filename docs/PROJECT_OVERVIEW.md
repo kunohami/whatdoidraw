@@ -12,11 +12,13 @@ El sistema se basa en 3 tipos de contenido principales que se inspiran mutuament
 2. **Doodles (Bocetos):** Dibujos creados en el lienzo integrado. Pueden ser diseños completamente libres o nacer como respuesta a una Idea previa.
 3. **Artworks (Arte Final):** Obras terminadas publicadas en redes sociales. Para compartir un Artwork, el usuario debe seleccionar obligatoriamente una Idea o un Doodle que haya guardado previamente en su colección. La app aloja una previsualización y enlaza al contenido original.
 
-### 🔀 Flujo de Creación
-La pestaña de creación funciona como un hub central:
+### 🔀 Flujo de Uso
+La aplicación tiene un Hub central de creación y un sistema de descubrimiento social:
+- **Descubrir:** Navegar por los Feeds de Ideas y Doodles.
+- **Guardar (Bookmarks):** Los usuarios pueden guardar Ideas y Doodles en su colección personal para usarlos de inspiración más tarde.
 - **Crear Idea:** Formulario de texto.
-- **Crear Doodle:** Lienzo de dibujo libre.
-- **Compartir Artwork:** Selector de contenido guardado para vinculación externa.
+- **Crear Doodle:** Lienzo de dibujo libre, opcionalmente basado en una Idea.
+- **Compartir Artwork:** Formulario final que asocia un enlace externo con una Idea o Doodle guardado previamente.
 
 ## 🛠️ Stack Tecnológico
 - **Frontend:** Flutter (Dart).
