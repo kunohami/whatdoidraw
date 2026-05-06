@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:whatdoidraw/features/bookmarks/views/screens/bookmarks_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/create_idea_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 
@@ -69,11 +70,16 @@ class CreationHubScreen extends StatelessWidget {
           const SizedBox(height: 16),
           _buildMenuCard(
             context: context,
-            title: 'Mis Aportaciones',
-            subtitle: 'Gestiona los doodles e ideas que has publicado.',
-            icon: Icons.history_edu,
+            title: 'Guardados',
+            subtitle: 'Tus ideas y doodles favoritos listos para usar.',
+            icon: Icons.bookmark,
             onTap: () {
-              _showConstructionSnackbar(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const BookmarksScreen(),
+                ),
+              );
             },
           ),
         ],

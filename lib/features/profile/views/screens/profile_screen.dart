@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:whatdoidraw/features/profile/views/screens/settings_screen.dart';
+import 'package:whatdoidraw/shared/widgets/artwork_card.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 
@@ -49,7 +50,7 @@ class ProfileScreen extends ConsumerWidget {
           }
 
           return DefaultTabController(
-            length: 2,
+            length: 3,
             child: Column(
               children: [
                 // Header del Perfil
@@ -99,14 +100,19 @@ class ProfileScreen extends ConsumerWidget {
                 // Tabs
                 const TabBar(
                   tabs: [
-                    Tab(icon: Icon(Icons.lightbulb_outline), text: "Mis Ideas"),
-                    Tab(icon: Icon(Icons.brush), text: "Mis Doodles"),
+                    Tab(icon: Icon(Icons.lightbulb_outline), text: "Ideas"),
+                    Tab(icon: Icon(Icons.brush), text: "Doodles"),
+                    Tab(icon: Icon(Icons.palette), text: "Artworks"),
                   ],
                 ),
                 // Tab Views
                 const Expanded(
                   child: TabBarView(
-                    children: [_UserIdeasTab(), _UserDoodlesTab()],
+                    children: [
+                      _UserIdeasTab(),
+                      _UserDoodlesTab(),
+                      _UserArtworksTab(),
+                    ],
                   ),
                 ),
               ],
@@ -193,3 +199,33 @@ class _UserDoodlesTab extends ConsumerWidget {
     );
   }
 }
+
+/// Pestaña interna dedicada al historial de Artworks.
+class _UserArtworksTab extends ConsumerWidget {
+  const _UserArtworksTab();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final artworksAsync = ref.watch(currentUserArtworksProvider);
+
+    return artworksAsync.when(
+      data: (artworks) {
+        if (artworks.isEmpty) {
+          return const Center(
+            child: Text("Aún no has publicado ningún artwork final."),
+          );
+        }
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: artworks.length,
+          itemBuilder: (context, index) {
+            return ArtworkCard(artwork: artworks[index]);
+          },
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, _) => Center(child: Text("Error: $error")),
+    );
+  }
+}
+

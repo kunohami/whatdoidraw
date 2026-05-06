@@ -169,3 +169,45 @@ final class CurrentUserDoodlesProvider
 
 String _$currentUserDoodlesHash() =>
     r'0f8c3e0cb457154ecaa5fc7ada6f7fe1ad4c2867';
+
+@ProviderFor(currentUserArtworks)
+final currentUserArtworksProvider = CurrentUserArtworksProvider._();
+
+final class CurrentUserArtworksProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ArtworkModel>>,
+          List<ArtworkModel>,
+          FutureOr<List<ArtworkModel>>
+        >
+    with
+        $FutureModifier<List<ArtworkModel>>,
+        $FutureProvider<List<ArtworkModel>> {
+  CurrentUserArtworksProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'currentUserArtworksProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$currentUserArtworksHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<ArtworkModel>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<ArtworkModel>> create(Ref ref) {
+    return currentUserArtworks(ref);
+  }
+}
+
+String _$currentUserArtworksHash() =>
+    r'8253b25470d43864bcd912f39c59ecf6e2df9e75';

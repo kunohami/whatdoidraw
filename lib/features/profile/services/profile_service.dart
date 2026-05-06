@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:whatdoidraw/core/providers/supabase_provider.dart';
+import 'package:whatdoidraw/shared/models/artwork_model.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
 import 'package:whatdoidraw/shared/models/idea_model.dart';
 import 'package:whatdoidraw/shared/models/user_model.dart';
@@ -67,6 +68,18 @@ class ProfileService {
 
     return (response as List)
         .map((data) => DoodleModel.fromJson(data))
+        .toList();
+  }
+
+  Future<List<ArtworkModel>> getUserArtworks(String userId) async {
+    final response = await supabase
+        .from('artworks')
+        .select()
+        .eq('user_id', userId)
+        .order('created_at', ascending: false);
+
+    return (response as List)
+        .map((data) => ArtworkModel.fromJson(data))
         .toList();
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
+import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
 import 'package:whatdoidraw/features/content_creation/services/content_creation_service.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
@@ -95,28 +96,57 @@ class DoodleDetailScreen extends ConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(24.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: () {
-                  // TODO: El Canvas requiere por ahora un Idea. Podríamos extender el logic
-                  // para soportar basarse en doodles o sencillamente hacer uno libre "inspirado por".
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DoodleCanvasScreen(),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DoodleCanvasScreen(
+                            ideaId: doodle.ideaId,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.brush),
+                    label: const Text('Crear otro'),
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                     ),
-                  );
-                },
-                icon: const Icon(Icons.brush),
-                label: const Text('Inspirarse (Crear nuevo)'),
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-              ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateArtworkScreen(
+                            doodleId: doodle.id,
+                            initialTags: doodle.tags,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.publish_outlined),
+                    label: const Text('Artwork final'),
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: Theme.of(context).colorScheme.tertiary,
+                      foregroundColor: Theme.of(context).colorScheme.onTertiary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

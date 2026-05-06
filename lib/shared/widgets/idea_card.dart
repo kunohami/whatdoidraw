@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
+import 'package:whatdoidraw/features/bookmarks/viewmodels/bookmark_viewmodel.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 import 'package:whatdoidraw/shared/models/idea_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
@@ -9,7 +11,7 @@ import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 /// Encapsula una [IdeaModel] dentro de un [Card]. Se diseñó originalmente para
 /// el feed global, pero su parámetro opcional [showDrawButton] permite que sea
 /// reutilizado en el perfil sin forzar el inicio de dibujo cuando sólo se desea visualizar.
-class IdeaCard extends StatelessWidget {
+class IdeaCard extends ConsumerWidget {
   final IdeaModel idea;
   final bool showDrawButton;
 
@@ -28,7 +30,9 @@ class IdeaCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isBookmarked = ref.watch(bookmarkedIdeasProvider.notifier).isBookmarked(idea.id);
+
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(bottom: 16),
@@ -66,6 +70,16 @@ class IdeaCard extends StatelessWidget {
                 if (showDrawButton)
                   Row(
                     children: [
+                      IconButton(
+                        icon: Icon(
+                          isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                          color: isBookmarked ? Theme.of(context).colorScheme.primary : null,
+                        ),
+                        onPressed: () {
+                          ref.read(bookmarkedIdeasProvider.notifier).toggleBookmark(idea);
+                        },
+                        tooltip: isBookmarked ? 'Quitar guardado' : 'Guardar idea',
+                      ),
                       IconButton(
                         icon: const Icon(Icons.publish_outlined),
                         onPressed: () {
