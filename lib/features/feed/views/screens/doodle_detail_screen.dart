@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
+import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/content_creation/services/content_creation_service.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
@@ -104,9 +104,8 @@ class DoodleDetailScreen extends ConsumerWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DoodleCanvasScreen(
-                            ideaId: doodle.ideaId,
-                          ),
+                          builder: (context) =>
+                              DoodleCanvasScreen(ideaId: doodle.ideaId),
                         ),
                       );
                     },

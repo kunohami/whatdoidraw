@@ -31,7 +31,9 @@ class IdeaCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isBookmarked = ref.watch(bookmarkedIdeasProvider).value?.any((i) => i.id == idea.id) ?? false;
+    final isBookmarked =
+        ref.watch(bookmarkedIdeasProvider).value?.any((i) => i.id == idea.id) ??
+        false;
 
     return Card(
       elevation: 2,
@@ -73,12 +75,18 @@ class IdeaCard extends ConsumerWidget {
                       IconButton(
                         icon: Icon(
                           isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                          color: isBookmarked ? Theme.of(context).colorScheme.primary : null,
+                          color: isBookmarked
+                              ? Theme.of(context).colorScheme.primary
+                              : null,
                         ),
                         onPressed: () {
-                          ref.read(bookmarkedIdeasProvider.notifier).toggleBookmark(idea);
+                          ref
+                              .read(bookmarkedIdeasProvider.notifier)
+                              .toggleBookmark(idea);
                         },
-                        tooltip: isBookmarked ? 'Quitar guardado' : 'Guardar idea',
+                        tooltip: isBookmarked
+                            ? 'Quitar guardado'
+                            : 'Guardar idea',
                       ),
                       IconButton(
                         icon: const Icon(Icons.publish_outlined),

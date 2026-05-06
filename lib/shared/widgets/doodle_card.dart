@@ -31,7 +31,12 @@ class DoodleCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isBookmarked = ref.watch(bookmarkedDoodlesProvider).value?.any((d) => d.id == doodle.id) ?? false;
+    final isBookmarked =
+        ref
+            .watch(bookmarkedDoodlesProvider)
+            .value
+            ?.any((d) => d.id == doodle.id) ??
+        false;
 
     // Parsea los datos brutos guardados a entidades StrokeModel en memoria
     final strokes = doodle.doodleData
@@ -116,10 +121,14 @@ class DoodleCard extends ConsumerWidget {
                   icon: Icon(
                     isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                     size: 20,
-                    color: isBookmarked ? Theme.of(context).colorScheme.primary : null,
+                    color: isBookmarked
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
                   ),
                   onPressed: () {
-                    ref.read(bookmarkedDoodlesProvider.notifier).toggleBookmark(doodle);
+                    ref
+                        .read(bookmarkedDoodlesProvider.notifier)
+                        .toggleBookmark(doodle);
                   },
                   tooltip: isBookmarked ? 'Quitar guardado' : 'Guardar doodle',
                 ),

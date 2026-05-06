@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:whatdoidraw/features/bookmarks/data/services/bookmark_service.dart';
@@ -29,7 +28,9 @@ class BookmarkedIdeas extends _$BookmarkedIdeas {
 
     // Optimistic UI update
     if (isBookmarked) {
-      state = AsyncValue.data(currentState.where((i) => i.id != idea.id).toList());
+      state = AsyncValue.data(
+        currentState.where((i) => i.id != idea.id).toList(),
+      );
     } else {
       state = AsyncValue.data([idea, ...currentState]);
     }
@@ -64,7 +65,9 @@ class BookmarkedDoodles extends _$BookmarkedDoodles {
 
     // Optimistic UI update
     if (isBookmarked) {
-      state = AsyncValue.data(currentState.where((d) => d.id != doodle.id).toList());
+      state = AsyncValue.data(
+        currentState.where((d) => d.id != doodle.id).toList(),
+      );
     } else {
       state = AsyncValue.data([doodle, ...currentState]);
     }
@@ -81,4 +84,3 @@ class BookmarkedDoodles extends _$BookmarkedDoodles {
     return state.value?.any((d) => d.id == doodleId) ?? false;
   }
 }
-

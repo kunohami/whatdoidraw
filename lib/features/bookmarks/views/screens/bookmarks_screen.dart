@@ -23,10 +23,7 @@ class BookmarksScreen extends ConsumerWidget {
           ),
         ),
         body: const TabBarView(
-          children: [
-            _BookmarkedIdeasTab(),
-            _BookmarkedDoodlesTab(),
-          ],
+          children: [_BookmarkedIdeasTab(), _BookmarkedDoodlesTab()],
         ),
       ),
     );
@@ -49,10 +46,7 @@ class _BookmarkedIdeasTab extends ConsumerWidget {
           padding: const EdgeInsets.all(16),
           itemCount: ideas.length,
           itemBuilder: (context, index) {
-            return IdeaCard(
-              idea: ideas[index],
-              showDrawButton: true,
-            );
+            return IdeaCard(idea: ideas[index], showDrawButton: true);
           },
         );
       },
