@@ -31,7 +31,7 @@ class DoodleCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isBookmarked = ref.watch(bookmarkedDoodlesProvider.notifier).isBookmarked(doodle.id);
+    final isBookmarked = ref.watch(bookmarkedDoodlesProvider).value?.any((d) => d.id == doodle.id) ?? false;
 
     // Parsea los datos brutos guardados a entidades StrokeModel en memoria
     final strokes = doodle.doodleData

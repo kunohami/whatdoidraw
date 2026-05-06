@@ -31,7 +31,7 @@ class IdeaCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isBookmarked = ref.watch(bookmarkedIdeasProvider.notifier).isBookmarked(idea.id);
+    final isBookmarked = ref.watch(bookmarkedIdeasProvider).value?.any((i) => i.id == idea.id) ?? false;
 
     return Card(
       elevation: 2,
