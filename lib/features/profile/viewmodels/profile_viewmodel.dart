@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
+import 'package:whatdoidraw/shared/models/artwork_model.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
 import 'package:whatdoidraw/shared/models/idea_model.dart';
 import 'package:whatdoidraw/shared/models/user_model.dart';
@@ -45,4 +46,13 @@ Future<List<DoodleModel>> currentUserDoodles(Ref ref) async {
 
   final profileService = ref.watch(profileServiceProvider);
   return profileService.getUserDoodles(user.id);
+}
+
+@riverpod
+Future<List<ArtworkModel>> currentUserArtworks(Ref ref) async {
+  final user = await ref.watch(authControllerProvider.future);
+  if (user == null) return [];
+
+  final profileService = ref.watch(profileServiceProvider);
+  return profileService.getUserArtworks(user.id);
 }

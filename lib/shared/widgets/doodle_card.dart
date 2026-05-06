@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatdoidraw/features/bookmarks/viewmodels/bookmark_viewmodel.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
@@ -11,7 +12,7 @@ import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 /// Utiliza un [CustomPaint] sobre el motor nativo para redibujar los trazos.
 /// Al tocar la tarjeta, navega hacia la vista de detalles.
 /// Los tags se muestran como un overlay en la parte inferior de la tarjeta.
-class DoodleCard extends StatelessWidget {
+class DoodleCard extends ConsumerWidget {
   /// El modelo del dibujo a renderizar.
   final DoodleModel doodle;
 
@@ -29,7 +30,14 @@ class DoodleCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isBookmarked =
+        ref
+            .watch(bookmarkedDoodlesProvider)
+            .value
+            ?.any((d) => d.id == doodle.id) ??
+        false;
+
     // Parsea los datos brutos guardados a entidades StrokeModel en memoria
     final strokes = doodle.doodleData
         .map((e) => StrokeModel.fromJson(e as Map<String, dynamic>))
@@ -110,19 +118,19 @@ class DoodleCard extends StatelessWidget {
                 color: Colors.white.withValues(alpha: 0.8),
                 shape: const CircleBorder(),
                 child: IconButton(
-                  icon: const Icon(Icons.publish_outlined, size: 20),
+                  icon: Icon(
+                    isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                    size: 20,
+                    color: isBookmarked
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+                  ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateArtworkScreen(
-                          doodleId: doodle.id,
-                          initialTags: doodle.tags,
-                        ),
-                      ),
-                    );
+                    ref
+                        .read(bookmarkedDoodlesProvider.notifier)
+                        .toggleBookmark(doodle);
                   },
-                  tooltip: 'Publicar Artwork final',
+                  tooltip: isBookmarked ? 'Quitar guardado' : 'Guardar doodle',
                 ),
               ),
             ),

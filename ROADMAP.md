@@ -33,7 +33,7 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [x] **Filtro de idioma**: Auto-filtrar Ideas según el idioma del usuario y permitir selección en creación.
 
 ### Iteración 4: Interacción Social y Artworks
-- [ ] Sistema de Bookmarks (Guardar contenido) y visualización en el perfil.
+- [x] Sistema de Bookmarks (Guardar contenido) y visualización en el perfil.
 - [ ] Formulario para publicar Artwork final (enlazando url externa) con soporte de tags.
 - [ ] Lógica de filtrado por "popularidad" (Likes).
 

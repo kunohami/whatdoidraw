@@ -115,6 +115,7 @@ ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ideas ENABLE ROW LEVEL SECURITY;
 ALTER TABLE doodles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE artworks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE bookmarks ENABLE ROW LEVEL SECURITY;
 
 -- users
 CREATE POLICY "Public profiles" ON users FOR SELECT USING (true);
@@ -137,4 +138,9 @@ CREATE POLICY "Public artworks" ON artworks FOR SELECT USING (true);
 CREATE POLICY "Create own artwork" ON artworks FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Update own artwork" ON artworks FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "Delete own artwork" ON artworks FOR DELETE USING (auth.uid() = user_id);
+
+-- bookmarks
+CREATE POLICY "Select own bookmarks" ON bookmarks FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Create own bookmark" ON bookmarks FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Delete own bookmark" ON bookmarks FOR DELETE USING (auth.uid() = user_id);
 ```
