@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'artworks_feed_notifier.dart';
+part of 'artwork_link_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,52 @@ part of 'artworks_feed_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(ArtworksFeed)
-final artworksFeedProvider = ArtworksFeedProvider._();
+@ProviderFor(ArtworkLinkService)
+final artworkLinkServiceProvider = ArtworkLinkServiceProvider._();
 
-final class ArtworksFeedProvider
-    extends $NotifierProvider<ArtworksFeed, ArtworksFeedState> {
-  ArtworksFeedProvider._()
+final class ArtworkLinkServiceProvider
+    extends $NotifierProvider<ArtworkLinkService, void> {
+  ArtworkLinkServiceProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'artworksFeedProvider',
+        name: r'artworkLinkServiceProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$artworksFeedHash();
+  String debugGetCreateSourceHash() => _$artworkLinkServiceHash();
 
   @$internal
   @override
-  ArtworksFeed create() => ArtworksFeed();
+  ArtworkLinkService create() => ArtworkLinkService();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ArtworksFeedState value) {
+  Override overrideWithValue(void value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<ArtworksFeedState>(value),
+      providerOverride: $SyncValueProvider<void>(value),
     );
   }
 }
 
-String _$artworksFeedHash() => r'36c8965c589e0b8fd924cbbc93f7fa3d4567f353';
+String _$artworkLinkServiceHash() =>
+    r'22680995fc99d454d5c88bfe2f08cf731aa7dcc3';
 
-abstract class _$ArtworksFeed extends $Notifier<ArtworksFeedState> {
-  ArtworksFeedState build();
+abstract class _$ArtworkLinkService extends $Notifier<void> {
+  void build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<ArtworksFeedState, ArtworksFeedState>;
+    final ref = this.ref as $Ref<void, void>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<ArtworksFeedState, ArtworksFeedState>,
-              ArtworksFeedState,
+              AnyNotifier<void, void>,
+              void,
               Object?,
               Object?
             >;

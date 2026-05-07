@@ -43,7 +43,7 @@ El componente clave es `TagInputField` (`lib/shared/widgets/tag_input_field.dart
 |---|---|
 | `CreateIdeaScreen` | Debajo del campo de texto de la idea, antes del botón "Enviar Idea" |
 | `DoodleCanvasScreen` | Dentro del **BottomSheet de publicación** que aparece al pulsar "PUBLICAR" |
-| `CreateArtworkScreen` | Debajo de la URL de DeviantArt. Se pre-cargan las etiquetas de la idea/doodle original. |
+| `CreateArtworkScreen` | Debajo de la URL externa (Bluesky, IG, X, etc.). Se pre-cargan las etiquetas de la idea/doodle original. |
 
 > [!NOTE]
 > En el canvas de doodle, el `TagInputField` no bloquea el flujo de dibujo. El usuario dibuja primero y, solo al pulsar PUBLICAR, se le presenta el BottomSheet donde puede añadir tags opcionalmente antes de confirmar el envío.
@@ -124,7 +124,15 @@ const int kRandomFetchSize = 60; // Lote para modo aleatorio
 | **Doodles** | ❌ | ✅ (`contains` en columna `tags`) |
 | **Artworks** | ✅ (`ilike` en `username` del artista o `tags`) | ✅ (`contains` en columna `tags`) |
 
-La búsqueda de texto en Ideas usa un **debounce de 400 ms** para no lanzar una query por cada tecla pulsada.
+El buscador está posicionado justo debajo de las pestañas de navegación para maximizar el espacio de contenido.
+
+### Sistema de Filtros (Modal)
+
+A la derecha del buscador se encuentra el botón de acceso al **Modal de Filtros**.
+
+1. **Estado dinámico**: El modal detecta la pestaña activa (Ideas, Doodles o Artworks).
+2. **Interactividad**: Permite seleccionar idioma (solo Ideas) y ordenación con feedback visual inmediato antes de aplicar.
+3. **Persistencia**: Los cambios se aplican al cerrar el modal mediante el botón "Aplicar filtros", activando la recarga del feed.
 
 ### Modos de ordenación
 
@@ -200,4 +208,6 @@ abstract class DoodleCanvasState with _$DoodleCanvasState {
 
 ---
 
-*Última actualización: 28 de Abril de 2026*
+---
+
+*Última actualización: 7 de Mayo de 2026*

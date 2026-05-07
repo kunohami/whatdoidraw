@@ -84,8 +84,10 @@ class FeedService {
   Future<List<DoodleModel>> fetchDoodles({
     int offset = 0,
     int limit = kDoodlesPageSize,
+    String query = '',
     List<String> tags = const [],
     FeedSortOrder sort = FeedSortOrder.random,
+    String? language,
   }) async {
     final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
 
@@ -93,6 +95,12 @@ class FeedService {
         .from('doodles')
         .select()
         .eq('is_active', true);
+
+    if (query.isNotEmpty) {
+      queryBuilder = queryBuilder.or(
+        'content.ilike.%$query%,tags.cs.{"$query"}',
+      );
+    }
 
     if (tags.isNotEmpty) {
       queryBuilder = queryBuilder.contains('tags', tags);
@@ -124,6 +132,7 @@ class FeedService {
     String query = '',
     List<String> tags = const [],
     FeedSortOrder sort = FeedSortOrder.recent,
+    String? language,
   }) async {
     final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
 

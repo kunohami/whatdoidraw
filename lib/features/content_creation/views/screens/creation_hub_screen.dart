@@ -55,16 +55,6 @@ class CreationHubScreen extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(height: 12),
-          _buildMenuCard(
-            context: context,
-            title: 'Compartir Artwork',
-            subtitle: 'Enlaza tu obra final conectándola a una inspiración.',
-            icon: Icons.image_outlined,
-            onTap: () {
-              _showConstructionSnackbar(context);
-            },
-          ),
           const SizedBox(height: 32),
           const Divider(),
           const SizedBox(height: 16),
@@ -132,16 +122,6 @@ class CreationHubScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  void _showConstructionSnackbar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Funcionalidad en construcción 🏗️'),
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
       ),
     );
   }

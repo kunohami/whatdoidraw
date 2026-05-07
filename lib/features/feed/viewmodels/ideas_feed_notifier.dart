@@ -159,7 +159,6 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
   /// Cambia el filtro de idioma y recarga.
   Future<void> setLanguageFilter(String? language) async {
     state = state.copyWith(languageFilter: language);
-    await loadInitial();
   }
 
   /// Añade o quita un tag del filtro activo y recarga.
@@ -180,7 +179,6 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
         ? FeedSortOrder.random
         : FeedSortOrder.recent;
     state = state.copyWith(sortOrder: newOrder);
-    await loadInitial();
   }
 
   /// Limpia todos los filtros activos y recarga.

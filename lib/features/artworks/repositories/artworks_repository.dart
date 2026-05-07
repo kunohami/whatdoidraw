@@ -12,9 +12,12 @@ class ArtworksRepository {
 
   Future<void> createArtwork(ArtworkModel artwork) async {
     final Map<String, dynamic> data = artwork.toJson();
-    // Remover id y created_at para que Supabase los genere.
+    // Remover columnas virtuales, id y created_at para que Supabase los gestione.
     data.remove('id');
     data.remove('created_at');
+    // Eliminar cualquier variante del nombre del autor (es una columna de JOIN)
+    data.remove('authorName');
+    data.remove('author_name');
 
     await _supabase.from('artworks').insert(data);
   }
