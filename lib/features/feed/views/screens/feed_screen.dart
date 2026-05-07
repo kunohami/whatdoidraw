@@ -59,28 +59,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
     });
   }
 
-  void _onRefresh() {
-    final tab = _tabController.index;
-    if (tab == 0) {
-      ref.read(ideasFeedProvider.notifier).refresh();
-    } else if (tab == 1) {
-      ref.read(doodlesFeedProvider.notifier).refresh();
-    } else if (tab == 2) {
-      ref.read(artworksFeedProvider.notifier).refresh();
-    }
-  }
-
-  void _onToggleSort() {
-    final tab = _tabController.index;
-    if (tab == 0) {
-      ref.read(ideasFeedProvider.notifier).toggleSortOrder();
-    } else if (tab == 1) {
-      ref.read(doodlesFeedProvider.notifier).toggleSortOrder();
-    } else if (tab == 2) {
-      ref.read(artworksFeedProvider.notifier).toggleSortOrder();
-    }
-  }
-
   void _showFilterSheet() {
     final tab = _tabController.index;
     showModalBottomSheet(
@@ -92,10 +70,12 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
           FeedSortOrder? currentSort;
 
           // Obtenemos los valores iniciales según la pestaña activa
-          final dynamic currentState = tab == 0 
-            ? ref.read(ideasFeedProvider) 
-            : tab == 1 ? ref.read(doodlesFeedProvider) : ref.read(artworksFeedProvider);
-          
+          final dynamic currentState = tab == 0
+              ? ref.read(ideasFeedProvider)
+              : tab == 1
+              ? ref.read(doodlesFeedProvider)
+              : ref.read(artworksFeedProvider);
+
           return SafeArea(
             child: StatefulBuilder(
               builder: (context, setModalState) {
@@ -110,7 +90,10 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                       padding: EdgeInsets.all(16.0),
                       child: Text(
                         'Filtros y Ordenación',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     if (tab == 0)
@@ -122,18 +105,37 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                           underline: const SizedBox(),
                           onChanged: (value) {
                             final newLang = value == 'all' ? null : value;
-                            if (tab == 0) ref.read(ideasFeedProvider.notifier).setLanguageFilter(newLang);
-                            else if (tab == 1) ref.read(doodlesFeedProvider.notifier).setLanguageFilter(newLang);
-                            else ref.read(artworksFeedProvider.notifier).setLanguageFilter(newLang);
-                            
+                            if (tab == 0) {
+                              ref
+                                  .read(ideasFeedProvider.notifier)
+                                  .setLanguageFilter(newLang);
+                            } else if (tab == 1) {
+                              ref
+                                  .read(doodlesFeedProvider.notifier)
+                                  .setLanguageFilter(newLang);
+                            } else {
+                              ref
+                                  .read(artworksFeedProvider.notifier)
+                                  .setLanguageFilter(newLang);
+                            }
+
                             setModalState(() {
                               currentLang = newLang;
                             });
                           },
                           items: const [
-                            DropdownMenuItem(value: 'all', child: Text('Todos')),
-                            DropdownMenuItem(value: 'es', child: Text('Español')),
-                            DropdownMenuItem(value: 'en', child: Text('English')),
+                            DropdownMenuItem(
+                              value: 'all',
+                              child: Text('Todos'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'es',
+                              child: Text('Español'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'en',
+                              child: Text('English'),
+                            ),
                           ],
                         ),
                       ),
@@ -141,7 +143,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                       leading: const Icon(Icons.sort),
                       title: const Text('Ordenación'),
                       trailing: Text(
-                        currentSort == FeedSortOrder.recent ? 'Reciente' : 'Aleatorio',
+                        currentSort == FeedSortOrder.recent
+                            ? 'Reciente'
+                            : 'Aleatorio',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
@@ -151,10 +155,20 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                         final newSort = currentSort == FeedSortOrder.recent
                             ? FeedSortOrder.random
                             : FeedSortOrder.recent;
-                        
-                        if (tab == 0) ref.read(ideasFeedProvider.notifier).toggleSortOrder();
-                        else if (tab == 1) ref.read(doodlesFeedProvider.notifier).toggleSortOrder();
-                        else ref.read(artworksFeedProvider.notifier).toggleSortOrder();
+
+                        if (tab == 0) {
+                          ref
+                              .read(ideasFeedProvider.notifier)
+                              .toggleSortOrder();
+                        } else if (tab == 1) {
+                          ref
+                              .read(doodlesFeedProvider.notifier)
+                              .toggleSortOrder();
+                        } else {
+                          ref
+                              .read(artworksFeedProvider.notifier)
+                              .toggleSortOrder();
+                        }
 
                         setModalState(() {
                           currentSort = newSort;
@@ -163,7 +177,10 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                     ),
                     const SizedBox(height: 8),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 8.0,
+                      ),
                       child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -208,7 +225,10 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
             child: TabBar(
               controller: _tabController,
               tabs: const [
-                Tab(icon: Icon(Icons.lightbulb_outline, size: 20), text: 'Ideas'),
+                Tab(
+                  icon: Icon(Icons.lightbulb_outline, size: 20),
+                  text: 'Ideas',
+                ),
                 Tab(icon: Icon(Icons.brush, size: 20), text: 'Doodles'),
                 Tab(icon: Icon(Icons.art_track, size: 20), text: 'Artworks'),
               ],
@@ -227,7 +247,10 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                       hintText: 'Buscar...',
                       elevation: WidgetStateProperty.all(0),
                       backgroundColor: WidgetStateProperty.all(
-                        Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
+                        Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest
+                            .withValues(alpha: 0.5),
                       ),
                       leading: const Icon(Icons.search, size: 20),
                       onChanged: _onSearchChanged,
@@ -277,11 +300,17 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                               isActive: true,
                               onTap: () {
                                 if (tab == 0) {
-                                  ref.read(ideasFeedProvider.notifier).toggleTag(tag);
+                                  ref
+                                      .read(ideasFeedProvider.notifier)
+                                      .toggleTag(tag);
                                 } else if (tab == 1) {
-                                  ref.read(doodlesFeedProvider.notifier).toggleTag(tag);
+                                  ref
+                                      .read(doodlesFeedProvider.notifier)
+                                      .toggleTag(tag);
                                 } else {
-                                  ref.read(artworksFeedProvider.notifier).toggleTag(tag);
+                                  ref
+                                      .read(artworksFeedProvider.notifier)
+                                      .toggleTag(tag);
                                 }
                               },
                             );
@@ -293,9 +322,13 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                           if (tab == 0) {
                             ref.read(ideasFeedProvider.notifier).clearFilters();
                           } else if (tab == 1) {
-                            ref.read(doodlesFeedProvider.notifier).clearFilters();
+                            ref
+                                .read(doodlesFeedProvider.notifier)
+                                .clearFilters();
                           } else {
-                            ref.read(artworksFeedProvider.notifier).clearFilters();
+                            ref
+                                .read(artworksFeedProvider.notifier)
+                                .clearFilters();
                           }
                         },
                         child: const Text('Limpiar'),
@@ -311,15 +344,18 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                 controller: _tabController,
                 children: [
                   RefreshIndicator(
-                    onRefresh: () async => ref.read(ideasFeedProvider.notifier).refresh(),
+                    onRefresh: () async =>
+                        ref.read(ideasFeedProvider.notifier).refresh(),
                     child: const _IdeasFeedTab(),
                   ),
                   RefreshIndicator(
-                    onRefresh: () async => ref.read(doodlesFeedProvider.notifier).refresh(),
+                    onRefresh: () async =>
+                        ref.read(doodlesFeedProvider.notifier).refresh(),
                     child: const _DoodlesFeedTab(),
                   ),
                   RefreshIndicator(
-                    onRefresh: () async => ref.read(artworksFeedProvider.notifier).refresh(),
+                    onRefresh: () async =>
+                        ref.read(artworksFeedProvider.notifier).refresh(),
                     child: const _ArtworksFeedTab(),
                   ),
                 ],

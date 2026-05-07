@@ -97,7 +97,9 @@ class FeedService {
         .eq('is_active', true);
 
     if (query.isNotEmpty) {
-      queryBuilder = queryBuilder.or('content.ilike.%$query%,tags.cs.{"$query"}');
+      queryBuilder = queryBuilder.or(
+        'content.ilike.%$query%,tags.cs.{"$query"}',
+      );
     }
 
     if (tags.isNotEmpty) {

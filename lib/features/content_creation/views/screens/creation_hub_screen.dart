@@ -125,14 +125,4 @@ class CreationHubScreen extends StatelessWidget {
       ),
     );
   }
-
-  void _showConstructionSnackbar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Funcionalidad en construcción 🏗️'),
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ),
-    );
-  }
 }
