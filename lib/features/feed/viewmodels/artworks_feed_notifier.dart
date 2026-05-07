@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:whatdoidraw/features/feed/models/feed_sort_order.dart';
@@ -15,6 +17,7 @@ class ArtworksFeedState {
   final String searchQuery;
   final List<String> selectedTags;
   final FeedSortOrder sortOrder;
+  final String? languageFilter;
   final String? errorMessage;
 
   const ArtworksFeedState({
@@ -25,6 +28,7 @@ class ArtworksFeedState {
     this.searchQuery = '',
     this.selectedTags = const [],
     this.sortOrder = FeedSortOrder.recent,
+    this.languageFilter,
     this.errorMessage,
   });
 
@@ -36,6 +40,7 @@ class ArtworksFeedState {
     String? searchQuery,
     List<String>? selectedTags,
     FeedSortOrder? sortOrder,
+    String? languageFilter,
     String? errorMessage,
   }) {
     return ArtworksFeedState(
@@ -46,6 +51,7 @@ class ArtworksFeedState {
       searchQuery: searchQuery ?? this.searchQuery,
       selectedTags: selectedTags ?? this.selectedTags,
       sortOrder: sortOrder ?? this.sortOrder,
+      languageFilter: languageFilter ?? this.languageFilter,
       errorMessage: errorMessage,
     );
   }
@@ -57,8 +63,11 @@ class ArtworksFeed extends _$ArtworksFeed {
 
   @override
   ArtworksFeedState build() {
+    final locale = PlatformDispatcher.instance.locale.languageCode;
+    final defaultLanguage = locale.startsWith('es') ? 'es' : 'en';
+
     Future.microtask(loadInitial);
-    return const ArtworksFeedState();
+    return ArtworksFeedState(languageFilter: defaultLanguage);
   }
 
   Future<void> loadInitial() async {
@@ -72,6 +81,7 @@ class ArtworksFeed extends _$ArtworksFeed {
             query: state.searchQuery,
             tags: state.selectedTags,
             sort: state.sortOrder,
+            language: state.languageFilter,
           );
       _offset = artworks.length;
       state = state.copyWith(
@@ -100,6 +110,7 @@ class ArtworksFeed extends _$ArtworksFeed {
             query: state.searchQuery,
             tags: state.selectedTags,
             sort: state.sortOrder,
+            language: state.languageFilter,
           );
       _offset += newArtworks.length;
       state = state.copyWith(
@@ -133,16 +144,24 @@ class ArtworksFeed extends _$ArtworksFeed {
         ? FeedSortOrder.random
         : FeedSortOrder.recent;
     state = state.copyWith(sortOrder: newOrder);
-    await loadInitial();
   }
 
   Future<void> clearFilters() async {
+    final locale = PlatformDispatcher.instance.locale.languageCode;
+    final defaultLanguage = locale.startsWith('es') ? 'es' : 'en';
+
     state = state.copyWith(
       searchQuery: '',
       selectedTags: [],
       sortOrder: FeedSortOrder.recent,
+      languageFilter: defaultLanguage,
     );
     await loadInitial();
+  }
+
+  /// Cambia el filtro de idioma y recarga.
+  Future<void> setLanguageFilter(String? language) async {
+    state = state.copyWith(languageFilter: language);
   }
 
   Future<void> refresh() async => loadInitial();

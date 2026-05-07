@@ -45,7 +45,7 @@ final class DoodlesFeedNotifierProvider
 }
 
 String _$doodlesFeedNotifierHash() =>
-    r'c5a9e60d69d92d5e996a03d57349d15324c56228';
+    r'bc570a19113add32eff96c2bb5bc8732430a9667';
 
 /// ViewModel que gestiona el feed de Doodles con paginación y filtros por tags.
 

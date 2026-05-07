@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:whatdoidraw/core/constants/feed_constants.dart';
@@ -22,11 +24,17 @@ class DoodlesFeedState {
   /// Indica si se está cargando una página adicional ("cargar más").
   final bool isLoadingMore;
 
+  /// Texto de búsqueda libre.
+  final String searchQuery;
+
   /// Lista de tags activos como filtro.
   final List<String> selectedTags;
 
   /// Modo de ordenación activo.
   final FeedSortOrder sortOrder;
+
+  /// Filtro de idioma activo.
+  final String? languageFilter;
 
   /// Mensaje de error, si lo hay.
   final String? errorMessage;
@@ -36,8 +44,10 @@ class DoodlesFeedState {
     this.hasMore = true,
     this.isLoading = false,
     this.isLoadingMore = false,
+    this.searchQuery = '',
     this.selectedTags = const [],
     this.sortOrder = FeedSortOrder.recent,
+    this.languageFilter,
     this.errorMessage,
   });
 
@@ -46,8 +56,10 @@ class DoodlesFeedState {
     bool? hasMore,
     bool? isLoading,
     bool? isLoadingMore,
+    String? searchQuery,
     List<String>? selectedTags,
     FeedSortOrder? sortOrder,
+    String? languageFilter,
     String? errorMessage,
   }) {
     return DoodlesFeedState(
@@ -55,8 +67,10 @@ class DoodlesFeedState {
       hasMore: hasMore ?? this.hasMore,
       isLoading: isLoading ?? this.isLoading,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      searchQuery: searchQuery ?? this.searchQuery,
       selectedTags: selectedTags ?? this.selectedTags,
       sortOrder: sortOrder ?? this.sortOrder,
+      languageFilter: languageFilter ?? this.languageFilter,
       errorMessage: errorMessage,
     );
   }
@@ -69,8 +83,11 @@ class DoodlesFeedNotifier extends _$DoodlesFeedNotifier {
 
   @override
   DoodlesFeedState build() {
+    final locale = PlatformDispatcher.instance.locale.languageCode;
+    final defaultLanguage = locale.startsWith('es') ? 'es' : 'en';
+
     Future.microtask(loadInitial);
-    return const DoodlesFeedState();
+    return DoodlesFeedState(languageFilter: defaultLanguage);
   }
 
   /// Carga la primera página desde cero.
@@ -82,8 +99,10 @@ class DoodlesFeedNotifier extends _$DoodlesFeedNotifier {
           .read(feedServiceProvider)
           .fetchDoodles(
             offset: 0,
+            query: state.searchQuery,
             tags: state.selectedTags,
             sort: state.sortOrder,
+            language: state.languageFilter,
           );
       _offset = doodles.length;
       state = state.copyWith(
@@ -109,8 +128,10 @@ class DoodlesFeedNotifier extends _$DoodlesFeedNotifier {
           .read(feedServiceProvider)
           .fetchDoodles(
             offset: _offset,
+            query: state.searchQuery,
             tags: state.selectedTags,
             sort: state.sortOrder,
+            language: state.languageFilter,
           );
       _offset += newDoodles.length;
       state = state.copyWith(
@@ -141,13 +162,30 @@ class DoodlesFeedNotifier extends _$DoodlesFeedNotifier {
         ? FeedSortOrder.random
         : FeedSortOrder.recent;
     state = state.copyWith(sortOrder: newOrder);
-    await loadInitial();
   }
 
   /// Limpia todos los filtros activos y recarga.
   Future<void> clearFilters() async {
-    state = state.copyWith(selectedTags: [], sortOrder: FeedSortOrder.recent);
+    final locale = PlatformDispatcher.instance.locale.languageCode;
+    final defaultLanguage = locale.startsWith('es') ? 'es' : 'en';
+
+    state = state.copyWith(
+      selectedTags: [],
+      sortOrder: FeedSortOrder.recent,
+      searchQuery: '',
+      languageFilter: defaultLanguage,
+    );
     await loadInitial();
+  }
+
+  /// Actualiza el texto de búsqueda y recarga.
+  Future<void> updateSearch(String query) async {
+    state = state.copyWith(searchQuery: query);
+    await loadInitial();
+  }
+
+  Future<void> setLanguageFilter(String? language) async {
+    state = state.copyWith(languageFilter: language);
   }
 
   /// Recarga el feed desde la primera página manteniendo los filtros actuales.

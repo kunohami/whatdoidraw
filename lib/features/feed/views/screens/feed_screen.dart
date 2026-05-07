@@ -51,6 +51,8 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
       final tab = _tabController.index;
       if (tab == 0) {
         ref.read(ideasFeedProvider.notifier).updateSearch(query);
+      } else if (tab == 1) {
+        ref.read(doodlesFeedProvider.notifier).updateSearch(query);
       } else if (tab == 2) {
         ref.read(artworksFeedProvider.notifier).updateSearch(query);
       }
@@ -79,145 +81,186 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
     }
   }
 
+  void _showFilterSheet() {
+    final tab = _tabController.index;
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Consumer(
+        builder: (context, ref, _) {
+          // Variables locales para el estado del modal
+          String? currentLang;
+          FeedSortOrder? currentSort;
+
+          // Obtenemos los valores iniciales según la pestaña activa
+          final dynamic currentState = tab == 0 
+            ? ref.read(ideasFeedProvider) 
+            : tab == 1 ? ref.read(doodlesFeedProvider) : ref.read(artworksFeedProvider);
+          
+          return SafeArea(
+            child: StatefulBuilder(
+              builder: (context, setModalState) {
+                // Inicialización diferida del estado local con el tipo correcto
+                currentLang ??= currentState.languageFilter;
+                currentSort ??= currentState.sortOrder;
+
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Filtros y Ordenación',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    if (tab == 0)
+                      ListTile(
+                        leading: const Icon(Icons.language),
+                        title: const Text('Idioma'),
+                        trailing: DropdownButton<String>(
+                          value: currentLang ?? 'all',
+                          underline: const SizedBox(),
+                          onChanged: (value) {
+                            final newLang = value == 'all' ? null : value;
+                            if (tab == 0) ref.read(ideasFeedProvider.notifier).setLanguageFilter(newLang);
+                            else if (tab == 1) ref.read(doodlesFeedProvider.notifier).setLanguageFilter(newLang);
+                            else ref.read(artworksFeedProvider.notifier).setLanguageFilter(newLang);
+                            
+                            setModalState(() {
+                              currentLang = newLang;
+                            });
+                          },
+                          items: const [
+                            DropdownMenuItem(value: 'all', child: Text('Todos')),
+                            DropdownMenuItem(value: 'es', child: Text('Español')),
+                            DropdownMenuItem(value: 'en', child: Text('English')),
+                          ],
+                        ),
+                      ),
+                    ListTile(
+                      leading: const Icon(Icons.sort),
+                      title: const Text('Ordenación'),
+                      trailing: Text(
+                        currentSort == FeedSortOrder.recent ? 'Reciente' : 'Aleatorio',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onTap: () {
+                        final newSort = currentSort == FeedSortOrder.recent
+                            ? FeedSortOrder.random
+                            : FeedSortOrder.recent;
+                        
+                        if (tab == 0) ref.read(ideasFeedProvider.notifier).toggleSortOrder();
+                        else if (tab == 1) ref.read(doodlesFeedProvider.notifier).toggleSortOrder();
+                        else ref.read(artworksFeedProvider.notifier).toggleSortOrder();
+
+                        setModalState(() {
+                          currentSort = newSort;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (tab == 0) {
+                              ref.read(ideasFeedProvider.notifier).refresh();
+                            } else if (tab == 1) {
+                              ref.read(doodlesFeedProvider.notifier).refresh();
+                            } else {
+                              ref.read(artworksFeedProvider.notifier).refresh();
+                            }
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Aplicar filtros'),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final ideasState = ref.watch(ideasFeedProvider);
     final doodlesState = ref.watch(doodlesFeedProvider);
     final artworksState = ref.watch(artworksFeedProvider);
 
-    // Determinamos el sort order según la pestaña activa para el icono del botón.
-    final currentSort = _tabController.index == 0
-        ? ideasState.sortOrder
-        : _tabController.index == 1
-        ? doodlesState.sortOrder
-        : artworksState.sortOrder;
-
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Descubrimiento'),
-          centerTitle: true,
-          actions: [
-            // Filtro de idioma (solo para Ideas)
-            ListenableBuilder(
-              listenable: _tabController,
-              builder: (context, _) {
-                if (_tabController.index != 0) return const SizedBox.shrink();
-
-                final currentLang = ref.watch(ideasFeedProvider).languageFilter;
-
-                return PopupMenuButton<String>(
-                  icon: const Icon(Icons.language),
-                  tooltip: 'Filtrar por idioma',
-                  initialValue: currentLang ?? 'all',
-                  onSelected: (value) {
-                    ref
-                        .read(ideasFeedProvider.notifier)
-                        .setLanguageFilter(value == 'all' ? null : value);
-                  },
-                  itemBuilder: (context) => const [
-                    PopupMenuItem(value: 'en', child: Text('English')),
-                    PopupMenuItem(value: 'es', child: Text('Español')),
-                    PopupMenuItem(
-                      value: 'all',
-                      child: Text('Todos los idiomas'),
-                    ),
-                  ],
-                );
-              },
+          titleSpacing: 0,
+          title: Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: TabBar(
+              controller: _tabController,
+              tabs: const [
+                Tab(icon: Icon(Icons.lightbulb_outline, size: 20), text: 'Ideas'),
+                Tab(icon: Icon(Icons.brush, size: 20), text: 'Doodles'),
+                Tab(icon: Icon(Icons.art_track, size: 20), text: 'Artworks'),
+              ],
             ),
-            // Toggle de ordenación (solo en pestañas Ideas y Doodles)
-            ListenableBuilder(
-              listenable: _tabController,
-              builder: (context, _) {
-                if (_tabController.index == 2) return const SizedBox.shrink();
-                return IconButton(
-                  icon: Icon(
-                    currentSort == FeedSortOrder.recent
-                        ? Icons.access_time
-                        : Icons.shuffle,
-                    color: currentSort == FeedSortOrder.random
-                        ? Theme.of(context).colorScheme.primary
-                        : null,
-                  ),
-                  tooltip: currentSort == FeedSortOrder.recent
-                      ? 'Cambiar a orden aleatorio'
-                      : 'Cambiar a orden por fecha',
-                  onPressed: _onToggleSort,
-                );
-              },
-            ),
-            // Botón de actualizar
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              tooltip: 'Actualizar',
-              onPressed: _onRefresh,
-            ),
-          ],
-          bottom: TabBar(
-            controller: _tabController,
-            tabs: const [
-              Tab(icon: Icon(Icons.lightbulb_outline), text: 'Ideas'),
-              Tab(icon: Icon(Icons.brush), text: 'Doodles'),
-              Tab(icon: Icon(Icons.art_track), text: 'Artworks'),
-            ],
           ),
         ),
         body: Column(
           children: [
-            // Barra de búsqueda (solo para Ideas)
-            ListenableBuilder(
-              listenable: _tabController,
-              builder: (context, _) {
-                if (_tabController.index == 1) return const SizedBox.shrink();
-                final isArtworks = _tabController.index == 2;
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-                  child: SearchBar(
-                    controller: _searchController,
-                    hintText: isArtworks
-                        ? 'Buscar por artista o tag...'
-                        : 'Buscar ideas...',
-                    leading: const Icon(Icons.search),
-                    trailing: [
-                      if (_searchController.text.isNotEmpty)
-                        IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            _searchController.clear();
-                            if (isArtworks) {
-                              ref
-                                  .read(artworksFeedProvider.notifier)
-                                  .updateSearch('');
-                            } else {
-                              ref
-                                  .read(ideasFeedProvider.notifier)
-                                  .updateSearch('');
-                            }
-                          },
-                        ),
-                    ],
-                    onChanged: _onSearchChanged,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 12.0, 8.0, 8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SearchBar(
+                      controller: _searchController,
+                      hintText: 'Buscar...',
+                      elevation: WidgetStateProperty.all(0),
+                      backgroundColor: WidgetStateProperty.all(
+                        Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
+                      ),
+                      leading: const Icon(Icons.search, size: 20),
+                      onChanged: _onSearchChanged,
+                      trailing: [
+                        if (_searchController.text.isNotEmpty)
+                          IconButton(
+                            icon: const Icon(Icons.clear, size: 20),
+                            onPressed: () {
+                              _searchController.clear();
+                              _onSearchChanged('');
+                            },
+                          ),
+                      ],
+                    ),
                   ),
-                );
-              },
+                  IconButton(
+                    icon: const Icon(Icons.filter_list),
+                    onPressed: _showFilterSheet,
+                    tooltip: 'Filtros',
+                  ),
+                ],
+              ),
             ),
-            // Fila de tags activos (Ideas)
+            // Fila de tags activos
             ListenableBuilder(
               listenable: _tabController,
               builder: (context, _) {
-                final isIdeasTab = _tabController.index == 0;
-                final isDoodlesTab = _tabController.index == 1;
-                final isArtworksTab = _tabController.index == 2;
-
-                final activeTags = isIdeasTab
+                final tab = _tabController.index;
+                final activeTags = tab == 0
                     ? ideasState.selectedTags
-                    : isDoodlesTab
+                    : tab == 1
                     ? doodlesState.selectedTags
-                    : isArtworksTab
-                    ? artworksState.selectedTags
-                    : <String>[];
+                    : artworksState.selectedTags;
 
                 if (activeTags.isEmpty) return const SizedBox.shrink();
 
@@ -233,18 +276,12 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                               tag: tag,
                               isActive: true,
                               onTap: () {
-                                if (isIdeasTab) {
-                                  ref
-                                      .read(ideasFeedProvider.notifier)
-                                      .toggleTag(tag);
-                                } else if (isDoodlesTab) {
-                                  ref
-                                      .read(doodlesFeedProvider.notifier)
-                                      .toggleTag(tag);
-                                } else if (isArtworksTab) {
-                                  ref
-                                      .read(artworksFeedProvider.notifier)
-                                      .toggleTag(tag);
+                                if (tab == 0) {
+                                  ref.read(ideasFeedProvider.notifier).toggleTag(tag);
+                                } else if (tab == 1) {
+                                  ref.read(doodlesFeedProvider.notifier).toggleTag(tag);
+                                } else {
+                                  ref.read(artworksFeedProvider.notifier).toggleTag(tag);
                                 }
                               },
                             );
@@ -253,16 +290,12 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                       ),
                       TextButton(
                         onPressed: () {
-                          if (isIdeasTab) {
+                          if (tab == 0) {
                             ref.read(ideasFeedProvider.notifier).clearFilters();
-                          } else if (isDoodlesTab) {
-                            ref
-                                .read(doodlesFeedProvider.notifier)
-                                .clearFilters();
-                          } else if (isArtworksTab) {
-                            ref
-                                .read(artworksFeedProvider.notifier)
-                                .clearFilters();
+                          } else if (tab == 1) {
+                            ref.read(doodlesFeedProvider.notifier).clearFilters();
+                          } else {
+                            ref.read(artworksFeedProvider.notifier).clearFilters();
                           }
                         },
                         child: const Text('Limpiar'),
@@ -276,10 +309,19 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: const [
-                  _IdeasFeedTab(),
-                  _DoodlesFeedTab(),
-                  _ArtworksFeedTab(),
+                children: [
+                  RefreshIndicator(
+                    onRefresh: () async => ref.read(ideasFeedProvider.notifier).refresh(),
+                    child: const _IdeasFeedTab(),
+                  ),
+                  RefreshIndicator(
+                    onRefresh: () async => ref.read(doodlesFeedProvider.notifier).refresh(),
+                    child: const _DoodlesFeedTab(),
+                  ),
+                  RefreshIndicator(
+                    onRefresh: () async => ref.read(artworksFeedProvider.notifier).refresh(),
+                    child: const _ArtworksFeedTab(),
+                  ),
                 ],
               ),
             ),

@@ -41,7 +41,7 @@ final class ArtworksFeedProvider
   }
 }
 
-String _$artworksFeedHash() => r'5ba02f0318bb7b295fcd777c04465b9e4db3cbbe';
+String _$artworksFeedHash() => r'36c8965c589e0b8fd924cbbc93f7fa3d4567f353';
 
 abstract class _$ArtworksFeed extends $Notifier<ArtworksFeedState> {
   ArtworksFeedState build();
