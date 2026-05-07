@@ -247,9 +247,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                       hintText: 'Buscar...',
                       elevation: WidgetStateProperty.all(0),
                       backgroundColor: WidgetStateProperty.all(
-                        Theme.of(context)
-                            .colorScheme
-                            .surfaceContainerHighest
+                        Theme.of(context).colorScheme.surfaceContainerHighest
                             .withValues(alpha: 0.5),
                       ),
                       leading: const Icon(Icons.search, size: 20),
