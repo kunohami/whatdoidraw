@@ -60,66 +60,68 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('💡 Nueva Idea'), centerTitle: true),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              '¿Qué te gustaría que alguien dibujara hoy?',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 24),
-            TextField(
-              controller: _controller,
-              maxLines: 5,
-              maxLength: 300,
-              decoration: InputDecoration(
-                hintText: 'Ej: Un gato astronauta bebiendo café...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                filled: true,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                '¿Qué te gustaría que alguien dibujara hoy?',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
-              enabled: !isLoading,
-            ),
-            const SizedBox(height: 16),
-            TagInputField(
-              onTagsChanged: (tags) => setState(() => _tags = tags),
-              initialTags: _tags,
-            ),
-            const SizedBox(height: 16),
-            SegmentedButton<String>(
-              segments: const [
-                ButtonSegment(value: 'en', label: Text('English')),
-                ButtonSegment(value: 'es', label: Text('Español')),
-              ],
-              selected: {_selectedLanguage},
-              onSelectionChanged: (Set<String> newSelection) {
-                setState(() {
-                  _selectedLanguage = newSelection.first;
-                });
-              },
-            ),
-            const Spacer(),
-            ElevatedButton(
-              onPressed: isLoading ? null : _submit,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+              const SizedBox(height: 24),
+              TextField(
+                controller: _controller,
+                maxLines: 5,
+                maxLength: 300,
+                decoration: InputDecoration(
+                  hintText: 'Ej: Un gato astronauta bebiendo café...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  filled: true,
                 ),
+                enabled: !isLoading,
               ),
-              child: isLoading
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Text('Enviar Idea', style: TextStyle(fontSize: 16)),
-            ),
-            const SizedBox(height: 24),
-          ],
+              const SizedBox(height: 16),
+              TagInputField(
+                onTagsChanged: (tags) => setState(() => _tags = tags),
+                initialTags: _tags,
+              ),
+              const SizedBox(height: 16),
+              SegmentedButton<String>(
+                segments: const [
+                  ButtonSegment(value: 'en', label: Text('English')),
+                  ButtonSegment(value: 'es', label: Text('Español')),
+                ],
+                selected: {_selectedLanguage},
+                onSelectionChanged: (Set<String> newSelection) {
+                  setState(() {
+                    _selectedLanguage = newSelection.first;
+                  });
+                },
+              ),
+              const SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: isLoading ? null : _submit,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: isLoading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Enviar Idea', style: TextStyle(fontSize: 16)),
+              ),
+              const SizedBox(height: 24),
+            ],
+          ),
         ),
       ),
     );

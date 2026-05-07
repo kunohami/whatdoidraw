@@ -55,16 +55,6 @@ class CreationHubScreen extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(height: 12),
-          _buildMenuCard(
-            context: context,
-            title: 'Compartir Artwork',
-            subtitle: 'Enlaza tu obra final conectándola a una inspiración.',
-            icon: Icons.image_outlined,
-            onTap: () {
-              _showConstructionSnackbar(context);
-            },
-          ),
           const SizedBox(height: 32),
           const Divider(),
           const SizedBox(height: 16),

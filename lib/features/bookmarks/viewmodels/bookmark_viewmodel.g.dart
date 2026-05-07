@@ -75,7 +75,7 @@ final class BookmarkedIdeasProvider
   BookmarkedIdeas create() => BookmarkedIdeas();
 }
 
-String _$bookmarkedIdeasHash() => r'9bda7c0e47193e3e5d64d4d0c6aa67dbdcdcc7d4';
+String _$bookmarkedIdeasHash() => r'58c2eeb6f61f1d456cec22a3ad46ddaab24fcfc1';
 
 abstract class _$BookmarkedIdeas extends $AsyncNotifier<List<IdeaModel>> {
   FutureOr<List<IdeaModel>> build();
@@ -119,7 +119,7 @@ final class BookmarkedDoodlesProvider
   BookmarkedDoodles create() => BookmarkedDoodles();
 }
 
-String _$bookmarkedDoodlesHash() => r'46734c29913c283da7def57dc3645ca4e97d412c';
+String _$bookmarkedDoodlesHash() => r'1073ffd674fc360d38ec305256d8eb8b25ece9cb';
 
 abstract class _$BookmarkedDoodles extends $AsyncNotifier<List<DoodleModel>> {
   FutureOr<List<DoodleModel>> build();

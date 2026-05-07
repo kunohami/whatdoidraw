@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatdoidraw/features/artworks/services/deviantart_service.dart';
+import 'package:whatdoidraw/features/artworks/services/artwork_link_service.dart';
 import 'package:whatdoidraw/features/artworks/viewmodels/create_artwork_viewmodel.dart';
 
 class CreateArtworkScreen extends ConsumerStatefulWidget {
@@ -95,15 +95,15 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
-                'Enlaza tu obra final de DeviantArt para compartirla con la comunidad.',
+                'Enlaza tu obra final para compartirla. Si usas DeviantArt o Bluesky, se mostrará una miniatura automáticamente.',
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _urlController,
                 decoration: const InputDecoration(
-                  labelText: 'URL de DeviantArt',
-                  hintText: 'https://www.deviantart.com/usuario/art/...',
+                  labelText: 'URL del Artwork',
+                  hintText: 'DeviantArt o Bluesky...',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.link),
                 ),
@@ -112,9 +112,9 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                     return 'Introduce una URL';
                   }
                   if (!ref
-                      .read(deviantArtServiceProvider)
-                      .isValidDeviantArtUrl(value)) {
-                    return 'Debe ser un enlace válido de DeviantArt';
+                      .read(artworkLinkServiceProvider.notifier)
+                      .isValidUrl(value)) {
+                    return 'Introduce una red social válida (Instagram, ArtStation, Cara, etc.)';
                   }
                   return null;
                 },
@@ -206,8 +206,22 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                       ),
                       ListTile(
                         title: Text(state.preview!.title),
-                        subtitle: Text('por ${state.preview!.authorName}'),
+                        subtitle: Text(
+                          'por ${state.preview!.authorName} (${state.preview!.providerName})',
+                        ),
                       ),
+                      if (state.preview!.thumbnailUrl.isEmpty)
+                        const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Text(
+                            'Nota: No hay miniatura disponible para esta red social. Se mostrará solo el enlace.',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 12,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -220,6 +234,9 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                     padding: const EdgeInsets.all(16),
                   ),
                 ),
+                const SizedBox(
+                  height: 48,
+                ), // Espacio extra para evitar la barra de navegación de Android
               ],
             ],
           ),

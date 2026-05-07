@@ -42,7 +42,7 @@ final class CreateArtworkViewModelProvider
 }
 
 String _$createArtworkViewModelHash() =>
-    r'35686609921801fa136404a4120f51529688ca0a';
+    r'48112ffd835dab601b227d13ae03ddba84ce9ba0';
 
 abstract class _$CreateArtworkViewModel extends $Notifier<CreateArtworkState> {
   CreateArtworkState build();
