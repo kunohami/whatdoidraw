@@ -32,9 +32,9 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [x] **Ordenación**: modo cronológico (reciente) y modo aleatorio (shuffle en cliente).
 - [x] **Filtro de idioma**: Auto-filtrar Ideas según el idioma del usuario y permitir selección en creación.
 
-### Iteración 4: Interacción Social y Artworks
+### Iteración 4: Interacción Social y Artworks ✅
 - [x] Sistema de Bookmarks (Guardar contenido) y visualización en el perfil.
-- [ ] Formulario para publicar Artwork final (enlazando url externa) con soporte de tags.
+- [x] Formulario para publicar Artwork final (enlazando url externa) con soporte de tags y multi-plataforma.
 - [ ] Lógica de filtrado por "popularidad" (Likes).
 
 ### Iteración 5: Internacionalización (i18n) y Pulido Final
@@ -48,4 +48,4 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [ ] Pruebas de usabilidad y lanzamiento.
 
 ---
-*Última actualización: 26 de Abril de 2026*
+*Última actualización: 7 de Mayo de 2026*
