@@ -147,15 +147,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                         underline: const SizedBox(),
                         onChanged: (value) {
                           if (value == null) return;
-                          
-                          if (tab == 0) {
-                            ref.read(ideasFeedProvider.notifier).setSortOrder(value);
-                          } else if (tab == 1) {
-                            ref.read(doodlesFeedProvider.notifier).setSortOrder(value);
-                          } else {
-                            ref.read(artworksFeedProvider.notifier).setSortOrder(value);
-                          }
-
                           setModalState(() {
                             currentSort = value;
                           });
@@ -187,11 +178,15 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                         child: ElevatedButton(
                           onPressed: () {
                             if (tab == 0) {
-                              ref.read(ideasFeedProvider.notifier).refresh();
+                              final notifier = ref.read(ideasFeedProvider.notifier);
+                              notifier.setLanguageFilter(currentLang);
+                              notifier.setSortOrder(currentSort ?? FeedSortOrder.recent);
                             } else if (tab == 1) {
-                              ref.read(doodlesFeedProvider.notifier).refresh();
+                              final notifier = ref.read(doodlesFeedProvider.notifier);
+                              notifier.setSortOrder(currentSort ?? FeedSortOrder.recent);
                             } else {
-                              ref.read(artworksFeedProvider.notifier).refresh();
+                              final notifier = ref.read(artworksFeedProvider.notifier);
+                              notifier.setSortOrder(currentSort ?? FeedSortOrder.recent);
                             }
                             Navigator.pop(context);
                           },

@@ -44,7 +44,7 @@ class FeedService {
     // En modo aleatorio pedimos un lote grande para hacer shuffle en cliente.
     final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
 
-    var queryBuilder = supabaseClient
+    dynamic queryBuilder = supabaseClient
         .from('ideas')
         .select()
         .eq('is_active', true);
@@ -61,12 +61,15 @@ class FeedService {
       queryBuilder = queryBuilder.eq('language', language);
     }
 
-    final data = await queryBuilder
-        .order(
-          sort == FeedSortOrder.likes ? 'likes_count' : 'created_at',
-          ascending: false,
-        )
-        .range(offset, offset + fetchLimit - 1);
+    if (sort == FeedSortOrder.likes) {
+      queryBuilder = queryBuilder
+          .order('likes_count', ascending: false)
+          .order('created_at', ascending: false);
+    } else {
+      queryBuilder = queryBuilder.order('created_at', ascending: false);
+    }
+
+    final data = await queryBuilder.range(offset, offset + fetchLimit - 1);
 
     var ideas = (data as List).map((e) => IdeaModel.fromJson(e)).toList();
 
@@ -110,7 +113,7 @@ class FeedService {
   }) async {
     final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
 
-    var queryBuilder = supabaseClient
+    dynamic queryBuilder = supabaseClient
         .from('doodles')
         .select()
         .eq('is_active', true);
@@ -125,12 +128,15 @@ class FeedService {
       queryBuilder = queryBuilder.contains('tags', tags);
     }
 
-    final data = await queryBuilder
-        .order(
-          sort == FeedSortOrder.likes ? 'likes_count' : 'created_at',
-          ascending: false,
-        )
-        .range(offset, offset + fetchLimit - 1);
+    if (sort == FeedSortOrder.likes) {
+      queryBuilder = queryBuilder
+          .order('likes_count', ascending: false)
+          .order('created_at', ascending: false);
+    } else {
+      queryBuilder = queryBuilder.order('created_at', ascending: false);
+    }
+
+    final data = await queryBuilder.range(offset, offset + fetchLimit - 1);
 
     var doodles = (data as List).map((e) => DoodleModel.fromJson(e)).toList();
 
@@ -176,7 +182,7 @@ class FeedService {
     final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
 
     // Join con la tabla 'users' para obtener el 'username'
-    var queryBuilder = supabaseClient
+    dynamic queryBuilder = supabaseClient
         .from('artworks')
         .select('*, users!inner(username)')
         .eq('is_active', true);
@@ -193,12 +199,15 @@ class FeedService {
       queryBuilder = queryBuilder.contains('tags', tags);
     }
 
-    final data = await queryBuilder
-        .order(
-          sort == FeedSortOrder.likes ? 'likes_count' : 'created_at',
-          ascending: false,
-        )
-        .range(offset, offset + fetchLimit - 1);
+    if (sort == FeedSortOrder.likes) {
+      queryBuilder = queryBuilder
+          .order('likes_count', ascending: false)
+          .order('created_at', ascending: false);
+    } else {
+      queryBuilder = queryBuilder.order('created_at', ascending: false);
+    }
+
+    final data = await queryBuilder.range(offset, offset + fetchLimit - 1);
 
     var artworks = (data as List).map((e) {
       final map = Map<String, dynamic>.from(e);

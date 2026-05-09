@@ -151,11 +151,34 @@ CREATE POLICY "Delete own bookmark" ON bookmarks FOR DELETE USING (auth.uid() = 
 ALTER TABLE likes ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public likes" ON likes FOR SELECT USING (true);
 CREATE POLICY "Manage own likes" ON likes FOR ALL USING (auth.uid() = user_id);
+```
 
--- Triggers for likes_count
--- Estas funciones y triggers deben ejecutarse en SQL para mantener el contador denormalizado.
+### Sistema de Likes (Denormalización)
 
-/*
+Para optimizar las consultas del Feed (ordenación por popularidad), se utiliza una estrategia de denormalización mediante contadores en las tablas principales.
+
+#### Columnas Añadidas
+
+| Tabla | Columna | Tipo | Notas |
+| :--- | :--- | :--- | :--- |
+| `ideas` | `likes_count` | `integer` | Default 0, NOT NULL |
+| `doodles` | `likes_count` | `integer` | Default 0, NOT NULL |
+| `artworks` | `likes_count` | `integer` | Default 0, NOT NULL |
+
+#### SQL de Implementación (Supabase)
+
+```sql
+-- 1. Añadir columnas (si no existen)
+ALTER TABLE ideas ADD COLUMN IF NOT EXISTS likes_count INTEGER DEFAULT 0 NOT NULL;
+ALTER TABLE doodles ADD COLUMN IF NOT EXISTS likes_count INTEGER DEFAULT 0 NOT NULL;
+ALTER TABLE artworks ADD COLUMN IF NOT EXISTS likes_count INTEGER DEFAULT 0 NOT NULL;
+
+-- 2. Inicializar valores (importante para evitar NULLs en registros existentes)
+UPDATE ideas SET likes_count = 0 WHERE likes_count IS NULL;
+UPDATE doodles SET likes_count = 0 WHERE likes_count IS NULL;
+UPDATE artworks SET likes_count = 0 WHERE likes_count IS NULL;
+
+-- 3. Función de Trigger
 CREATE OR REPLACE FUNCTION update_likes_count()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -180,12 +203,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER on_like_added
-AFTER INSERT ON likes
-FOR EACH ROW EXECUTE FUNCTION update_likes_count();
-
-CREATE TRIGGER on_like_removed
-AFTER DELETE ON likes
-FOR EACH ROW EXECUTE FUNCTION update_likes_count();
-*/
+-- 4. Triggers
+CREATE TRIGGER on_like_added AFTER INSERT ON likes FOR EACH ROW EXECUTE FUNCTION update_likes_count();
+CREATE TRIGGER on_like_removed AFTER DELETE ON likes FOR EACH ROW EXECUTE FUNCTION update_likes_count();
+```
 ```
