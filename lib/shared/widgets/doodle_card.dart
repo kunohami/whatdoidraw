@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/bookmarks/viewmodels/bookmark_viewmodel.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dart';
+import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
 import 'package:whatdoidraw/shared/models/stroke_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
@@ -113,6 +114,48 @@ class DoodleCard extends ConsumerWidget {
               ),
             Positioned(
               top: 4,
+              left: 4,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        doodle.isLiked ? Icons.favorite : Icons.favorite_border,
+                        size: 20,
+                        color: doodle.isLiked ? Colors.red : null,
+                      ),
+                      onPressed: () {
+                        ref
+                            .read(likeViewModelProvider.notifier)
+                            .toggleDoodleLike(doodle);
+                      },
+                      tooltip: doodle.isLiked ? 'Quitar like' : 'Dar like',
+                      constraints: const BoxConstraints(),
+                      padding: const EdgeInsets.all(8),
+                    ),
+                    if (doodle.likesCount > 0)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Text(
+                          '${doodle.likesCount}',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 4,
               right: 4,
               child: Material(
                 color: Colors.white.withValues(alpha: 0.8),
@@ -121,9 +164,10 @@ class DoodleCard extends ConsumerWidget {
                   icon: Icon(
                     isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                     size: 20,
-                    color: isBookmarked
-                        ? Theme.of(context).colorScheme.primary
-                        : null,
+                    color:
+                        isBookmarked
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
                   ),
                   onPressed: () {
                     ref

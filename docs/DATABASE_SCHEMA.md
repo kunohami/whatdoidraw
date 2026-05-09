@@ -30,6 +30,7 @@ CREATE TABLE ideas (
   language TEXT NOT NULL DEFAULT 'en',
   tags VARCHAR[],
   is_active BOOLEAN DEFAULT TRUE,
+  likes_count INTEGER DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```
@@ -43,6 +44,7 @@ CREATE TABLE doodles (
   doodle_data JSONB NOT NULL,
   tags VARCHAR[],
   is_active BOOLEAN DEFAULT TRUE,
+  likes_count INTEGER DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```
@@ -58,6 +60,7 @@ CREATE TABLE artworks (
   external_link VARCHAR NOT NULL,
   tags VARCHAR[],
   is_active BOOLEAN DEFAULT TRUE,
+  likes_count INTEGER DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   CONSTRAINT artwork_must_have_parent CHECK (
     (idea_id IS NOT NULL) OR (doodle_id IS NOT NULL)
@@ -143,4 +146,46 @@ CREATE POLICY "Delete own artwork" ON artworks FOR DELETE USING (auth.uid() = us
 CREATE POLICY "Select own bookmarks" ON bookmarks FOR SELECT USING (auth.uid() = user_id);
 CREATE POLICY "Create own bookmark" ON bookmarks FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Delete own bookmark" ON bookmarks FOR DELETE USING (auth.uid() = user_id);
+
+-- likes
+ALTER TABLE likes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public likes" ON likes FOR SELECT USING (true);
+CREATE POLICY "Manage own likes" ON likes FOR ALL USING (auth.uid() = user_id);
+
+-- Triggers for likes_count
+-- Estas funciones y triggers deben ejecutarse en SQL para mantener el contador denormalizado.
+
+/*
+CREATE OR REPLACE FUNCTION update_likes_count()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF (TG_OP = 'INSERT') THEN
+    IF NEW.idea_id IS NOT NULL THEN
+      UPDATE ideas SET likes_count = likes_count + 1 WHERE id = NEW.idea_id;
+    ELSIF NEW.doodle_id IS NOT NULL THEN
+      UPDATE doodles SET likes_count = likes_count + 1 WHERE id = NEW.doodle_id;
+    ELSIF NEW.artwork_id IS NOT NULL THEN
+      UPDATE artworks SET likes_count = likes_count + 1 WHERE id = NEW.artwork_id;
+    END IF;
+  ELSIF (TG_OP = 'DELETE') THEN
+    IF OLD.idea_id IS NOT NULL THEN
+      UPDATE ideas SET likes_count = likes_count - 1 WHERE id = OLD.idea_id;
+    ELSIF OLD.doodle_id IS NOT NULL THEN
+      UPDATE doodles SET likes_count = likes_count - 1 WHERE id = OLD.doodle_id;
+    ELSIF OLD.artwork_id IS NOT NULL THEN
+      UPDATE artworks SET likes_count = likes_count - 1 WHERE id = OLD.artwork_id;
+    END IF;
+  END IF;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER on_like_added
+AFTER INSERT ON likes
+FOR EACH ROW EXECUTE FUNCTION update_likes_count();
+
+CREATE TRIGGER on_like_removed
+AFTER DELETE ON likes
+FOR EACH ROW EXECUTE FUNCTION update_likes_count();
+*/
 ```

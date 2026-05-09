@@ -31,6 +31,13 @@ abstract class IdeaModel with _$IdeaModel {
 
     /// Fecha y hora de creación de la publicación.
     @JsonKey(name: 'created_at') DateTime? createdAt,
+
+    /// Número total de likes denormalizado.
+    @JsonKey(name: 'likes_count') @Default(0) int likesCount,
+
+    /// Indica si el usuario actual ha dado like a esta idea.
+    /// Este campo se popula dinámicamente en el Service/ViewModel.
+    @Default(false) bool isLiked,
   }) = _IdeaModel;
 
   factory IdeaModel.fromJson(Map<String, dynamic> json) =>

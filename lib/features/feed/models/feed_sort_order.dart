@@ -5,4 +5,7 @@ enum FeedSortOrder {
 
   /// Devuelve el contenido en orden aleatorio (shuffle en cliente).
   random,
+
+  /// Ordena por número de likes (más populares primero).
+  likes,
 }

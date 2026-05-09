@@ -41,6 +41,8 @@ abstract class ArtworkModel with _$ArtworkModel {
 
     /// Fecha de publicación.
     @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'likes_count') @Default(0) int likesCount,
+    @Default(false) bool isLiked,
   }) = _ArtworkModel;
 
   factory ArtworkModel.fromJson(Map<String, dynamic> json) =>

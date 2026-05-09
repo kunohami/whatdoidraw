@@ -35,17 +35,22 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 ### Iteración 4: Interacción Social y Artworks ✅
 - [x] Sistema de Bookmarks (Guardar contenido) y visualización en el perfil.
 - [x] Formulario para publicar Artwork final (enlazando url externa) con soporte de tags y multi-plataforma.
-- [ ] Lógica de filtrado por "popularidad" (Likes).
+- [ ] Lógica de filtrado por "popularidad" (Likes) y visualización de likes.
+- [ ] Sistema para ver relación con otras ideas o doodles existentes en la app al abrir una idea o doodle.
+- [ ] Mostrar el nombre del usuario al que pertenece la idea o doodle.
+- [ ] Poder ver perfiles de otros usuarios al hacer click en su usuario
+- [ ] Buscador de perfiles de usuario en la pestaña de perfil
 
 ### Iteración 5: Internacionalización (i18n) y Pulido Final
 - [ ] Soporte Bilingüe Nativo (Inglés y Español) en toda la UI.
-- [ ] Implementar un Filtro de Profanidad (Profanity Filter) para bloquear contenido ofensivo.
+- [ ] Implementar un Profanity Filter para bloquear contenido ofensivo.
 - [ ] Soporte de **Google Sign-In para Web** (Optimización GSI).
 - [ ] Integración con **Discord Login** (OAuth2).
 - [ ] Notificaciones push para avisar al creador original cuando su contenido se usa.
 - [ ] Tags sugeridos y populares en el formulario de creación.
 - [ ] Traducción automática de Ideas usando una API externa.
 - [ ] Pruebas de usabilidad y lanzamiento.
+- [ ] Sistema de notificaciones por correo cada vez que alguien haga un artwork final de tu idea o doodle.
 
 ---
 *Última actualización: 7 de Mayo de 2026*

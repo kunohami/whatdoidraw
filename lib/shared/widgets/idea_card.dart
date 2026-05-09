@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
 import 'package:whatdoidraw/features/bookmarks/viewmodels/bookmark_viewmodel.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
+import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
 import 'package:whatdoidraw/shared/models/idea_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 
@@ -69,24 +70,59 @@ class IdeaCard extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        idea.isLiked ? Icons.favorite : Icons.favorite_border,
+                        color:
+                            idea.isLiked
+                                ? Colors.red
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant
+                                    .withValues(alpha: 0.7),
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        ref
+                            .read(likeViewModelProvider.notifier)
+                            .toggleIdeaLike(idea);
+                      },
+                      tooltip: idea.isLiked ? 'Quitar like' : 'Dar like',
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    if (idea.likesCount > 0)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Text(
+                          '${idea.likesCount}',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                const Spacer(),
                 if (showDrawButton)
                   Row(
                     children: [
                       IconButton(
                         icon: Icon(
                           isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                          color: isBookmarked
-                              ? Theme.of(context).colorScheme.primary
-                              : null,
+                          color:
+                              isBookmarked
+                                  ? Theme.of(context).colorScheme.primary
+                                  : null,
                         ),
                         onPressed: () {
                           ref
                               .read(bookmarkedIdeasProvider.notifier)
                               .toggleBookmark(idea);
                         },
-                        tooltip: isBookmarked
-                            ? 'Quitar guardado'
-                            : 'Guardar idea',
+                        tooltip: isBookmarked ? 'Quitar guardado' : 'Guardar idea',
                       ),
                       IconButton(
                         icon: const Icon(Icons.publish_outlined),
@@ -103,8 +139,6 @@ class IdeaCard extends ConsumerWidget {
                         },
                         tooltip: 'Publicar Artwork final',
                       ),
-                      // [DOC]: Navegación en Flutter. Pasamos parámetros directamente
-                      // por el constructor del Widget destino.
                       IconButton(
                         icon: const Icon(Icons.draw_outlined),
                         onPressed: () {

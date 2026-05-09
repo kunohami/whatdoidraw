@@ -142,38 +142,39 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                     ListTile(
                       leading: const Icon(Icons.sort),
                       title: const Text('Ordenación'),
-                      trailing: Text(
-                        currentSort == FeedSortOrder.recent
-                            ? 'Reciente'
-                            : 'Aleatorio',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      trailing: DropdownButton<FeedSortOrder>(
+                        value: currentSort ?? FeedSortOrder.recent,
+                        underline: const SizedBox(),
+                        onChanged: (value) {
+                          if (value == null) return;
+                          
+                          if (tab == 0) {
+                            ref.read(ideasFeedProvider.notifier).setSortOrder(value);
+                          } else if (tab == 1) {
+                            ref.read(doodlesFeedProvider.notifier).setSortOrder(value);
+                          } else {
+                            ref.read(artworksFeedProvider.notifier).setSortOrder(value);
+                          }
+
+                          setModalState(() {
+                            currentSort = value;
+                          });
+                        },
+                        items: const [
+                          DropdownMenuItem(
+                            value: FeedSortOrder.recent,
+                            child: Text('Reciente'),
+                          ),
+                          DropdownMenuItem(
+                            value: FeedSortOrder.random,
+                            child: Text('Aleatorio'),
+                          ),
+                          DropdownMenuItem(
+                            value: FeedSortOrder.likes,
+                            child: Text('Más populares'),
+                          ),
+                        ],
                       ),
-                      onTap: () {
-                        final newSort = currentSort == FeedSortOrder.recent
-                            ? FeedSortOrder.random
-                            : FeedSortOrder.recent;
-
-                        if (tab == 0) {
-                          ref
-                              .read(ideasFeedProvider.notifier)
-                              .toggleSortOrder();
-                        } else if (tab == 1) {
-                          ref
-                              .read(doodlesFeedProvider.notifier)
-                              .toggleSortOrder();
-                        } else {
-                          ref
-                              .read(artworksFeedProvider.notifier)
-                              .toggleSortOrder();
-                        }
-
-                        setModalState(() {
-                          currentSort = newSort;
-                        });
-                      },
                     ),
                     const SizedBox(height: 8),
                     Padding(

@@ -13,6 +13,8 @@ abstract class DoodleModel with _$DoodleModel {
     @Default([]) List<String> tags,
     @JsonKey(name: 'is_active') @Default(true) bool isActive,
     @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'likes_count') @Default(0) int likesCount,
+    @Default(false) bool isLiked,
   }) = _DoodleModel;
 
   factory DoodleModel.fromJson(Map<String, dynamic> json) =>

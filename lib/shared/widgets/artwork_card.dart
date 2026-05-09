@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
 import 'package:whatdoidraw/shared/models/artwork_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 
-class ArtworkCard extends StatelessWidget {
+class ArtworkCard extends ConsumerWidget {
   final ArtworkModel artwork;
   final ValueChanged<String>? onTagTap;
   final List<String> activeFilterTags;
@@ -23,57 +25,115 @@ class ArtworkCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 2,
-      child: InkWell(
-        onTap: _launchUrl,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (artwork.previewUrl != null)
-              Image.network(
-                artwork.previewUrl!,
-                height: 200,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  height: 200,
-                  color: Colors.grey[200],
-                  child: const Icon(Icons.broken_image, color: Colors.grey),
-                ),
-              ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Obra de ${artwork.authorName ?? "Artista desconocido"}',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          InkWell(
+            onTap: _launchUrl,
+            child: Column(
+              children: [
+                if (artwork.previewUrl != null)
+                  Image.network(
+                    artwork.previewUrl!,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder:
+                        (context, error, stackTrace) => Container(
+                          height: 200,
+                          color: Colors.grey[200],
+                          child: const Icon(
+                            Icons.broken_image,
+                            color: Colors.grey,
+                          ),
+                        ),
                   ),
-                  if (artwork.tags.isNotEmpty) ...[
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 6,
-                      runSpacing: 4,
-                      children: artwork.tags.map((tag) {
-                        return TagChip(
-                          tag: tag,
-                          isActive: activeFilterTags.contains(tag),
-                          onTap: onTagTap != null ? () => onTagTap!(tag) : null,
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ],
-              ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Obra de ${artwork.authorName ?? "Artista desconocido"}',
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      if (artwork.tags.isNotEmpty) ...[
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 6,
+                          runSpacing: 4,
+                          children:
+                              artwork.tags.map((tag) {
+                                return TagChip(
+                                  tag: tag,
+                                  isActive: activeFilterTags.contains(tag),
+                                  onTap:
+                                      onTagTap != null
+                                          ? () => onTagTap!(tag)
+                                          : null,
+                                );
+                              }).toList(),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        artwork.isLiked
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: artwork.isLiked ? Colors.red : null,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        ref
+                            .read(likeViewModelProvider.notifier)
+                            .toggleArtworkLike(artwork);
+                      },
+                      tooltip: artwork.isLiked ? 'Quitar like' : 'Dar like',
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    if (artwork.likesCount > 0)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Text(
+                          '${artwork.likesCount}',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.open_in_new, size: 20),
+                  onPressed: _launchUrl,
+                  tooltip: 'Abrir enlace externo',
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

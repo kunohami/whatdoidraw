@@ -18,6 +18,8 @@ _DoodleModel _$DoodleModelFromJson(Map<String, dynamic> json) => _DoodleModel(
   createdAt: json['created_at'] == null
       ? null
       : DateTime.parse(json['created_at'] as String),
+  likesCount: (json['likes_count'] as num?)?.toInt() ?? 0,
+  isLiked: json['isLiked'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$DoodleModelToJson(_DoodleModel instance) =>
@@ -29,4 +31,6 @@ Map<String, dynamic> _$DoodleModelToJson(_DoodleModel instance) =>
       'tags': instance.tags,
       'is_active': instance.isActive,
       'created_at': instance.createdAt?.toIso8601String(),
+      'likes_count': instance.likesCount,
+      'isLiked': instance.isLiked,
     };
