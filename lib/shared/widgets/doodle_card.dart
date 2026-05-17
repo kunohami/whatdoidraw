@@ -144,10 +144,11 @@ class DoodleCard extends ConsumerWidget {
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Text(
                           '${doodle.likesCount}',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
                         ),
                       ),
                   ],
@@ -164,10 +165,9 @@ class DoodleCard extends ConsumerWidget {
                   icon: Icon(
                     isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                     size: 20,
-                    color:
-                        isBookmarked
-                            ? Theme.of(context).colorScheme.primary
-                            : null,
+                    color: isBookmarked
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
                   ),
                   onPressed: () {
                     ref

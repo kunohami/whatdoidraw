@@ -7,15 +7,15 @@ import 'package:whatdoidraw/features/profile/views/screens/settings_screen.dart'
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 
 void main() {
-  testWidgets('Settings language dropdown changes app locale and text', (WidgetTester tester) async {
+  testWidgets('Settings language dropdown changes app locale and text', (
+    WidgetTester tester,
+  ) async {
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          sharedPreferencesProvider.overrideWithValue(prefs),
-        ],
+        overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
         child: Consumer(
           builder: (context, ref, _) {
             final currentLocale = ref.watch(appLocaleProvider);

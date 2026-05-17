@@ -180,9 +180,7 @@ class _UserDoodlesTab extends ConsumerWidget {
     return doodlesAsync.when(
       data: (doodles) {
         if (doodles.isEmpty) {
-          return Center(
-            child: Text(l10n.profileNoDoodles),
-          );
+          return Center(child: Text(l10n.profileNoDoodles));
         }
         return GridView.builder(
           padding: const EdgeInsets.all(16),
@@ -216,9 +214,7 @@ class _UserArtworksTab extends ConsumerWidget {
     return artworksAsync.when(
       data: (artworks) {
         if (artworks.isEmpty) {
-          return Center(
-            child: Text(l10n.profileNoArtworks),
-          );
+          return Center(child: Text(l10n.profileNoArtworks));
         }
         return ListView.builder(
           padding: const EdgeInsets.all(16),

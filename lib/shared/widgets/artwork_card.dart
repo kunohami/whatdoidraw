@@ -43,15 +43,11 @@ class ArtworkCard extends ConsumerWidget {
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    errorBuilder:
-                        (context, error, stackTrace) => Container(
-                          height: 200,
-                          color: Colors.grey[200],
-                          child: const Icon(
-                            Icons.broken_image,
-                            color: Colors.grey,
-                          ),
-                        ),
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      height: 200,
+                      color: Colors.grey[200],
+                      child: const Icon(Icons.broken_image, color: Colors.grey),
+                    ),
                   ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
@@ -69,17 +65,15 @@ class ArtworkCard extends ConsumerWidget {
                         Wrap(
                           spacing: 6,
                           runSpacing: 4,
-                          children:
-                              artwork.tags.map((tag) {
-                                return TagChip(
-                                  tag: tag,
-                                  isActive: activeFilterTags.contains(tag),
-                                  onTap:
-                                      onTagTap != null
-                                          ? () => onTagTap!(tag)
-                                          : null,
-                                );
-                              }).toList(),
+                          children: artwork.tags.map((tag) {
+                            return TagChip(
+                              tag: tag,
+                              isActive: activeFilterTags.contains(tag),
+                              onTap: onTagTap != null
+                                  ? () => onTagTap!(tag)
+                                  : null,
+                            );
+                          }).toList(),
                         ),
                       ],
                     ],
@@ -116,10 +110,11 @@ class ArtworkCard extends ConsumerWidget {
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Text(
                           '${artwork.likesCount}',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                         ),
                       ),
                   ],

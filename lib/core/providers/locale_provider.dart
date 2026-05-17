@@ -8,7 +8,9 @@ part 'locale_provider.g.dart';
 
 /// Provider que expone la instancia de SharedPreferences de manera síncrona.
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
-  throw UnimplementedError('sharedPreferencesProvider must be overridden in main.dart');
+  throw UnimplementedError(
+    'sharedPreferencesProvider must be overridden in main.dart',
+  );
 });
 
 /// Notifier que maneja el idioma global de la aplicación.
@@ -25,7 +27,7 @@ class AppLocale extends _$AppLocale {
   Locale build() {
     final prefs = ref.watch(sharedPreferencesProvider);
     final savedLanguageCode = prefs.getString(_localeKey);
-    
+
     if (savedLanguageCode != null) {
       return Locale(savedLanguageCode);
     }
@@ -38,6 +40,8 @@ class AppLocale extends _$AppLocale {
   /// Cambia el idioma actual de la aplicación y lo guarda de forma persistente.
   void setLocale(Locale newLocale) {
     state = newLocale;
-    ref.read(sharedPreferencesProvider).setString(_localeKey, newLocale.languageCode);
+    ref
+        .read(sharedPreferencesProvider)
+        .setString(_localeKey, newLocale.languageCode);
   }
 }

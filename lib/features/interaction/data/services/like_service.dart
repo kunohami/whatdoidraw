@@ -15,7 +15,7 @@ class LikeService {
   LikeService(this._supabase);
 
   /// Alterna el estado de "like" para un ítem específico.
-  /// 
+  ///
   /// [type] puede ser 'idea_id', 'doodle_id' o 'artwork_id'.
   Future<bool> toggleLike({
     required String itemId,
@@ -38,10 +38,7 @@ class LikeService {
       return false; // Ahora no tiene like
     } else {
       // Añadir like
-      await _supabase.from('likes').insert({
-        'user_id': userId,
-        type: itemId,
-      });
+      await _supabase.from('likes').insert({'user_id': userId, type: itemId});
       return true; // Ahora tiene like
     }
   }

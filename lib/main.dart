@@ -35,9 +35,7 @@ Future<void> main() async {
   runApp(
     // ProviderScope es necesario para Riverpod
     ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(prefs),
-      ],
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
       child: const WdidApp(),
     ),
   );

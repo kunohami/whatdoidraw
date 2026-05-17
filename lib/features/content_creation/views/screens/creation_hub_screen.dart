@@ -18,10 +18,7 @@ class CreationHubScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.creationHubTitle),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(l10n.creationHubTitle), centerTitle: true),
       // [DOC]: ListView con separaciones para un listado de menú limpio nativo M3.
       body: ListView(
         padding: const EdgeInsets.all(16),

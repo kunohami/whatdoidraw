@@ -83,10 +83,13 @@ class FeedService {
           .eq('user_id', userId)
           .inFilter('idea_id', ideaIds);
 
-      final likedIds =
-          (likedResponse as List).map((r) => r['idea_id'] as String).toSet();
+      final likedIds = (likedResponse as List)
+          .map((r) => r['idea_id'] as String)
+          .toSet();
 
-      ideas = ideas.map((i) => i.copyWith(isLiked: likedIds.contains(i.id))).toList();
+      ideas = ideas
+          .map((i) => i.copyWith(isLiked: likedIds.contains(i.id)))
+          .toList();
     }
 
     if (sort == FeedSortOrder.random) {
@@ -150,11 +153,13 @@ class FeedService {
           .eq('user_id', userId)
           .inFilter('doodle_id', doodleIds);
 
-      final likedIds =
-          (likedResponse as List).map((r) => r['doodle_id'] as String).toSet();
+      final likedIds = (likedResponse as List)
+          .map((r) => r['doodle_id'] as String)
+          .toSet();
 
-      doodles =
-          doodles.map((d) => d.copyWith(isLiked: likedIds.contains(d.id))).toList();
+      doodles = doodles
+          .map((d) => d.copyWith(isLiked: likedIds.contains(d.id)))
+          .toList();
     }
 
     if (sort == FeedSortOrder.random) {
@@ -228,11 +233,13 @@ class FeedService {
           .eq('user_id', userId)
           .inFilter('artwork_id', artworkIds);
 
-      final likedIds =
-          (likedResponse as List).map((r) => r['artwork_id'] as String).toSet();
+      final likedIds = (likedResponse as List)
+          .map((r) => r['artwork_id'] as String)
+          .toSet();
 
-      artworks =
-          artworks.map((a) => a.copyWith(isLiked: likedIds.contains(a.id))).toList();
+      artworks = artworks
+          .map((a) => a.copyWith(isLiked: likedIds.contains(a.id)))
+          .toList();
     }
 
     if (sort == FeedSortOrder.random) {

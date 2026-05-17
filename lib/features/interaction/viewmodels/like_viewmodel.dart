@@ -85,10 +85,14 @@ class LikeViewModel extends _$LikeViewModel {
     }
   }
 
-  void _updateIdeaInFeed(String id, {required bool isLiked, required int likesCount}) {
+  void _updateIdeaInFeed(
+    String id, {
+    required bool isLiked,
+    required int likesCount,
+  }) {
     final notifier = ref.read(ideasFeedProvider.notifier);
     final currentState = ref.read(ideasFeedProvider);
-    
+
     final updatedIdeas = currentState.ideas.map((i) {
       if (i.id == id) {
         return i.copyWith(isLiked: isLiked, likesCount: likesCount);
@@ -99,10 +103,14 @@ class LikeViewModel extends _$LikeViewModel {
     notifier.updateStateFromLike(updatedIdeas);
   }
 
-  void _updateDoodleInFeed(String id, {required bool isLiked, required int likesCount}) {
+  void _updateDoodleInFeed(
+    String id, {
+    required bool isLiked,
+    required int likesCount,
+  }) {
     final notifier = ref.read(doodlesFeedProvider.notifier);
     final currentState = ref.read(doodlesFeedProvider);
-    
+
     final updatedDoodles = currentState.doodles.map((d) {
       if (d.id == id) {
         return d.copyWith(isLiked: isLiked, likesCount: likesCount);
@@ -113,10 +121,14 @@ class LikeViewModel extends _$LikeViewModel {
     notifier.updateStateFromLike(updatedDoodles);
   }
 
-  void _updateArtworkInFeed(String id, {required bool isLiked, required int likesCount}) {
+  void _updateArtworkInFeed(
+    String id, {
+    required bool isLiked,
+    required int likesCount,
+  }) {
     final notifier = ref.read(artworksFeedProvider.notifier);
     final currentState = ref.read(artworksFeedProvider);
-    
+
     final updatedArtworks = currentState.artworks.map((a) {
       if (a.id == id) {
         return a.copyWith(isLiked: isLiked, likesCount: likesCount);

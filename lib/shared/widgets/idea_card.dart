@@ -75,13 +75,10 @@ class IdeaCard extends ConsumerWidget {
                     IconButton(
                       icon: Icon(
                         idea.isLiked ? Icons.favorite : Icons.favorite_border,
-                        color:
-                            idea.isLiked
-                                ? Colors.red
-                                : Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant
-                                    .withValues(alpha: 0.7),
+                        color: idea.isLiked
+                            ? Colors.red
+                            : Theme.of(context).colorScheme.onSurfaceVariant
+                                  .withValues(alpha: 0.7),
                         size: 20,
                       ),
                       onPressed: () {
@@ -97,10 +94,11 @@ class IdeaCard extends ConsumerWidget {
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Text(
                           '${idea.likesCount}',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                         ),
                       ),
                   ],
@@ -112,17 +110,18 @@ class IdeaCard extends ConsumerWidget {
                       IconButton(
                         icon: Icon(
                           isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                          color:
-                              isBookmarked
-                                  ? Theme.of(context).colorScheme.primary
-                                  : null,
+                          color: isBookmarked
+                              ? Theme.of(context).colorScheme.primary
+                              : null,
                         ),
                         onPressed: () {
                           ref
                               .read(bookmarkedIdeasProvider.notifier)
                               .toggleBookmark(idea);
                         },
-                        tooltip: isBookmarked ? 'Quitar guardado' : 'Guardar idea',
+                        tooltip: isBookmarked
+                            ? 'Quitar guardado'
+                            : 'Guardar idea',
                       ),
                       IconButton(
                         icon: const Icon(Icons.publish_outlined),

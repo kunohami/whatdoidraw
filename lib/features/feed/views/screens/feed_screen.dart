@@ -180,15 +180,27 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                         child: ElevatedButton(
                           onPressed: () {
                             if (tab == 0) {
-                              final notifier = ref.read(ideasFeedProvider.notifier);
+                              final notifier = ref.read(
+                                ideasFeedProvider.notifier,
+                              );
                               notifier.setLanguageFilter(currentLang);
-                              notifier.setSortOrder(currentSort ?? FeedSortOrder.recent);
+                              notifier.setSortOrder(
+                                currentSort ?? FeedSortOrder.recent,
+                              );
                             } else if (tab == 1) {
-                              final notifier = ref.read(doodlesFeedProvider.notifier);
-                              notifier.setSortOrder(currentSort ?? FeedSortOrder.recent);
+                              final notifier = ref.read(
+                                doodlesFeedProvider.notifier,
+                              );
+                              notifier.setSortOrder(
+                                currentSort ?? FeedSortOrder.recent,
+                              );
                             } else {
-                              final notifier = ref.read(artworksFeedProvider.notifier);
-                              notifier.setSortOrder(currentSort ?? FeedSortOrder.recent);
+                              final notifier = ref.read(
+                                artworksFeedProvider.notifier,
+                              );
+                              notifier.setSortOrder(
+                                currentSort ?? FeedSortOrder.recent,
+                              );
                             }
                             Navigator.pop(context);
                           },
