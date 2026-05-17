@@ -121,6 +121,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Español'**
   String get languageSpanish;
+
+  /// No description provided for @navFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Feed'**
+  String get navFeed;
+
+  /// No description provided for @navCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get navCreate;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileVerifiedArtist.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Artist'**
+  String get profileVerifiedArtist;
+
+  /// No description provided for @profileTooltipSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get profileTooltipSettings;
+
+  /// No description provided for @profileTooltipLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get profileTooltipLogout;
+
+  /// No description provided for @profileErrorLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load profile'**
+  String get profileErrorLoading;
+
+  /// No description provided for @profileNoIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t published any ideas yet.'**
+  String get profileNoIdeas;
+
+  /// No description provided for @profileNoDoodles.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t drawn any doodles yet.'**
+  String get profileNoDoodles;
+
+  /// No description provided for @profileNoArtworks.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t published any final artworks yet.'**
+  String get profileNoArtworks;
+
+  /// No description provided for @creationHubTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What are we creating today?'**
+  String get creationHubTitle;
+
+  /// No description provided for @creationHubNewIdea.
+  ///
+  /// In en, this message translates to:
+  /// **'New Idea'**
+  String get creationHubNewIdea;
+
+  /// No description provided for @creationHubNewIdeaSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a prompt to challenge other artists.'**
+  String get creationHubNewIdeaSubtitle;
+
+  /// No description provided for @creationHubNewDoodle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Doodle'**
+  String get creationHubNewDoodle;
+
+  /// No description provided for @creationHubNewDoodleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the canvas and draw on your own.'**
+  String get creationHubNewDoodleSubtitle;
+
+  /// No description provided for @creationHubBookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks'**
+  String get creationHubBookmarks;
+
+  /// No description provided for @creationHubBookmarksSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your favorite ideas and doodles ready to use.'**
+  String get creationHubBookmarksSubtitle;
+
+  /// No description provided for @feedFiltersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters & Sorting'**
+  String get feedFiltersTitle;
+
+  /// No description provided for @feedFilterLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get feedFilterLanguage;
+
+  /// No description provided for @feedFilterSorting.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorting'**
+  String get feedFilterSorting;
+
+  /// No description provided for @feedFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get feedFilterAll;
+
+  /// No description provided for @feedSortRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get feedSortRecent;
+
+  /// No description provided for @feedSortRandom.
+  ///
+  /// In en, this message translates to:
+  /// **'Random'**
+  String get feedSortRandom;
+
+  /// No description provided for @feedSortPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'Most popular'**
+  String get feedSortPopular;
+
+  /// No description provided for @feedApplyFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply filters'**
+  String get feedApplyFilters;
+
+  /// No description provided for @feedClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get feedClear;
+
+  /// No description provided for @feedSearchPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search...'**
+  String get feedSearchPlaceholder;
+
+  /// No description provided for @feedNoIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching ideas found.'**
+  String get feedNoIdeas;
+
+  /// No description provided for @feedNoDoodles.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching doodles found.'**
+  String get feedNoDoodles;
+
+  /// No description provided for @feedNoArtworks.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching artworks found.'**
+  String get feedNoArtworks;
 }
 
 class _AppLocalizationsDelegate

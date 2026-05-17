@@ -25,7 +25,7 @@ mixin _$ArtworkModel {
 @JsonKey(name: 'external_link') String get externalLink;/// Etiquetas descriptivas.
  List<String> get tags;/// Estado de visibilidad de la publicación.
 @JsonKey(name: 'is_active') bool get isActive;/// Fecha de publicación.
-@JsonKey(name: 'created_at') DateTime? get createdAt;
+@JsonKey(name: 'created_at') DateTime? get createdAt;@JsonKey(name: 'likes_count') int get likesCount; bool get isLiked;
 /// Create a copy of ArtworkModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -38,16 +38,16 @@ $ArtworkModelCopyWith<ArtworkModel> get copyWith => _$ArtworkModelCopyWithImpl<A
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtworkModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.ideaId, ideaId) || other.ideaId == ideaId)&&(identical(other.doodleId, doodleId) || other.doodleId == doodleId)&&(identical(other.previewUrl, previewUrl) || other.previewUrl == previewUrl)&&(identical(other.externalLink, externalLink) || other.externalLink == externalLink)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ArtworkModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.ideaId, ideaId) || other.ideaId == ideaId)&&(identical(other.doodleId, doodleId) || other.doodleId == doodleId)&&(identical(other.previewUrl, previewUrl) || other.previewUrl == previewUrl)&&(identical(other.externalLink, externalLink) || other.externalLink == externalLink)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likesCount, likesCount) || other.likesCount == likesCount)&&(identical(other.isLiked, isLiked) || other.isLiked == isLiked));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,authorName,ideaId,doodleId,previewUrl,externalLink,const DeepCollectionEquality().hash(tags),isActive,createdAt);
+int get hashCode => Object.hash(runtimeType,id,userId,authorName,ideaId,doodleId,previewUrl,externalLink,const DeepCollectionEquality().hash(tags),isActive,createdAt,likesCount,isLiked);
 
 @override
 String toString() {
-  return 'ArtworkModel(id: $id, userId: $userId, authorName: $authorName, ideaId: $ideaId, doodleId: $doodleId, previewUrl: $previewUrl, externalLink: $externalLink, tags: $tags, isActive: $isActive, createdAt: $createdAt)';
+  return 'ArtworkModel(id: $id, userId: $userId, authorName: $authorName, ideaId: $ideaId, doodleId: $doodleId, previewUrl: $previewUrl, externalLink: $externalLink, tags: $tags, isActive: $isActive, createdAt: $createdAt, likesCount: $likesCount, isLiked: $isLiked)';
 }
 
 
@@ -58,7 +58,7 @@ abstract mixin class $ArtworkModelCopyWith<$Res>  {
   factory $ArtworkModelCopyWith(ArtworkModel value, $Res Function(ArtworkModel) _then) = _$ArtworkModelCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'user_id') String userId, String? authorName,@JsonKey(name: 'idea_id') String? ideaId,@JsonKey(name: 'doodle_id') String? doodleId,@JsonKey(name: 'preview_url') String? previewUrl,@JsonKey(name: 'external_link') String externalLink, List<String> tags,@JsonKey(name: 'is_active') bool isActive,@JsonKey(name: 'created_at') DateTime? createdAt
+ String id,@JsonKey(name: 'user_id') String userId, String? authorName,@JsonKey(name: 'idea_id') String? ideaId,@JsonKey(name: 'doodle_id') String? doodleId,@JsonKey(name: 'preview_url') String? previewUrl,@JsonKey(name: 'external_link') String externalLink, List<String> tags,@JsonKey(name: 'is_active') bool isActive,@JsonKey(name: 'created_at') DateTime? createdAt,@JsonKey(name: 'likes_count') int likesCount, bool isLiked
 });
 
 
@@ -75,7 +75,7 @@ class _$ArtworkModelCopyWithImpl<$Res>
 
 /// Create a copy of ArtworkModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? authorName = freezed,Object? ideaId = freezed,Object? doodleId = freezed,Object? previewUrl = freezed,Object? externalLink = null,Object? tags = null,Object? isActive = null,Object? createdAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? authorName = freezed,Object? ideaId = freezed,Object? doodleId = freezed,Object? previewUrl = freezed,Object? externalLink = null,Object? tags = null,Object? isActive = null,Object? createdAt = freezed,Object? likesCount = null,Object? isLiked = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -87,7 +87,9 @@ as String?,externalLink: null == externalLink ? _self.externalLink : externalLin
 as String,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
 as List<String>,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as bool,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,likesCount: null == likesCount ? _self.likesCount : likesCount // ignore: cast_nullable_to_non_nullable
+as int,isLiked: null == isLiked ? _self.isLiked : isLiked // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -172,10 +174,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId,  String? authorName, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_id')  String? doodleId, @JsonKey(name: 'preview_url')  String? previewUrl, @JsonKey(name: 'external_link')  String externalLink,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId,  String? authorName, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_id')  String? doodleId, @JsonKey(name: 'preview_url')  String? previewUrl, @JsonKey(name: 'external_link')  String externalLink,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'likes_count')  int likesCount,  bool isLiked)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ArtworkModel() when $default != null:
-return $default(_that.id,_that.userId,_that.authorName,_that.ideaId,_that.doodleId,_that.previewUrl,_that.externalLink,_that.tags,_that.isActive,_that.createdAt);case _:
+return $default(_that.id,_that.userId,_that.authorName,_that.ideaId,_that.doodleId,_that.previewUrl,_that.externalLink,_that.tags,_that.isActive,_that.createdAt,_that.likesCount,_that.isLiked);case _:
   return orElse();
 
 }
@@ -193,10 +195,10 @@ return $default(_that.id,_that.userId,_that.authorName,_that.ideaId,_that.doodle
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId,  String? authorName, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_id')  String? doodleId, @JsonKey(name: 'preview_url')  String? previewUrl, @JsonKey(name: 'external_link')  String externalLink,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId,  String? authorName, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_id')  String? doodleId, @JsonKey(name: 'preview_url')  String? previewUrl, @JsonKey(name: 'external_link')  String externalLink,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'likes_count')  int likesCount,  bool isLiked)  $default,) {final _that = this;
 switch (_that) {
 case _ArtworkModel():
-return $default(_that.id,_that.userId,_that.authorName,_that.ideaId,_that.doodleId,_that.previewUrl,_that.externalLink,_that.tags,_that.isActive,_that.createdAt);case _:
+return $default(_that.id,_that.userId,_that.authorName,_that.ideaId,_that.doodleId,_that.previewUrl,_that.externalLink,_that.tags,_that.isActive,_that.createdAt,_that.likesCount,_that.isLiked);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -213,10 +215,10 @@ return $default(_that.id,_that.userId,_that.authorName,_that.ideaId,_that.doodle
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'user_id')  String userId,  String? authorName, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_id')  String? doodleId, @JsonKey(name: 'preview_url')  String? previewUrl, @JsonKey(name: 'external_link')  String externalLink,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'user_id')  String userId,  String? authorName, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_id')  String? doodleId, @JsonKey(name: 'preview_url')  String? previewUrl, @JsonKey(name: 'external_link')  String externalLink,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'likes_count')  int likesCount,  bool isLiked)?  $default,) {final _that = this;
 switch (_that) {
 case _ArtworkModel() when $default != null:
-return $default(_that.id,_that.userId,_that.authorName,_that.ideaId,_that.doodleId,_that.previewUrl,_that.externalLink,_that.tags,_that.isActive,_that.createdAt);case _:
+return $default(_that.id,_that.userId,_that.authorName,_that.ideaId,_that.doodleId,_that.previewUrl,_that.externalLink,_that.tags,_that.isActive,_that.createdAt,_that.likesCount,_that.isLiked);case _:
   return null;
 
 }
@@ -228,7 +230,7 @@ return $default(_that.id,_that.userId,_that.authorName,_that.ideaId,_that.doodle
 @JsonSerializable()
 
 class _ArtworkModel implements ArtworkModel {
-  const _ArtworkModel({required this.id, @JsonKey(name: 'user_id') required this.userId, this.authorName, @JsonKey(name: 'idea_id') this.ideaId, @JsonKey(name: 'doodle_id') this.doodleId, @JsonKey(name: 'preview_url') this.previewUrl, @JsonKey(name: 'external_link') required this.externalLink, final  List<String> tags = const [], @JsonKey(name: 'is_active') this.isActive = true, @JsonKey(name: 'created_at') this.createdAt}): _tags = tags;
+  const _ArtworkModel({required this.id, @JsonKey(name: 'user_id') required this.userId, this.authorName, @JsonKey(name: 'idea_id') this.ideaId, @JsonKey(name: 'doodle_id') this.doodleId, @JsonKey(name: 'preview_url') this.previewUrl, @JsonKey(name: 'external_link') required this.externalLink, final  List<String> tags = const [], @JsonKey(name: 'is_active') this.isActive = true, @JsonKey(name: 'created_at') this.createdAt, @JsonKey(name: 'likes_count') this.likesCount = 0, this.isLiked = false}): _tags = tags;
   factory _ArtworkModel.fromJson(Map<String, dynamic> json) => _$ArtworkModelFromJson(json);
 
 /// UUID único de la publicación del artwork.
@@ -258,6 +260,8 @@ class _ArtworkModel implements ArtworkModel {
 @override@JsonKey(name: 'is_active') final  bool isActive;
 /// Fecha de publicación.
 @override@JsonKey(name: 'created_at') final  DateTime? createdAt;
+@override@JsonKey(name: 'likes_count') final  int likesCount;
+@override@JsonKey() final  bool isLiked;
 
 /// Create a copy of ArtworkModel
 /// with the given fields replaced by the non-null parameter values.
@@ -272,16 +276,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtworkModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.ideaId, ideaId) || other.ideaId == ideaId)&&(identical(other.doodleId, doodleId) || other.doodleId == doodleId)&&(identical(other.previewUrl, previewUrl) || other.previewUrl == previewUrl)&&(identical(other.externalLink, externalLink) || other.externalLink == externalLink)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ArtworkModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.ideaId, ideaId) || other.ideaId == ideaId)&&(identical(other.doodleId, doodleId) || other.doodleId == doodleId)&&(identical(other.previewUrl, previewUrl) || other.previewUrl == previewUrl)&&(identical(other.externalLink, externalLink) || other.externalLink == externalLink)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likesCount, likesCount) || other.likesCount == likesCount)&&(identical(other.isLiked, isLiked) || other.isLiked == isLiked));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,authorName,ideaId,doodleId,previewUrl,externalLink,const DeepCollectionEquality().hash(_tags),isActive,createdAt);
+int get hashCode => Object.hash(runtimeType,id,userId,authorName,ideaId,doodleId,previewUrl,externalLink,const DeepCollectionEquality().hash(_tags),isActive,createdAt,likesCount,isLiked);
 
 @override
 String toString() {
-  return 'ArtworkModel(id: $id, userId: $userId, authorName: $authorName, ideaId: $ideaId, doodleId: $doodleId, previewUrl: $previewUrl, externalLink: $externalLink, tags: $tags, isActive: $isActive, createdAt: $createdAt)';
+  return 'ArtworkModel(id: $id, userId: $userId, authorName: $authorName, ideaId: $ideaId, doodleId: $doodleId, previewUrl: $previewUrl, externalLink: $externalLink, tags: $tags, isActive: $isActive, createdAt: $createdAt, likesCount: $likesCount, isLiked: $isLiked)';
 }
 
 
@@ -292,7 +296,7 @@ abstract mixin class _$ArtworkModelCopyWith<$Res> implements $ArtworkModelCopyWi
   factory _$ArtworkModelCopyWith(_ArtworkModel value, $Res Function(_ArtworkModel) _then) = __$ArtworkModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'user_id') String userId, String? authorName,@JsonKey(name: 'idea_id') String? ideaId,@JsonKey(name: 'doodle_id') String? doodleId,@JsonKey(name: 'preview_url') String? previewUrl,@JsonKey(name: 'external_link') String externalLink, List<String> tags,@JsonKey(name: 'is_active') bool isActive,@JsonKey(name: 'created_at') DateTime? createdAt
+ String id,@JsonKey(name: 'user_id') String userId, String? authorName,@JsonKey(name: 'idea_id') String? ideaId,@JsonKey(name: 'doodle_id') String? doodleId,@JsonKey(name: 'preview_url') String? previewUrl,@JsonKey(name: 'external_link') String externalLink, List<String> tags,@JsonKey(name: 'is_active') bool isActive,@JsonKey(name: 'created_at') DateTime? createdAt,@JsonKey(name: 'likes_count') int likesCount, bool isLiked
 });
 
 
@@ -309,7 +313,7 @@ class __$ArtworkModelCopyWithImpl<$Res>
 
 /// Create a copy of ArtworkModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? authorName = freezed,Object? ideaId = freezed,Object? doodleId = freezed,Object? previewUrl = freezed,Object? externalLink = null,Object? tags = null,Object? isActive = null,Object? createdAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? authorName = freezed,Object? ideaId = freezed,Object? doodleId = freezed,Object? previewUrl = freezed,Object? externalLink = null,Object? tags = null,Object? isActive = null,Object? createdAt = freezed,Object? likesCount = null,Object? isLiked = null,}) {
   return _then(_ArtworkModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -321,7 +325,9 @@ as String?,externalLink: null == externalLink ? _self.externalLink : externalLin
 as String,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
 as List<String>,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
 as bool,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as DateTime?,likesCount: null == likesCount ? _self.likesCount : likesCount // ignore: cast_nullable_to_non_nullable
+as int,isLiked: null == isLiked ? _self.isLiked : isLiked // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:whatdoidraw/features/bookmarks/views/screens/bookmarks_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/create_idea_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 
 // [DOC]: Esta pantalla actúa como un "Hub" o enrutador visual.
 // Ya no obliga al usuario a rellenar texto al pulsar 'Crear',
@@ -14,19 +15,18 @@ class CreationHubScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('¿Qué vamos a crear hoy?'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(l10n.creationHubTitle), centerTitle: true),
       // [DOC]: ListView con separaciones para un listado de menú limpio nativo M3.
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           _buildMenuCard(
             context: context,
-            title: 'Nueva Idea',
-            subtitle: 'Escribe un prompt para desafiar a los dibujantes.',
+            title: l10n.creationHubNewIdea,
+            subtitle: l10n.creationHubNewIdeaSubtitle,
             icon: Icons.lightbulb_outline,
             onTap: () {
               // [DOC]: Navigator.push apila la pantalla nueva encima del Hub.
@@ -41,8 +41,8 @@ class CreationHubScreen extends StatelessWidget {
           const SizedBox(height: 12),
           _buildMenuCard(
             context: context,
-            title: 'Nuevo Doodle',
-            subtitle: 'Abre el lienzo y dibuja por tu cuenta.',
+            title: l10n.creationHubNewDoodle,
+            subtitle: l10n.creationHubNewDoodleSubtitle,
             icon: Icons.brush,
             onTap: () {
               // Lanzamos el motor de pintura que construimos anteriormente.
@@ -60,8 +60,8 @@ class CreationHubScreen extends StatelessWidget {
           const SizedBox(height: 16),
           _buildMenuCard(
             context: context,
-            title: 'Guardados',
-            subtitle: 'Tus ideas y doodles favoritos listos para usar.',
+            title: l10n.creationHubBookmarks,
+            subtitle: l10n.creationHubBookmarksSubtitle,
             icon: Icons.bookmark,
             onTap: () {
               Navigator.push(

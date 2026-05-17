@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
@@ -28,9 +29,15 @@ Future<void> main() async {
     anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
   );
 
+  // Inicializar SharedPreferences
+  final prefs = await SharedPreferences.getInstance();
+
   runApp(
     // ProviderScope es necesario para Riverpod
-    const ProviderScope(child: WdidApp()),
+    ProviderScope(
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+      child: const WdidApp(),
+    ),
   );
 }
 

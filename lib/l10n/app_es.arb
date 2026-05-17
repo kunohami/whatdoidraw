@@ -3,5 +3,40 @@
   "settingsTitle": "Ajustes",
   "languageSetting": "Idioma",
   "languageEnglish": "English",
-  "languageSpanish": "Español"
+  "languageSpanish": "Español",
+
+  "navFeed": "Feed",
+  "navCreate": "Crear",
+  "navProfile": "Perfil",
+
+  "profileTitle": "Mi Perfil",
+  "profileVerifiedArtist": "Artista Verificado",
+  "profileTooltipSettings": "Ajustes",
+  "profileTooltipLogout": "Cerrar sesión",
+  "profileErrorLoading": "No se pudo cargar el perfil",
+  "profileNoIdeas": "Aún no has publicado ideas.",
+  "profileNoDoodles": "Aún no has dibujado ningún doodle.",
+  "profileNoArtworks": "Aún no has publicado ningún artwork final.",
+
+  "creationHubTitle": "¿Qué vamos a crear hoy?",
+  "creationHubNewIdea": "Nueva Idea",
+  "creationHubNewIdeaSubtitle": "Escribe un prompt para desafiar a los dibujantes.",
+  "creationHubNewDoodle": "Nuevo Doodle",
+  "creationHubNewDoodleSubtitle": "Abre el lienzo y dibuja por tu cuenta.",
+  "creationHubBookmarks": "Guardados",
+  "creationHubBookmarksSubtitle": "Tus ideas y doodles favoritos listos para usar.",
+
+  "feedFiltersTitle": "Filtros y Ordenación",
+  "feedFilterLanguage": "Idioma",
+  "feedFilterSorting": "Ordenación",
+  "feedFilterAll": "Todos",
+  "feedSortRecent": "Reciente",
+  "feedSortRandom": "Aleatorio",
+  "feedSortPopular": "Más populares",
+  "feedApplyFilters": "Aplicar filtros",
+  "feedClear": "Limpiar",
+  "feedSearchPlaceholder": "Buscar...",
+  "feedNoIdeas": "No hay ideas que coincidan.",
+  "feedNoDoodles": "No hay doodles que coincidan.",
+  "feedNoArtworks": "No hay obras que coincidan."
 }

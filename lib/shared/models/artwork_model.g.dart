@@ -22,6 +22,8 @@ _ArtworkModel _$ArtworkModelFromJson(Map<String, dynamic> json) =>
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
+      likesCount: (json['likes_count'] as num?)?.toInt() ?? 0,
+      isLiked: json['isLiked'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ArtworkModelToJson(_ArtworkModel instance) =>
@@ -36,4 +38,6 @@ Map<String, dynamic> _$ArtworkModelToJson(_ArtworkModel instance) =>
       'tags': instance.tags,
       'is_active': instance.isActive,
       'created_at': instance.createdAt?.toIso8601String(),
+      'likes_count': instance.likesCount,
+      'isLiked': instance.isLiked,
     };

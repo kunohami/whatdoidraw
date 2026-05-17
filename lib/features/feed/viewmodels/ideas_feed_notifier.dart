@@ -173,12 +173,18 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
     await loadInitial();
   }
 
+  /// Cambia el modo de ordenación y recarga.
+  Future<void> setSortOrder(FeedSortOrder order) async {
+    state = state.copyWith(sortOrder: order);
+    await loadInitial();
+  }
+
   /// Alterna entre orden cronológico y aleatorio, y recarga.
   Future<void> toggleSortOrder() async {
     final newOrder = state.sortOrder == FeedSortOrder.recent
         ? FeedSortOrder.random
         : FeedSortOrder.recent;
-    state = state.copyWith(sortOrder: newOrder);
+    await setSortOrder(newOrder);
   }
 
   /// Limpia todos los filtros activos y recarga.
@@ -197,4 +203,9 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
 
   /// Recarga el feed desde la primera página manteniendo los filtros actuales.
   Future<void> refresh() async => loadInitial();
+
+  /// Actualiza la lista de ideas (usado para updates optimistas de likes).
+  void updateStateFromLike(List<IdeaModel> updatedIdeas) {
+    state = state.copyWith(ideas: updatedIdeas);
+  }
 }

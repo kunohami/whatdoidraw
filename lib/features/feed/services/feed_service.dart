@@ -44,7 +44,7 @@ class FeedService {
     // En modo aleatorio pedimos un lote grande para hacer shuffle en cliente.
     final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
 
-    var queryBuilder = supabaseClient
+    dynamic queryBuilder = supabaseClient
         .from('ideas')
         .select()
         .eq('is_active', true);
@@ -61,11 +61,36 @@ class FeedService {
       queryBuilder = queryBuilder.eq('language', language);
     }
 
-    final data = await queryBuilder
-        .order('created_at', ascending: false)
-        .range(offset, offset + fetchLimit - 1);
+    if (sort == FeedSortOrder.likes) {
+      queryBuilder = queryBuilder
+          .order('likes_count', ascending: false)
+          .order('created_at', ascending: false);
+    } else {
+      queryBuilder = queryBuilder.order('created_at', ascending: false);
+    }
 
-    final ideas = (data as List).map((e) => IdeaModel.fromJson(e)).toList();
+    final data = await queryBuilder.range(offset, offset + fetchLimit - 1);
+
+    var ideas = (data as List).map((e) => IdeaModel.fromJson(e)).toList();
+
+    // Comprobar likes del usuario actual
+    final userId = supabaseClient.auth.currentUser?.id;
+    if (userId != null && ideas.isNotEmpty) {
+      final ideaIds = ideas.map((i) => i.id).toList();
+      final likedResponse = await supabaseClient
+          .from('likes')
+          .select('idea_id')
+          .eq('user_id', userId)
+          .inFilter('idea_id', ideaIds);
+
+      final likedIds = (likedResponse as List)
+          .map((r) => r['idea_id'] as String)
+          .toSet();
+
+      ideas = ideas
+          .map((i) => i.copyWith(isLiked: likedIds.contains(i.id)))
+          .toList();
+    }
 
     if (sort == FeedSortOrder.random) {
       ideas.shuffle();
@@ -91,7 +116,7 @@ class FeedService {
   }) async {
     final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
 
-    var queryBuilder = supabaseClient
+    dynamic queryBuilder = supabaseClient
         .from('doodles')
         .select()
         .eq('is_active', true);
@@ -106,11 +131,36 @@ class FeedService {
       queryBuilder = queryBuilder.contains('tags', tags);
     }
 
-    final data = await queryBuilder
-        .order('created_at', ascending: false)
-        .range(offset, offset + fetchLimit - 1);
+    if (sort == FeedSortOrder.likes) {
+      queryBuilder = queryBuilder
+          .order('likes_count', ascending: false)
+          .order('created_at', ascending: false);
+    } else {
+      queryBuilder = queryBuilder.order('created_at', ascending: false);
+    }
 
-    final doodles = (data as List).map((e) => DoodleModel.fromJson(e)).toList();
+    final data = await queryBuilder.range(offset, offset + fetchLimit - 1);
+
+    var doodles = (data as List).map((e) => DoodleModel.fromJson(e)).toList();
+
+    // Comprobar likes del usuario actual
+    final userId = supabaseClient.auth.currentUser?.id;
+    if (userId != null && doodles.isNotEmpty) {
+      final doodleIds = doodles.map((d) => d.id).toList();
+      final likedResponse = await supabaseClient
+          .from('likes')
+          .select('doodle_id')
+          .eq('user_id', userId)
+          .inFilter('doodle_id', doodleIds);
+
+      final likedIds = (likedResponse as List)
+          .map((r) => r['doodle_id'] as String)
+          .toSet();
+
+      doodles = doodles
+          .map((d) => d.copyWith(isLiked: likedIds.contains(d.id)))
+          .toList();
+    }
 
     if (sort == FeedSortOrder.random) {
       doodles.shuffle();
@@ -137,7 +187,7 @@ class FeedService {
     final fetchLimit = sort == FeedSortOrder.random ? kRandomFetchSize : limit;
 
     // Join con la tabla 'users' para obtener el 'username'
-    var queryBuilder = supabaseClient
+    dynamic queryBuilder = supabaseClient
         .from('artworks')
         .select('*, users!inner(username)')
         .eq('is_active', true);
@@ -154,11 +204,17 @@ class FeedService {
       queryBuilder = queryBuilder.contains('tags', tags);
     }
 
-    final data = await queryBuilder
-        .order('created_at', ascending: false)
-        .range(offset, offset + fetchLimit - 1);
+    if (sort == FeedSortOrder.likes) {
+      queryBuilder = queryBuilder
+          .order('likes_count', ascending: false)
+          .order('created_at', ascending: false);
+    } else {
+      queryBuilder = queryBuilder.order('created_at', ascending: false);
+    }
 
-    final artworks = (data as List).map((e) {
+    final data = await queryBuilder.range(offset, offset + fetchLimit - 1);
+
+    var artworks = (data as List).map((e) {
       final map = Map<String, dynamic>.from(e);
       // Extraemos el username del join para el campo authorName
       if (map['users'] != null) {
@@ -166,6 +222,25 @@ class FeedService {
       }
       return ArtworkModel.fromJson(map);
     }).toList();
+
+    // Comprobar likes del usuario actual
+    final userId = supabaseClient.auth.currentUser?.id;
+    if (userId != null && artworks.isNotEmpty) {
+      final artworkIds = artworks.map((a) => a.id).toList();
+      final likedResponse = await supabaseClient
+          .from('likes')
+          .select('artwork_id')
+          .eq('user_id', userId)
+          .inFilter('artwork_id', artworkIds);
+
+      final likedIds = (likedResponse as List)
+          .map((r) => r['artwork_id'] as String)
+          .toSet();
+
+      artworks = artworks
+          .map((a) => a.copyWith(isLiked: likedIds.contains(a.id)))
+          .toList();
+    }
 
     if (sort == FeedSortOrder.random) {
       artworks.shuffle();

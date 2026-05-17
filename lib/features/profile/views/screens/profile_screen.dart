@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:whatdoidraw/features/profile/views/screens/settings_screen.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/artwork_card.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
@@ -18,10 +19,11 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(currentUserProfileProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mi Perfil'),
+        title: Text(l10n.profileTitle),
         centerTitle: true,
         actions: [
           IconButton(
@@ -32,21 +34,21 @@ class ProfileScreen extends ConsumerWidget {
               );
             },
             icon: const Icon(Icons.settings),
-            tooltip: 'Ajustes',
+            tooltip: l10n.profileTooltipSettings,
           ),
           IconButton(
             onPressed: () {
               ref.read(authControllerProvider.notifier).signOut();
             },
             icon: const Icon(Icons.logout),
-            tooltip: 'Cerrar sesión',
+            tooltip: l10n.profileTooltipLogout,
           ),
         ],
       ),
       body: profileAsync.when(
         data: (profile) {
           if (profile == null) {
-            return const Center(child: Text("No se pudo cargar el perfil"));
+            return Center(child: Text(l10n.profileErrorLoading));
           }
 
           return DefaultTabController(
@@ -89,9 +91,9 @@ class ProfileScreen extends ConsumerWidget {
                             ).colorScheme.secondaryContainer,
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Text(
-                            'Artista Verificado',
-                            style: TextStyle(fontSize: 12),
+                          child: Text(
+                            l10n.profileVerifiedArtist,
+                            style: const TextStyle(fontSize: 12),
                           ),
                         ),
                     ],
@@ -136,11 +138,12 @@ class _UserIdeasTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ideasAsync = ref.watch(currentUserIdeasProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return ideasAsync.when(
       data: (ideas) {
         if (ideas.isEmpty) {
-          return const Center(child: Text("Aún no has publicado ideas."));
+          return Center(child: Text(l10n.profileNoIdeas));
         }
         return ListView.builder(
           padding: const EdgeInsets.all(16),
@@ -172,13 +175,12 @@ class _UserDoodlesTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final doodlesAsync = ref.watch(currentUserDoodlesProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return doodlesAsync.when(
       data: (doodles) {
         if (doodles.isEmpty) {
-          return const Center(
-            child: Text("Aún no has dibujado ningún doodle."),
-          );
+          return Center(child: Text(l10n.profileNoDoodles));
         }
         return GridView.builder(
           padding: const EdgeInsets.all(16),
@@ -207,13 +209,12 @@ class _UserArtworksTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final artworksAsync = ref.watch(currentUserArtworksProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return artworksAsync.when(
       data: (artworks) {
         if (artworks.isEmpty) {
-          return const Center(
-            child: Text("Aún no has publicado ningún artwork final."),
-          );
+          return Center(child: Text(l10n.profileNoArtworks));
         }
         return ListView.builder(
           padding: const EdgeInsets.all(16),

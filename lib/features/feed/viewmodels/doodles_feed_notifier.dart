@@ -156,12 +156,18 @@ class DoodlesFeedNotifier extends _$DoodlesFeedNotifier {
     await loadInitial();
   }
 
+  /// Cambia el modo de ordenación y recarga.
+  Future<void> setSortOrder(FeedSortOrder order) async {
+    state = state.copyWith(sortOrder: order);
+    await loadInitial();
+  }
+
   /// Alterna entre orden cronológico y aleatorio, y recarga.
   Future<void> toggleSortOrder() async {
     final newOrder = state.sortOrder == FeedSortOrder.recent
         ? FeedSortOrder.random
         : FeedSortOrder.recent;
-    state = state.copyWith(sortOrder: newOrder);
+    await setSortOrder(newOrder);
   }
 
   /// Limpia todos los filtros activos y recarga.
@@ -190,4 +196,9 @@ class DoodlesFeedNotifier extends _$DoodlesFeedNotifier {
 
   /// Recarga el feed desde la primera página manteniendo los filtros actuales.
   Future<void> refresh() async => loadInitial();
+
+  /// Actualiza la lista de doodles (usado para updates optimistas de likes).
+  void updateStateFromLike(List<DoodleModel> updatedDoodles) {
+    state = state.copyWith(doodles: updatedDoodles);
+  }
 }
