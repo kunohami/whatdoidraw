@@ -7,6 +7,7 @@ import 'package:whatdoidraw/features/feed/models/feed_sort_order.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/artworks_feed_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/doodles_feed_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/ideas_feed_notifier.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/artwork_card.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
@@ -65,6 +66,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
       context: context,
       builder: (context) => Consumer(
         builder: (context, ref, _) {
+          final l10n = AppLocalizations.of(context)!;
           // Variables locales para el estado del modal
           String? currentLang;
           FeedSortOrder? currentSort;
@@ -86,11 +88,11 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        'Filtros y Ordenación',
-                        style: TextStyle(
+                        l10n.feedFiltersTitle,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -99,7 +101,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                     if (tab == 0)
                       ListTile(
                         leading: const Icon(Icons.language),
-                        title: const Text('Idioma'),
+                        title: Text(l10n.feedFilterLanguage),
                         trailing: DropdownButton<String>(
                           value: currentLang ?? 'all',
                           underline: const SizedBox(),
@@ -123,25 +125,25 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                               currentLang = newLang;
                             });
                           },
-                          items: const [
+                          items: [
                             DropdownMenuItem(
                               value: 'all',
-                              child: Text('Todos'),
+                              child: Text(l10n.feedFilterAll),
                             ),
                             DropdownMenuItem(
                               value: 'es',
-                              child: Text('Español'),
+                              child: Text(l10n.languageSpanish),
                             ),
                             DropdownMenuItem(
                               value: 'en',
-                              child: Text('English'),
+                              child: Text(l10n.languageEnglish),
                             ),
                           ],
                         ),
                       ),
                     ListTile(
                       leading: const Icon(Icons.sort),
-                      title: const Text('Ordenación'),
+                      title: Text(l10n.feedFilterSorting),
                       trailing: DropdownButton<FeedSortOrder>(
                         value: currentSort ?? FeedSortOrder.recent,
                         underline: const SizedBox(),
@@ -151,18 +153,18 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                             currentSort = value;
                           });
                         },
-                        items: const [
+                        items: [
                           DropdownMenuItem(
                             value: FeedSortOrder.recent,
-                            child: Text('Reciente'),
+                            child: Text(l10n.feedSortRecent),
                           ),
                           DropdownMenuItem(
                             value: FeedSortOrder.random,
-                            child: Text('Aleatorio'),
+                            child: Text(l10n.feedSortRandom),
                           ),
                           DropdownMenuItem(
                             value: FeedSortOrder.likes,
-                            child: Text('Más populares'),
+                            child: Text(l10n.feedSortPopular),
                           ),
                         ],
                       ),
@@ -190,7 +192,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                             }
                             Navigator.pop(context);
                           },
-                          child: const Text('Aplicar filtros'),
+                          child: Text(l10n.feedApplyFilters),
                         ),
                       ),
                     ),
@@ -207,6 +209,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final ideasState = ref.watch(ideasFeedProvider);
     final doodlesState = ref.watch(doodlesFeedProvider);
     final artworksState = ref.watch(artworksFeedProvider);
@@ -240,7 +243,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                   Expanded(
                     child: SearchBar(
                       controller: _searchController,
-                      hintText: 'Buscar...',
+                      hintText: l10n.feedSearchPlaceholder,
                       elevation: WidgetStateProperty.all(0),
                       backgroundColor: WidgetStateProperty.all(
                         Theme.of(context).colorScheme.surfaceContainerHighest
@@ -263,7 +266,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                   IconButton(
                     icon: const Icon(Icons.filter_list),
                     onPressed: _showFilterSheet,
-                    tooltip: 'Filtros',
+                    tooltip: l10n.feedFiltersTitle,
                   ),
                 ],
               ),
@@ -325,7 +328,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                                 .clearFilters();
                           }
                         },
-                        child: const Text('Limpiar'),
+                        child: Text(l10n.feedClear),
                       ),
                     ],
                   ),
@@ -370,6 +373,7 @@ class _IdeasFeedTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(ideasFeedProvider);
     final notifier = ref.read(ideasFeedProvider.notifier);
+    final l10n = AppLocalizations.of(context)!;
 
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -380,7 +384,7 @@ class _IdeasFeedTab extends ConsumerWidget {
     }
 
     if (state.ideas.isEmpty) {
-      return const Center(child: Text('No hay ideas que coincidan.'));
+      return Center(child: Text(l10n.feedNoIdeas));
     }
 
     return ListView.builder(
@@ -413,6 +417,7 @@ class _DoodlesFeedTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(doodlesFeedProvider);
     final notifier = ref.read(doodlesFeedProvider.notifier);
+    final l10n = AppLocalizations.of(context)!;
 
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -423,7 +428,7 @@ class _DoodlesFeedTab extends ConsumerWidget {
     }
 
     if (state.doodles.isEmpty) {
-      return const Center(child: Text('No hay doodles que coincidan.'));
+      return Center(child: Text(l10n.feedNoDoodles));
     }
 
     return CustomScrollView(
@@ -468,6 +473,7 @@ class _ArtworksFeedTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(artworksFeedProvider);
     final notifier = ref.read(artworksFeedProvider.notifier);
+    final l10n = AppLocalizations.of(context)!;
 
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -478,7 +484,7 @@ class _ArtworksFeedTab extends ConsumerWidget {
     }
 
     if (state.artworks.isEmpty) {
-      return const Center(child: Text('No hay obras que coincidan.'));
+      return Center(child: Text(l10n.feedNoArtworks));
     }
 
     return ListView.builder(
