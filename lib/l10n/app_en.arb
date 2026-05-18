@@ -38,5 +38,29 @@
   "feedSearchPlaceholder": "Search...",
   "feedNoIdeas": "No matching ideas found.",
   "feedNoDoodles": "No matching doodles found.",
-  "feedNoArtworks": "No matching artworks found."
+  "feedNoArtworks": "No matching artworks found.",
+  "suggestedBy": "suggested by @{username}",
+  "@suggestedBy": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "doodledBy": "doodled by @{username}",
+  "@doodledBy": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "sharedBy": "shared by @{username}",
+  "@sharedBy": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  }
 }

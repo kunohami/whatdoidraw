@@ -307,6 +307,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No matching artworks found.'**
   String get feedNoArtworks;
+
+  /// No description provided for @suggestedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'suggested by @{username}'**
+  String suggestedBy(String username);
+
+  /// No description provided for @doodledBy.
+  ///
+  /// In en, this message translates to:
+  /// **'doodled by @{username}'**
+  String doodledBy(String username);
+
+  /// No description provided for @sharedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'shared by @{username}'**
+  String sharedBy(String username);
 }
 
 class _AppLocalizationsDelegate

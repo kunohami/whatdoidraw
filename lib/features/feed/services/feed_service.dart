@@ -46,7 +46,7 @@ class FeedService {
 
     dynamic queryBuilder = supabaseClient
         .from('ideas')
-        .select()
+        .select('*, users(username)')
         .eq('is_active', true);
 
     if (query.isNotEmpty) {
@@ -71,7 +71,13 @@ class FeedService {
 
     final data = await queryBuilder.range(offset, offset + fetchLimit - 1);
 
-    var ideas = (data as List).map((e) => IdeaModel.fromJson(e)).toList();
+    var ideas = (data as List).map((e) {
+      final map = Map<String, dynamic>.from(e);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      return IdeaModel.fromJson(map);
+    }).toList();
 
     // Comprobar likes del usuario actual
     final userId = supabaseClient.auth.currentUser?.id;
@@ -118,7 +124,7 @@ class FeedService {
 
     dynamic queryBuilder = supabaseClient
         .from('doodles')
-        .select()
+        .select('*, users(username)')
         .eq('is_active', true);
 
     if (query.isNotEmpty) {
@@ -141,7 +147,13 @@ class FeedService {
 
     final data = await queryBuilder.range(offset, offset + fetchLimit - 1);
 
-    var doodles = (data as List).map((e) => DoodleModel.fromJson(e)).toList();
+    var doodles = (data as List).map((e) {
+      final map = Map<String, dynamic>.from(e);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      return DoodleModel.fromJson(map);
+    }).toList();
 
     // Comprobar likes del usuario actual
     final userId = supabaseClient.auth.currentUser?.id;

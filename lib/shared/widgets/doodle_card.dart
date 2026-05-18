@@ -4,6 +4,7 @@ import 'package:whatdoidraw/features/bookmarks/viewmodels/bookmark_viewmodel.dar
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dart';
 import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
 import 'package:whatdoidraw/shared/models/stroke_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
@@ -78,40 +79,68 @@ class DoodleCard extends ConsumerWidget {
                 ),
               ),
             ),
-            // Tags overlay en la parte inferior de la tarjeta
-            if (doodle.tags.isNotEmpty)
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 6,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        Colors.black.withValues(alpha: 0.5),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                  child: Wrap(
-                    spacing: 4,
-                    runSpacing: 2,
-                    children: doodle.tags.take(3).map((tag) {
-                      return TagChip(
-                        tag: tag,
-                        isActive: activeFilterTags.contains(tag),
-                        onTap: onTagTap != null ? () => onTagTap!(tag) : null,
-                      );
-                    }).toList(),
+            // Overlay de autor y tags en la parte inferior de la tarjeta
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.7),
+                      Colors.transparent,
+                    ],
                   ),
                 ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // TODO: Abrir el perfil del usuario (aún no implementado)
+                      },
+                      child: Text(
+                        AppLocalizations.of(
+                          context,
+                        )!.doodledBy(doodle.authorName ?? 'unknown'),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          shadows: [
+                            const Shadow(
+                              offset: Offset(0, 1),
+                              blurRadius: 2,
+                              color: Colors.black54,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (doodle.tags.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Wrap(
+                        spacing: 4,
+                        runSpacing: 2,
+                        children: doodle.tags.take(3).map((tag) {
+                          return TagChip(
+                            tag: tag,
+                            isActive: activeFilterTags.contains(tag),
+                            onTap: onTagTap != null
+                                ? () => onTagTap!(tag)
+                                : null,
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ],
+                ),
               ),
+            ),
             Positioned(
               top: 4,
               left: 4,

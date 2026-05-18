@@ -4,6 +4,7 @@ import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwor
 import 'package:whatdoidraw/features/bookmarks/viewmodels/bookmark_viewmodel.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/idea_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 
@@ -50,6 +51,21 @@ class IdeaCard extends ConsumerWidget {
               style: Theme.of(
                 context,
               ).textTheme.titleMedium?.copyWith(height: 1.4),
+            ),
+            const SizedBox(height: 4),
+            GestureDetector(
+              onTap: () {
+                // TODO: Abrir el perfil del usuario (aún no implementado)
+              },
+              child: Text(
+                AppLocalizations.of(
+                  context,
+                )!.suggestedBy(idea.authorName ?? 'unknown'),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
             // Etiquetas de la idea
             if (idea.tags.isNotEmpty) ...[

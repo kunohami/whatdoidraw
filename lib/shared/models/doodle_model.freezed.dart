@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DoodleModel {
 
- String get id;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'idea_id') String? get ideaId;@JsonKey(name: 'doodle_data') List<dynamic> get doodleData; List<String> get tags;@JsonKey(name: 'is_active') bool get isActive;@JsonKey(name: 'created_at') DateTime? get createdAt;@JsonKey(name: 'likes_count') int get likesCount; bool get isLiked;
+ String get id;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'idea_id') String? get ideaId;@JsonKey(name: 'doodle_data') List<dynamic> get doodleData; List<String> get tags;@JsonKey(name: 'is_active') bool get isActive;@JsonKey(name: 'created_at') DateTime? get createdAt;@JsonKey(name: 'likes_count') int get likesCount; bool get isLiked;/// Nombre de usuario del autor (traído mediante JOIN en el Feed).
+ String? get authorName;
 /// Create a copy of DoodleModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +29,16 @@ $DoodleModelCopyWith<DoodleModel> get copyWith => _$DoodleModelCopyWithImpl<Dood
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DoodleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.ideaId, ideaId) || other.ideaId == ideaId)&&const DeepCollectionEquality().equals(other.doodleData, doodleData)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likesCount, likesCount) || other.likesCount == likesCount)&&(identical(other.isLiked, isLiked) || other.isLiked == isLiked));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DoodleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.ideaId, ideaId) || other.ideaId == ideaId)&&const DeepCollectionEquality().equals(other.doodleData, doodleData)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likesCount, likesCount) || other.likesCount == likesCount)&&(identical(other.isLiked, isLiked) || other.isLiked == isLiked)&&(identical(other.authorName, authorName) || other.authorName == authorName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,ideaId,const DeepCollectionEquality().hash(doodleData),const DeepCollectionEquality().hash(tags),isActive,createdAt,likesCount,isLiked);
+int get hashCode => Object.hash(runtimeType,id,userId,ideaId,const DeepCollectionEquality().hash(doodleData),const DeepCollectionEquality().hash(tags),isActive,createdAt,likesCount,isLiked,authorName);
 
 @override
 String toString() {
-  return 'DoodleModel(id: $id, userId: $userId, ideaId: $ideaId, doodleData: $doodleData, tags: $tags, isActive: $isActive, createdAt: $createdAt, likesCount: $likesCount, isLiked: $isLiked)';
+  return 'DoodleModel(id: $id, userId: $userId, ideaId: $ideaId, doodleData: $doodleData, tags: $tags, isActive: $isActive, createdAt: $createdAt, likesCount: $likesCount, isLiked: $isLiked, authorName: $authorName)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $DoodleModelCopyWith<$Res>  {
   factory $DoodleModelCopyWith(DoodleModel value, $Res Function(DoodleModel) _then) = _$DoodleModelCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'idea_id') String? ideaId,@JsonKey(name: 'doodle_data') List<dynamic> doodleData, List<String> tags,@JsonKey(name: 'is_active') bool isActive,@JsonKey(name: 'created_at') DateTime? createdAt,@JsonKey(name: 'likes_count') int likesCount, bool isLiked
+ String id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'idea_id') String? ideaId,@JsonKey(name: 'doodle_data') List<dynamic> doodleData, List<String> tags,@JsonKey(name: 'is_active') bool isActive,@JsonKey(name: 'created_at') DateTime? createdAt,@JsonKey(name: 'likes_count') int likesCount, bool isLiked, String? authorName
 });
 
 
@@ -65,7 +66,7 @@ class _$DoodleModelCopyWithImpl<$Res>
 
 /// Create a copy of DoodleModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? ideaId = freezed,Object? doodleData = null,Object? tags = null,Object? isActive = null,Object? createdAt = freezed,Object? likesCount = null,Object? isLiked = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? ideaId = freezed,Object? doodleData = null,Object? tags = null,Object? isActive = null,Object? createdAt = freezed,Object? likesCount = null,Object? isLiked = null,Object? authorName = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -76,7 +77,8 @@ as List<String>,isActive: null == isActive ? _self.isActive : isActive // ignore
 as bool,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,likesCount: null == likesCount ? _self.likesCount : likesCount // ignore: cast_nullable_to_non_nullable
 as int,isLiked: null == isLiked ? _self.isLiked : isLiked // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,authorName: freezed == authorName ? _self.authorName : authorName // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -161,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_data')  List<dynamic> doodleData,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'likes_count')  int likesCount,  bool isLiked)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_data')  List<dynamic> doodleData,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'likes_count')  int likesCount,  bool isLiked,  String? authorName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DoodleModel() when $default != null:
-return $default(_that.id,_that.userId,_that.ideaId,_that.doodleData,_that.tags,_that.isActive,_that.createdAt,_that.likesCount,_that.isLiked);case _:
+return $default(_that.id,_that.userId,_that.ideaId,_that.doodleData,_that.tags,_that.isActive,_that.createdAt,_that.likesCount,_that.isLiked,_that.authorName);case _:
   return orElse();
 
 }
@@ -182,10 +184,10 @@ return $default(_that.id,_that.userId,_that.ideaId,_that.doodleData,_that.tags,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_data')  List<dynamic> doodleData,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'likes_count')  int likesCount,  bool isLiked)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_data')  List<dynamic> doodleData,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'likes_count')  int likesCount,  bool isLiked,  String? authorName)  $default,) {final _that = this;
 switch (_that) {
 case _DoodleModel():
-return $default(_that.id,_that.userId,_that.ideaId,_that.doodleData,_that.tags,_that.isActive,_that.createdAt,_that.likesCount,_that.isLiked);case _:
+return $default(_that.id,_that.userId,_that.ideaId,_that.doodleData,_that.tags,_that.isActive,_that.createdAt,_that.likesCount,_that.isLiked,_that.authorName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +204,10 @@ return $default(_that.id,_that.userId,_that.ideaId,_that.doodleData,_that.tags,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_data')  List<dynamic> doodleData,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'likes_count')  int likesCount,  bool isLiked)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'idea_id')  String? ideaId, @JsonKey(name: 'doodle_data')  List<dynamic> doodleData,  List<String> tags, @JsonKey(name: 'is_active')  bool isActive, @JsonKey(name: 'created_at')  DateTime? createdAt, @JsonKey(name: 'likes_count')  int likesCount,  bool isLiked,  String? authorName)?  $default,) {final _that = this;
 switch (_that) {
 case _DoodleModel() when $default != null:
-return $default(_that.id,_that.userId,_that.ideaId,_that.doodleData,_that.tags,_that.isActive,_that.createdAt,_that.likesCount,_that.isLiked);case _:
+return $default(_that.id,_that.userId,_that.ideaId,_that.doodleData,_that.tags,_that.isActive,_that.createdAt,_that.likesCount,_that.isLiked,_that.authorName);case _:
   return null;
 
 }
@@ -217,7 +219,7 @@ return $default(_that.id,_that.userId,_that.ideaId,_that.doodleData,_that.tags,_
 @JsonSerializable()
 
 class _DoodleModel implements DoodleModel {
-  const _DoodleModel({required this.id, @JsonKey(name: 'user_id') required this.userId, @JsonKey(name: 'idea_id') this.ideaId, @JsonKey(name: 'doodle_data') required final  List<dynamic> doodleData, final  List<String> tags = const [], @JsonKey(name: 'is_active') this.isActive = true, @JsonKey(name: 'created_at') this.createdAt, @JsonKey(name: 'likes_count') this.likesCount = 0, this.isLiked = false}): _doodleData = doodleData,_tags = tags;
+  const _DoodleModel({required this.id, @JsonKey(name: 'user_id') required this.userId, @JsonKey(name: 'idea_id') this.ideaId, @JsonKey(name: 'doodle_data') required final  List<dynamic> doodleData, final  List<String> tags = const [], @JsonKey(name: 'is_active') this.isActive = true, @JsonKey(name: 'created_at') this.createdAt, @JsonKey(name: 'likes_count') this.likesCount = 0, this.isLiked = false, this.authorName}): _doodleData = doodleData,_tags = tags;
   factory _DoodleModel.fromJson(Map<String, dynamic> json) => _$DoodleModelFromJson(json);
 
 @override final  String id;
@@ -241,6 +243,8 @@ class _DoodleModel implements DoodleModel {
 @override@JsonKey(name: 'created_at') final  DateTime? createdAt;
 @override@JsonKey(name: 'likes_count') final  int likesCount;
 @override@JsonKey() final  bool isLiked;
+/// Nombre de usuario del autor (traído mediante JOIN en el Feed).
+@override final  String? authorName;
 
 /// Create a copy of DoodleModel
 /// with the given fields replaced by the non-null parameter values.
@@ -255,16 +259,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DoodleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.ideaId, ideaId) || other.ideaId == ideaId)&&const DeepCollectionEquality().equals(other._doodleData, _doodleData)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likesCount, likesCount) || other.likesCount == likesCount)&&(identical(other.isLiked, isLiked) || other.isLiked == isLiked));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DoodleModel&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.ideaId, ideaId) || other.ideaId == ideaId)&&const DeepCollectionEquality().equals(other._doodleData, _doodleData)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.likesCount, likesCount) || other.likesCount == likesCount)&&(identical(other.isLiked, isLiked) || other.isLiked == isLiked)&&(identical(other.authorName, authorName) || other.authorName == authorName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,userId,ideaId,const DeepCollectionEquality().hash(_doodleData),const DeepCollectionEquality().hash(_tags),isActive,createdAt,likesCount,isLiked);
+int get hashCode => Object.hash(runtimeType,id,userId,ideaId,const DeepCollectionEquality().hash(_doodleData),const DeepCollectionEquality().hash(_tags),isActive,createdAt,likesCount,isLiked,authorName);
 
 @override
 String toString() {
-  return 'DoodleModel(id: $id, userId: $userId, ideaId: $ideaId, doodleData: $doodleData, tags: $tags, isActive: $isActive, createdAt: $createdAt, likesCount: $likesCount, isLiked: $isLiked)';
+  return 'DoodleModel(id: $id, userId: $userId, ideaId: $ideaId, doodleData: $doodleData, tags: $tags, isActive: $isActive, createdAt: $createdAt, likesCount: $likesCount, isLiked: $isLiked, authorName: $authorName)';
 }
 
 
@@ -275,7 +279,7 @@ abstract mixin class _$DoodleModelCopyWith<$Res> implements $DoodleModelCopyWith
   factory _$DoodleModelCopyWith(_DoodleModel value, $Res Function(_DoodleModel) _then) = __$DoodleModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'idea_id') String? ideaId,@JsonKey(name: 'doodle_data') List<dynamic> doodleData, List<String> tags,@JsonKey(name: 'is_active') bool isActive,@JsonKey(name: 'created_at') DateTime? createdAt,@JsonKey(name: 'likes_count') int likesCount, bool isLiked
+ String id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'idea_id') String? ideaId,@JsonKey(name: 'doodle_data') List<dynamic> doodleData, List<String> tags,@JsonKey(name: 'is_active') bool isActive,@JsonKey(name: 'created_at') DateTime? createdAt,@JsonKey(name: 'likes_count') int likesCount, bool isLiked, String? authorName
 });
 
 
@@ -292,7 +296,7 @@ class __$DoodleModelCopyWithImpl<$Res>
 
 /// Create a copy of DoodleModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? ideaId = freezed,Object? doodleData = null,Object? tags = null,Object? isActive = null,Object? createdAt = freezed,Object? likesCount = null,Object? isLiked = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? ideaId = freezed,Object? doodleData = null,Object? tags = null,Object? isActive = null,Object? createdAt = freezed,Object? likesCount = null,Object? isLiked = null,Object? authorName = freezed,}) {
   return _then(_DoodleModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -303,7 +307,8 @@ as List<String>,isActive: null == isActive ? _self.isActive : isActive // ignore
 as bool,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,likesCount: null == likesCount ? _self.likesCount : likesCount // ignore: cast_nullable_to_non_nullable
 as int,isLiked: null == isLiked ? _self.isLiked : isLiked // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,authorName: freezed == authorName ? _self.authorName : authorName // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
