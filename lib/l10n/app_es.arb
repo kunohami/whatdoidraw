@@ -62,5 +62,36 @@
         "type": "String"
       }
     }
-  }
+  },
+  "ideaDetailTitle": "Detalle de la Idea",
+  "derivedCreationsTitle": "Creaciones derivadas",
+  "emptyIdeaCreationsTitle": "¡Aún no hay doodles ni obras de arte para esta idea!",
+  "emptyIdeaCreationsSubtitle": "Sé el primero en dar vida a esta idea dibujando un boceto.",
+  "doodleDetailTitle": "Detalle del Doodle",
+  "exploreRelationsLabel": "Explorar relaciones",
+  "viewOriginalIdeaOption": "Ver idea original",
+  "viewSharedArtworksOption": "Ver obras de arte compartidas",
+  "originalIdeaHeader": "Idea Original:",
+  "sharedArtworksHeader": "Obras de arte compartidas:",
+  "emptyDoodleArtworksTitle": "¡Aún no hay obras de arte para este doodle!",
+  "emptyDoodleArtworksSubtitle": "Sé el primero en crear una obra de arte basada en este doodle.",
+  "btnShareArtwork": "Compartir Obra",
+  "btnCreateAnother": "Crear otro",
+  "artworkDetailTitle": "Detalle de la Obra",
+  "previewError": "Error al cargar la previsualización",
+  "externalPlatformTitle": "Obra en plataforma externa",
+  "viewOnPlatform": "Ver en {platform}",
+  "@viewOnPlatform": {
+    "placeholders": {
+      "platform": {
+        "type": "String"
+      }
+    }
+  },
+  "inspirationGenealogyTitle": "Inspiración y Genealogía:",
+  "independentArtworkText": "Esta obra fue subida de forma independiente, sin un boceto o idea vinculada.",
+  "seedIdeaTraceTitle": "1. Idea Semilla Original:",
+  "doodleTraceTitle": "2. Boceto (Doodle) de Inspiración:",
+  "singleDoodleTraceTitle": "Boceto (Doodle) de Inspiración:",
+  "viewOriginalArtwork": "Ver obra original"
 }

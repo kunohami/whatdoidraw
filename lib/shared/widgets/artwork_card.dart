@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:whatdoidraw/features/feed/views/screens/artwork_detail_screen.dart';
 import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/artwork_model.dart';
@@ -10,12 +11,14 @@ class ArtworkCard extends ConsumerWidget {
   final ArtworkModel artwork;
   final ValueChanged<String>? onTagTap;
   final List<String> activeFilterTags;
+  final bool isClickable;
 
   const ArtworkCard({
     super.key,
     required this.artwork,
     this.onTagTap,
     this.activeFilterTags = const [],
+    this.isClickable = true,
   });
 
   Future<void> _launchUrl() async {
@@ -35,7 +38,19 @@ class ArtworkCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           InkWell(
-            onTap: _launchUrl,
+            onTap: isClickable
+                ? () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ArtworkDetailScreen(
+                          artworkId: artwork.id,
+                          initialArtwork: artwork,
+                        ),
+                      ),
+                    );
+                  }
+                : null,
             child: Column(
               children: [
                 if (artwork.previewUrl != null)

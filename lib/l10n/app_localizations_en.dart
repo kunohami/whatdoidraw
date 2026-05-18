@@ -131,4 +131,82 @@ class AppLocalizationsEn extends AppLocalizations {
   String sharedBy(String username) {
     return 'shared by @$username';
   }
+
+  @override
+  String get ideaDetailTitle => 'Idea Detail';
+
+  @override
+  String get derivedCreationsTitle => 'Derived Creations';
+
+  @override
+  String get emptyIdeaCreationsTitle =>
+      'No doodles or artworks for this idea yet!';
+
+  @override
+  String get emptyIdeaCreationsSubtitle =>
+      'Be the first to bring this idea to life by drawing a doodle.';
+
+  @override
+  String get doodleDetailTitle => 'Doodle Detail';
+
+  @override
+  String get exploreRelationsLabel => 'Explore Relationships';
+
+  @override
+  String get viewOriginalIdeaOption => 'See original idea';
+
+  @override
+  String get viewSharedArtworksOption => 'See shared artworks';
+
+  @override
+  String get originalIdeaHeader => 'Original Idea:';
+
+  @override
+  String get sharedArtworksHeader => 'Shared Artworks:';
+
+  @override
+  String get emptyDoodleArtworksTitle => 'No artworks for this doodle yet!';
+
+  @override
+  String get emptyDoodleArtworksSubtitle =>
+      'Be the first to create an artwork based on this doodle.';
+
+  @override
+  String get btnShareArtwork => 'Share Artwork';
+
+  @override
+  String get btnCreateAnother => 'Create another';
+
+  @override
+  String get artworkDetailTitle => 'Artwork Detail';
+
+  @override
+  String get previewError => 'Error loading preview';
+
+  @override
+  String get externalPlatformTitle => 'Artwork on external platform';
+
+  @override
+  String viewOnPlatform(String platform) {
+    return 'View on $platform';
+  }
+
+  @override
+  String get inspirationGenealogyTitle => 'Inspiration & Genealogy:';
+
+  @override
+  String get independentArtworkText =>
+      'This artwork was uploaded independently, without any linked doodle or seed idea.';
+
+  @override
+  String get seedIdeaTraceTitle => '1. Original Seed Idea:';
+
+  @override
+  String get doodleTraceTitle => '2. Inspirational Sketch (Doodle):';
+
+  @override
+  String get singleDoodleTraceTitle => 'Inspirational Sketch (Doodle):';
+
+  @override
+  String get viewOriginalArtwork => 'See original artwork';
 }

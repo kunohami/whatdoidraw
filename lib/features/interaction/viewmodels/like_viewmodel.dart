@@ -1,6 +1,10 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/artwork_detail_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/artworks_feed_notifier.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/doodle_detail_artworks_notifier.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/doodle_detail_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/doodles_feed_notifier.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/idea_detail_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/ideas_feed_notifier.dart';
 import 'package:whatdoidraw/features/interaction/data/services/like_service.dart';
 import 'package:whatdoidraw/shared/models/artwork_model.dart';
@@ -22,7 +26,7 @@ class LikeViewModel extends _$LikeViewModel {
 
     // Actualización optimista en el feed
     _updateIdeaInFeed(
-      idea.id,
+      idea,
       isLiked: !previousIsLiked,
       likesCount: previousIsLiked ? previousCount - 1 : previousCount + 1,
     );
@@ -32,7 +36,7 @@ class LikeViewModel extends _$LikeViewModel {
     } catch (e) {
       // Revertir en caso de error
       _updateIdeaInFeed(
-        idea.id,
+        idea,
         isLiked: previousIsLiked,
         likesCount: previousCount,
       );
@@ -46,7 +50,7 @@ class LikeViewModel extends _$LikeViewModel {
     final previousCount = doodle.likesCount;
 
     _updateDoodleInFeed(
-      doodle.id,
+      doodle,
       isLiked: !previousIsLiked,
       likesCount: previousIsLiked ? previousCount - 1 : previousCount + 1,
     );
@@ -55,7 +59,7 @@ class LikeViewModel extends _$LikeViewModel {
       await service.toggleLike(itemId: doodle.id, type: 'doodle_id');
     } catch (e) {
       _updateDoodleInFeed(
-        doodle.id,
+        doodle,
         isLiked: previousIsLiked,
         likesCount: previousCount,
       );
@@ -69,7 +73,7 @@ class LikeViewModel extends _$LikeViewModel {
     final previousCount = artwork.likesCount;
 
     _updateArtworkInFeed(
-      artwork.id,
+      artwork,
       isLiked: !previousIsLiked,
       likesCount: previousIsLiked ? previousCount - 1 : previousCount + 1,
     );
@@ -78,7 +82,7 @@ class LikeViewModel extends _$LikeViewModel {
       await service.toggleLike(itemId: artwork.id, type: 'artwork_id');
     } catch (e) {
       _updateArtworkInFeed(
-        artwork.id,
+        artwork,
         isLiked: previousIsLiked,
         likesCount: previousCount,
       );
@@ -86,10 +90,11 @@ class LikeViewModel extends _$LikeViewModel {
   }
 
   void _updateIdeaInFeed(
-    String id, {
+    IdeaModel idea, {
     required bool isLiked,
     required int likesCount,
   }) {
+    final id = idea.id;
     final notifier = ref.read(ideasFeedProvider.notifier);
     final currentState = ref.read(ideasFeedProvider);
 
@@ -101,13 +106,22 @@ class LikeViewModel extends _$LikeViewModel {
     }).toList();
 
     notifier.updateStateFromLike(updatedIdeas);
+
+    // Update IdeaDetailNotifier
+    try {
+      ref.read(ideaDetailProvider(id).notifier).updateIdeaLike(
+        isLiked: isLiked,
+        likesCount: likesCount,
+      );
+    } catch (_) {}
   }
 
   void _updateDoodleInFeed(
-    String id, {
+    DoodleModel doodle, {
     required bool isLiked,
     required int likesCount,
   }) {
+    final id = doodle.id;
     final notifier = ref.read(doodlesFeedProvider.notifier);
     final currentState = ref.read(doodlesFeedProvider);
 
@@ -119,13 +133,33 @@ class LikeViewModel extends _$LikeViewModel {
     }).toList();
 
     notifier.updateStateFromLike(updatedDoodles);
+
+    // Update DoodleDetailNotifier
+    try {
+      ref.read(doodleDetailProvider(id).notifier).updateDoodleLike(
+        isLiked: isLiked,
+        likesCount: likesCount,
+      );
+    } catch (_) {}
+
+    // Update IdeaDetailNotifier if it has an ideaId
+    if (doodle.ideaId != null) {
+      try {
+        ref.read(ideaDetailProvider(doodle.ideaId!).notifier).updateDoodleLike(
+          id,
+          isLiked: isLiked,
+          likesCount: likesCount,
+        );
+      } catch (_) {}
+    }
   }
 
   void _updateArtworkInFeed(
-    String id, {
+    ArtworkModel artwork, {
     required bool isLiked,
     required int likesCount,
   }) {
+    final id = artwork.id;
     final notifier = ref.read(artworksFeedProvider.notifier);
     final currentState = ref.read(artworksFeedProvider);
 
@@ -137,5 +171,35 @@ class LikeViewModel extends _$LikeViewModel {
     }).toList();
 
     notifier.updateStateFromLike(updatedArtworks);
+
+    // Update ArtworkDetailNotifier
+    try {
+      ref.read(artworkDetailProvider(id).notifier).updateArtworkLike(
+        isLiked: isLiked,
+        likesCount: likesCount,
+      );
+    } catch (_) {}
+
+    // Update IdeaDetailNotifier if it has an ideaId
+    if (artwork.ideaId != null) {
+      try {
+        ref.read(ideaDetailProvider(artwork.ideaId!).notifier).updateArtworkLike(
+          id,
+          isLiked: isLiked,
+          likesCount: likesCount,
+        );
+      } catch (_) {}
+    }
+
+    // Update DoodleDetailArtworksNotifier if it has a doodleId
+    if (artwork.doodleId != null) {
+      try {
+        ref.read(doodleDetailArtworksProvider(artwork.doodleId!).notifier).updateArtworkLike(
+          id,
+          isLiked: isLiked,
+          likesCount: likesCount,
+        );
+      } catch (_) {}
+    }
   }
 }
