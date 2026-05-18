@@ -16,6 +16,8 @@
 ## 📖 Documentación
 - 🎨 **[Visión General del Proyecto](docs/PROJECT_OVERVIEW.md)**: Flujos de usuario, lógica de contenido y estructura de carpetas.
 - 🏷️ **[Sistema de Tags](docs/TAGS_SYSTEM.md)**: Cómo funcionan las etiquetas, la búsqueda y el filtrado del feed.
+- 💖 **[Sistema de Likes e Interacción](docs/LIKES_SYSTEM.md)**: Estructura del contador optimista, servicio Supabase y ordenación estable por popularidad.
+- 🌐 **[Sistema de Idiomas e i18n](docs/LANGUAGE_SYSTEM.md)**: Localización de pantallas, persistencia local con SharedPreferences y pruebas de idioma.
 - 🗄️ **[Esquema de Base de Datos](docs/DATABASE_SCHEMA.md)**: Tablas, relaciones y políticas RLS de Supabase.
 - 🗺️ **[Roadmap de Desarrollo](ROADMAP.md)**: Estado actual del proyecto y tareas pendientes.
 

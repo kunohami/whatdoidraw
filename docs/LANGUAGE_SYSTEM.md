@@ -7,10 +7,25 @@ Este documento detalla cómo está estructurado el sistema de idiomas en **whatd
 ## 1. Localización Nativa de la App (UI)
 La aplicación utiliza el paquete oficial `flutter_localizations` junto con `intl` para traducir la interfaz gráfica.
 
-### ¿Cómo funciona el estado del idioma?
-El idioma general de la aplicación está controlado por el provider **`AppLocale`** (`locale_provider.dart`).
-- Al iniciar, detecta el idioma predeterminado del dispositivo (por ejemplo, si el sistema está en Español, selecciona `es`, de lo contrario, por defecto es `en`).
-- Se puede cambiar en tiempo real desde la pantalla de **Ajustes** (`SettingsScreen`). Cuando el usuario selecciona un nuevo idioma, Riverpod actualiza el estado y `MaterialApp` se reconstruye automáticamente inyectando las nuevas traducciones en los Widgets.
+### ¿Cómo funciona el estado del idioma y la persistencia?
+El idioma general de la aplicación está controlado por el provider **`AppLocale`** (`locale_provider.dart`), el cual implementa **persistencia a nivel de dispositivo** usando la librería `shared_preferences`.
+
+- **Al iniciar la App**: El notifier accede de forma síncrona a `sharedPreferencesProvider` (inicializado y sobreescrito en el root `ProviderScope` en `main.dart`). Si existe un código de idioma guardado bajo la clave `'app_locale'`, se carga de inmediato. Si no hay registros previos, detecta automáticamente el idioma nativo del dispositivo (si empieza por `es` selecciona Español `es`, de lo contrario usará Inglés `en`).
+- **En tiempo real**: Se puede cambiar el idioma desde la pantalla de **Ajustes** (`SettingsScreen`). Cuando el usuario selecciona una nueva opción del menú desplegable:
+  1. Se invoca `setLocale(locale)` en el notifier de `appLocaleProvider`.
+  2. El nuevo idioma se guarda de forma persistente en local storage con `sharedPreferences.setString('app_locale', locale.languageCode)`.
+  3. El estado del provider se actualiza y `MaterialApp` se reconstruye instantáneamente en toda la aplicación con las traducciones correspondientes.
+
+### Pruebas del Sistema de Idiomas
+El sistema cuenta con cobertura automatizada completa y robusta:
+- **`settings_locale_test.dart`**: Verifica que cambiar el idioma a través del dropdown de Ajustes refresca al instante los textos en pantalla (`Settings` -> `Ajustes`, etc.) inyectando un mock de `SharedPreferences`.
+- **`app_persistence_locale_test.dart`**: Prueba unitaria que simula el ciclo de vida de reinicios de la aplicación para certificar que el idioma guardado se recupera correctamente del almacenamiento local en lugar de volver al valor por defecto.
+- **`widget_test.dart`**: Prueba de humo general que incluye la inyección del mock para asegurar la correcta instanciación de la App.
+
+Para ejecutar los tests de localización, puedes usar el comando:
+```bash
+flutter test test/features/settings_locale_test.dart test/features/app_persistence_locale_test.dart
+```
 
 ### ¿Cómo añadir un nuevo idioma a la App?
 Añadir un idioma adicional (ej. Francés) es un proceso estandarizado:

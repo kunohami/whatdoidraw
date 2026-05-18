@@ -16,6 +16,7 @@ El sistema se basa en 3 tipos de contenido principales que se inspiran mutuament
 La aplicación tiene un Hub central de creación y un sistema de descubrimiento social:
 - **Descubrir:** Navegar por los Feeds de Ideas y Doodles.
 - **Guardar (Bookmarks):** Los usuarios pueden guardar Ideas y Doodles en su colección personal para usarlos de inspiración más tarde.
+- **Interactuar (Likes):** Los usuarios pueden dar like a las Ideas, Doodles y Artworks, y ordenar los feeds por popularidad para descubrir las creaciones más destacadas.
 - **Crear Idea:** Formulario de texto.
 - **Crear Doodle:** Lienzo de dibujo libre, opcionalmente basado en una Idea.
 - **Compartir Artwork:** Formulario final que asocia un enlace externo con una Idea o Doodle guardado previamente.
