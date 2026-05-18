@@ -15,6 +15,9 @@ abstract class DoodleModel with _$DoodleModel {
     @JsonKey(name: 'created_at') DateTime? createdAt,
     @JsonKey(name: 'likes_count') @Default(0) int likesCount,
     @Default(false) bool isLiked,
+
+    /// Nombre de usuario del autor (traído mediante JOIN en el Feed).
+    String? authorName,
   }) = _DoodleModel;
 
   factory DoodleModel.fromJson(Map<String, dynamic> json) =>

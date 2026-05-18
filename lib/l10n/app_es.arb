@@ -38,5 +38,29 @@
   "feedSearchPlaceholder": "Buscar...",
   "feedNoIdeas": "No hay ideas que coincidan.",
   "feedNoDoodles": "No hay doodles que coincidan.",
-  "feedNoArtworks": "No hay obras que coincidan."
+  "feedNoArtworks": "No hay obras que coincidan.",
+  "suggestedBy": "sugerido por @{username}",
+  "@suggestedBy": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "doodledBy": "bocetado por @{username}",
+  "@doodledBy": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "sharedBy": "compartido por @{username}",
+  "@sharedBy": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  }
 }

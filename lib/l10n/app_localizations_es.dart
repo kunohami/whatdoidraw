@@ -115,4 +115,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get feedNoArtworks => 'No hay obras que coincidan.';
+
+  @override
+  String suggestedBy(String username) {
+    return 'sugerido por @$username';
+  }
+
+  @override
+  String doodledBy(String username) {
+    return 'bocetado por @$username';
+  }
+
+  @override
+  String sharedBy(String username) {
+    return 'compartido por @$username';
+  }
 }

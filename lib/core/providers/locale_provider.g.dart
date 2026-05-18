@@ -10,7 +10,8 @@ part of 'locale_provider.dart';
 // ignore_for_file: type=lint, type=warning
 /// Notifier que maneja el idioma global de la aplicación.
 ///
-/// Inicialmente detecta el idioma del sistema y lo expone a MaterialApp.
+/// Inicialmente detecta el idioma guardado en SharedPreferences, o en su defecto
+/// el idioma del sistema, y lo expone a MaterialApp.
 /// Permite ser actualizado desde la pantalla de Ajustes para cambiar
 /// el idioma en tiempo real sin reiniciar la app.
 
@@ -19,13 +20,15 @@ final appLocaleProvider = AppLocaleProvider._();
 
 /// Notifier que maneja el idioma global de la aplicación.
 ///
-/// Inicialmente detecta el idioma del sistema y lo expone a MaterialApp.
+/// Inicialmente detecta el idioma guardado en SharedPreferences, o en su defecto
+/// el idioma del sistema, y lo expone a MaterialApp.
 /// Permite ser actualizado desde la pantalla de Ajustes para cambiar
 /// el idioma en tiempo real sin reiniciar la app.
 final class AppLocaleProvider extends $NotifierProvider<AppLocale, Locale> {
   /// Notifier que maneja el idioma global de la aplicación.
   ///
-  /// Inicialmente detecta el idioma del sistema y lo expone a MaterialApp.
+  /// Inicialmente detecta el idioma guardado en SharedPreferences, o en su defecto
+  /// el idioma del sistema, y lo expone a MaterialApp.
   /// Permite ser actualizado desde la pantalla de Ajustes para cambiar
   /// el idioma en tiempo real sin reiniciar la app.
   AppLocaleProvider._()
@@ -55,11 +58,12 @@ final class AppLocaleProvider extends $NotifierProvider<AppLocale, Locale> {
   }
 }
 
-String _$appLocaleHash() => r'068eacbefbbe80ad5a8559f68e2dcc71ec072f9d';
+String _$appLocaleHash() => r'4110a8aa961834acd9ab733489ed805d2f761069';
 
 /// Notifier que maneja el idioma global de la aplicación.
 ///
-/// Inicialmente detecta el idioma del sistema y lo expone a MaterialApp.
+/// Inicialmente detecta el idioma guardado en SharedPreferences, o en su defecto
+/// el idioma del sistema, y lo expone a MaterialApp.
 /// Permite ser actualizado desde la pantalla de Ajustes para cambiar
 /// el idioma en tiempo real sin reiniciar la app.
 
