@@ -109,10 +109,9 @@ class LikeViewModel extends _$LikeViewModel {
 
     // Update IdeaDetailNotifier
     try {
-      ref.read(ideaDetailProvider(id).notifier).updateIdeaLike(
-        isLiked: isLiked,
-        likesCount: likesCount,
-      );
+      ref
+          .read(ideaDetailProvider(id).notifier)
+          .updateIdeaLike(isLiked: isLiked, likesCount: likesCount);
     } catch (_) {}
   }
 
@@ -136,20 +135,17 @@ class LikeViewModel extends _$LikeViewModel {
 
     // Update DoodleDetailNotifier
     try {
-      ref.read(doodleDetailProvider(id).notifier).updateDoodleLike(
-        isLiked: isLiked,
-        likesCount: likesCount,
-      );
+      ref
+          .read(doodleDetailProvider(id).notifier)
+          .updateDoodleLike(isLiked: isLiked, likesCount: likesCount);
     } catch (_) {}
 
     // Update IdeaDetailNotifier if it has an ideaId
     if (doodle.ideaId != null) {
       try {
-        ref.read(ideaDetailProvider(doodle.ideaId!).notifier).updateDoodleLike(
-          id,
-          isLiked: isLiked,
-          likesCount: likesCount,
-        );
+        ref
+            .read(ideaDetailProvider(doodle.ideaId!).notifier)
+            .updateDoodleLike(id, isLiked: isLiked, likesCount: likesCount);
       } catch (_) {}
     }
   }
@@ -174,31 +170,26 @@ class LikeViewModel extends _$LikeViewModel {
 
     // Update ArtworkDetailNotifier
     try {
-      ref.read(artworkDetailProvider(id).notifier).updateArtworkLike(
-        isLiked: isLiked,
-        likesCount: likesCount,
-      );
+      ref
+          .read(artworkDetailProvider(id).notifier)
+          .updateArtworkLike(isLiked: isLiked, likesCount: likesCount);
     } catch (_) {}
 
     // Update IdeaDetailNotifier if it has an ideaId
     if (artwork.ideaId != null) {
       try {
-        ref.read(ideaDetailProvider(artwork.ideaId!).notifier).updateArtworkLike(
-          id,
-          isLiked: isLiked,
-          likesCount: likesCount,
-        );
+        ref
+            .read(ideaDetailProvider(artwork.ideaId!).notifier)
+            .updateArtworkLike(id, isLiked: isLiked, likesCount: likesCount);
       } catch (_) {}
     }
 
     // Update DoodleDetailArtworksNotifier if it has a doodleId
     if (artwork.doodleId != null) {
       try {
-        ref.read(doodleDetailArtworksProvider(artwork.doodleId!).notifier).updateArtworkLike(
-          id,
-          isLiked: isLiked,
-          likesCount: likesCount,
-        );
+        ref
+            .read(doodleDetailArtworksProvider(artwork.doodleId!).notifier)
+            .updateArtworkLike(id, isLiked: isLiked, likesCount: likesCount);
       } catch (_) {}
     }
   }

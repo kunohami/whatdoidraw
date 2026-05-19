@@ -45,7 +45,7 @@ class IdeaDetailNotifier extends _$IdeaDetailNotifier {
   Future<void> _fetchIdeaAndCreations() async {
     try {
       final feedService = ref.read(feedServiceProvider);
-      
+
       // Fetch the idea itself
       final idea = await feedService.getIdeaById(ideaId);
       if (idea == null) {
@@ -59,12 +59,19 @@ class IdeaDetailNotifier extends _$IdeaDetailNotifier {
 
       // Fetch derived doodles and artworks
       final doodles = await feedService.getDoodlesByIdeaId(ideaId, limit: 100);
-      final artworks = await feedService.getArtworksByIdeaId(ideaId, limit: 100);
+      final artworks = await feedService.getArtworksByIdeaId(
+        ideaId,
+        limit: 100,
+      );
 
       final combined = [...doodles, ...artworks];
       combined.sort((a, b) {
-        final dateA = a is DoodleModel ? a.createdAt : (a as ArtworkModel).createdAt;
-        final dateB = b is DoodleModel ? b.createdAt : (b as ArtworkModel).createdAt;
+        final dateA = a is DoodleModel
+            ? a.createdAt
+            : (a as ArtworkModel).createdAt;
+        final dateB = b is DoodleModel
+            ? b.createdAt
+            : (b as ArtworkModel).createdAt;
         if (dateA == null && dateB == null) return 0;
         if (dateA == null) return 1;
         if (dateB == null) return -1;
@@ -93,7 +100,11 @@ class IdeaDetailNotifier extends _$IdeaDetailNotifier {
     }
   }
 
-  void updateDoodleLike(String doodleId, {required bool isLiked, required int likesCount}) {
+  void updateDoodleLike(
+    String doodleId, {
+    required bool isLiked,
+    required int likesCount,
+  }) {
     final updated = state.creations.map((c) {
       if (c is DoodleModel && c.id == doodleId) {
         return c.copyWith(isLiked: isLiked, likesCount: likesCount);
@@ -103,7 +114,11 @@ class IdeaDetailNotifier extends _$IdeaDetailNotifier {
     state = state.copyWith(creations: updated);
   }
 
-  void updateArtworkLike(String artworkId, {required bool isLiked, required int likesCount}) {
+  void updateArtworkLike(
+    String artworkId, {
+    required bool isLiked,
+    required int likesCount,
+  }) {
     final updated = state.creations.map((c) {
       if (c is ArtworkModel && c.id == artworkId) {
         return c.copyWith(isLiked: isLiked, likesCount: likesCount);

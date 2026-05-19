@@ -64,25 +64,32 @@ class DoodleDetailNotifier extends _$DoodleDetailNotifier {
         isLoading: false,
       );
     } catch (e) {
-      state = DoodleDetailState(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = DoodleDetailState(isLoading: false, errorMessage: e.toString());
     }
   }
 
   void updateDoodleLike({required bool isLiked, required int likesCount}) {
     if (state.doodle != null) {
       state = state.copyWith(
-        doodle: state.doodle!.copyWith(isLiked: isLiked, likesCount: likesCount),
+        doodle: state.doodle!.copyWith(
+          isLiked: isLiked,
+          likesCount: likesCount,
+        ),
       );
     }
   }
 
-  void updateIdeaLike(String ideaId, {required bool isLiked, required int likesCount}) {
+  void updateIdeaLike(
+    String ideaId, {
+    required bool isLiked,
+    required int likesCount,
+  }) {
     if (state.parentIdea?.id == ideaId) {
       state = state.copyWith(
-        parentIdea: state.parentIdea!.copyWith(isLiked: isLiked, likesCount: likesCount),
+        parentIdea: state.parentIdea!.copyWith(
+          isLiked: isLiked,
+          likesCount: likesCount,
+        ),
       );
     }
   }

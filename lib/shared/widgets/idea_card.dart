@@ -45,9 +45,7 @@ class IdeaCard extends ConsumerWidget {
       children: [
         Text(
           idea.content,
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium?.copyWith(height: 1.4),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(height: 1.4),
         ),
         const SizedBox(height: 4),
         GestureDetector(
@@ -93,10 +91,7 @@ class IdeaCard extends ConsumerWidget {
           );
         },
         borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: cardContent,
-        ),
+        child: Padding(padding: const EdgeInsets.all(16.0), child: cardContent),
       );
     } else {
       cardContent = Padding(

@@ -52,7 +52,11 @@ class DoodleDetailArtworksNotifier extends _$DoodleDetailArtworksNotifier {
   Future<void> _fetchArtworks() async {
     try {
       final feedService = ref.read(feedServiceProvider);
-      final list = await feedService.getArtworksByDoodleId(doodleId, offset: 0, limit: 10);
+      final list = await feedService.getArtworksByDoodleId(
+        doodleId,
+        offset: 0,
+        limit: 10,
+      );
       state = DoodleDetailArtworksState(
         artworks: list,
         isLoading: false,
@@ -90,7 +94,11 @@ class DoodleDetailArtworksNotifier extends _$DoodleDetailArtworksNotifier {
     }
   }
 
-  void updateArtworkLike(String artworkId, {required bool isLiked, required int likesCount}) {
+  void updateArtworkLike(
+    String artworkId, {
+    required bool isLiked,
+    required int likesCount,
+  }) {
     final updated = state.artworks.map((a) {
       if (a.id == artworkId) {
         return a.copyWith(isLiked: isLiked, likesCount: likesCount);

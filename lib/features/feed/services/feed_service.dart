@@ -274,7 +274,7 @@ class FeedService {
         map['authorName'] = map['users']['username'];
       }
       var idea = IdeaModel.fromJson(map);
-      
+
       final userId = supabaseClient.auth.currentUser?.id;
       if (userId != null) {
         final likedResponse = await supabaseClient
@@ -352,7 +352,11 @@ class FeedService {
     }
   }
 
-  Future<List<DoodleModel>> getDoodlesByIdeaId(String ideaId, {int offset = 0, int limit = 10}) async {
+  Future<List<DoodleModel>> getDoodlesByIdeaId(
+    String ideaId, {
+    int offset = 0,
+    int limit = 10,
+  }) async {
     try {
       final data = await supabaseClient
           .from('doodles')
@@ -393,7 +397,11 @@ class FeedService {
     }
   }
 
-  Future<List<ArtworkModel>> getArtworksByIdeaId(String ideaId, {int offset = 0, int limit = 10}) async {
+  Future<List<ArtworkModel>> getArtworksByIdeaId(
+    String ideaId, {
+    int offset = 0,
+    int limit = 10,
+  }) async {
     try {
       final data = await supabaseClient
           .from('artworks')
@@ -434,7 +442,11 @@ class FeedService {
     }
   }
 
-  Future<List<ArtworkModel>> getArtworksByDoodleId(String doodleId, {int offset = 0, int limit = 10}) async {
+  Future<List<ArtworkModel>> getArtworksByDoodleId(
+    String doodleId, {
+    int offset = 0,
+    int limit = 10,
+  }) async {
     try {
       final data = await supabaseClient
           .from('artworks')

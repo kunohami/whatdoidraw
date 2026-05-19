@@ -69,7 +69,9 @@ class ArtworkDetailNotifier extends _$ArtworkDetailNotifier {
       if (artwork.doodleId != null) {
         parentDoodle = await feedService.getDoodleById(artwork.doodleId!);
         if (parentDoodle != null && parentDoodle.ideaId != null) {
-          doodleParentIdea = await feedService.getIdeaById(parentDoodle.ideaId!);
+          doodleParentIdea = await feedService.getIdeaById(
+            parentDoodle.ideaId!,
+          );
         }
       } else if (artwork.ideaId != null) {
         parentIdea = await feedService.getIdeaById(artwork.ideaId!);
@@ -83,38 +85,55 @@ class ArtworkDetailNotifier extends _$ArtworkDetailNotifier {
         isLoading: false,
       );
     } catch (e) {
-      state = ArtworkDetailState(
-        isLoading: false,
-        errorMessage: e.toString(),
-      );
+      state = ArtworkDetailState(isLoading: false, errorMessage: e.toString());
     }
   }
 
   void updateArtworkLike({required bool isLiked, required int likesCount}) {
     if (state.artwork != null) {
       state = state.copyWith(
-        artwork: state.artwork!.copyWith(isLiked: isLiked, likesCount: likesCount),
+        artwork: state.artwork!.copyWith(
+          isLiked: isLiked,
+          likesCount: likesCount,
+        ),
       );
     }
   }
 
-  void updateIdeaLike(String ideaId, {required bool isLiked, required int likesCount}) {
+  void updateIdeaLike(
+    String ideaId, {
+    required bool isLiked,
+    required int likesCount,
+  }) {
     if (state.parentIdea?.id == ideaId) {
       state = state.copyWith(
-        parentIdea: state.parentIdea!.copyWith(isLiked: isLiked, likesCount: likesCount),
+        parentIdea: state.parentIdea!.copyWith(
+          isLiked: isLiked,
+          likesCount: likesCount,
+        ),
       );
     }
     if (state.doodleParentIdea?.id == ideaId) {
       state = state.copyWith(
-        doodleParentIdea: state.doodleParentIdea!.copyWith(isLiked: isLiked, likesCount: likesCount),
+        doodleParentIdea: state.doodleParentIdea!.copyWith(
+          isLiked: isLiked,
+          likesCount: likesCount,
+        ),
       );
     }
   }
 
-  void updateDoodleLike(String doodleId, {required bool isLiked, required int likesCount}) {
+  void updateDoodleLike(
+    String doodleId, {
+    required bool isLiked,
+    required int likesCount,
+  }) {
     if (state.parentDoodle?.id == doodleId) {
       state = state.copyWith(
-        parentDoodle: state.parentDoodle!.copyWith(isLiked: isLiked, likesCount: likesCount),
+        parentDoodle: state.parentDoodle!.copyWith(
+          isLiked: isLiked,
+          likesCount: likesCount,
+        ),
       );
     }
   }
