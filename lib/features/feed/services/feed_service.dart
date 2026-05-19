@@ -261,4 +261,229 @@ class FeedService {
 
     return artworks;
   }
+
+  Future<IdeaModel?> getIdeaById(String id) async {
+    try {
+      final data = await supabaseClient
+          .from('ideas')
+          .select('*, users(username)')
+          .eq('id', id)
+          .single();
+      final map = Map<String, dynamic>.from(data);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      var idea = IdeaModel.fromJson(map);
+
+      final userId = supabaseClient.auth.currentUser?.id;
+      if (userId != null) {
+        final likedResponse = await supabaseClient
+            .from('likes')
+            .select('idea_id')
+            .eq('user_id', userId)
+            .eq('idea_id', id);
+        if ((likedResponse as List).isNotEmpty) {
+          idea = idea.copyWith(isLiked: true);
+        }
+      }
+      return idea;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<DoodleModel?> getDoodleById(String id) async {
+    try {
+      final data = await supabaseClient
+          .from('doodles')
+          .select('*, users(username)')
+          .eq('id', id)
+          .single();
+      final map = Map<String, dynamic>.from(data);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      var doodle = DoodleModel.fromJson(map);
+
+      final userId = supabaseClient.auth.currentUser?.id;
+      if (userId != null) {
+        final likedResponse = await supabaseClient
+            .from('likes')
+            .select('doodle_id')
+            .eq('user_id', userId)
+            .eq('doodle_id', id);
+        if ((likedResponse as List).isNotEmpty) {
+          doodle = doodle.copyWith(isLiked: true);
+        }
+      }
+      return doodle;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<ArtworkModel?> getArtworkById(String id) async {
+    try {
+      final data = await supabaseClient
+          .from('artworks')
+          .select('*, users(username)')
+          .eq('id', id)
+          .single();
+      final map = Map<String, dynamic>.from(data);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      var artwork = ArtworkModel.fromJson(map);
+
+      final userId = supabaseClient.auth.currentUser?.id;
+      if (userId != null) {
+        final likedResponse = await supabaseClient
+            .from('likes')
+            .select('artwork_id')
+            .eq('user_id', userId)
+            .eq('artwork_id', id);
+        if ((likedResponse as List).isNotEmpty) {
+          artwork = artwork.copyWith(isLiked: true);
+        }
+      }
+      return artwork;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<DoodleModel>> getDoodlesByIdeaId(
+    String ideaId, {
+    int offset = 0,
+    int limit = 10,
+  }) async {
+    try {
+      final data = await supabaseClient
+          .from('doodles')
+          .select('*, users(username)')
+          .eq('idea_id', ideaId)
+          .eq('is_active', true)
+          .order('created_at', ascending: false)
+          .range(offset, offset + limit - 1);
+
+      var doodles = (data as List).map((e) {
+        final map = Map<String, dynamic>.from(e);
+        if (map['users'] != null) {
+          map['authorName'] = map['users']['username'];
+        }
+        return DoodleModel.fromJson(map);
+      }).toList();
+
+      final userId = supabaseClient.auth.currentUser?.id;
+      if (userId != null && doodles.isNotEmpty) {
+        final doodleIds = doodles.map((d) => d.id).toList();
+        final likedResponse = await supabaseClient
+            .from('likes')
+            .select('doodle_id')
+            .eq('user_id', userId)
+            .inFilter('doodle_id', doodleIds);
+
+        final likedIds = (likedResponse as List)
+            .map((r) => r['doodle_id'] as String)
+            .toSet();
+
+        doodles = doodles
+            .map((d) => d.copyWith(isLiked: likedIds.contains(d.id)))
+            .toList();
+      }
+      return doodles;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<ArtworkModel>> getArtworksByIdeaId(
+    String ideaId, {
+    int offset = 0,
+    int limit = 10,
+  }) async {
+    try {
+      final data = await supabaseClient
+          .from('artworks')
+          .select('*, users(username)')
+          .eq('idea_id', ideaId)
+          .eq('is_active', true)
+          .order('created_at', ascending: false)
+          .range(offset, offset + limit - 1);
+
+      var artworks = (data as List).map((e) {
+        final map = Map<String, dynamic>.from(e);
+        if (map['users'] != null) {
+          map['authorName'] = map['users']['username'];
+        }
+        return ArtworkModel.fromJson(map);
+      }).toList();
+
+      final userId = supabaseClient.auth.currentUser?.id;
+      if (userId != null && artworks.isNotEmpty) {
+        final artworkIds = artworks.map((a) => a.id).toList();
+        final likedResponse = await supabaseClient
+            .from('likes')
+            .select('artwork_id')
+            .eq('user_id', userId)
+            .inFilter('artwork_id', artworkIds);
+
+        final likedIds = (likedResponse as List)
+            .map((r) => r['artwork_id'] as String)
+            .toSet();
+
+        artworks = artworks
+            .map((a) => a.copyWith(isLiked: likedIds.contains(a.id)))
+            .toList();
+      }
+      return artworks;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<ArtworkModel>> getArtworksByDoodleId(
+    String doodleId, {
+    int offset = 0,
+    int limit = 10,
+  }) async {
+    try {
+      final data = await supabaseClient
+          .from('artworks')
+          .select('*, users(username)')
+          .eq('doodle_id', doodleId)
+          .eq('is_active', true)
+          .order('created_at', ascending: false)
+          .range(offset, offset + limit - 1);
+
+      var artworks = (data as List).map((e) {
+        final map = Map<String, dynamic>.from(e);
+        if (map['users'] != null) {
+          map['authorName'] = map['users']['username'];
+        }
+        return ArtworkModel.fromJson(map);
+      }).toList();
+
+      final userId = supabaseClient.auth.currentUser?.id;
+      if (userId != null && artworks.isNotEmpty) {
+        final artworkIds = artworks.map((a) => a.id).toList();
+        final likedResponse = await supabaseClient
+            .from('likes')
+            .select('artwork_id')
+            .eq('user_id', userId)
+            .inFilter('artwork_id', artworkIds);
+
+        final likedIds = (likedResponse as List)
+            .map((r) => r['artwork_id'] as String)
+            .toSet();
+
+        artworks = artworks
+            .map((a) => a.copyWith(isLiked: likedIds.contains(a.id)))
+            .toList();
+      }
+      return artworks;
+    } catch (e) {
+      return [];
+    }
+  }
 }

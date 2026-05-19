@@ -130,4 +130,83 @@ class AppLocalizationsEs extends AppLocalizations {
   String sharedBy(String username) {
     return 'compartido por @$username';
   }
+
+  @override
+  String get ideaDetailTitle => 'Detalle de la Idea';
+
+  @override
+  String get derivedCreationsTitle => 'Creaciones derivadas';
+
+  @override
+  String get emptyIdeaCreationsTitle =>
+      '¡Aún no hay doodles ni obras de arte para esta idea!';
+
+  @override
+  String get emptyIdeaCreationsSubtitle =>
+      'Sé el primero en dar vida a esta idea dibujando un boceto.';
+
+  @override
+  String get doodleDetailTitle => 'Detalle del Doodle';
+
+  @override
+  String get exploreRelationsLabel => 'Explorar relaciones';
+
+  @override
+  String get viewOriginalIdeaOption => 'Ver idea original';
+
+  @override
+  String get viewSharedArtworksOption => 'Ver obras de arte compartidas';
+
+  @override
+  String get originalIdeaHeader => 'Idea Original:';
+
+  @override
+  String get sharedArtworksHeader => 'Obras de arte compartidas:';
+
+  @override
+  String get emptyDoodleArtworksTitle =>
+      '¡Aún no hay obras de arte para este doodle!';
+
+  @override
+  String get emptyDoodleArtworksSubtitle =>
+      'Sé el primero en crear una obra de arte basada en este doodle.';
+
+  @override
+  String get btnShareArtwork => 'Compartir Obra';
+
+  @override
+  String get btnCreateAnother => 'Crear otro';
+
+  @override
+  String get artworkDetailTitle => 'Detalle de la Obra';
+
+  @override
+  String get previewError => 'Error al cargar la previsualización';
+
+  @override
+  String get externalPlatformTitle => 'Obra en plataforma externa';
+
+  @override
+  String viewOnPlatform(String platform) {
+    return 'Ver en $platform';
+  }
+
+  @override
+  String get inspirationGenealogyTitle => 'Inspiración y Genealogía:';
+
+  @override
+  String get independentArtworkText =>
+      'Esta obra fue subida de forma independiente, sin un boceto o idea vinculada.';
+
+  @override
+  String get seedIdeaTraceTitle => '1. Idea Semilla Original:';
+
+  @override
+  String get doodleTraceTitle => '2. Boceto (Doodle) de Inspiración:';
+
+  @override
+  String get singleDoodleTraceTitle => 'Boceto (Doodle) de Inspiración:';
+
+  @override
+  String get viewOriginalArtwork => 'Ver obra original';
 }

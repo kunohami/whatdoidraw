@@ -36,8 +36,8 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [x] Sistema de Bookmarks (Guardar contenido) y visualización en el perfil.
 - [x] Formulario para publicar Artwork final (enlazando url externa) con soporte de tags y multi-plataforma.
 - [x] Lógica de filtrado por "popularidad" (Likes) y visualización de likes.
-- [ ] Sistema para ver relación con otras ideas o doodles existentes en la app al abrir una idea o doodle.
-- [ ] Mostrar el nombre del usuario al que pertenece la idea o doodle.
+- [x] Sistema para ver relación con otras ideas o doodles existentes en la app al abrir una idea o doodle.
+- [x] Mostrar el nombre del usuario al que pertenece la idea o doodle.
 - [ ] Poder ver perfiles de otros usuarios al hacer click en su usuario
 - [ ] Buscador de perfiles de usuario en la pestaña de perfil
 

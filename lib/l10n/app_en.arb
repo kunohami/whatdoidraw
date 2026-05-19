@@ -62,5 +62,36 @@
         "type": "String"
       }
     }
-  }
+  },
+  "ideaDetailTitle": "Idea Detail",
+  "derivedCreationsTitle": "Derived Creations",
+  "emptyIdeaCreationsTitle": "No doodles or artworks for this idea yet!",
+  "emptyIdeaCreationsSubtitle": "Be the first to bring this idea to life by drawing a doodle.",
+  "doodleDetailTitle": "Doodle Detail",
+  "exploreRelationsLabel": "Explore Relationships",
+  "viewOriginalIdeaOption": "See original idea",
+  "viewSharedArtworksOption": "See shared artworks",
+  "originalIdeaHeader": "Original Idea:",
+  "sharedArtworksHeader": "Shared Artworks:",
+  "emptyDoodleArtworksTitle": "No artworks for this doodle yet!",
+  "emptyDoodleArtworksSubtitle": "Be the first to create an artwork based on this doodle.",
+  "btnShareArtwork": "Share Artwork",
+  "btnCreateAnother": "Create another",
+  "artworkDetailTitle": "Artwork Detail",
+  "previewError": "Error loading preview",
+  "externalPlatformTitle": "Artwork on external platform",
+  "viewOnPlatform": "View on {platform}",
+  "@viewOnPlatform": {
+    "placeholders": {
+      "platform": {
+        "type": "String"
+      }
+    }
+  },
+  "inspirationGenealogyTitle": "Inspiration & Genealogy:",
+  "independentArtworkText": "This artwork was uploaded independently, without any linked doodle or seed idea.",
+  "seedIdeaTraceTitle": "1. Original Seed Idea:",
+  "doodleTraceTitle": "2. Inspirational Sketch (Doodle):",
+  "singleDoodleTraceTitle": "Inspirational Sketch (Doodle):",
+  "viewOriginalArtwork": "See original artwork"
 }

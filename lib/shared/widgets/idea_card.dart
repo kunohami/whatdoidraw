@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
 import 'package:whatdoidraw/features/bookmarks/viewmodels/bookmark_viewmodel.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
+import 'package:whatdoidraw/features/feed/views/screens/idea_detail_screen.dart';
 import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/idea_model.dart';
@@ -16,6 +17,7 @@ import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 class IdeaCard extends ConsumerWidget {
   final IdeaModel idea;
   final bool showDrawButton;
+  final bool isClickable;
 
   /// Callback opcional para filtrar el feed por un tag al pulsarlo.
   final ValueChanged<String>? onTagTap;
@@ -27,6 +29,7 @@ class IdeaCard extends ConsumerWidget {
     super.key,
     required this.idea,
     this.showDrawButton = true,
+    this.isClickable = true,
     this.onTagTap,
     this.activeFilterTags = const [],
   });
@@ -37,53 +40,77 @@ class IdeaCard extends ConsumerWidget {
         ref.watch(bookmarkedIdeasProvider).value?.any((i) => i.id == idea.id) ??
         false;
 
+    Widget cardContent = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          idea.content,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(height: 1.4),
+        ),
+        const SizedBox(height: 4),
+        GestureDetector(
+          onTap: () {
+            // TODO: Abrir el perfil del usuario (aún no implementado)
+          },
+          child: Text(
+            AppLocalizations.of(
+              context,
+            )!.suggestedBy(idea.authorName ?? 'unknown'),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        // Etiquetas de la idea
+        if (idea.tags.isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 6,
+            runSpacing: 4,
+            children: idea.tags.map((tag) {
+              return TagChip(
+                tag: tag,
+                isActive: activeFilterTags.contains(tag),
+                onTap: onTagTap != null ? () => onTagTap!(tag) : null,
+              );
+            }).toList(),
+          ),
+        ],
+      ],
+    );
+
+    if (isClickable) {
+      cardContent = InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => IdeaDetailScreen(ideaId: idea.id),
+            ),
+          );
+        },
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(padding: const EdgeInsets.all(16.0), child: cardContent),
+      );
+    } else {
+      cardContent = Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: cardContent,
+      );
+    }
+
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(bottom: 16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              idea.content,
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(height: 1.4),
-            ),
-            const SizedBox(height: 4),
-            GestureDetector(
-              onTap: () {
-                // TODO: Abrir el perfil del usuario (aún no implementado)
-              },
-              child: Text(
-                AppLocalizations.of(
-                  context,
-                )!.suggestedBy(idea.authorName ?? 'unknown'),
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            // Etiquetas de la idea
-            if (idea.tags.isNotEmpty) ...[
-              const SizedBox(height: 10),
-              Wrap(
-                spacing: 6,
-                runSpacing: 4,
-                children: idea.tags.map((tag) {
-                  return TagChip(
-                    tag: tag,
-                    isActive: activeFilterTags.contains(tag),
-                    onTap: onTagTap != null ? () => onTagTap!(tag) : null,
-                  );
-                }).toList(),
-              ),
-            ],
-            const SizedBox(height: 12),
-            Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          cardContent,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Row(
@@ -173,8 +200,8 @@ class IdeaCard extends ConsumerWidget {
                   ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

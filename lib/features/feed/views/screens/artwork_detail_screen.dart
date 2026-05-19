@@ -1,0 +1,287 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/artwork_detail_notifier.dart';
+import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
+import 'package:whatdoidraw/shared/models/artwork_model.dart';
+import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
+import 'package:whatdoidraw/shared/widgets/idea_card.dart';
+import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
+
+class ArtworkDetailScreen extends ConsumerWidget {
+  final String artworkId;
+  final ArtworkModel initialArtwork;
+
+  const ArtworkDetailScreen({
+    super.key,
+    required this.artworkId,
+    required this.initialArtwork,
+  });
+
+  Future<void> _launchUrl(String urlString) async {
+    final url = Uri.parse(urlString);
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $urlString');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(artworkDetailProvider(artworkId));
+    final currentArtwork = state.artwork ?? initialArtwork;
+    final l10n = AppLocalizations.of(context)!;
+
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.artworkDetailTitle)),
+      body: state.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : state.errorMessage != null
+          ? Center(child: Text('Error: ${state.errorMessage}'))
+          : SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Preview or premium placeholder
+                  if (currentArtwork.previewUrl != null)
+                    Image.network(
+                      currentArtwork.previewUrl!,
+                      height: 300,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        height: 300,
+                        color: Colors.grey[200],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.broken_image,
+                              size: 64,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              l10n.previewError,
+                              style: const TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  else
+                    Container(
+                      height: 240,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .surfaceContainerHighest
+                          .withValues(alpha: 0.5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.art_track_outlined,
+                            size: 80,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            l10n.externalPlatformTitle,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            l10n.viewOnPlatform(
+                              Uri.parse(currentArtwork.externalLink).host,
+                            ),
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  // Info card & buttons (similar to ArtworkCard)
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.sharedBy(currentArtwork.authorName ?? 'unknown'),
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                        ),
+                        const SizedBox(height: 12),
+                        if (currentArtwork.tags.isNotEmpty) ...[
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 6,
+                            children: currentArtwork.tags.map((tag) {
+                              return TagChip(tag: tag, isActive: false);
+                            }).toList(),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+
+                        // Actions: Likes & Open link
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    currentArtwork.isLiked
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: currentArtwork.isLiked
+                                        ? Colors.red
+                                        : null,
+                                    size: 28,
+                                  ),
+                                  onPressed: () {
+                                    ref
+                                        .read(likeViewModelProvider.notifier)
+                                        .toggleArtworkLike(currentArtwork);
+                                  },
+                                  tooltip: currentArtwork.isLiked
+                                      ? 'Quitar like'
+                                      : 'Dar like',
+                                ),
+                                if (currentArtwork.likesCount > 0)
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 4.0),
+                                    child: Text(
+                                      '${currentArtwork.likesCount}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            const Spacer(),
+                            ElevatedButton.icon(
+                              onPressed: () =>
+                                  _launchUrl(currentArtwork.externalLink),
+                              icon: const Icon(Icons.open_in_new),
+                              label: Text(l10n.viewOriginalArtwork),
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const Divider(height: 1),
+
+                  // Lineage Section (Parent creations)
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.inspirationGenealogyTitle,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // If Doodle was the direct parent
+                        if (state.parentDoodle != null) ...[
+                          // Case 1: Doodle based on Idea (shows both)
+                          if (state.doodleParentIdea != null) ...[
+                            Text(
+                              l10n.seedIdeaTraceTitle,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey[600],
+                                  ),
+                            ),
+                            const SizedBox(height: 8),
+                            IdeaCard(
+                              idea: state.doodleParentIdea!,
+                              showDrawButton: true,
+                              isClickable: false,
+                            ),
+                            const SizedBox(height: 16),
+                          ],
+
+                          Text(
+                            state.doodleParentIdea != null
+                                ? l10n.doodleTraceTitle
+                                : l10n.singleDoodleTraceTitle,
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey[600],
+                                ),
+                          ),
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            height: 300,
+                            child: DoodleCard(doodle: state.parentDoodle!),
+                          ),
+                        ]
+                        // If Idea was the direct parent (no Doodle)
+                        else if (state.parentIdea != null) ...[
+                          Text(
+                            l10n.originalIdeaHeader,
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey[600],
+                                ),
+                          ),
+                          const SizedBox(height: 8),
+                          IdeaCard(
+                            idea: state.parentIdea!,
+                            showDrawButton: true,
+                            isClickable: false,
+                          ),
+                        ]
+                        // No lineage registered
+                        else ...[
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .surfaceContainerHighest
+                                  .withValues(alpha: 0.3),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              l10n.independentArtworkText,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+    );
+  }
+}

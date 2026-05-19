@@ -325,6 +325,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'shared by @{username}'**
   String sharedBy(String username);
+
+  /// No description provided for @ideaDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Idea Detail'**
+  String get ideaDetailTitle;
+
+  /// No description provided for @derivedCreationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Derived Creations'**
+  String get derivedCreationsTitle;
+
+  /// No description provided for @emptyIdeaCreationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No doodles or artworks for this idea yet!'**
+  String get emptyIdeaCreationsTitle;
+
+  /// No description provided for @emptyIdeaCreationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to bring this idea to life by drawing a doodle.'**
+  String get emptyIdeaCreationsSubtitle;
+
+  /// No description provided for @doodleDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Doodle Detail'**
+  String get doodleDetailTitle;
+
+  /// No description provided for @exploreRelationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore Relationships'**
+  String get exploreRelationsLabel;
+
+  /// No description provided for @viewOriginalIdeaOption.
+  ///
+  /// In en, this message translates to:
+  /// **'See original idea'**
+  String get viewOriginalIdeaOption;
+
+  /// No description provided for @viewSharedArtworksOption.
+  ///
+  /// In en, this message translates to:
+  /// **'See shared artworks'**
+  String get viewSharedArtworksOption;
+
+  /// No description provided for @originalIdeaHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Original Idea:'**
+  String get originalIdeaHeader;
+
+  /// No description provided for @sharedArtworksHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared Artworks:'**
+  String get sharedArtworksHeader;
+
+  /// No description provided for @emptyDoodleArtworksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No artworks for this doodle yet!'**
+  String get emptyDoodleArtworksTitle;
+
+  /// No description provided for @emptyDoodleArtworksSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to create an artwork based on this doodle.'**
+  String get emptyDoodleArtworksSubtitle;
+
+  /// No description provided for @btnShareArtwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Artwork'**
+  String get btnShareArtwork;
+
+  /// No description provided for @btnCreateAnother.
+  ///
+  /// In en, this message translates to:
+  /// **'Create another'**
+  String get btnCreateAnother;
+
+  /// No description provided for @artworkDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Artwork Detail'**
+  String get artworkDetailTitle;
+
+  /// No description provided for @previewError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading preview'**
+  String get previewError;
+
+  /// No description provided for @externalPlatformTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Artwork on external platform'**
+  String get externalPlatformTitle;
+
+  /// No description provided for @viewOnPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'View on {platform}'**
+  String viewOnPlatform(String platform);
+
+  /// No description provided for @inspirationGenealogyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Inspiration & Genealogy:'**
+  String get inspirationGenealogyTitle;
+
+  /// No description provided for @independentArtworkText.
+  ///
+  /// In en, this message translates to:
+  /// **'This artwork was uploaded independently, without any linked doodle or seed idea.'**
+  String get independentArtworkText;
+
+  /// No description provided for @seedIdeaTraceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Original Seed Idea:'**
+  String get seedIdeaTraceTitle;
+
+  /// No description provided for @doodleTraceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Inspirational Sketch (Doodle):'**
+  String get doodleTraceTitle;
+
+  /// No description provided for @singleDoodleTraceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Inspirational Sketch (Doodle):'**
+  String get singleDoodleTraceTitle;
+
+  /// No description provided for @viewOriginalArtwork.
+  ///
+  /// In en, this message translates to:
+  /// **'See original artwork'**
+  String get viewOriginalArtwork;
 }
 
 class _AppLocalizationsDelegate
