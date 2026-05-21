@@ -15,15 +15,101 @@ import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 ///
 /// Muestra los detalles del usuario en la parte superior (Avatar, Nombre, Biografía)
 /// y facilita la navegación entre sus historiales mediante un [DefaultTabController].
-class ProfileScreen extends ConsumerWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   final String? userId;
 
   const ProfileScreen({super.key, this.userId});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  bool _isSearching = false;
+  final _searchController = TextEditingController();
+  bool _isSearchLoading = false;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _performSearch(String query) async {
+    final username = query.trim();
+    if (username.isEmpty) return;
+
+    setState(() {
+      _isSearchLoading = true;
+    });
+
+    try {
+      final user = await ref.read(profileServiceProvider).getUserByUsername(username);
+      if (mounted) {
+        setState(() {
+          _isSearchLoading = false;
+        });
+
+        if (user != null) {
+          setState(() {
+            _isSearching = false;
+            _searchController.clear();
+          });
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfileScreen(userId: user.id),
+            ),
+          );
+        } else {
+          final l10n = AppLocalizations.of(context)!;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.error_outline, color: Colors.white),
+                  const SizedBox(width: 12),
+                  Expanded(child: Text(l10n.profileSearchUserNotFound(username))),
+                ],
+              ),
+              backgroundColor: Colors.redAccent,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isSearchLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white),
+                const SizedBox(width: 12),
+                Expanded(child: Text('Error: $e')),
+              ],
+            ),
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final currentUserSession = ref.watch(authControllerProvider).value;
-    final targetUserId = userId ?? currentUserSession?.id;
+    final targetUserId = widget.userId ?? currentUserSession?.id;
     final isOwnProfile = targetUserId == null || targetUserId == currentUserSession?.id;
     final l10n = AppLocalizations.of(context)!;
 
@@ -43,35 +129,117 @@ class ProfileScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: profileAsync.when(
-          data: (profile) => Text(
-            isOwnProfile ? l10n.profileTitle : l10n.profileOf(profile.username),
-          ),
-          loading: () => Text(l10n.profileTitle),
-          error: (_, _) => Text(l10n.profileTitle),
-        ),
-        centerTitle: true,
-        actions: isOwnProfile
+        leading: _isSearching
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  setState(() {
+                    _isSearching = false;
+                    _searchController.clear();
+                  });
+                },
+              )
+            : (isOwnProfile
+                ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isSearching = true;
+                      });
+                    },
+                    icon: const Icon(Icons.search),
+                    tooltip: 'Buscar creadores',
+                  )
+                : null),
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                textInputAction: TextInputAction.search,
+                decoration: InputDecoration(
+                  hintText: l10n.profileSearchHint,
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                  ),
+                ),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 16,
+                ),
+                onSubmitted: _performSearch,
+              )
+            : profileAsync.when(
+                data: (profile) => Text(
+                  isOwnProfile ? l10n.profileTitle : l10n.profileOf(profile.username),
+                ),
+                loading: () => Text(l10n.profileTitle),
+                error: (_, _) => Text(l10n.profileTitle),
+              ),
+        centerTitle: !_isSearching,
+        actions: _isSearching
             ? [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SettingsScreen()),
-                    );
-                  },
-                  icon: const Icon(Icons.settings),
-                  tooltip: l10n.profileTooltipSettings,
-                ),
-                IconButton(
-                  onPressed: () {
-                    ref.read(authControllerProvider.notifier).signOut();
-                  },
-                  icon: const Icon(Icons.logout),
-                  tooltip: l10n.profileTooltipLogout,
-                ),
+                if (_isSearchLoading)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    ),
+                  )
+                else ...[
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () => _performSearch(_searchController.text),
+                    tooltip: 'Buscar',
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      if (_searchController.text.isNotEmpty) {
+                        _searchController.clear();
+                      } else {
+                        setState(() {
+                          _isSearching = false;
+                        });
+                      }
+                    },
+                  ),
+                ]
               ]
-            : null,
+            : [
+                if (!isOwnProfile)
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isSearching = true;
+                      });
+                    },
+                    icon: const Icon(Icons.search),
+                    tooltip: 'Buscar creadores',
+                  ),
+                if (isOwnProfile) ...[
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                      );
+                    },
+                    icon: const Icon(Icons.settings),
+                    tooltip: l10n.profileTooltipSettings,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      ref.read(authControllerProvider.notifier).signOut();
+                    },
+                    icon: const Icon(Icons.logout),
+                    tooltip: l10n.profileTooltipLogout,
+                  ),
+                ],
+              ],
       ),
       body: profileAsync.when(
         data: (profile) {

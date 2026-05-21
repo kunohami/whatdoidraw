@@ -109,5 +109,14 @@
   },
   "otherProfileNoIdeas": "Aún no ha publicado ideas.",
   "otherProfileNoDoodles": "Aún no ha dibujado ningún doodle.",
-  "otherProfileNoArtworks": "Aún no ha compartido ningún artwork final."
+  "otherProfileNoArtworks": "Aún no ha compartido ningún artwork final.",
+  "profileSearchHint": "Buscar creador...",
+  "profileSearchUserNotFound": "Usuario '@{username}' no encontrado",
+  "@profileSearchUserNotFound": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -238,4 +238,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get otherProfileNoArtworks => 'No artworks shared yet.';
+
+  @override
+  String get profileSearchHint => 'Search creator...';
+
+  @override
+  String profileSearchUserNotFound(String username) {
+    return 'User \'@$username\' not found';
+  }
 }

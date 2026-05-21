@@ -109,5 +109,14 @@
   },
   "otherProfileNoIdeas": "No ideas published yet.",
   "otherProfileNoDoodles": "No doodles drawn yet.",
-  "otherProfileNoArtworks": "No artworks shared yet."
+  "otherProfileNoArtworks": "No artworks shared yet.",
+  "profileSearchHint": "Search creator...",
+  "profileSearchUserNotFound": "User '@{username}' not found",
+  "@profileSearchUserNotFound": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  }
 }

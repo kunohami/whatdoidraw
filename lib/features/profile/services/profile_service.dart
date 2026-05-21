@@ -94,4 +94,16 @@ class ProfileService {
 
     return UserModel.fromJson(response);
   }
+
+  /// Busca un usuario por su nombre de usuario (username) exacto (caso insensitivo).
+  Future<UserModel?> getUserByUsername(String username) async {
+    final response = await supabase
+        .from('users')
+        .select()
+        .ilike('username', username);
+
+    final list = response as List;
+    if (list.isEmpty) return null;
+    return UserModel.fromJson(list.first as Map<String, dynamic>);
+  }
 }

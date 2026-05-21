@@ -523,6 +523,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No artworks shared yet.'**
   String get otherProfileNoArtworks;
+
+  /// No description provided for @profileSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search creator...'**
+  String get profileSearchHint;
+
+  /// No description provided for @profileSearchUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'User \'@{username}\' not found'**
+  String profileSearchUserNotFound(String username);
 }
 
 class _AppLocalizationsDelegate

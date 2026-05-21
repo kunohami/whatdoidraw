@@ -23,6 +23,9 @@ class FakePostgrestBuilder<T> extends Fake
   PostgrestFilterBuilder<T> eq(String column, Object? value) => this;
 
   @override
+  PostgrestFilterBuilder<T> ilike(String column, String value) => this;
+
+  @override
   PostgrestFilterBuilder<T> order(
     String column, {
     bool ascending = true,
@@ -208,6 +211,46 @@ void main() {
 
       verify(() => mockSupabase.from('users')).called(1);
       verify(() => mockQueryBuilder.update({'short_message': newBioMessage})).called(1);
+    });
+
+    test('getUserByUsername successfully returns UserModel when user exists', () async {
+      final mockUserData = {
+        'id': testUserId,
+        'username': 'Artist_Test',
+        'avatar_url': 'https://example.com/avatar.png',
+        'is_artist': true,
+        'portfolio_url': 'https://example.com',
+        'short_message': 'Hey!',
+        'created_at': '2026-05-21T12:00:00Z',
+      };
+
+      final fakeBuilder = FakePostgrestBuilder<PostgrestList>([mockUserData]);
+
+      when(() => mockSupabase.from('users')).thenAnswer((_) => mockQueryBuilder);
+      when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
+
+      final result = await profileService.getUserByUsername('artist_test');
+
+      expect(result, isNotNull);
+      expect(result!.id, equals(testUserId));
+      expect(result.username, equals('Artist_Test'));
+
+      verify(() => mockSupabase.from('users')).called(1);
+      verify(() => mockQueryBuilder.select()).called(1);
+    });
+
+    test('getUserByUsername returns null when user does not exist', () async {
+      final fakeBuilder = FakePostgrestBuilder<PostgrestList>([]);
+
+      when(() => mockSupabase.from('users')).thenAnswer((_) => mockQueryBuilder);
+      when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
+
+      final result = await profileService.getUserByUsername('nonexistent_user');
+
+      expect(result, isNull);
+
+      verify(() => mockSupabase.from('users')).called(1);
+      verify(() => mockQueryBuilder.select()).called(1);
     });
   });
 }
