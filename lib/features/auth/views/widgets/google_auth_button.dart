@@ -21,8 +21,31 @@ class GoogleAuthButton extends ConsumerWidget {
         width: double.infinity,
         height: 50,
         child: OutlinedButton.icon(
-          onPressed: () =>
-              ref.read(authControllerProvider.notifier).signInWithGoogle(),
+          onPressed: () async {
+            try {
+              await ref.read(authControllerProvider.notifier).signInWithGoogle();
+            } catch (e) {
+              if (context.mounted) {
+                final errorMessage = e.toString().replaceAll('Exception: ', '').replaceAll('AuthException: ', '');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      children: [
+                        const Icon(Icons.error_outline, color: Colors.white),
+                        const SizedBox(width: 12),
+                        Expanded(child: Text(errorMessage)),
+                      ],
+                    ),
+                    backgroundColor: Colors.redAccent,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                );
+              }
+            }
+          },
           icon: const Icon(Icons.g_mobiledata, size: 30),
           label: const Text('Continuar con Google'),
           style: OutlinedButton.styleFrom(
