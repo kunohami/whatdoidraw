@@ -248,4 +248,42 @@ class AppLocalizationsEs extends AppLocalizations {
   String profileSearchUserNotFound(String username) {
     return 'Usuario \'@$username\' no encontrado';
   }
+
+  @override
+  String get settingsUsernameTitle => 'Nombre de usuario';
+
+  @override
+  String get settingsUsernameSubtitle => 'Cambia tu nombre de usuario único';
+
+  @override
+  String settingsUsernameCooldownError(String hours, String minutes) {
+    return 'Debes esperar 24 horas para cambiar tu nombre de usuario de nuevo. Faltan ${hours}h ${minutes}m.';
+  }
+
+  @override
+  String get settingsUsernameConfirmTitle => '¿Cambiar nombre de usuario?';
+
+  @override
+  String settingsUsernameConfirmMessage(String username) {
+    return '¿Estás seguro de que deseas cambiar tu nombre de usuario a \'@$username\'? No podrás volver a cambiarlo durante las próximas 24 horas.';
+  }
+
+  @override
+  String settingsUsernameAlreadyTaken(String username) {
+    return 'El nombre de usuario \'@$username\' ya está en uso.';
+  }
+
+  @override
+  String get settingsUsernameSuccess =>
+      '¡Nombre de usuario actualizado con éxito!';
+
+  @override
+  String get settingsUsernameInvalid =>
+      'El nombre de usuario solo puede contener letras, números y guiones bajos (3-20 caracteres).';
+
+  @override
+  String get btnConfirm => 'Confirmar';
+
+  @override
+  String get btnSave => 'Guardar';
 }

@@ -118,5 +118,39 @@
         "type": "String"
       }
     }
-  }
+  },
+  "settingsUsernameTitle": "Username",
+  "settingsUsernameSubtitle": "Change your unique username",
+  "settingsUsernameCooldownError": "You must wait 24 hours to change your username again. {hours}h {minutes}m remaining.",
+  "@settingsUsernameCooldownError": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsUsernameConfirmTitle": "Change Username?",
+  "settingsUsernameConfirmMessage": "Are you sure you want to change your username to '@{username}'? You won't be able to change it again for the next 24 hours.",
+  "@settingsUsernameConfirmMessage": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsUsernameAlreadyTaken": "The username '@{username}' is already in use.",
+  "@settingsUsernameAlreadyTaken": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsUsernameSuccess": "Username updated successfully!",
+  "settingsUsernameInvalid": "Username can only contain letters, numbers, and underscores (3-20 characters).",
+  "btnConfirm": "Confirm",
+  "btnSave": "Save"
 }

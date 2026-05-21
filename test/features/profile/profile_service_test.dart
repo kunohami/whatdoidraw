@@ -24,6 +24,9 @@ class FakePostgrestBuilder<T> extends Fake
   PostgrestFilterBuilder<T> eq(String column, Object? value) => this;
 
   @override
+  PostgrestFilterBuilder<T> neq(String column, Object? value) => this;
+
+  @override
   PostgrestFilterBuilder<T> ilike(String column, String value) => this;
 
   @override
@@ -283,6 +286,52 @@ void main() {
 
       verify(() => mockSupabase.from('users')).called(1);
       verify(() => mockQueryBuilder.select()).called(1);
+    });
+
+    test('isUsernameTaken returns true when username is already in use', () async {
+      final mockData = [{'id': 'other-user-id'}];
+      final fakeBuilder = FakePostgrestBuilder<PostgrestList>(mockData);
+
+      when(() => mockSupabase.from('users')).thenAnswer((_) => mockQueryBuilder);
+      when(() => mockQueryBuilder.select('id')).thenAnswer((_) => fakeBuilder);
+
+      final result = await profileService.isUsernameTaken('taken_name', 'my-id');
+
+      expect(result, isTrue);
+      verify(() => mockSupabase.from('users')).called(1);
+    });
+
+    test('isUsernameTaken returns false when username is available', () async {
+      final fakeBuilder = FakePostgrestBuilder<PostgrestList>([]);
+
+      when(() => mockSupabase.from('users')).thenAnswer((_) => mockQueryBuilder);
+      when(() => mockQueryBuilder.select('id')).thenAnswer((_) => fakeBuilder);
+
+      final result = await profileService.isUsernameTaken('free_name', 'my-id');
+
+      expect(result, isFalse);
+      verify(() => mockSupabase.from('users')).called(1);
+    });
+
+    test('updateUsername successfully updates both username and timestamp', () async {
+      final mockUpdatedUser = {
+        'id': testUserId,
+        'username': 'new_bob',
+        'username_updated_at': '2026-05-21T12:00:00Z',
+      };
+      final fakeBuilder = FakePostgrestBuilder<PostgrestList>([mockUpdatedUser]);
+
+      when(() => mockSupabase.from('users')).thenAnswer((_) => mockQueryBuilder);
+      when(() => mockQueryBuilder.update(any())).thenAnswer((_) => fakeBuilder);
+
+      final result = await profileService.updateUsername(testUserId, 'new_bob');
+
+      expect(result.id, equals(testUserId));
+      expect(result.username, equals('new_bob'));
+      expect(result.usernameUpdatedAt, isNotNull);
+
+      verify(() => mockSupabase.from('users')).called(1);
+      verify(() => mockQueryBuilder.update(any())).called(1);
     });
   });
 }

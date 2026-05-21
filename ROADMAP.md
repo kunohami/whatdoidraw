@@ -38,8 +38,9 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [x] Lógica de filtrado por "popularidad" (Likes) y visualización de likes.
 - [x] Sistema para ver relación con otras ideas o doodles existentes en la app al abrir una idea o doodle.
 - [x] Mostrar el nombre del usuario al que pertenece la idea o doodle.
-- [ ] Poder ver perfiles de otros usuarios al hacer click en su usuario
-- [ ] Buscador de perfiles de usuario en la pestaña de perfil
+- [x] Poder ver perfiles de otros usuarios al hacer click en su usuario (modo visitante).
+- [x] Buscador de perfiles de creadores por nombre de usuario (lupa).
+- [x] Cabecera de perfil interactiva y colapsable automáticamente en scroll.
 
 ### Iteración 5: Internacionalización (i18n) y Pulido Final
 - [x] Soporte Bilingüe Nativo (Inglés y Español) en toda la UI.
@@ -53,4 +54,4 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [ ] Sistema de notificaciones por correo cada vez que alguien haga un artwork final de tu idea o doodle.
 
 ---
-*Última actualización: 7 de Mayo de 2026*
+*Última actualización: 21 de Mayo de 2026*

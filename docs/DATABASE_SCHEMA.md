@@ -18,6 +18,7 @@ CREATE TABLE users (
   is_artist BOOLEAN DEFAULT FALSE,
   portfolio_url VARCHAR,
   short_message VARCHAR(150),
+  username_updated_at TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```

@@ -535,6 +535,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'User \'@{username}\' not found'**
   String profileSearchUserNotFound(String username);
+
+  /// No description provided for @settingsUsernameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get settingsUsernameTitle;
+
+  /// No description provided for @settingsUsernameSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change your unique username'**
+  String get settingsUsernameSubtitle;
+
+  /// No description provided for @settingsUsernameCooldownError.
+  ///
+  /// In en, this message translates to:
+  /// **'You must wait 24 hours to change your username again. {hours}h {minutes}m remaining.'**
+  String settingsUsernameCooldownError(String hours, String minutes);
+
+  /// No description provided for @settingsUsernameConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Username?'**
+  String get settingsUsernameConfirmTitle;
+
+  /// No description provided for @settingsUsernameConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to change your username to \'@{username}\'? You won\'t be able to change it again for the next 24 hours.'**
+  String settingsUsernameConfirmMessage(String username);
+
+  /// No description provided for @settingsUsernameAlreadyTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'The username \'@{username}\' is already in use.'**
+  String settingsUsernameAlreadyTaken(String username);
+
+  /// No description provided for @settingsUsernameSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Username updated successfully!'**
+  String get settingsUsernameSuccess;
+
+  /// No description provided for @settingsUsernameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Username can only contain letters, numbers, and underscores (3-20 characters).'**
+  String get settingsUsernameInvalid;
+
+  /// No description provided for @btnConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get btnConfirm;
+
+  /// No description provided for @btnSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get btnSave;
 }
 
 class _AppLocalizationsDelegate

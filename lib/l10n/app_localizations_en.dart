@@ -246,4 +246,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String profileSearchUserNotFound(String username) {
     return 'User \'@$username\' not found';
   }
+
+  @override
+  String get settingsUsernameTitle => 'Username';
+
+  @override
+  String get settingsUsernameSubtitle => 'Change your unique username';
+
+  @override
+  String settingsUsernameCooldownError(String hours, String minutes) {
+    return 'You must wait 24 hours to change your username again. ${hours}h ${minutes}m remaining.';
+  }
+
+  @override
+  String get settingsUsernameConfirmTitle => 'Change Username?';
+
+  @override
+  String settingsUsernameConfirmMessage(String username) {
+    return 'Are you sure you want to change your username to \'@$username\'? You won\'t be able to change it again for the next 24 hours.';
+  }
+
+  @override
+  String settingsUsernameAlreadyTaken(String username) {
+    return 'The username \'@$username\' is already in use.';
+  }
+
+  @override
+  String get settingsUsernameSuccess => 'Username updated successfully!';
+
+  @override
+  String get settingsUsernameInvalid =>
+      'Username can only contain letters, numbers, and underscores (3-20 characters).';
+
+  @override
+  String get btnConfirm => 'Confirm';
+
+  @override
+  String get btnSave => 'Save';
 }

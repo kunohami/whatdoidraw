@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
+import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:whatdoidraw/features/profile/views/screens/settings_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
+import 'package:whatdoidraw/shared/models/user_model.dart';
 
 void main() {
   testWidgets('Settings language dropdown changes app locale and text', (
@@ -15,7 +17,13 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+        overrides: [
+          sharedPreferencesProvider.overrideWithValue(prefs),
+          currentUserProfileProvider.overrideWith((ref) => const UserModel(
+                id: 'test-user-id',
+                username: 'test_user',
+              )),
+        ],
         child: Consumer(
           builder: (context, ref, _) {
             final currentLocale = ref.watch(appLocaleProvider);

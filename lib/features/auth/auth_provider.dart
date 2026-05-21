@@ -88,24 +88,58 @@ class AuthController extends _$AuthController {
     }
   }
 
+  /// Genera un nombre de usuario único a partir del prefijo del correo electrónico.
+  /// Reemplaza caracteres no alfanuméricos por guion bajo y resuelve colisiones
+  /// agregando un sufijo numérico incremental.
+  Future<String> _generateUniqueUsername(String email) async {
+    final base = email.split('@').first;
+    String normalized = base.replaceAll(RegExp(r'[^a-zA-Z0-9_]'), '_');
+    if (normalized.isEmpty) {
+      normalized = 'user';
+    }
+
+    final supabase = ref.read(supabaseClientProvider);
+    String proposed = normalized;
+    int suffix = 1;
+    bool isTaken = true;
+
+    while (isTaken) {
+      final response = await supabase
+          .from('users')
+          .select('id')
+          .ilike('username', proposed);
+
+      final list = response as List;
+      if (list.isEmpty) {
+        isTaken = false;
+      } else {
+        proposed = '${normalized}_$suffix';
+        suffix++;
+      }
+    }
+
+    return proposed;
+  }
+
   Future<void> signUp({
     required String email,
     required String password,
-    required String username,
   }) async {
     final previousState = state;
     state = const AsyncLoading();
     final supabase = ref.read(supabaseClientProvider);
 
     try {
+      final generatedUsername = await _generateUniqueUsername(email);
+
       final response = await supabase.auth.signUp(
         email: email,
         password: password,
-        data: {'username': username},
+        data: {'username': generatedUsername},
       );
 
       if (response.user != null) {
-        await _ensureUserExistsInPublicTable(response.user!.id, username);
+        await _ensureUserExistsInPublicTable(response.user!.id, generatedUsername);
         state = AsyncData(response.user);
       }
     } catch (e) {

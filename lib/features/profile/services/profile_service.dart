@@ -109,4 +109,32 @@ class ProfileService {
     if (list.isEmpty) return null;
     return UserModel.fromJson(list.first as Map<String, dynamic>);
   }
+
+  /// Verifica si un nombre de usuario ya está tomado por otro usuario diferente de [currentUserId].
+  Future<bool> isUsernameTaken(String username, String currentUserId) async {
+    final response = await supabase
+        .from('users')
+        .select('id')
+        .ilike('username', username)
+        .neq('id', currentUserId);
+
+    final list = response as List;
+    return list.isNotEmpty;
+  }
+
+  /// Actualiza el nombre de usuario y guarda la fecha del cambio para el cooldown de 24 horas.
+  Future<UserModel> updateUsername(String userId, String username) async {
+    final now = DateTime.now().toUtc().toIso8601String();
+    final response = await supabase
+        .from('users')
+        .update({
+          'username': username,
+          'username_updated_at': now,
+        })
+        .eq('id', userId)
+        .select()
+        .single();
+
+    return UserModel.fromJson(response);
+  }
 }
