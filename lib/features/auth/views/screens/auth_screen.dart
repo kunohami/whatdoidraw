@@ -47,7 +47,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     } catch (e) {
       if (mounted) {
         // Formatear mensaje para que sea más amigable al usuario
-        final errorMessage = e.toString().replaceAll('Exception: ', '').replaceAll('AuthException: ', '');
+        final errorMessage = e
+            .toString()
+            .replaceAll('Exception: ', '')
+            .replaceAll('AuthException: ', '');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(

@@ -76,7 +76,8 @@ class ArtworkCard extends ConsumerWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProfileScreen(userId: artwork.userId),
+                              builder: (context) =>
+                                  ProfileScreen(userId: artwork.userId),
                             ),
                           );
                         },

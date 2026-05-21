@@ -106,7 +106,8 @@ class DoodleCard extends ConsumerWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProfileScreen(userId: doodle.userId),
+                            builder: (context) =>
+                                ProfileScreen(userId: doodle.userId),
                           ),
                         );
                       },

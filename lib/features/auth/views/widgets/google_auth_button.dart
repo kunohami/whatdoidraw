@@ -23,10 +23,15 @@ class GoogleAuthButton extends ConsumerWidget {
         child: OutlinedButton.icon(
           onPressed: () async {
             try {
-              await ref.read(authControllerProvider.notifier).signInWithGoogle();
+              await ref
+                  .read(authControllerProvider.notifier)
+                  .signInWithGoogle();
             } catch (e) {
               if (context.mounted) {
-                final errorMessage = e.toString().replaceAll('Exception: ', '').replaceAll('AuthException: ', '');
+                final errorMessage = e
+                    .toString()
+                    .replaceAll('Exception: ', '')
+                    .replaceAll('AuthException: ', '');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Row(

@@ -113,12 +113,16 @@ class ArtworkDetailScreen extends ConsumerWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ProfileScreen(userId: currentArtwork.userId),
+                                builder: (context) => ProfileScreen(
+                                  userId: currentArtwork.userId,
+                                ),
                               ),
                             );
                           },
                           child: Text(
-                            l10n.sharedBy(currentArtwork.authorName ?? 'unknown'),
+                            l10n.sharedBy(
+                              currentArtwork.authorName ?? 'unknown',
+                            ),
                             style: Theme.of(context).textTheme.titleMedium
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,

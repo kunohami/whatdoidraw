@@ -84,7 +84,10 @@ class ProfileService {
   }
 
   /// Actualiza el mensaje corto (bio) de un usuario.
-  Future<UserModel> updateShortMessage(String userId, String shortMessage) async {
+  Future<UserModel> updateShortMessage(
+    String userId,
+    String shortMessage,
+  ) async {
     final response = await supabase
         .from('users')
         .update({'short_message': shortMessage})

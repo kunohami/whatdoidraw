@@ -45,7 +45,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     });
 
     try {
-      final user = await ref.read(profileServiceProvider).getUserByUsername(username);
+      final user = await ref
+          .read(profileServiceProvider)
+          .getUserByUsername(username);
       if (mounted) {
         setState(() {
           _isSearchLoading = false;
@@ -70,7 +72,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 children: [
                   const Icon(Icons.error_outline, color: Colors.white),
                   const SizedBox(width: 12),
-                  Expanded(child: Text(l10n.profileSearchUserNotFound(username))),
+                  Expanded(
+                    child: Text(l10n.profileSearchUserNotFound(username)),
+                  ),
                 ],
               ),
               backgroundColor: Colors.redAccent,
@@ -111,18 +115,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     final currentUserSession = ref.watch(authControllerProvider).value;
     final targetUserId = widget.userId ?? currentUserSession?.id;
-    final isOwnProfile = targetUserId == null || targetUserId == currentUserSession?.id;
+    final isOwnProfile =
+        targetUserId == null || targetUserId == currentUserSession?.id;
     final l10n = AppLocalizations.of(context)!;
 
     if (targetUserId == null) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(l10n.profileTitle),
-          centerTitle: true,
-        ),
-        body: Center(
-          child: Text(l10n.profileErrorLoading),
-        ),
+        appBar: AppBar(title: Text(l10n.profileTitle), centerTitle: true),
+        body: Center(child: Text(l10n.profileErrorLoading)),
       );
     }
 
@@ -141,16 +141,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 },
               )
             : (isOwnProfile
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isSearching = true;
-                      });
-                    },
-                    icon: const Icon(Icons.search),
-                    tooltip: 'Buscar creadores',
-                  )
-                : null),
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isSearching = true;
+                        });
+                      },
+                      icon: const Icon(Icons.search),
+                      tooltip: 'Buscar creadores',
+                    )
+                  : null),
         title: _isSearching
             ? TextField(
                 controller: _searchController,
@@ -160,7 +160,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   hintText: l10n.profileSearchHint,
                   border: InputBorder.none,
                   hintStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.5),
                   ),
                 ),
                 style: TextStyle(
@@ -171,7 +173,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               )
             : profileAsync.when(
                 data: (profile) => Text(
-                  isOwnProfile ? l10n.profileTitle : l10n.profileOf(profile.username),
+                  isOwnProfile
+                      ? l10n.profileTitle
+                      : l10n.profileOf(profile.username),
                 ),
                 loading: () => Text(l10n.profileTitle),
                 error: (_, _) => Text(l10n.profileTitle),
@@ -208,7 +212,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       }
                     },
                   ),
-                ]
+                ],
               ]
             : [
                 if (!isOwnProfile)
@@ -226,7 +230,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsScreen(),
+                        ),
                       );
                     },
                     icon: const Icon(Icons.settings),
@@ -281,7 +287,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                     opacity: _isHeaderCollapsed ? 0.0 : 1.0,
                                     child: CircleAvatar(
                                       radius: 50,
-                                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.primaryContainer,
                                       backgroundImage: profile.avatarUrl != null
                                           ? NetworkImage(profile.avatarUrl!)
                                           : null,
@@ -292,7 +300,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   ),
                                 ),
                         ),
-                        
+
                         // Siempre visible: Username con detector de deslizamiento para volver a expandir
                         GestureDetector(
                           onVerticalDragUpdate: (details) {
@@ -305,7 +313,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             }
                           },
                           child: MouseRegion(
-                            cursor: _isHeaderCollapsed ? SystemMouseCursors.click : MouseCursor.defer,
+                            cursor: _isHeaderCollapsed
+                                ? SystemMouseCursors.click
+                                : MouseCursor.defer,
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 300),
                               padding: EdgeInsets.symmetric(
@@ -314,12 +324,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               ),
                               decoration: BoxDecoration(
                                 color: _isHeaderCollapsed
-                                    ? Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.15)
+                                    ? Theme.of(context)
+                                          .colorScheme
+                                          .secondaryContainer
+                                          .withValues(alpha: 0.15)
                                     : Colors.transparent,
                                 borderRadius: BorderRadius.circular(20),
                                 border: _isHeaderCollapsed
                                     ? Border.all(
-                                        color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.3),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary
+                                            .withValues(alpha: 0.3),
                                         width: 1,
                                       )
                                     : null,
@@ -329,9 +345,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 children: [
                                   Text(
                                     profile.username,
-                                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall
+                                        ?.copyWith(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: _isHeaderCollapsed ? 18 : 24,
+                                          fontSize: _isHeaderCollapsed
+                                              ? 18
+                                              : 24,
                                         ),
                                   ),
                                   if (_isHeaderCollapsed) ...[
@@ -342,14 +363,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         Icon(
                                           Icons.keyboard_arrow_down,
                                           size: 12,
-                                          color: Theme.of(context).colorScheme.secondary,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.secondary,
                                         ),
                                         const SizedBox(width: 4),
                                         Text(
                                           "Desliza hacia abajo para expandir",
                                           style: TextStyle(
                                             fontSize: 9,
-                                            color: Theme.of(context).colorScheme.secondary,
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.secondary,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -361,7 +386,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             ),
                           ),
                         ),
-                        
+
                         // Colapsable: Badges y Bio
                         AnimatedSize(
                           duration: const Duration(milliseconds: 300),
@@ -377,51 +402,76 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                       children: [
                                         // Badges
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             if (profile.isArtist)
                                               Container(
-                                                margin: const EdgeInsets.only(top: 8, right: 8),
-                                                padding: const EdgeInsets.symmetric(
-                                                  horizontal: 12,
-                                                  vertical: 4,
+                                                margin: const EdgeInsets.only(
+                                                  top: 8,
+                                                  right: 8,
                                                 ),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 4,
+                                                    ),
                                                 decoration: BoxDecoration(
-                                                  color: Theme.of(context).colorScheme.secondaryContainer,
-                                                  borderRadius: BorderRadius.circular(16),
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondaryContainer,
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
                                                 ),
                                                 child: Text(
                                                   l10n.profileVerifiedArtist,
-                                                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+                                                  style: const TextStyle(
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
                                               ),
                                             if (!isOwnProfile)
                                               Container(
-                                                margin: const EdgeInsets.only(top: 8),
-                                                padding: const EdgeInsets.symmetric(
-                                                  horizontal: 12,
-                                                  vertical: 4,
+                                                margin: const EdgeInsets.only(
+                                                  top: 8,
                                                 ),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 4,
+                                                    ),
                                                 decoration: BoxDecoration(
                                                   gradient: LinearGradient(
                                                     colors: [
-                                                      Theme.of(context).colorScheme.secondary,
-                                                      Theme.of(context).colorScheme.tertiary,
+                                                      Theme.of(
+                                                        context,
+                                                      ).colorScheme.secondary,
+                                                      Theme.of(
+                                                        context,
+                                                      ).colorScheme.tertiary,
                                                     ],
                                                   ),
-                                                  borderRadius: BorderRadius.circular(16),
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
                                                 ),
                                                 child: const Row(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   children: [
-                                                    Icon(Icons.explore_outlined, color: Colors.white, size: 12),
+                                                    Icon(
+                                                      Icons.explore_outlined,
+                                                      color: Colors.white,
+                                                      size: 12,
+                                                    ),
                                                     SizedBox(width: 4),
                                                     Text(
                                                       "Visitor Mode",
                                                       style: TextStyle(
-                                                        color: Colors.white, 
-                                                        fontSize: 11, 
-                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.white,
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                       ),
                                                     ),
                                                   ],
@@ -429,11 +479,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                               ),
                                           ],
                                         ),
-                                        
+
                                         const SizedBox(height: 12),
-                                        
+
                                         // Biografía / Mensaje Corto
-                                        _buildBioSection(context, ref, profile, isOwnProfile, targetUserId, l10n),
+                                        _buildBioSection(
+                                          context,
+                                          ref,
+                                          profile,
+                                          isOwnProfile,
+                                          targetUserId,
+                                          l10n,
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -454,9 +511,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        _UserIdeasTab(userId: targetUserId, isOwnProfile: isOwnProfile),
-                        _UserDoodlesTab(userId: targetUserId, isOwnProfile: isOwnProfile),
-                        _UserArtworksTab(userId: targetUserId, isOwnProfile: isOwnProfile),
+                        _UserIdeasTab(
+                          userId: targetUserId,
+                          isOwnProfile: isOwnProfile,
+                        ),
+                        _UserDoodlesTab(
+                          userId: targetUserId,
+                          isOwnProfile: isOwnProfile,
+                        ),
+                        _UserArtworksTab(
+                          userId: targetUserId,
+                          isOwnProfile: isOwnProfile,
+                        ),
                       ],
                     ),
                   ),
@@ -484,16 +550,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     if (isOwnProfile) {
       return GestureDetector(
-        onTap: () => _showEditBioDialog(context, ref, targetUserId, bioText, l10n),
+        onTap: () =>
+            _showEditBioDialog(context, ref, targetUserId, bioText, l10n),
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+              color: Theme.of(
+                context,
+              ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.3),
+                color: Theme.of(
+                  context,
+                ).colorScheme.outlineVariant.withValues(alpha: 0.3),
               ),
             ),
             constraints: const BoxConstraints(maxWidth: 320),
@@ -507,7 +578,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     style: TextStyle(
                       fontSize: 13,
                       fontStyle: hasBio ? FontStyle.italic : FontStyle.normal,
-                      color: hasBio ? Theme.of(context).colorScheme.onSurface : Colors.grey[500],
+                      color: hasBio
+                          ? Theme.of(context).colorScheme.onSurface
+                          : Colors.grey[500],
                     ),
                   ),
                 ),
@@ -528,7 +601,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.15),
+          color: Theme.of(
+            context,
+          ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(16),
         ),
         constraints: const BoxConstraints(maxWidth: 320),
@@ -536,9 +611,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           bioText,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontStyle: FontStyle.italic,
-                height: 1.4,
-              ),
+            fontStyle: FontStyle.italic,
+            height: 1.4,
+          ),
         ),
       );
     }
@@ -576,7 +651,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 final newBio = controller.text.trim();
                 Navigator.pop(context);
                 try {
-                  await ref.read(profileServiceProvider).updateShortMessage(userId, newBio);
+                  await ref
+                      .read(profileServiceProvider)
+                      .updateShortMessage(userId, newBio);
                   ref.invalidate(userProfileProvider(userId));
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -585,9 +662,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   }
                 } catch (e) {
                   if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Error: $e')),
-                    );
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text('Error: $e')));
                   }
                 }
               },
@@ -626,10 +703,7 @@ class _UserIdeasTab extends ConsumerWidget {
           padding: const EdgeInsets.all(16),
           itemCount: ideas.length,
           itemBuilder: (context, index) {
-            return IdeaCard(
-              idea: ideas[index],
-              showDrawButton: false,
-            );
+            return IdeaCard(idea: ideas[index], showDrawButton: false);
           },
         );
       },
@@ -698,7 +772,9 @@ class _UserArtworksTab extends ConsumerWidget {
         if (artworks.isEmpty) {
           return Center(
             child: Text(
-              isOwnProfile ? l10n.profileNoArtworks : l10n.otherProfileNoArtworks,
+              isOwnProfile
+                  ? l10n.profileNoArtworks
+                  : l10n.otherProfileNoArtworks,
               textAlign: TextAlign.center,
             ),
           );

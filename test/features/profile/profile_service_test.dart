@@ -10,6 +10,7 @@ import 'package:whatdoidraw/shared/models/user_model.dart';
 
 // Mocks
 class MockSupabaseClient extends Mock implements SupabaseClient {}
+
 class MockSupabaseQueryBuilder extends Mock implements SupabaseQueryBuilder {}
 
 // A robust Fake that implements all filter and transform builders of Postgrest.
@@ -36,7 +37,9 @@ class FakePostgrestBuilder<T> extends Fake
   @override
   PostgrestTransformBuilder<PostgrestMap> single() {
     if (result is List && (result as List).isNotEmpty) {
-      return FakePostgrestBuilder<PostgrestMap>((result as List).first as PostgrestMap);
+      return FakePostgrestBuilder<PostgrestMap>(
+        (result as List).first as PostgrestMap,
+      );
     }
     return FakePostgrestBuilder<PostgrestMap>(result as PostgrestMap);
   }
@@ -79,7 +82,9 @@ void main() {
 
       final fakeBuilder = FakePostgrestBuilder<PostgrestList>([mockUserData]);
 
-      when(() => mockSupabase.from('users')).thenAnswer((_) => mockQueryBuilder);
+      when(
+        () => mockSupabase.from('users'),
+      ).thenAnswer((_) => mockQueryBuilder);
       when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
 
       final UserModel result = await profileService.getUserProfile(testUserId);
@@ -88,7 +93,7 @@ void main() {
       expect(result.username, equals('artist_test'));
       expect(result.isArtist, isTrue);
       expect(result.shortMessage, equals('Hello drawing world!'));
-      
+
       verify(() => mockSupabase.from('users')).called(1);
       verify(() => mockQueryBuilder.select()).called(1);
     });
@@ -105,12 +110,14 @@ void main() {
           'created_at': '2026-05-21T10:00:00Z',
           'likes_count': 10,
           'authorName': 'artist_test',
-        }
+        },
       ];
 
       final fakeBuilder = FakePostgrestBuilder<PostgrestList>(mockIdeasData);
 
-      when(() => mockSupabase.from('ideas')).thenAnswer((_) => mockQueryBuilder);
+      when(
+        () => mockSupabase.from('ideas'),
+      ).thenAnswer((_) => mockQueryBuilder);
       when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
 
       final result = await profileService.getUserIdeas(testUserId);
@@ -136,12 +143,14 @@ void main() {
           'created_at': '2026-05-21T11:00:00Z',
           'likes_count': 5,
           'authorName': 'artist_test',
-        }
+        },
       ];
 
       final fakeBuilder = FakePostgrestBuilder<PostgrestList>(mockDoodlesData);
 
-      when(() => mockSupabase.from('doodles')).thenAnswer((_) => mockQueryBuilder);
+      when(
+        () => mockSupabase.from('doodles'),
+      ).thenAnswer((_) => mockQueryBuilder);
       when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
 
       final result = await profileService.getUserDoodles(testUserId);
@@ -168,12 +177,14 @@ void main() {
           'is_active': true,
           'created_at': '2026-05-21T13:00:00Z',
           'likes_count': 15,
-        }
+        },
       ];
 
       final fakeBuilder = FakePostgrestBuilder<PostgrestList>(mockArtworksData);
 
-      when(() => mockSupabase.from('artworks')).thenAnswer((_) => mockQueryBuilder);
+      when(
+        () => mockSupabase.from('artworks'),
+      ).thenAnswer((_) => mockQueryBuilder);
       when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
 
       final result = await profileService.getUserArtworks(testUserId);
@@ -187,62 +198,83 @@ void main() {
       verify(() => mockQueryBuilder.select()).called(1);
     });
 
-    test('updateShortMessage successfully updates and returns updated UserModel', () async {
-      const newBioMessage = 'New drawing bio!';
-      final mockUpdatedUserData = {
-        'id': testUserId,
-        'username': 'artist_test',
-        'avatar_url': 'https://example.com/avatar.png',
-        'is_artist': true,
-        'portfolio_url': 'https://example.com',
-        'short_message': newBioMessage,
-        'created_at': '2026-05-21T12:00:00Z',
-      };
+    test(
+      'updateShortMessage successfully updates and returns updated UserModel',
+      () async {
+        const newBioMessage = 'New drawing bio!';
+        final mockUpdatedUserData = {
+          'id': testUserId,
+          'username': 'artist_test',
+          'avatar_url': 'https://example.com/avatar.png',
+          'is_artist': true,
+          'portfolio_url': 'https://example.com',
+          'short_message': newBioMessage,
+          'created_at': '2026-05-21T12:00:00Z',
+        };
 
-      final fakeBuilder = FakePostgrestBuilder<PostgrestList>([mockUpdatedUserData]);
+        final fakeBuilder = FakePostgrestBuilder<PostgrestList>([
+          mockUpdatedUserData,
+        ]);
 
-      when(() => mockSupabase.from('users')).thenAnswer((_) => mockQueryBuilder);
-      when(() => mockQueryBuilder.update({'short_message': newBioMessage})).thenAnswer((_) => fakeBuilder);
+        when(
+          () => mockSupabase.from('users'),
+        ).thenAnswer((_) => mockQueryBuilder);
+        when(
+          () => mockQueryBuilder.update({'short_message': newBioMessage}),
+        ).thenAnswer((_) => fakeBuilder);
 
-      final UserModel result = await profileService.updateShortMessage(testUserId, newBioMessage);
+        final UserModel result = await profileService.updateShortMessage(
+          testUserId,
+          newBioMessage,
+        );
 
-      expect(result.id, equals(testUserId));
-      expect(result.shortMessage, equals(newBioMessage));
+        expect(result.id, equals(testUserId));
+        expect(result.shortMessage, equals(newBioMessage));
 
-      verify(() => mockSupabase.from('users')).called(1);
-      verify(() => mockQueryBuilder.update({'short_message': newBioMessage})).called(1);
-    });
+        verify(() => mockSupabase.from('users')).called(1);
+        verify(
+          () => mockQueryBuilder.update({'short_message': newBioMessage}),
+        ).called(1);
+      },
+    );
 
-    test('getUserByUsername successfully returns UserModel when user exists', () async {
-      final mockUserData = {
-        'id': testUserId,
-        'username': 'Artist_Test',
-        'avatar_url': 'https://example.com/avatar.png',
-        'is_artist': true,
-        'portfolio_url': 'https://example.com',
-        'short_message': 'Hey!',
-        'created_at': '2026-05-21T12:00:00Z',
-      };
+    test(
+      'getUserByUsername successfully returns UserModel when user exists',
+      () async {
+        final mockUserData = {
+          'id': testUserId,
+          'username': 'Artist_Test',
+          'avatar_url': 'https://example.com/avatar.png',
+          'is_artist': true,
+          'portfolio_url': 'https://example.com',
+          'short_message': 'Hey!',
+          'created_at': '2026-05-21T12:00:00Z',
+        };
 
-      final fakeBuilder = FakePostgrestBuilder<PostgrestList>([mockUserData]);
+        final fakeBuilder = FakePostgrestBuilder<PostgrestList>([mockUserData]);
 
-      when(() => mockSupabase.from('users')).thenAnswer((_) => mockQueryBuilder);
-      when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
+        when(
+          () => mockSupabase.from('users'),
+        ).thenAnswer((_) => mockQueryBuilder);
+        when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
 
-      final result = await profileService.getUserByUsername('artist_test');
+        final result = await profileService.getUserByUsername('artist_test');
 
-      expect(result, isNotNull);
-      expect(result!.id, equals(testUserId));
-      expect(result.username, equals('Artist_Test'));
+        expect(result, isNotNull);
+        expect(result!.id, equals(testUserId));
+        expect(result.username, equals('Artist_Test'));
 
-      verify(() => mockSupabase.from('users')).called(1);
-      verify(() => mockQueryBuilder.select()).called(1);
-    });
+        verify(() => mockSupabase.from('users')).called(1);
+        verify(() => mockQueryBuilder.select()).called(1);
+      },
+    );
 
     test('getUserByUsername returns null when user does not exist', () async {
       final fakeBuilder = FakePostgrestBuilder<PostgrestList>([]);
 
-      when(() => mockSupabase.from('users')).thenAnswer((_) => mockQueryBuilder);
+      when(
+        () => mockSupabase.from('users'),
+      ).thenAnswer((_) => mockQueryBuilder);
       when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
 
       final result = await profileService.getUserByUsername('nonexistent_user');
