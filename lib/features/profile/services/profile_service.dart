@@ -82,4 +82,16 @@ class ProfileService {
         .map((data) => ArtworkModel.fromJson(data))
         .toList();
   }
+
+  /// Actualiza el mensaje corto (bio) de un usuario.
+  Future<UserModel> updateShortMessage(String userId, String shortMessage) async {
+    final response = await supabase
+        .from('users')
+        .update({'short_message': shortMessage})
+        .eq('id', userId)
+        .select()
+        .single();
+
+    return UserModel.fromJson(response);
+  }
 }

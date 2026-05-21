@@ -93,5 +93,21 @@
   "seedIdeaTraceTitle": "1. Idea Semilla Original:",
   "doodleTraceTitle": "2. Boceto (Doodle) de Inspiración:",
   "singleDoodleTraceTitle": "Boceto (Doodle) de Inspiración:",
-  "viewOriginalArtwork": "Ver obra original"
+  "viewOriginalArtwork": "Ver obra original",
+  "profileBioLabel": "Mensaje Corto",
+  "profileBioHint": "Escribe un mensaje de estado corto...",
+  "profileBioUpdateSuccess": "¡Mensaje de estado actualizado con éxito!",
+  "profileBioSave": "Guardar",
+  "profileBioCancel": "Cancelar",
+  "profileOf": "Espacio de {username}",
+  "@profileOf": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "otherProfileNoIdeas": "Aún no ha publicado ideas.",
+  "otherProfileNoDoodles": "Aún no ha dibujado ningún doodle.",
+  "otherProfileNoArtworks": "Aún no ha compartido ningún artwork final."
 }

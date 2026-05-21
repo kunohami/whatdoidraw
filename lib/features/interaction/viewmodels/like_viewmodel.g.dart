@@ -41,7 +41,7 @@ final class LikeViewModelProvider
   }
 }
 
-String _$likeViewModelHash() => r'fde1ed8a248fb742b6269e2ac3fbefb1c046587e';
+String _$likeViewModelHash() => r'a21a16cd3a4b49b5da38c8d5a1e4fd590b217084';
 
 abstract class _$LikeViewModel extends $Notifier<void> {
   void build();

@@ -469,6 +469,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See original artwork'**
   String get viewOriginalArtwork;
+
+  /// No description provided for @profileBioLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Bio'**
+  String get profileBioLabel;
+
+  /// No description provided for @profileBioHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a short status message...'**
+  String get profileBioHint;
+
+  /// No description provided for @profileBioUpdateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Short message updated successfully!'**
+  String get profileBioUpdateSuccess;
+
+  /// No description provided for @profileBioSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get profileBioSave;
+
+  /// No description provided for @profileBioCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get profileBioCancel;
+
+  /// No description provided for @profileOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{username}\'s Space'**
+  String profileOf(String username);
+
+  /// No description provided for @otherProfileNoIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'No ideas published yet.'**
+  String get otherProfileNoIdeas;
+
+  /// No description provided for @otherProfileNoDoodles.
+  ///
+  /// In en, this message translates to:
+  /// **'No doodles drawn yet.'**
+  String get otherProfileNoDoodles;
+
+  /// No description provided for @otherProfileNoArtworks.
+  ///
+  /// In en, this message translates to:
+  /// **'No artworks shared yet.'**
+  String get otherProfileNoArtworks;
 }
 
 class _AppLocalizationsDelegate

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whatdoidraw/features/feed/views/screens/artwork_detail_screen.dart';
 import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
+import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/artwork_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
@@ -72,7 +73,12 @@ class ArtworkCard extends ConsumerWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // TODO: Abrir el perfil del usuario (aún no implementado)
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfileScreen(userId: artwork.userId),
+                            ),
+                          );
                         },
                         child: Text(
                           AppLocalizations.of(

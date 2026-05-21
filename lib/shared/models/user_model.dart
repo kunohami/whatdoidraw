@@ -26,6 +26,9 @@ abstract class UserModel with _$UserModel {
     /// Enlace personal a la web o redes del artista.
     @JsonKey(name: 'portfolio_url') String? portfolioUrl,
 
+    /// Un mensaje corto o biografía del usuario.
+    @JsonKey(name: 'short_message') String? shortMessage,
+
     /// Fecha en la que el usuario se unió a la comunidad.
     @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _UserModel;

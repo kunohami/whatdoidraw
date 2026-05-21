@@ -17,6 +17,7 @@ CREATE TABLE users (
   avatar_url VARCHAR,
   is_artist BOOLEAN DEFAULT FALSE,
   portfolio_url VARCHAR,
+  short_message VARCHAR(150),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```

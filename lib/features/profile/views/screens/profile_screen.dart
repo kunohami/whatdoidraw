@@ -2,69 +2,91 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
+import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:whatdoidraw/features/profile/views/screens/settings_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
+import 'package:whatdoidraw/shared/models/user_model.dart';
 import 'package:whatdoidraw/shared/widgets/artwork_card.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 
-/// Pantalla principal del perfil de usuario autenticado.
+/// Pantalla principal del perfil de usuario (propio o de terceros).
 ///
-/// Muestra los detalles del usuario en la parte superior (Avatar, Nombre)
+/// Muestra los detalles del usuario en la parte superior (Avatar, Nombre, Biografía)
 /// y facilita la navegación entre sus historiales mediante un [DefaultTabController].
 class ProfileScreen extends ConsumerWidget {
-  const ProfileScreen({super.key});
+  final String? userId;
+
+  const ProfileScreen({super.key, this.userId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileAsync = ref.watch(currentUserProfileProvider);
+    final currentUserSession = ref.watch(authControllerProvider).value;
+    final targetUserId = userId ?? currentUserSession?.id;
+    final isOwnProfile = targetUserId == null || targetUserId == currentUserSession?.id;
     final l10n = AppLocalizations.of(context)!;
+
+    if (targetUserId == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.profileTitle),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Text(l10n.profileErrorLoading),
+        ),
+      );
+    }
+
+    final profileAsync = ref.watch(userProfileProvider(targetUserId));
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.profileTitle),
+        title: profileAsync.when(
+          data: (profile) => Text(
+            isOwnProfile ? l10n.profileTitle : l10n.profileOf(profile.username),
+          ),
+          loading: () => Text(l10n.profileTitle),
+          error: (_, _) => Text(l10n.profileTitle),
+        ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsScreen()),
-              );
-            },
-            icon: const Icon(Icons.settings),
-            tooltip: l10n.profileTooltipSettings,
-          ),
-          IconButton(
-            onPressed: () {
-              ref.read(authControllerProvider.notifier).signOut();
-            },
-            icon: const Icon(Icons.logout),
-            tooltip: l10n.profileTooltipLogout,
-          ),
-        ],
+        actions: isOwnProfile
+            ? [
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                    );
+                  },
+                  icon: const Icon(Icons.settings),
+                  tooltip: l10n.profileTooltipSettings,
+                ),
+                IconButton(
+                  onPressed: () {
+                    ref.read(authControllerProvider.notifier).signOut();
+                  },
+                  icon: const Icon(Icons.logout),
+                  tooltip: l10n.profileTooltipLogout,
+                ),
+              ]
+            : null,
       ),
       body: profileAsync.when(
         data: (profile) {
-          if (profile == null) {
-            return Center(child: Text(l10n.profileErrorLoading));
-          }
-
           return DefaultTabController(
             length: 3,
             child: Column(
               children: [
                 // Header del Perfil
                 Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
                   child: Column(
                     children: [
                       CircleAvatar(
                         radius: 50,
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.primaryContainer,
+                        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                         backgroundImage: profile.avatarUrl != null
                             ? NetworkImage(profile.avatarUrl!)
                             : null,
@@ -78,24 +100,66 @@ class ProfileScreen extends ConsumerWidget {
                         style: Theme.of(context).textTheme.headlineSmall
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      if (profile.isArtist)
-                        Container(
-                          margin: const EdgeInsets.only(top: 8),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.secondaryContainer,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Text(
-                            l10n.profileVerifiedArtist,
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        ),
+                      
+                      // Badges
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (profile.isArtist)
+                            Container(
+                              margin: const EdgeInsets.only(top: 8, right: 8),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.secondaryContainer,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Text(
+                                l10n.profileVerifiedArtist,
+                                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          if (!isOwnProfile)
+                            Container(
+                              margin: const EdgeInsets.only(top: 8),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Theme.of(context).colorScheme.secondary,
+                                    Theme.of(context).colorScheme.tertiary,
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.explore_outlined, color: Colors.white, size: 12),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    "Visitor Mode",
+                                    style: TextStyle(
+                                      color: Colors.white, 
+                                      fontSize: 11, 
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                      
+                      const SizedBox(height: 12),
+                      
+                      // Biografía / Mensaje Corto
+                      _buildBioSection(context, ref, profile, isOwnProfile, targetUserId, l10n),
                     ],
                   ),
                 ),
@@ -108,12 +172,12 @@ class ProfileScreen extends ConsumerWidget {
                   ],
                 ),
                 // Tab Views
-                const Expanded(
+                Expanded(
                   child: TabBarView(
                     children: [
-                      _UserIdeasTab(),
-                      _UserDoodlesTab(),
-                      _UserArtworksTab(),
+                      _UserIdeasTab(userId: targetUserId, isOwnProfile: isOwnProfile),
+                      _UserDoodlesTab(userId: targetUserId, isOwnProfile: isOwnProfile),
+                      _UserArtworksTab(userId: targetUserId, isOwnProfile: isOwnProfile),
                     ],
                   ),
                 ),
@@ -126,24 +190,157 @@ class ProfileScreen extends ConsumerWidget {
       ),
     );
   }
+
+  Widget _buildBioSection(
+    BuildContext context,
+    WidgetRef ref,
+    UserModel profile,
+    bool isOwnProfile,
+    String targetUserId,
+    AppLocalizations l10n,
+  ) {
+    final bioText = profile.shortMessage;
+    final hasBio = bioText != null && bioText.trim().isNotEmpty;
+
+    if (isOwnProfile) {
+      return GestureDetector(
+        onTap: () => _showEditBioDialog(context, ref, targetUserId, bioText, l10n),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.3),
+              ),
+            ),
+            constraints: const BoxConstraints(maxWidth: 320),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: Text(
+                    hasBio ? bioText : l10n.profileBioHint,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontStyle: hasBio ? FontStyle.italic : FontStyle.normal,
+                      color: hasBio ? Theme.of(context).colorScheme.onSurface : Colors.grey[500],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Icon(
+                  hasBio ? Icons.edit_outlined : Icons.add_comment_outlined,
+                  size: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      if (!hasBio) return const SizedBox.shrink();
+
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        constraints: const BoxConstraints(maxWidth: 320),
+        child: Text(
+          bioText,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontStyle: FontStyle.italic,
+                height: 1.4,
+              ),
+        ),
+      );
+    }
+  }
+
+  void _showEditBioDialog(
+    BuildContext context,
+    WidgetRef ref,
+    String userId,
+    String? currentBio,
+    AppLocalizations l10n,
+  ) {
+    final controller = TextEditingController(text: currentBio);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.profileBioLabel),
+          content: TextField(
+            controller: controller,
+            maxLength: 150,
+            maxLines: 3,
+            decoration: InputDecoration(
+              hintText: l10n.profileBioHint,
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.profileBioCancel),
+            ),
+            FilledButton(
+              onPressed: () async {
+                final newBio = controller.text.trim();
+                Navigator.pop(context);
+                try {
+                  await ref.read(profileServiceProvider).updateShortMessage(userId, newBio);
+                  ref.invalidate(userProfileProvider(userId));
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(l10n.profileBioUpdateSuccess)),
+                    );
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error: $e')),
+                    );
+                  }
+                }
+              },
+              child: Text(l10n.profileBioSave),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 /// Pestaña interna que gestiona y renderiza el historial de Ideas.
-///
-/// Consume temporalmente el Provider de la historia y despliega
-/// una lista construida con [IdeaCard].
 class _UserIdeasTab extends ConsumerWidget {
-  const _UserIdeasTab();
+  final String userId;
+  final bool isOwnProfile;
+
+  const _UserIdeasTab({required this.userId, required this.isOwnProfile});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ideasAsync = ref.watch(currentUserIdeasProvider);
+    final ideasAsync = ref.watch(userIdeasProvider(userId));
     final l10n = AppLocalizations.of(context)!;
 
     return ideasAsync.when(
       data: (ideas) {
         if (ideas.isEmpty) {
-          return Center(child: Text(l10n.profileNoIdeas));
+          return Center(
+            child: Text(
+              isOwnProfile ? l10n.profileNoIdeas : l10n.otherProfileNoIdeas,
+              textAlign: TextAlign.center,
+            ),
+          );
         }
         return ListView.builder(
           padding: const EdgeInsets.all(16),
@@ -151,8 +348,7 @@ class _UserIdeasTab extends ConsumerWidget {
           itemBuilder: (context, index) {
             return IdeaCard(
               idea: ideas[index],
-              showDrawButton:
-                  false, // Opcional, pero en tu perfil quizás sólo quieres verlas
+              showDrawButton: false,
             );
           },
         );
@@ -164,23 +360,26 @@ class _UserIdeasTab extends ConsumerWidget {
 }
 
 /// Pestaña interna dedicada al historial de Doodles.
-///
-/// Muestra las miniaturas de los dibujos generándolos en tiempo real.
-/// Se usa [FittedBox] sobre un canvas fijo para escalar los puntos vectoriales
-/// guardados originalmemente, logrando visualizaciones reducidas de alta calidad
-/// sin penalizaciones de rendimiento.
 class _UserDoodlesTab extends ConsumerWidget {
-  const _UserDoodlesTab();
+  final String userId;
+  final bool isOwnProfile;
+
+  const _UserDoodlesTab({required this.userId, required this.isOwnProfile});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final doodlesAsync = ref.watch(currentUserDoodlesProvider);
+    final doodlesAsync = ref.watch(userDoodlesProvider(userId));
     final l10n = AppLocalizations.of(context)!;
 
     return doodlesAsync.when(
       data: (doodles) {
         if (doodles.isEmpty) {
-          return Center(child: Text(l10n.profileNoDoodles));
+          return Center(
+            child: Text(
+              isOwnProfile ? l10n.profileNoDoodles : l10n.otherProfileNoDoodles,
+              textAlign: TextAlign.center,
+            ),
+          );
         }
         return GridView.builder(
           padding: const EdgeInsets.all(16),
@@ -204,17 +403,25 @@ class _UserDoodlesTab extends ConsumerWidget {
 
 /// Pestaña interna dedicada al historial de Artworks.
 class _UserArtworksTab extends ConsumerWidget {
-  const _UserArtworksTab();
+  final String userId;
+  final bool isOwnProfile;
+
+  const _UserArtworksTab({required this.userId, required this.isOwnProfile});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final artworksAsync = ref.watch(currentUserArtworksProvider);
+    final artworksAsync = ref.watch(userArtworksProvider(userId));
     final l10n = AppLocalizations.of(context)!;
 
     return artworksAsync.when(
       data: (artworks) {
         if (artworks.isEmpty) {
-          return Center(child: Text(l10n.profileNoArtworks));
+          return Center(
+            child: Text(
+              isOwnProfile ? l10n.profileNoArtworks : l10n.otherProfileNoArtworks,
+              textAlign: TextAlign.center,
+            ),
+          );
         }
         return ListView.builder(
           padding: const EdgeInsets.all(16),
