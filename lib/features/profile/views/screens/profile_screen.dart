@@ -28,6 +28,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   bool _isSearching = false;
   final _searchController = TextEditingController();
   bool _isSearchLoading = false;
+  bool _isHeaderCollapsed = false;
 
   @override
   void dispose() {
@@ -245,111 +246,222 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         data: (profile) {
           return DefaultTabController(
             length: 3,
-            child: Column(
-              children: [
-                // Header del Perfil
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                        backgroundImage: profile.avatarUrl != null
-                            ? NetworkImage(profile.avatarUrl!)
-                            : null,
-                        child: profile.avatarUrl == null
-                            ? const Icon(Icons.person, size: 50)
-                            : null,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        profile.username,
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      
-                      // Badges
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (profile.isArtist)
-                            Container(
-                              margin: const EdgeInsets.only(top: 8, right: 8),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.secondaryContainer,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Text(
-                                l10n.profileVerifiedArtist,
-                                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          if (!isOwnProfile)
-                            Container(
-                              margin: const EdgeInsets.only(top: 8),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Theme.of(context).colorScheme.secondary,
-                                    Theme.of(context).colorScheme.tertiary,
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.explore_outlined, color: Colors.white, size: 12),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    "Visitor Mode",
-                                    style: TextStyle(
-                                      color: Colors.white, 
-                                      fontSize: 11, 
-                                      fontWeight: FontWeight.bold,
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (ScrollNotification notification) {
+                if (notification is ScrollUpdateNotification) {
+                  final delta = notification.scrollDelta ?? 0;
+                  if (delta > 15 && !_isHeaderCollapsed) {
+                    setState(() {
+                      _isHeaderCollapsed = true;
+                    });
+                  }
+                }
+                return false;
+              },
+              child: Column(
+                children: [
+                  // Header del Perfil
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 24.0,
+                      vertical: _isHeaderCollapsed ? 12.0 : 20.0,
+                    ),
+                    child: Column(
+                      children: [
+                        // Colapsable: Imagen de perfil
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.fastOutSlowIn,
+                          child: _isHeaderCollapsed
+                              ? const SizedBox.shrink()
+                              : Padding(
+                                  padding: const EdgeInsets.only(bottom: 16.0),
+                                  child: AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 200),
+                                    opacity: _isHeaderCollapsed ? 0.0 : 1.0,
+                                    child: CircleAvatar(
+                                      radius: 50,
+                                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                                      backgroundImage: profile.avatarUrl != null
+                                          ? NetworkImage(profile.avatarUrl!)
+                                          : null,
+                                      child: profile.avatarUrl == null
+                                          ? const Icon(Icons.person, size: 50)
+                                          : null,
                                     ),
                                   ),
+                                ),
+                        ),
+                        
+                        // Siempre visible: Username con detector de deslizamiento para volver a expandir
+                        GestureDetector(
+                          onVerticalDragUpdate: (details) {
+                            if (details.delta.dy > 3) {
+                              if (_isHeaderCollapsed) {
+                                setState(() {
+                                  _isHeaderCollapsed = false;
+                                });
+                              }
+                            }
+                          },
+                          child: MouseRegion(
+                            cursor: _isHeaderCollapsed ? SystemMouseCursors.click : MouseCursor.defer,
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: _isHeaderCollapsed ? 8 : 0,
+                              ),
+                              decoration: BoxDecoration(
+                                color: _isHeaderCollapsed
+                                    ? Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.15)
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(20),
+                                border: _isHeaderCollapsed
+                                    ? Border.all(
+                                        color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.3),
+                                        width: 1,
+                                      )
+                                    : null,
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    profile.username,
+                                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: _isHeaderCollapsed ? 18 : 24,
+                                        ),
+                                  ),
+                                  if (_isHeaderCollapsed) ...[
+                                    const SizedBox(height: 2),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.keyboard_arrow_down,
+                                          size: 12,
+                                          color: Theme.of(context).colorScheme.secondary,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          "Desliza hacia abajo para expandir",
+                                          style: TextStyle(
+                                            fontSize: 9,
+                                            color: Theme.of(context).colorScheme.secondary,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ],
                               ),
                             ),
-                        ],
-                      ),
-                      
-                      const SizedBox(height: 12),
-                      
-                      // Biografía / Mensaje Corto
-                      _buildBioSection(context, ref, profile, isOwnProfile, targetUserId, l10n),
+                          ),
+                        ),
+                        
+                        // Colapsable: Badges y Bio
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.fastOutSlowIn,
+                          child: _isHeaderCollapsed
+                              ? const SizedBox.shrink()
+                              : Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 200),
+                                    opacity: _isHeaderCollapsed ? 0.0 : 1.0,
+                                    child: Column(
+                                      children: [
+                                        // Badges
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            if (profile.isArtist)
+                                              Container(
+                                                margin: const EdgeInsets.only(top: 8, right: 8),
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 12,
+                                                  vertical: 4,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: Theme.of(context).colorScheme.secondaryContainer,
+                                                  borderRadius: BorderRadius.circular(16),
+                                                ),
+                                                child: Text(
+                                                  l10n.profileVerifiedArtist,
+                                                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+                                                ),
+                                              ),
+                                            if (!isOwnProfile)
+                                              Container(
+                                                margin: const EdgeInsets.only(top: 8),
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 12,
+                                                  vertical: 4,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    colors: [
+                                                      Theme.of(context).colorScheme.secondary,
+                                                      Theme.of(context).colorScheme.tertiary,
+                                                    ],
+                                                  ),
+                                                  borderRadius: BorderRadius.circular(16),
+                                                ),
+                                                child: const Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Icon(Icons.explore_outlined, color: Colors.white, size: 12),
+                                                    SizedBox(width: 4),
+                                                    Text(
+                                                      "Visitor Mode",
+                                                      style: TextStyle(
+                                                        color: Colors.white, 
+                                                        fontSize: 11, 
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                        
+                                        const SizedBox(height: 12),
+                                        
+                                        // Biografía / Mensaje Corto
+                                        _buildBioSection(context, ref, profile, isOwnProfile, targetUserId, l10n),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Tabs
+                  const TabBar(
+                    tabs: [
+                      Tab(icon: Icon(Icons.lightbulb_outline), text: "Ideas"),
+                      Tab(icon: Icon(Icons.brush), text: "Doodles"),
+                      Tab(icon: Icon(Icons.palette), text: "Artworks"),
                     ],
                   ),
-                ),
-                // Tabs
-                const TabBar(
-                  tabs: [
-                    Tab(icon: Icon(Icons.lightbulb_outline), text: "Ideas"),
-                    Tab(icon: Icon(Icons.brush), text: "Doodles"),
-                    Tab(icon: Icon(Icons.palette), text: "Artworks"),
-                  ],
-                ),
-                // Tab Views
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      _UserIdeasTab(userId: targetUserId, isOwnProfile: isOwnProfile),
-                      _UserDoodlesTab(userId: targetUserId, isOwnProfile: isOwnProfile),
-                      _UserArtworksTab(userId: targetUserId, isOwnProfile: isOwnProfile),
-                    ],
+                  // Tab Views
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        _UserIdeasTab(userId: targetUserId, isOwnProfile: isOwnProfile),
+                        _UserDoodlesTab(userId: targetUserId, isOwnProfile: isOwnProfile),
+                        _UserArtworksTab(userId: targetUserId, isOwnProfile: isOwnProfile),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
