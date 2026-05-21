@@ -71,6 +71,19 @@ class ProfileService {
         .toList();
   }
 
+  /// Obtiene un doodle específico por su ID.
+  /// Usado para cargar avatares personalizados.
+  Future<DoodleModel?> getDoodleById(String doodleId) async {
+    final response = await supabase
+        .from('doodles')
+        .select()
+        .eq('id', doodleId);
+
+    final list = response as List;
+    if (list.isEmpty) return null;
+    return DoodleModel.fromJson(list.first as Map<String, dynamic>);
+  }
+
   Future<List<ArtworkModel>> getUserArtworks(String userId) async {
     final response = await supabase
         .from('artworks')
@@ -131,6 +144,18 @@ class ProfileService {
           'username': username,
           'username_updated_at': now,
         })
+        .eq('id', userId)
+        .select()
+        .single();
+
+    return UserModel.fromJson(response);
+  }
+
+  /// Actualiza la URL o URI del avatar del usuario.
+  Future<UserModel> updateUserAvatar(String userId, String avatarUrl) async {
+    final response = await supabase
+        .from('users')
+        .update({'avatar_url': avatarUrl})
         .eq('id', userId)
         .select()
         .single();

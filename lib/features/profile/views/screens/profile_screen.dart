@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
+import 'package:whatdoidraw/features/profile/views/screens/select_avatar_doodle_screen.dart';
 import 'package:whatdoidraw/features/profile/views/screens/settings_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/user_model.dart';
 import 'package:whatdoidraw/shared/widgets/artwork_card.dart';
+import 'package:whatdoidraw/shared/widgets/doodle_avatar.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 
@@ -285,17 +286,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   child: AnimatedOpacity(
                                     duration: const Duration(milliseconds: 200),
                                     opacity: _isHeaderCollapsed ? 0.0 : 1.0,
-                                    child: CircleAvatar(
-                                      radius: 50,
-                                      backgroundColor: Theme.of(
-                                        context,
-                                      ).colorScheme.primaryContainer,
-                                      backgroundImage: profile.avatarUrl != null
-                                          ? NetworkImage(profile.avatarUrl!)
+                                    child: GestureDetector(
+                                      onTap: isOwnProfile
+                                          ? () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SelectAvatarDoodleScreen(),
+                                                ),
+                                              );
+                                            }
                                           : null,
-                                      child: profile.avatarUrl == null
-                                          ? const Icon(Icons.person, size: 50)
-                                          : null,
+                                      child: DoodleAvatar(
+                                        radius: 50,
+                                        avatarUrl: profile.avatarUrl,
+                                      ),
                                     ),
                                   ),
                                 ),
