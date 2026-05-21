@@ -9,6 +9,34 @@ import 'package:whatdoidraw/shared/models/user_model.dart';
 
 part 'profile_viewmodel.g.dart';
 
+/// Proveedor parametrizado que retorna el perfil de cualquier usuario dado su [userId].
+@riverpod
+Future<UserModel> userProfile(Ref ref, String userId) async {
+  final profileService = ref.watch(profileServiceProvider);
+  return profileService.getUserProfile(userId);
+}
+
+/// Proveedor parametrizado que retorna las ideas creadas por cualquier usuario dado su [userId].
+@riverpod
+Future<List<IdeaModel>> userIdeas(Ref ref, String userId) async {
+  final profileService = ref.watch(profileServiceProvider);
+  return profileService.getUserIdeas(userId);
+}
+
+/// Proveedor parametrizado que retorna los doodles creados por cualquier usuario dado su [userId].
+@riverpod
+Future<List<DoodleModel>> userDoodles(Ref ref, String userId) async {
+  final profileService = ref.watch(profileServiceProvider);
+  return profileService.getUserDoodles(userId);
+}
+
+/// Proveedor parametrizado que retorna los artworks creados por cualquier usuario dado su [userId].
+@riverpod
+Future<List<ArtworkModel>> userArtworks(Ref ref, String userId) async {
+  final profileService = ref.watch(profileServiceProvider);
+  return profileService.getUserArtworks(userId);
+}
+
 /// Proveedor que retorna el perfil del usuario autenticado actual.
 ///
 /// Combina el estado de la sesión (`authControllerProvider`) con
@@ -19,8 +47,7 @@ Future<UserModel?> currentUserProfile(Ref ref) async {
   final user = await ref.watch(authControllerProvider.future);
   if (user == null) return null;
 
-  final profileService = ref.watch(profileServiceProvider);
-  return profileService.getUserProfile(user.id);
+  return ref.watch(userProfileProvider(user.id).future);
 }
 
 /// Expone la lista de Ideas creadas por el usuario autenticado.
@@ -32,8 +59,7 @@ Future<List<IdeaModel>> currentUserIdeas(Ref ref) async {
   final user = await ref.watch(authControllerProvider.future);
   if (user == null) return [];
 
-  final profileService = ref.watch(profileServiceProvider);
-  return profileService.getUserIdeas(user.id);
+  return ref.watch(userIdeasProvider(user.id).future);
 }
 
 /// Retorna la colección de dibujos (Doodles) del usuario.
@@ -44,8 +70,7 @@ Future<List<DoodleModel>> currentUserDoodles(Ref ref) async {
   final user = await ref.watch(authControllerProvider.future);
   if (user == null) return [];
 
-  final profileService = ref.watch(profileServiceProvider);
-  return profileService.getUserDoodles(user.id);
+  return ref.watch(userDoodlesProvider(user.id).future);
 }
 
 @riverpod
@@ -53,6 +78,5 @@ Future<List<ArtworkModel>> currentUserArtworks(Ref ref) async {
   final user = await ref.watch(authControllerProvider.future);
   if (user == null) return [];
 
-  final profileService = ref.watch(profileServiceProvider);
-  return profileService.getUserArtworks(user.id);
+  return ref.watch(userArtworksProvider(user.id).future);
 }

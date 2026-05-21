@@ -209,4 +209,43 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get viewOriginalArtwork => 'Ver obra original';
+
+  @override
+  String get profileBioLabel => 'Mensaje Corto';
+
+  @override
+  String get profileBioHint => 'Escribe un mensaje de estado corto...';
+
+  @override
+  String get profileBioUpdateSuccess =>
+      '¡Mensaje de estado actualizado con éxito!';
+
+  @override
+  String get profileBioSave => 'Guardar';
+
+  @override
+  String get profileBioCancel => 'Cancelar';
+
+  @override
+  String profileOf(String username) {
+    return 'Espacio de $username';
+  }
+
+  @override
+  String get otherProfileNoIdeas => 'Aún no ha publicado ideas.';
+
+  @override
+  String get otherProfileNoDoodles => 'Aún no ha dibujado ningún doodle.';
+
+  @override
+  String get otherProfileNoArtworks =>
+      'Aún no ha compartido ningún artwork final.';
+
+  @override
+  String get profileSearchHint => 'Buscar creador...';
+
+  @override
+  String profileSearchUserNotFound(String username) {
+    return 'Usuario \'@$username\' no encontrado';
+  }
 }

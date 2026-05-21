@@ -5,6 +5,7 @@ import 'package:whatdoidraw/features/bookmarks/viewmodels/bookmark_viewmodel.dar
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 import 'package:whatdoidraw/features/feed/views/screens/idea_detail_screen.dart';
 import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
+import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/idea_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
@@ -50,7 +51,12 @@ class IdeaCard extends ConsumerWidget {
         const SizedBox(height: 4),
         GestureDetector(
           onTap: () {
-            // TODO: Abrir el perfil del usuario (aún no implementado)
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfileScreen(userId: idea.userId),
+              ),
+            );
           },
           child: Text(
             AppLocalizations.of(

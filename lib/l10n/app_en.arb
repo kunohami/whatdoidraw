@@ -93,5 +93,30 @@
   "seedIdeaTraceTitle": "1. Original Seed Idea:",
   "doodleTraceTitle": "2. Inspirational Sketch (Doodle):",
   "singleDoodleTraceTitle": "Inspirational Sketch (Doodle):",
-  "viewOriginalArtwork": "See original artwork"
+  "viewOriginalArtwork": "See original artwork",
+  "profileBioLabel": "Short Bio",
+  "profileBioHint": "Write a short status message...",
+  "profileBioUpdateSuccess": "Short message updated successfully!",
+  "profileBioSave": "Save",
+  "profileBioCancel": "Cancel",
+  "profileOf": "{username}'s Space",
+  "@profileOf": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "otherProfileNoIdeas": "No ideas published yet.",
+  "otherProfileNoDoodles": "No doodles drawn yet.",
+  "otherProfileNoArtworks": "No artworks shared yet.",
+  "profileSearchHint": "Search creator...",
+  "profileSearchUserNotFound": "User '@{username}' not found",
+  "@profileSearchUserNotFound": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  }
 }

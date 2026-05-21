@@ -82,4 +82,31 @@ class ProfileService {
         .map((data) => ArtworkModel.fromJson(data))
         .toList();
   }
+
+  /// Actualiza el mensaje corto (bio) de un usuario.
+  Future<UserModel> updateShortMessage(
+    String userId,
+    String shortMessage,
+  ) async {
+    final response = await supabase
+        .from('users')
+        .update({'short_message': shortMessage})
+        .eq('id', userId)
+        .select()
+        .single();
+
+    return UserModel.fromJson(response);
+  }
+
+  /// Busca un usuario por su nombre de usuario (username) exacto (caso insensitivo).
+  Future<UserModel?> getUserByUsername(String username) async {
+    final response = await supabase
+        .from('users')
+        .select()
+        .ilike('username', username);
+
+    final list = response as List;
+    if (list.isEmpty) return null;
+    return UserModel.fromJson(list.first as Map<String, dynamic>);
+  }
 }

@@ -12,6 +12,7 @@ _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
   avatarUrl: json['avatar_url'] as String?,
   isArtist: json['is_artist'] as bool? ?? false,
   portfolioUrl: json['portfolio_url'] as String?,
+  shortMessage: json['short_message'] as String?,
   createdAt: json['created_at'] == null
       ? null
       : DateTime.parse(json['created_at'] as String),
@@ -24,5 +25,6 @@ Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
       'avatar_url': instance.avatarUrl,
       'is_artist': instance.isArtist,
       'portfolio_url': instance.portfolioUrl,
+      'short_message': instance.shortMessage,
       'created_at': instance.createdAt?.toIso8601String(),
     };

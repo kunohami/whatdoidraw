@@ -45,6 +45,7 @@ class AuthController extends _$AuthController {
   }
 
   Future<void> signInWithGoogle() async {
+    final previousState = state;
     state = const AsyncLoading();
     final supabase = ref.read(supabaseClientProvider);
 
@@ -81,8 +82,9 @@ class AuthController extends _$AuthController {
       }
 
       state = AsyncData(response.user);
-    } catch (e, st) {
-      state = AsyncError(e, st);
+    } catch (e) {
+      state = previousState;
+      rethrow;
     }
   }
 
@@ -91,6 +93,7 @@ class AuthController extends _$AuthController {
     required String password,
     required String username,
   }) async {
+    final previousState = state;
     state = const AsyncLoading();
     final supabase = ref.read(supabaseClientProvider);
 
@@ -105,12 +108,14 @@ class AuthController extends _$AuthController {
         await _ensureUserExistsInPublicTable(response.user!.id, username);
         state = AsyncData(response.user);
       }
-    } catch (e, st) {
-      state = AsyncError(e, st);
+    } catch (e) {
+      state = previousState;
+      rethrow;
     }
   }
 
   Future<void> signIn({required String email, required String password}) async {
+    final previousState = state;
     state = const AsyncLoading();
     final supabase = ref.read(supabaseClientProvider);
 
@@ -120,8 +125,9 @@ class AuthController extends _$AuthController {
         password: password,
       );
       state = AsyncData(response.user);
-    } catch (e, st) {
-      state = AsyncError(e, st);
+    } catch (e) {
+      state = previousState;
+      rethrow;
     }
   }
 

@@ -31,25 +31,42 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     final controller = ref.read(authControllerProvider.notifier);
 
-    if (_isLogin) {
-      await controller.signIn(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-    } else {
-      await controller.signUp(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-        username: _usernameController.text.trim(),
-      );
-    }
-
-    final authState = ref.read(authControllerProvider);
-    if (authState is AsyncError) {
+    try {
+      if (_isLogin) {
+        await controller.signIn(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+      } else {
+        await controller.signUp(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+          username: _usernameController.text.trim(),
+        );
+      }
+    } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: ${authState.error}')));
+        // Formatear mensaje para que sea más amigable al usuario
+        final errorMessage = e
+            .toString()
+            .replaceAll('Exception: ', '')
+            .replaceAll('AuthException: ', '');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white),
+                const SizedBox(width: 12),
+                Expanded(child: Text(errorMessage)),
+              ],
+            ),
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
       }
     }
   }
