@@ -20,7 +20,7 @@ The feed uses **paginated queries** (not real-time streams) to control Supabase 
 - Page sizes: 15 ideas, 20 doodles. Random mode fetches 60 items and shuffles client-side.
 - Full spec: **[docs/TAGS_SYSTEM.md](docs/TAGS_SYSTEM.md)**
 
-## 4. 🚨 STRICT AGENT RULES (ALWAYS READ) 🚨
+## 4. 🚨 STRICT AGENT RULES (ALWAYS READ) 🚨 
 0. **NO GIT / GITHUB OPERATIONS — EVER:**
    - The agent MUST NEVER run any `git` command automatically (no `git add`, `git commit`, `git push`, `git merge`, `git rebase`, or any other git subcommand).
    - All version control operations are the exclusive responsibility of the developer and must be performed manually.
