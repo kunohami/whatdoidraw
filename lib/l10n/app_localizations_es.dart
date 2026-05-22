@@ -295,11 +295,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tutorialWelcome =>
-      '¡Hola! Soy tu compañero creativo en \"whatdoidraw\" Ya sea para dar ideas o para inspirarte,¡Espero que lo pases bien!';
+      '¡Hola! Te doy la bienvenida a \"whatdoidraw\" Ya sea para dar ideas o para inspirarte,¡Espero que lo pases bien!';
 
   @override
   String get tutorialConcept =>
-      'Nuestra aplicación se basa en una idea muy simple: inspirar y ser inspirado. Hay tres formas principales de interactuar con la comunidad.';
+      'Esta aplicación se basa en una idea muy simple: inspirar y ser inspirado. Hay tres formas principales de interactuar con la comunidad.';
 
   @override
   String get tutorialIdeas =>
@@ -315,7 +315,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tutorialReady =>
-      '¡Eso es todo! Puedes repasar este tutorial o las ayudas de cada pantalla en cualquier momento. ¡Feliz dibujo!';
+      '¡Eso es todo! Puedes repasar este tutorial o las ayudas de cada pantalla en cualquier momento. ¡A inspirar!';
 
   @override
   String get infoFeedIdeas =>
@@ -327,7 +327,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get infoFeedArtworks =>
-      'Aquí están las obras de arte terminadas (Artworks) subidas por los usuarios. Estas obras siempre proceden de un doodle o una idea. Puedes pulsar sobre ellas para explorar la idea o doodle que las inspiraron.';
+      'Aquí están las obras de arte terminadas subidas por los usuarios. Estas obras siempre proceden de un doodle o una idea. Puedes pulsar sobre ellas para explorar la idea o doodle que las inspiraron.';
 
   @override
   String get infoCreationHub =>

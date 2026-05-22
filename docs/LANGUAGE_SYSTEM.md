@@ -27,6 +27,29 @@ Para ejecutar los tests de localización, puedes usar el comando:
 flutter test test/features/settings_locale_test.dart test/features/app_persistence_locale_test.dart
 ```
 
+### ¿Cómo modificar o editar textos manualmente? ✏️
+
+Si deseas cambiar alguna palabra, diálogo de la mascota o etiqueta de texto en las pantallas:
+
+1. **Localiza los archivos fuente (.arb)**:
+   * **Español**: [app_es.arb](file:///c:/Users/wissp/AndroidStudioProjects/whatdoidraw/lib/l10n/app_es.arb)
+   * **Inglés**: [app_en.arb](file:///c:/Users/wissp/AndroidStudioProjects/whatdoidraw/lib/l10n/app_en.arb)
+   
+   > [!IMPORTANT]
+   > **NUNCA** edites los archivos `.dart` generados automáticamente (como `app_localizations_es.dart` o `app_localizations_en.dart`). Cualquier cambio directo allí será **borrado y sobrescrito** la próxima vez que se compile o se regenere el proyecto.
+
+2. **Edita el texto en el archivo `.arb`**:
+   Abre el archivo correspondiente en tu editor y busca la clave que deseas modificar (ej. `tutorialWelcome` o `settingsTitle`). Modifica su valor directamente (asegúrate de mantener el formato JSON válido con comillas dobles y escapar cualquier comilla interna con `\"`).
+
+3. **Regenera el código Dart compilado**:
+   Ejecuta el siguiente comando en la terminal desde la raíz de tu proyecto:
+   ```bash
+   flutter gen-l10n
+   ```
+   *(Nota: Si usas VS Code o Android Studio con la extensión de Flutter activa, este comando se ejecuta de manera automatizada al guardar el archivo `.arb` o al lanzar la aplicación).*
+
+---
+
 ### ¿Cómo añadir un nuevo idioma a la App?
 Añadir un idioma adicional (ej. Francés) es un proceso estandarizado:
 
