@@ -5,9 +5,11 @@ import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
 import 'package:whatdoidraw/shared/models/stroke_model.dart';
 
-
 /// Provider para cachéar la obtención de doodles por ID
-final doodleByIdProvider = FutureProvider.family<DoodleModel?, String>((ref, doodleId) async {
+final doodleByIdProvider = FutureProvider.family<DoodleModel?, String>((
+  ref,
+  doodleId,
+) async {
   final profileService = ref.watch(profileServiceProvider);
   return profileService.getDoodleById(doodleId);
 });
@@ -16,11 +18,7 @@ class DoodleAvatar extends ConsumerWidget {
   final String? avatarUrl;
   final double radius;
 
-  const DoodleAvatar({
-    super.key,
-    this.avatarUrl,
-    this.radius = 50.0,
-  });
+  const DoodleAvatar({super.key, this.avatarUrl, this.radius = 50.0});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -53,7 +51,11 @@ class DoodleAvatar extends ConsumerWidget {
     );
   }
 
-  Widget _buildDoodleAvatar(BuildContext context, WidgetRef ref, String uriString) {
+  Widget _buildDoodleAvatar(
+    BuildContext context,
+    WidgetRef ref,
+    String uriString,
+  ) {
     final uri = Uri.parse(uriString);
     final doodleId = uri.path;
 
@@ -111,7 +113,11 @@ class DoodleAvatar extends ConsumerWidget {
                         size: const Size(600, 800),
                         painter: DoodlePainter(
                           strokes: doodle.doodleData
-                              .map((e) => StrokeModel.fromJson(e as Map<String, dynamic>))
+                              .map(
+                                (e) => StrokeModel.fromJson(
+                                  e as Map<String, dynamic>,
+                                ),
+                              )
                               .toList(),
                         ),
                       ),
@@ -122,12 +128,9 @@ class DoodleAvatar extends ConsumerWidget {
             ),
           );
         },
-        loading: () => const Center(
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
-        error: (error, stack) => const Center(
-          child: Icon(Icons.error_outline),
-        ),
+        loading: () =>
+            const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+        error: (error, stack) => const Center(child: Icon(Icons.error_outline)),
       ),
     );
   }

@@ -121,10 +121,7 @@ class AuthController extends _$AuthController {
     return proposed;
   }
 
-  Future<void> signUp({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> signUp({required String email, required String password}) async {
     final previousState = state;
     state = const AsyncLoading();
     final supabase = ref.read(supabaseClientProvider);
@@ -139,7 +136,10 @@ class AuthController extends _$AuthController {
       );
 
       if (response.user != null) {
-        await _ensureUserExistsInPublicTable(response.user!.id, generatedUsername);
+        await _ensureUserExistsInPublicTable(
+          response.user!.id,
+          generatedUsername,
+        );
         state = AsyncData(response.user);
       }
     } catch (e) {

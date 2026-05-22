@@ -48,17 +48,20 @@ class _AdjustAvatarScreenState extends ConsumerState<AdjustAvatarScreen> {
 
     try {
       final matrix = _transformationController.value;
-      
+
       // La matriz de transformación es una Matrix4 de 4x4.
       // scale es m00, tx es m03, ty es m13
       final scale = matrix.entry(0, 0);
       final tx = matrix.entry(0, 3);
       final ty = matrix.entry(1, 3);
 
-      final uriString = 'doodle:${widget.doodle.id}?s=${scale.toStringAsFixed(3)}&tx=${tx.toStringAsFixed(1)}&ty=${ty.toStringAsFixed(1)}&bd=$baseDimension';
+      final uriString =
+          'doodle:${widget.doodle.id}?s=${scale.toStringAsFixed(3)}&tx=${tx.toStringAsFixed(1)}&ty=${ty.toStringAsFixed(1)}&bd=$baseDimension';
 
-      await ref.read(profileServiceProvider).updateUserAvatar(user.id, uriString);
-      
+      await ref
+          .read(profileServiceProvider)
+          .updateUserAvatar(user.id, uriString);
+
       // Forzamos actualización del perfil en caché
       ref.invalidate(userProfileProvider(user.id));
       ref.invalidate(currentUserProfileProvider);
@@ -69,9 +72,9 @@ class _AdjustAvatarScreenState extends ConsumerState<AdjustAvatarScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al guardar: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error al guardar: $e')));
       }
     } finally {
       if (mounted) {
@@ -105,10 +108,7 @@ class _AdjustAvatarScreenState extends ConsumerState<AdjustAvatarScreen> {
               ),
             )
           else
-            TextButton(
-              onPressed: _saveAvatar,
-              child: const Text('Guardar'),
-            ),
+            TextButton(onPressed: _saveAvatar, child: const Text('Guardar')),
         ],
       ),
       body: Center(
@@ -141,7 +141,9 @@ class _AdjustAvatarScreenState extends ConsumerState<AdjustAvatarScreen> {
                 transformationController: _transformationController,
                 minScale: 0.1,
                 maxScale: 10.0,
-                boundaryMargin: const EdgeInsets.all(400.0), // Gran margen para total libertad de movimiento
+                boundaryMargin: const EdgeInsets.all(
+                  400.0,
+                ), // Gran margen para total libertad de movimiento
                 child: SizedBox(
                   width: baseDimension,
                   height: baseDimension,
@@ -155,7 +157,11 @@ class _AdjustAvatarScreenState extends ConsumerState<AdjustAvatarScreen> {
                           size: const Size(600, 800),
                           painter: DoodlePainter(
                             strokes: widget.doodle.doodleData
-                                .map((e) => StrokeModel.fromJson(e as Map<String, dynamic>))
+                                .map(
+                                  (e) => StrokeModel.fromJson(
+                                    e as Map<String, dynamic>,
+                                  ),
+                                )
                                 .toList(),
                           ),
                         ),

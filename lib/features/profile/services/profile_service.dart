@@ -74,10 +74,7 @@ class ProfileService {
   /// Obtiene un doodle específico por su ID.
   /// Usado para cargar avatares personalizados.
   Future<DoodleModel?> getDoodleById(String doodleId) async {
-    final response = await supabase
-        .from('doodles')
-        .select()
-        .eq('id', doodleId);
+    final response = await supabase.from('doodles').select().eq('id', doodleId);
 
     final list = response as List;
     if (list.isEmpty) return null;
@@ -140,10 +137,7 @@ class ProfileService {
     final now = DateTime.now().toUtc().toIso8601String();
     final response = await supabase
         .from('users')
-        .update({
-          'username': username,
-          'username_updated_at': now,
-        })
+        .update({'username': username, 'username_updated_at': now})
         .eq('id', userId)
         .select()
         .single();

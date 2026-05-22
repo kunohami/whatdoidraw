@@ -13,9 +13,7 @@ class SelectAvatarDoodleScreen extends ConsumerWidget {
     final doodlesAsync = ref.watch(currentUserDoodlesProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Seleccionar Doodle'),
-      ),
+      appBar: AppBar(title: const Text('Seleccionar Doodle')),
       body: doodlesAsync.when(
         data: (doodles) {
           if (doodles.isEmpty) {
@@ -77,7 +75,9 @@ class SelectAvatarDoodleScreen extends ConsumerWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                       side: BorderSide(
-                        color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.5),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.outlineVariant.withValues(alpha: 0.5),
                         width: 1,
                       ),
                     ),

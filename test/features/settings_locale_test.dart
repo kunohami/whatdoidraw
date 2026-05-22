@@ -19,10 +19,9 @@ void main() {
       ProviderScope(
         overrides: [
           sharedPreferencesProvider.overrideWithValue(prefs),
-          currentUserProfileProvider.overrideWith((ref) => const UserModel(
-                id: 'test-user-id',
-                username: 'test_user',
-              )),
+          currentUserProfileProvider.overrideWith(
+            (ref) => const UserModel(id: 'test-user-id', username: 'test_user'),
+          ),
         ],
         child: Consumer(
           builder: (context, ref, _) {

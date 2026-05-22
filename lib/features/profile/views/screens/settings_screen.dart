@@ -63,9 +63,7 @@ class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: profileAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(
-          child: Text(l10n.profileErrorLoading),
-        ),
+        error: (err, stack) => Center(child: Text(l10n.profileErrorLoading)),
         data: (user) {
           if (user == null) return const SizedBox();
 
@@ -169,8 +167,10 @@ class _EditUsernameDialogState extends ConsumerState<_EditUsernameDialog> {
     final profileService = ref.read(profileServiceProvider);
 
     try {
-      final taken =
-          await profileService.isUsernameTaken(newUsername, widget.user.id);
+      final taken = await profileService.isUsernameTaken(
+        newUsername,
+        widget.user.id,
+      );
       if (taken) {
         setState(() {
           _errorText = l10n.settingsUsernameAlreadyTaken(newUsername);
@@ -257,9 +257,7 @@ class _EditUsernameDialogState extends ConsumerState<_EditUsernameDialog> {
 
     return AlertDialog(
       title: Text(l10n.settingsUsernameTitle),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       content: Form(
         key: _formKey,
         child: Column(
