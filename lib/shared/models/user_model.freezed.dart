@@ -21,7 +21,8 @@ mixin _$UserModel {
 @JsonKey(name: 'avatar_url') String? get avatarUrl;/// Indica si el usuario ha sido verificado como artista profesional.
 @JsonKey(name: 'is_artist') bool get isArtist;/// Enlace personal a la web o redes del artista.
 @JsonKey(name: 'portfolio_url') String? get portfolioUrl;/// Un mensaje corto o biografía del usuario.
-@JsonKey(name: 'short_message') String? get shortMessage;/// Fecha en la que el usuario se unió a la comunidad.
+@JsonKey(name: 'short_message') String? get shortMessage;/// Fecha en la que el usuario actualizó su nombre de usuario por última vez.
+@JsonKey(name: 'username_updated_at') DateTime? get usernameUpdatedAt;/// Fecha en la que el usuario se unió a la comunidad.
 @JsonKey(name: 'created_at') DateTime? get createdAt;
 /// Create a copy of UserModel
 /// with the given fields replaced by the non-null parameter values.
@@ -35,16 +36,16 @@ $UserModelCopyWith<UserModel> get copyWith => _$UserModelCopyWithImpl<UserModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.username, username) || other.username == username)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.isArtist, isArtist) || other.isArtist == isArtist)&&(identical(other.portfolioUrl, portfolioUrl) || other.portfolioUrl == portfolioUrl)&&(identical(other.shortMessage, shortMessage) || other.shortMessage == shortMessage)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.username, username) || other.username == username)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.isArtist, isArtist) || other.isArtist == isArtist)&&(identical(other.portfolioUrl, portfolioUrl) || other.portfolioUrl == portfolioUrl)&&(identical(other.shortMessage, shortMessage) || other.shortMessage == shortMessage)&&(identical(other.usernameUpdatedAt, usernameUpdatedAt) || other.usernameUpdatedAt == usernameUpdatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,username,avatarUrl,isArtist,portfolioUrl,shortMessage,createdAt);
+int get hashCode => Object.hash(runtimeType,id,username,avatarUrl,isArtist,portfolioUrl,shortMessage,usernameUpdatedAt,createdAt);
 
 @override
 String toString() {
-  return 'UserModel(id: $id, username: $username, avatarUrl: $avatarUrl, isArtist: $isArtist, portfolioUrl: $portfolioUrl, shortMessage: $shortMessage, createdAt: $createdAt)';
+  return 'UserModel(id: $id, username: $username, avatarUrl: $avatarUrl, isArtist: $isArtist, portfolioUrl: $portfolioUrl, shortMessage: $shortMessage, usernameUpdatedAt: $usernameUpdatedAt, createdAt: $createdAt)';
 }
 
 
@@ -55,7 +56,7 @@ abstract mixin class $UserModelCopyWith<$Res>  {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) _then) = _$UserModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String username,@JsonKey(name: 'avatar_url') String? avatarUrl,@JsonKey(name: 'is_artist') bool isArtist,@JsonKey(name: 'portfolio_url') String? portfolioUrl,@JsonKey(name: 'short_message') String? shortMessage,@JsonKey(name: 'created_at') DateTime? createdAt
+ String id, String username,@JsonKey(name: 'avatar_url') String? avatarUrl,@JsonKey(name: 'is_artist') bool isArtist,@JsonKey(name: 'portfolio_url') String? portfolioUrl,@JsonKey(name: 'short_message') String? shortMessage,@JsonKey(name: 'username_updated_at') DateTime? usernameUpdatedAt,@JsonKey(name: 'created_at') DateTime? createdAt
 });
 
 
@@ -72,7 +73,7 @@ class _$UserModelCopyWithImpl<$Res>
 
 /// Create a copy of UserModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? username = null,Object? avatarUrl = freezed,Object? isArtist = null,Object? portfolioUrl = freezed,Object? shortMessage = freezed,Object? createdAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? username = null,Object? avatarUrl = freezed,Object? isArtist = null,Object? portfolioUrl = freezed,Object? shortMessage = freezed,Object? usernameUpdatedAt = freezed,Object? createdAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
@@ -80,7 +81,8 @@ as String,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignor
 as String?,isArtist: null == isArtist ? _self.isArtist : isArtist // ignore: cast_nullable_to_non_nullable
 as bool,portfolioUrl: freezed == portfolioUrl ? _self.portfolioUrl : portfolioUrl // ignore: cast_nullable_to_non_nullable
 as String?,shortMessage: freezed == shortMessage ? _self.shortMessage : shortMessage // ignore: cast_nullable_to_non_nullable
-as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,usernameUpdatedAt: freezed == usernameUpdatedAt ? _self.usernameUpdatedAt : usernameUpdatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
@@ -166,10 +168,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String username, @JsonKey(name: 'avatar_url')  String? avatarUrl, @JsonKey(name: 'is_artist')  bool isArtist, @JsonKey(name: 'portfolio_url')  String? portfolioUrl, @JsonKey(name: 'short_message')  String? shortMessage, @JsonKey(name: 'created_at')  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String username, @JsonKey(name: 'avatar_url')  String? avatarUrl, @JsonKey(name: 'is_artist')  bool isArtist, @JsonKey(name: 'portfolio_url')  String? portfolioUrl, @JsonKey(name: 'short_message')  String? shortMessage, @JsonKey(name: 'username_updated_at')  DateTime? usernameUpdatedAt, @JsonKey(name: 'created_at')  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserModel() when $default != null:
-return $default(_that.id,_that.username,_that.avatarUrl,_that.isArtist,_that.portfolioUrl,_that.shortMessage,_that.createdAt);case _:
+return $default(_that.id,_that.username,_that.avatarUrl,_that.isArtist,_that.portfolioUrl,_that.shortMessage,_that.usernameUpdatedAt,_that.createdAt);case _:
   return orElse();
 
 }
@@ -187,10 +189,10 @@ return $default(_that.id,_that.username,_that.avatarUrl,_that.isArtist,_that.por
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String username, @JsonKey(name: 'avatar_url')  String? avatarUrl, @JsonKey(name: 'is_artist')  bool isArtist, @JsonKey(name: 'portfolio_url')  String? portfolioUrl, @JsonKey(name: 'short_message')  String? shortMessage, @JsonKey(name: 'created_at')  DateTime? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String username, @JsonKey(name: 'avatar_url')  String? avatarUrl, @JsonKey(name: 'is_artist')  bool isArtist, @JsonKey(name: 'portfolio_url')  String? portfolioUrl, @JsonKey(name: 'short_message')  String? shortMessage, @JsonKey(name: 'username_updated_at')  DateTime? usernameUpdatedAt, @JsonKey(name: 'created_at')  DateTime? createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _UserModel():
-return $default(_that.id,_that.username,_that.avatarUrl,_that.isArtist,_that.portfolioUrl,_that.shortMessage,_that.createdAt);case _:
+return $default(_that.id,_that.username,_that.avatarUrl,_that.isArtist,_that.portfolioUrl,_that.shortMessage,_that.usernameUpdatedAt,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +209,10 @@ return $default(_that.id,_that.username,_that.avatarUrl,_that.isArtist,_that.por
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String username, @JsonKey(name: 'avatar_url')  String? avatarUrl, @JsonKey(name: 'is_artist')  bool isArtist, @JsonKey(name: 'portfolio_url')  String? portfolioUrl, @JsonKey(name: 'short_message')  String? shortMessage, @JsonKey(name: 'created_at')  DateTime? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String username, @JsonKey(name: 'avatar_url')  String? avatarUrl, @JsonKey(name: 'is_artist')  bool isArtist, @JsonKey(name: 'portfolio_url')  String? portfolioUrl, @JsonKey(name: 'short_message')  String? shortMessage, @JsonKey(name: 'username_updated_at')  DateTime? usernameUpdatedAt, @JsonKey(name: 'created_at')  DateTime? createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _UserModel() when $default != null:
-return $default(_that.id,_that.username,_that.avatarUrl,_that.isArtist,_that.portfolioUrl,_that.shortMessage,_that.createdAt);case _:
+return $default(_that.id,_that.username,_that.avatarUrl,_that.isArtist,_that.portfolioUrl,_that.shortMessage,_that.usernameUpdatedAt,_that.createdAt);case _:
   return null;
 
 }
@@ -222,7 +224,7 @@ return $default(_that.id,_that.username,_that.avatarUrl,_that.isArtist,_that.por
 @JsonSerializable()
 
 class _UserModel implements UserModel {
-  const _UserModel({required this.id, required this.username, @JsonKey(name: 'avatar_url') this.avatarUrl, @JsonKey(name: 'is_artist') this.isArtist = false, @JsonKey(name: 'portfolio_url') this.portfolioUrl, @JsonKey(name: 'short_message') this.shortMessage, @JsonKey(name: 'created_at') this.createdAt});
+  const _UserModel({required this.id, required this.username, @JsonKey(name: 'avatar_url') this.avatarUrl, @JsonKey(name: 'is_artist') this.isArtist = false, @JsonKey(name: 'portfolio_url') this.portfolioUrl, @JsonKey(name: 'short_message') this.shortMessage, @JsonKey(name: 'username_updated_at') this.usernameUpdatedAt, @JsonKey(name: 'created_at') this.createdAt});
   factory _UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
 /// Identificador único vinculado al sistema de autenticación (Supabase Auth).
@@ -237,6 +239,8 @@ class _UserModel implements UserModel {
 @override@JsonKey(name: 'portfolio_url') final  String? portfolioUrl;
 /// Un mensaje corto o biografía del usuario.
 @override@JsonKey(name: 'short_message') final  String? shortMessage;
+/// Fecha en la que el usuario actualizó su nombre de usuario por última vez.
+@override@JsonKey(name: 'username_updated_at') final  DateTime? usernameUpdatedAt;
 /// Fecha en la que el usuario se unió a la comunidad.
 @override@JsonKey(name: 'created_at') final  DateTime? createdAt;
 
@@ -253,16 +257,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.username, username) || other.username == username)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.isArtist, isArtist) || other.isArtist == isArtist)&&(identical(other.portfolioUrl, portfolioUrl) || other.portfolioUrl == portfolioUrl)&&(identical(other.shortMessage, shortMessage) || other.shortMessage == shortMessage)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.username, username) || other.username == username)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.isArtist, isArtist) || other.isArtist == isArtist)&&(identical(other.portfolioUrl, portfolioUrl) || other.portfolioUrl == portfolioUrl)&&(identical(other.shortMessage, shortMessage) || other.shortMessage == shortMessage)&&(identical(other.usernameUpdatedAt, usernameUpdatedAt) || other.usernameUpdatedAt == usernameUpdatedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,username,avatarUrl,isArtist,portfolioUrl,shortMessage,createdAt);
+int get hashCode => Object.hash(runtimeType,id,username,avatarUrl,isArtist,portfolioUrl,shortMessage,usernameUpdatedAt,createdAt);
 
 @override
 String toString() {
-  return 'UserModel(id: $id, username: $username, avatarUrl: $avatarUrl, isArtist: $isArtist, portfolioUrl: $portfolioUrl, shortMessage: $shortMessage, createdAt: $createdAt)';
+  return 'UserModel(id: $id, username: $username, avatarUrl: $avatarUrl, isArtist: $isArtist, portfolioUrl: $portfolioUrl, shortMessage: $shortMessage, usernameUpdatedAt: $usernameUpdatedAt, createdAt: $createdAt)';
 }
 
 
@@ -273,7 +277,7 @@ abstract mixin class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Re
   factory _$UserModelCopyWith(_UserModel value, $Res Function(_UserModel) _then) = __$UserModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String username,@JsonKey(name: 'avatar_url') String? avatarUrl,@JsonKey(name: 'is_artist') bool isArtist,@JsonKey(name: 'portfolio_url') String? portfolioUrl,@JsonKey(name: 'short_message') String? shortMessage,@JsonKey(name: 'created_at') DateTime? createdAt
+ String id, String username,@JsonKey(name: 'avatar_url') String? avatarUrl,@JsonKey(name: 'is_artist') bool isArtist,@JsonKey(name: 'portfolio_url') String? portfolioUrl,@JsonKey(name: 'short_message') String? shortMessage,@JsonKey(name: 'username_updated_at') DateTime? usernameUpdatedAt,@JsonKey(name: 'created_at') DateTime? createdAt
 });
 
 
@@ -290,7 +294,7 @@ class __$UserModelCopyWithImpl<$Res>
 
 /// Create a copy of UserModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? username = null,Object? avatarUrl = freezed,Object? isArtist = null,Object? portfolioUrl = freezed,Object? shortMessage = freezed,Object? createdAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? username = null,Object? avatarUrl = freezed,Object? isArtist = null,Object? portfolioUrl = freezed,Object? shortMessage = freezed,Object? usernameUpdatedAt = freezed,Object? createdAt = freezed,}) {
   return _then(_UserModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,username: null == username ? _self.username : username // ignore: cast_nullable_to_non_nullable
@@ -298,7 +302,8 @@ as String,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignor
 as String?,isArtist: null == isArtist ? _self.isArtist : isArtist // ignore: cast_nullable_to_non_nullable
 as bool,portfolioUrl: freezed == portfolioUrl ? _self.portfolioUrl : portfolioUrl // ignore: cast_nullable_to_non_nullable
 as String?,shortMessage: freezed == shortMessage ? _self.shortMessage : shortMessage // ignore: cast_nullable_to_non_nullable
-as String?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as String?,usernameUpdatedAt: freezed == usernameUpdatedAt ? _self.usernameUpdatedAt : usernameUpdatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }

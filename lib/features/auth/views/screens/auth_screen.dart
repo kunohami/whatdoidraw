@@ -14,7 +14,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _usernameController = TextEditingController();
 
   bool _isLogin = true;
 
@@ -22,7 +21,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _usernameController.dispose();
     super.dispose();
   }
 
@@ -41,7 +39,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         await controller.signUp(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
-          username: _usernameController.text.trim(),
         );
       }
     } catch (e) {
@@ -115,20 +112,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 24),
-                        if (!_isLogin) ...[
-                          TextFormField(
-                            controller: _usernameController,
-                            decoration: const InputDecoration(
-                              labelText: 'Nombre de usuario',
-                              prefixIcon: Icon(Icons.person_outline),
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (val) => (val == null || val.isEmpty)
-                                ? 'Ingresa un nombre'
-                                : null,
-                          ),
-                          const SizedBox(height: 16),
-                        ],
                         TextFormField(
                           controller: _emailController,
                           decoration: const InputDecoration(

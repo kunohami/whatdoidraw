@@ -29,6 +29,9 @@ abstract class UserModel with _$UserModel {
     /// Un mensaje corto o biografía del usuario.
     @JsonKey(name: 'short_message') String? shortMessage,
 
+    /// Fecha en la que el usuario actualizó su nombre de usuario por última vez.
+    @JsonKey(name: 'username_updated_at') DateTime? usernameUpdatedAt,
+
     /// Fecha en la que el usuario se unió a la comunidad.
     @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _UserModel;
