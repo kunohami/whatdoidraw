@@ -5,6 +5,7 @@ import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/user_model.dart';
+import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
 
 /// Pantalla de ajustes de la aplicación.
 class SettingsScreen extends ConsumerWidget {
@@ -110,6 +111,19 @@ class SettingsScreen extends ConsumerWidget {
                     }
                   },
                 ),
+              ),
+              const Divider(),
+              ListTile(
+                leading: Icon(
+                  Icons.help_outline,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: Text(l10n.settingsTutorialReplay),
+                trailing: const Icon(Icons.play_arrow),
+                onTap: () {
+                  // Re-show the general tutorial
+                  TutorialOverlay.showGeneral(context, l10n);
+                },
               ),
             ],
           );
