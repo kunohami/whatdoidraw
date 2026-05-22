@@ -11,7 +11,8 @@ class AuthScreen extends ConsumerStatefulWidget {
   ConsumerState<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends ConsumerState<AuthScreen> with SingleTickerProviderStateMixin {
+class _AuthScreenState extends ConsumerState<AuthScreen>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -29,10 +30,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> with SingleTickerProvid
     )..repeat(reverse: true);
 
     _floatAnimation = Tween<double>(begin: -10.0, end: 10.0).animate(
-      CurvedAnimation(
-        parent: _floatController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
     );
   }
 

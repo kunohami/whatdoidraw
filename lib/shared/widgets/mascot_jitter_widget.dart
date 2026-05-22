@@ -80,15 +80,20 @@ class _MascotJitterWidgetState extends State<MascotJitterWidget> {
       if (!mounted) return;
       setState(() {
         // Rotación sutil escalada con la intensidad
-        _rotation = (_random.nextDouble() - 0.5) * 0.03 * widget.jitterIntensity;
+        _rotation =
+            (_random.nextDouble() - 0.5) * 0.03 * widget.jitterIntensity;
 
         // Desplazamiento sutil escalado con la intensidad
-        _translationX = (_random.nextDouble() - 0.5) * 3.0 * widget.jitterIntensity;
-        _translationY = (_random.nextDouble() - 0.5) * 3.0 * widget.jitterIntensity;
+        _translationX =
+            (_random.nextDouble() - 0.5) * 3.0 * widget.jitterIntensity;
+        _translationY =
+            (_random.nextDouble() - 0.5) * 3.0 * widget.jitterIntensity;
 
         // Escala sutil escalada con la intensidad: entre (1.0 - scaleVar) y (1.0 + scaleVar)
         final scaleVariation = 0.015 * widget.jitterIntensity;
-        _scale = (1.0 - scaleVariation) + (_random.nextDouble() * scaleVariation * 2.0);
+        _scale =
+            (1.0 - scaleVariation) +
+            (_random.nextDouble() * scaleVariation * 2.0);
       });
     });
   }
@@ -128,11 +133,7 @@ class _MascotJitterWidgetState extends State<MascotJitterWidget> {
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: Colors.grey[600]!, width: 2),
             ),
-            child: const Icon(
-              Icons.face,
-              size: 48,
-              color: Colors.white70,
-            ),
+            child: const Icon(Icons.face, size: 48, color: Colors.white70),
           );
         },
       ),

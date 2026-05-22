@@ -251,7 +251,11 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
               icon: const Icon(Icons.info_outline),
               tooltip: 'Ayuda',
               onPressed: () {
-                TutorialOverlay.showFeedInfo(context, l10n, _tabController.index);
+                TutorialOverlay.showFeedInfo(
+                  context,
+                  l10n,
+                  _tabController.index,
+                );
               },
             ),
           ],
