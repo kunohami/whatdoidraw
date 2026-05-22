@@ -20,12 +20,17 @@ class MascotJitterWidget extends StatefulWidget {
   /// Si es verdadero, aplica el efecto de jitter. De lo contrario, se queda estático.
   final bool animate;
 
+  /// La intensidad del jitter. Por defecto es 1.0.
+  /// Valores menores (ej. 0.3) hacen que la animación del trazo sea mucho más sutil y discreta.
+  final double jitterIntensity;
+
   const MascotJitterWidget({
     super.key,
     this.imagePath = 'assets/images/mascot_idle.png',
     this.width = 180.0,
     this.height = 180.0,
     this.animate = true,
+    this.jitterIntensity = 1.0,
   });
 
   @override
@@ -74,15 +79,16 @@ class _MascotJitterWidgetState extends State<MascotJitterWidget> {
     _timer = Timer.periodic(const Duration(milliseconds: 160), (timer) {
       if (!mounted) return;
       setState(() {
-        // Rotación sutil: entre -0.015 y +0.015 radianes
-        _rotation = (_random.nextDouble() - 0.5) * 0.03;
+        // Rotación sutil escalada con la intensidad
+        _rotation = (_random.nextDouble() - 0.5) * 0.03 * widget.jitterIntensity;
 
-        // Desplazamiento sutil: entre -1.5 y +1.5 píxeles en cada eje
-        _translationX = (_random.nextDouble() - 0.5) * 3.0;
-        _translationY = (_random.nextDouble() - 0.5) * 3.0;
+        // Desplazamiento sutil escalado con la intensidad
+        _translationX = (_random.nextDouble() - 0.5) * 3.0 * widget.jitterIntensity;
+        _translationY = (_random.nextDouble() - 0.5) * 3.0 * widget.jitterIntensity;
 
-        // Escala sutil: entre 0.985 y 1.015
-        _scale = 0.985 + (_random.nextDouble() * 0.03);
+        // Escala sutil escalada con la intensidad: entre (1.0 - scaleVar) y (1.0 + scaleVar)
+        final scaleVariation = 0.015 * widget.jitterIntensity;
+        _scale = (1.0 - scaleVariation) + (_random.nextDouble() * scaleVariation * 2.0);
       });
     });
   }
