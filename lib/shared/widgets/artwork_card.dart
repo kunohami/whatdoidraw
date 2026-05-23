@@ -55,7 +55,8 @@ class ArtworkCard extends ConsumerWidget {
                 : null,
             child: Column(
               children: [
-                if (artwork.previewUrl != null && artwork.previewUrl!.isNotEmpty)
+                if (artwork.previewUrl != null &&
+                    artwork.previewUrl!.isNotEmpty)
                   Image.network(
                     artwork.previewUrl!,
                     height: 200,
@@ -63,9 +64,9 @@ class ArtworkCard extends ConsumerWidget {
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) =>
                         const MovingGradientPlaceholder(
-                      height: 200,
-                      icon: Icons.link_off,
-                    ),
+                          height: 200,
+                          icon: Icons.link_off,
+                        ),
                   )
                 else
                   const MovingGradientPlaceholder(

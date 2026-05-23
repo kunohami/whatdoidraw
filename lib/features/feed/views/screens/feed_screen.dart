@@ -246,10 +246,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
             labelPadding: EdgeInsets.zero,
             indicatorSize: TabBarIndicatorSize.label,
             tabs: const [
-              Tab(
-                icon: Icon(Icons.lightbulb_outline, size: 20),
-                text: 'Ideas',
-              ),
+              Tab(icon: Icon(Icons.lightbulb_outline, size: 20), text: 'Ideas'),
               Tab(icon: Icon(Icons.brush, size: 20), text: 'Doodles'),
               Tab(icon: Icon(Icons.art_track, size: 20), text: 'Artworks'),
             ],

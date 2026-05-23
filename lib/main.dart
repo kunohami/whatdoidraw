@@ -93,14 +93,18 @@ class _AuthGateState extends ConsumerState<AuthGate> {
   @override
   void initState() {
     super.initState();
-    _authSubscription = ref.read(supabaseClientProvider).auth.onAuthStateChange.listen((data) {
-      final event = data.event;
-      if (event == AuthChangeEvent.passwordRecovery) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _showResetPasswordDialog();
+    _authSubscription = ref
+        .read(supabaseClientProvider)
+        .auth
+        .onAuthStateChange
+        .listen((data) {
+          final event = data.event;
+          if (event == AuthChangeEvent.passwordRecovery) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _showResetPasswordDialog();
+            });
+          }
         });
-      }
-    });
   }
 
   @override

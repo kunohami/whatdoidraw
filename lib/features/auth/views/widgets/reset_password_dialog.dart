@@ -8,7 +8,8 @@ class ResetPasswordDialog extends ConsumerStatefulWidget {
   const ResetPasswordDialog({super.key});
 
   @override
-  ConsumerState<ResetPasswordDialog> createState() => _ResetPasswordDialogState();
+  ConsumerState<ResetPasswordDialog> createState() =>
+      _ResetPasswordDialogState();
 }
 
 class _ResetPasswordDialogState extends ConsumerState<ResetPasswordDialog> {
@@ -32,9 +33,9 @@ class _ResetPasswordDialogState extends ConsumerState<ResetPasswordDialog> {
     });
 
     try {
-      await ref.read(authControllerProvider.notifier).updatePassword(
-            _passwordController.text.trim(),
-          );
+      await ref
+          .read(authControllerProvider.notifier)
+          .updatePassword(_passwordController.text.trim());
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -102,9 +103,7 @@ class _ResetPasswordDialogState extends ConsumerState<ResetPasswordDialog> {
     return PopScope(
       canPop: false, // Forzar a completar o presionar "Cancelar" explícitamente
       child: AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Row(
           children: [
             Icon(
@@ -130,11 +129,10 @@ class _ResetPasswordDialogState extends ConsumerState<ResetPasswordDialog> {
                 Text(
                   'Ingresa tu nueva contraseña para acceder a whatdoidraw?',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withAlpha(178), // Aproximadamente 0.7 de opacidad
-                      ),
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(
+                      178,
+                    ), // Aproximadamente 0.7 de opacidad
+                  ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(

@@ -244,7 +244,7 @@ void main() {
 
       expect(fakeAuth.updatePasswordCalled, isTrue);
       expect(fakeAuth.updatedPassword, equals('new-secure-password'));
-      
+
       final state = container.read(authControllerProvider);
       expect(state.value, equals(mockUser));
     });

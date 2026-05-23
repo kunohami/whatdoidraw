@@ -62,14 +62,8 @@ class _MovingGradientPlaceholderState extends State<MovingGradientPlaceholder>
         final t = _gradientAnimation.value;
 
         // Shift alignments gracefully over time to animate the gradient flow
-        final begin = Alignment(
-          -1.2 + t * 0.4,
-          -1.2 + t * 0.4,
-        );
-        final end = Alignment(
-          1.2 - t * 0.4,
-          1.2 - t * 0.4,
-        );
+        final begin = Alignment(-1.2 + t * 0.4, -1.2 + t * 0.4);
+        final end = Alignment(1.2 - t * 0.4, 1.2 - t * 0.4);
 
         return Container(
           height: widget.height,
@@ -85,9 +79,7 @@ class _MovingGradientPlaceholderState extends State<MovingGradientPlaceholder>
           child: child,
         );
       },
-      child: Center(
-        child: widget.child ?? FloatingIcon(icon: widget.icon),
-      ),
+      child: Center(child: widget.child ?? FloatingIcon(icon: widget.icon)),
     );
   }
 }
@@ -116,10 +108,7 @@ class _FloatingIconState extends State<FloatingIcon>
     )..repeat(reverse: true);
 
     _floatAnimation = Tween<double>(begin: -6.0, end: 6.0).animate(
-      CurvedAnimation(
-        parent: _floatController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _floatController, curve: Curves.easeInOut),
     );
   }
 
@@ -156,11 +145,7 @@ class _FloatingIconState extends State<FloatingIcon>
             ),
           ],
         ),
-        child: Icon(
-          widget.icon,
-          size: 38,
-          color: Colors.white,
-        ),
+        child: Icon(widget.icon, size: 38, color: Colors.white),
       ),
     );
   }

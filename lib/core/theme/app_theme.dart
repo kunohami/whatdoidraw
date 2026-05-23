@@ -94,7 +94,9 @@ class _DarkPlusBackgroundState extends State<DarkPlusBackground>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 4), // Movimiento vivo, fluido y perfectamente visible
+      duration: const Duration(
+        seconds: 4,
+      ), // Movimiento vivo, fluido y perfectamente visible
       vsync: this,
     )..repeat(reverse: true);
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
@@ -123,10 +125,14 @@ class _DarkPlusBackgroundState extends State<DarkPlusBackground>
               begin: begin,
               end: end,
               colors: const [
-                Color(0xFF090712), // Fondo base morado-negro ultra profundo (mayor contraste)
+                Color(
+                  0xFF090712,
+                ), // Fondo base morado-negro ultra profundo (mayor contraste)
                 Color(0xFF2E1554), // Morado medio de transición
                 Color(0xFF0D0A1C), // Base de sombra
-                Color(0xFF531F89), // Brillo morado radiante de alto impacto visual
+                Color(
+                  0xFF531F89,
+                ), // Brillo morado radiante de alto impacto visual
               ],
               stops: [0.0, 0.35, 0.65, 1.0],
             ),

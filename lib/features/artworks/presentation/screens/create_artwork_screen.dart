@@ -198,9 +198,9 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
                               const MovingGradientPlaceholder(
-                            height: 200,
-                            icon: Icons.link_off,
-                          ),
+                                height: 200,
+                                icon: Icons.link_off,
+                              ),
                         )
                       else
                         const MovingGradientPlaceholder(

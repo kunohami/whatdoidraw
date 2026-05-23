@@ -45,7 +45,8 @@ class ArtworkDetailScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // Preview or premium placeholder
-                  if (currentArtwork.previewUrl != null && currentArtwork.previewUrl!.isNotEmpty)
+                  if (currentArtwork.previewUrl != null &&
+                      currentArtwork.previewUrl!.isNotEmpty)
                     Image.network(
                       currentArtwork.previewUrl!,
                       height: 300,
@@ -53,31 +54,31 @@ class ArtworkDetailScreen extends ConsumerWidget {
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) =>
                           MovingGradientPlaceholder(
-                        height: 300,
-                        icon: Icons.link_off,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const FloatingIcon(icon: Icons.link_off),
-                            const SizedBox(height: 16),
-                            Text(
-                              l10n.previewError,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                shadows: [
-                                  Shadow(
-                                    blurRadius: 8,
-                                    color: Colors.black45,
-                                    offset: Offset(0, 2),
+                            height: 300,
+                            icon: Icons.link_off,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const FloatingIcon(icon: Icons.link_off),
+                                const SizedBox(height: 16),
+                                Text(
+                                  l10n.previewError,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    shadows: [
+                                      Shadow(
+                                        blurRadius: 8,
+                                        color: Colors.black45,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
                     )
                   else
                     MovingGradientPlaceholder(

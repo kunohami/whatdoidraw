@@ -50,9 +50,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
 
     try {
       if (_isForgotPassword) {
-        await controller.sendPasswordResetEmail(
-          _emailController.text.trim(),
-        );
+        await controller.sendPasswordResetEmail(_emailController.text.trim());
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -259,8 +257,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                             _isForgotPassword
                                 ? 'Volver a iniciar sesión'
                                 : (_isLogin
-                                    ? '¿No tienes cuenta? Regístrate'
-                                    : '¿Ya tienes cuenta? Inicia sesión'),
+                                      ? '¿No tienes cuenta? Regístrate'
+                                      : '¿Ya tienes cuenta? Inicia sesión'),
                           ),
                         ),
                         if (!_isForgotPassword) ...[

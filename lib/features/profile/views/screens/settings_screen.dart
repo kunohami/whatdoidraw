@@ -60,7 +60,11 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  void _changeTheme(BuildContext context, WidgetRef ref, AppThemeMode currentTheme) {
+  void _changeTheme(
+    BuildContext context,
+    WidgetRef ref,
+    AppThemeMode currentTheme,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -98,7 +102,9 @@ class SettingsScreen extends ConsumerWidget {
                   border: Border.all(color: Colors.white24, width: 1.5),
                 ),
               ),
-              trailing: isSelected ? const Icon(Icons.check, color: Colors.green) : null,
+              trailing: isSelected
+                  ? const Icon(Icons.check, color: Colors.green)
+                  : null,
               onTap: () {
                 ref.read(appThemeProvider.notifier).setTheme(mode);
                 Navigator.of(context).pop();

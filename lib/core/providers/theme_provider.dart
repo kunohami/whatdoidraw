@@ -19,7 +19,8 @@ class AppThemeNotifier extends _$AppThemeNotifier {
     final prefs = ref.watch(sharedPreferencesProvider);
     final savedThemeIndex = prefs.getInt(_themeKey);
 
-    if (savedThemeIndex != null && savedThemeIndex < AppThemeMode.values.length) {
+    if (savedThemeIndex != null &&
+        savedThemeIndex < AppThemeMode.values.length) {
       return AppThemeMode.values[savedThemeIndex];
     }
     // Tema por defecto (Oscuro)
