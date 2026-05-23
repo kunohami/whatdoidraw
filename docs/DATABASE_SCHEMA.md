@@ -19,6 +19,10 @@ CREATE TABLE users (
   portfolio_url VARCHAR,
   short_message VARCHAR(150),
   username_updated_at TIMESTAMP WITH TIME ZONE,
+  email_notifications BOOLEAN DEFAULT TRUE,
+  push_notifications BOOLEAN DEFAULT FALSE,
+  has_seen_push_prompt BOOLEAN DEFAULT FALSE,
+  fcm_token TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```
@@ -67,6 +71,19 @@ CREATE TABLE artworks (
   CONSTRAINT artwork_must_have_parent CHECK (
     (idea_id IS NOT NULL) OR (doodle_id IS NOT NULL)
   )
+);
+```
+
+### Notifications
+```sql
+CREATE TABLE notifications (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  actor_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  type VARCHAR NOT NULL CHECK (type IN ('idea_used', 'doodle_used')),
+  target_id UUID NOT NULL,
+  is_read BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```
 
@@ -121,6 +138,7 @@ ALTER TABLE ideas ENABLE ROW LEVEL SECURITY;
 ALTER TABLE doodles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE artworks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bookmarks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
 
 -- users
 CREATE POLICY "Public profiles" ON users FOR SELECT USING (true);
@@ -143,6 +161,10 @@ CREATE POLICY "Public artworks" ON artworks FOR SELECT USING (true);
 CREATE POLICY "Create own artwork" ON artworks FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Update own artwork" ON artworks FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "Delete own artwork" ON artworks FOR DELETE USING (auth.uid() = user_id);
+
+-- notifications
+CREATE POLICY "Select own notifications" ON notifications FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Update own notifications" ON notifications FOR UPDATE USING (auth.uid() = user_id);
 
 -- bookmarks
 CREATE POLICY "Select own bookmarks" ON bookmarks FOR SELECT USING (auth.uid() = user_id);
