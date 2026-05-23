@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
@@ -81,6 +82,14 @@ class SettingsScreen extends ConsumerWidget {
                 subtitle: Text('@${user.username}'),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => _editUsername(context, ref, user),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.email_outlined,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: const Text('Cuenta de correo'),
+                subtitle: Text(Supabase.instance.client.auth.currentUser?.email ?? 'No disponible'),
               ),
               const Divider(),
               ListTile(
