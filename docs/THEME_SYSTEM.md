@@ -22,8 +22,11 @@ Utiliza **semillas de esquema de color (Seed ColorSchemes)** de Material 3 para 
 
 Temas iniciales soportados:
 *   **Oscuro (Dark)**: El tema morado elegante por defecto (Semilla: `Colors.deepPurpleAccent`).
-*   **Sakura Claro**: Un tema claro y primaveral con acentos rosados (Semilla: `Colors.pinkAccent`).
-*   **Bosque Profundo**: Un tema oscuro relajante y natural basado en tonos verde pino y turquesa (Semilla: `Colors.tealAccent`).
+*   **Claro (Light)**: El tema basado en el estilo **"Nordic Clean"** y la regla de color 60-30-10:
+    *   **60% Fondo**: Blanco puro (`#FFFFFF`) para una legibilidad y contraste óptimos.
+    *   **30% Texto/Estructura**: Carbón profundo (`#1A202C`) asegurando un ratio de contraste de al menos 4.5:1.
+    *   **10% Llamadas a la acción (CTA)**: Verde azulado/teal apagado (`#008080`) estrictamente reservado para botones de acción primarios e indicaciones activas.
+*   **Verde Oscuro (Dark Green)**: Un tema oscuro relajante y natural basado en tonos bosque y verde pino (Semilla: `Colors.tealAccent`).
 
 ### 2. Proveedor de Estado Reactivo (`lib/core/providers/theme_provider.dart`)
 El notifier `AppThemeNotifier` (compilado automáticamente por Riverpod como `appThemeProvider` en el código generado) mantiene el estado en tiempo real de la interfaz.
@@ -47,9 +50,9 @@ Abre [lib/core/theme/app_theme.dart](file:///c:/Users/wissp/AndroidStudioProject
 ```diff
  enum AppThemeMode {
    dark,
-   sakuraLight,
--  forestDark;
-+  forestDark,
+   light,
+-  darkGreen;
++  darkGreen,
 +  sunsetOrange; // <- Añadido
 ```
 
@@ -61,10 +64,10 @@ En el mismo archivo, dentro de la propiedad `displayName` del enum, añade el te
      switch (this) {
        case AppThemeMode.dark:
          return 'Oscuro (Dark)';
-       case AppThemeMode.sakuraLight:
-         return 'Sakura Claro';
-       case AppThemeMode.forestDark:
-         return 'Bosque Profundo';
+       case AppThemeMode.light:
+         return 'Claro (Light)';
+       case AppThemeMode.darkGreen:
+         return 'Verde Oscuro (Dark Green)';
 +      case AppThemeMode.sunsetOrange:
 +        return 'Atardecer Naranja'; // <- Nombre visual
      }
@@ -79,7 +82,7 @@ En la misma clase `AppThemes`, añade el caso en el `switch` para configurar el 
      switch (mode) {
        case AppThemeMode.dark:
          ...
-       case AppThemeMode.forestDark:
+       case AppThemeMode.darkGreen:
          ...
 +      case AppThemeMode.sunsetOrange:
 +        return ThemeData(
@@ -102,10 +105,10 @@ Para que el círculo indicador de color se muestre correctamente al abrir el di�
                case AppThemeMode.dark:
                  indicatorColor = Colors.deepPurpleAccent;
                  break;
-               case AppThemeMode.sakuraLight:
-                 indicatorColor = Colors.pinkAccent;
+               case AppThemeMode.light:
+                 indicatorColor = const Color(0xFF008080);
                  break;
-               case AppThemeMode.forestDark:
+               case AppThemeMode.darkGreen:
                  indicatorColor = Colors.tealAccent;
                  break;
 +              case AppThemeMode.sunsetOrange:

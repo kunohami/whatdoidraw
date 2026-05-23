@@ -65,8 +65,8 @@ Full specification of the tag system (rules, UI, DB, filtering, pagination):
 The application supports persistent, live visual theme switching managed by Riverpod:
 - **Catálogo de Temas (`AppThemeMode`)**:
   - `dark`: Default theme with deep purple accent (Material 3 Seed: `Colors.deepPurpleAccent`).
-  - `sakuraLight`: Light theme inspired by cherry blossoms (Seed: `Colors.pinkAccent`).
-  - `forestDark`: Calm dark theme inspired by dense forests (Seed: `Colors.tealAccent`).
+  - `light`: "Nordic Clean" light theme following the 60-30-10 color rule (#FFFFFF background, #1A202C charcoal text/structure, #008080 muted teal call-to-actions).
+  - `darkGreen`: Calm dark theme inspired by dense forests (Seed: `Colors.tealAccent`).
 - **State & Persistence**:
   - `AppThemeNotifier` (exposed as `appThemeProvider` after code-gen): Listens to changes and persists selections inside local storage via SharedPreferences (`selected_theme_mode` key).
   - Injector: Reactively watched by `MaterialApp` inside `lib/main.dart` to apply `AppThemes.getThemeData(currentThemeMode)` globally.

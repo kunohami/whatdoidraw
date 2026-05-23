@@ -340,4 +340,16 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get infoDoodleCanvas =>
       '¡Bienvenido a nuestro Lienzo! Aquí puedes dibujar tus bocetos de manera sencilla. Recuerda, no buscamos la perfección, solo dar una idea, así que sigue tu corazón. No olvides añadir etiquetas para que se pueda encontrar más fácilmente. Cuando guardes tu doodle, se publicará para que otros usuarios puedan verlo y, si lo desean, usarlo para crear una obra final (Artwork).';
+
+  @override
+  String get themeDark => 'Oscuro';
+
+  @override
+  String get themeLight => 'Verde Claro';
+
+  @override
+  String get themeDarkGreen => 'Verde Oscuro';
+
+  @override
+  String get themeDarkPlus => 'Oscuro Plus';
 }

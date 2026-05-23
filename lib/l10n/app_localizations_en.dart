@@ -337,4 +337,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get infoDoodleCanvas =>
       'Welcome to our Canvas! Here you can draw your sketches in a simple way. Remember, we don\'t look for perfection—just to convey an idea—so follow your heart. Don\'t forget to add tags to make it easier to find. When you save your doodle, it will be published so other users can see it and, if they wish, use it to create a final Artwork.';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get themeLight => 'Light Green';
+
+  @override
+  String get themeDarkGreen => 'Dark Green';
+
+  @override
+  String get themeDarkPlus => 'Dark Plus';
 }

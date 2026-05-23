@@ -69,6 +69,12 @@ class WdidApp extends ConsumerWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: AppThemes.getThemeData(currentThemeMode),
+      builder: (context, child) {
+        if (currentThemeMode == AppThemeMode.darkPlus) {
+          return DarkPlusBackground(child: child!);
+        }
+        return child!;
+      },
       home: const AuthGate(),
     );
   }

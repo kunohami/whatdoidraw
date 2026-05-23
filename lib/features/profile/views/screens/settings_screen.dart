@@ -69,23 +69,26 @@ class SettingsScreen extends ConsumerWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: AppThemeMode.values.map((mode) {
-            Color indicatorColor;
+            final Color indicatorColor;
             switch (mode) {
               case AppThemeMode.dark:
                 indicatorColor = Colors.deepPurpleAccent;
                 break;
-              case AppThemeMode.sakuraLight:
-                indicatorColor = Colors.pinkAccent;
+              case AppThemeMode.light:
+                indicatorColor = const Color(0xFF008080);
                 break;
-              case AppThemeMode.forestDark:
+              case AppThemeMode.darkGreen:
                 indicatorColor = Colors.tealAccent;
+                break;
+              case AppThemeMode.darkPlus:
+                indicatorColor = Colors.purple;
                 break;
             }
 
             final isSelected = mode == currentTheme;
 
             return ListTile(
-              title: Text(mode.displayName),
+              title: Text(mode.getLocalizedName(context)),
               leading: Container(
                 width: 24,
                 height: 24,
@@ -184,7 +187,7 @@ class SettingsScreen extends ConsumerWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 title: const Text('Tema visual'),
-                subtitle: Text(currentThemeMode.displayName),
+                subtitle: Text(currentThemeMode.getLocalizedName(context)),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => _changeTheme(context, ref, currentThemeMode),
               ),
