@@ -46,7 +46,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
         );
         if (accept != null) {
           await ref.read(notificationsProvider.notifier).markPushPromptAsSeen(user.id, accept);
-          ref.invalidate(currentUserProfileProvider);
+          ref.invalidate(userProfileProvider(user.id));
         }
       }
     });

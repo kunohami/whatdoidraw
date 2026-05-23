@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
+import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/user_model.dart';
 import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
@@ -121,12 +122,34 @@ class SettingsScreen extends ConsumerWidget {
                 title: const Text('Notificaciones en el móvil (Push)'),
                 value: user.pushNotifications,
                 onChanged: (val) async {
-                  await ref.read(profileServiceProvider).updateNotificationPreferences(
-                        user.id,
-                        emailNotifications: user.emailNotifications,
-                        pushNotifications: val,
-                      );
-                  ref.invalidate(currentUserProfileProvider);
+                  if (val) {
+                    // Mostrar un diálogo de carga transparente no bloqueante
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => const PopScope(
+                        canPop: false,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    );
+
+                    try {
+                      await ref.read(notificationsProvider.notifier).requestPushPermissionsAndSaveToken(user.id);
+                    } finally {
+                      if (context.mounted) {
+                        Navigator.pop(context); // Cerrar el diálogo de carga
+                      }
+                    }
+                  } else {
+                    await ref.read(profileServiceProvider).updatePushSettings(
+                          user.id,
+                          hasSeenPushPrompt: true,
+                          pushNotifications: false,
+                        );
+                  }
+                  ref.invalidate(userProfileProvider(user.id));
                 },
               ),
               SwitchListTile(
@@ -142,7 +165,7 @@ class SettingsScreen extends ConsumerWidget {
                         emailNotifications: val,
                         pushNotifications: user.pushNotifications,
                       );
-                  ref.invalidate(currentUserProfileProvider);
+                  ref.invalidate(userProfileProvider(user.id));
                 },
               ),
               const Divider(),

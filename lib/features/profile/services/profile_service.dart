@@ -187,4 +187,29 @@ class ProfileService {
 
     return UserModel.fromJson(response);
   }
+
+  /// Actualiza la preferencia push y el token FCM del usuario.
+  Future<UserModel> updatePushSettings(
+    String userId, {
+    required bool hasSeenPushPrompt,
+    required bool pushNotifications,
+    String? fcmToken,
+  }) async {
+    final Map<String, dynamic> updateData = {
+      'has_seen_push_prompt': hasSeenPushPrompt,
+      'push_notifications': pushNotifications,
+    };
+    if (fcmToken != null) {
+      updateData['fcm_token'] = fcmToken;
+    }
+
+    final response = await supabase
+        .from('users')
+        .update(updateData)
+        .eq('id', userId)
+        .select()
+        .single();
+
+    return UserModel.fromJson(response);
+  }
 }
