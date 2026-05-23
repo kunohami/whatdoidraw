@@ -595,6 +595,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get btnSave;
+
+  /// No description provided for @settingsTutorialReplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay General Tutorial'**
+  String get settingsTutorialReplay;
+
+  /// No description provided for @settingsTutorialSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & Support'**
+  String get settingsTutorialSection;
+
+  /// No description provided for @tutorialWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello! I\'m your creative companion in \"whatdoidraw\" Whether it\'s to give ideas or to inspire you, I hope you have a great time!'**
+  String get tutorialWelcome;
+
+  /// No description provided for @tutorialConcept.
+  ///
+  /// In en, this message translates to:
+  /// **'Our application is based on a very simple idea: to inspire and be inspired. There are three main ways to interact with the community.'**
+  String get tutorialConcept;
+
+  /// No description provided for @tutorialIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Ideas: Don\'t know what to draw? Explore ideas suggested by others, or write your own creative prompt to challenge others.'**
+  String get tutorialIdeas;
+
+  /// No description provided for @tutorialDoodles.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Doodles: Sketch quick doodles based on those ideas... or whatever you want.'**
+  String get tutorialDoodles;
+
+  /// No description provided for @tutorialArtworks.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Artworks: Take doodles to the next level. If you like an idea or a doodle and create an artwork, publish it on your social media and share the link here. The creator of the idea or doodle will know what you created and can stop by to see it.'**
+  String get tutorialArtworks;
+
+  /// No description provided for @tutorialReady.
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s all! You can review this tutorial or the help for each screen at any time. Happy drawing!'**
+  String get tutorialReady;
+
+  /// No description provided for @infoFeedIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can explore creative ideas from other users. Use them as inspiration. If you like an idea, you can tap on it to create a doodle or share your final artwork.'**
+  String get infoFeedIdeas;
+
+  /// No description provided for @infoFeedDoodles.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you\'ll see the Doodles drawn by the community. If you see one you like and create your own artwork, share the link!'**
+  String get infoFeedDoodles;
+
+  /// No description provided for @infoFeedArtworks.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you\'ll find the finished Artworks uploaded by users. These works always stem from a doodle or an idea. Tap on them to explore the idea or doodle that inspired them.'**
+  String get infoFeedArtworks;
+
+  /// No description provided for @infoCreationHub.
+  ///
+  /// In en, this message translates to:
+  /// **'This is your creation center. From here you can propose a new Idea for someone to draw, start painting a Doodle freely on our canvas, or access your Saved items to continue later.'**
+  String get infoCreationHub;
+
+  /// No description provided for @infoCreateIdea.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can propose a text-based creative idea. Add tags so others can find it, along with the language it\'s written in. Your ideas will appear in the Ideas tab of the Feed, and other users can use them to draw doodles inspired by them... or even to create a more elaborate artwork.'**
+  String get infoCreateIdea;
+
+  /// No description provided for @infoDoodleCanvas.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to our Canvas! Here you can draw your sketches in a simple way. Remember, we don\'t look for perfection—just to convey an idea—so follow your heart. Don\'t forget to add tags to make it easier to find. When you save your doodle, it will be published so other users can see it and, if they wish, use it to create a final Artwork.'**
+  String get infoDoodleCanvas;
 }
 
 class _AppLocalizationsDelegate

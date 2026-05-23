@@ -283,4 +283,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get btnSave => 'Save';
+
+  @override
+  String get settingsTutorialReplay => 'Replay General Tutorial';
+
+  @override
+  String get settingsTutorialSection => 'Help & Support';
+
+  @override
+  String get tutorialWelcome =>
+      'Hello! I\'m your creative companion in \"whatdoidraw\" Whether it\'s to give ideas or to inspire you, I hope you have a great time!';
+
+  @override
+  String get tutorialConcept =>
+      'Our application is based on a very simple idea: to inspire and be inspired. There are three main ways to interact with the community.';
+
+  @override
+  String get tutorialIdeas =>
+      '1. Ideas: Don\'t know what to draw? Explore ideas suggested by others, or write your own creative prompt to challenge others.';
+
+  @override
+  String get tutorialDoodles =>
+      '2. Doodles: Sketch quick doodles based on those ideas... or whatever you want.';
+
+  @override
+  String get tutorialArtworks =>
+      '3. Artworks: Take doodles to the next level. If you like an idea or a doodle and create an artwork, publish it on your social media and share the link here. The creator of the idea or doodle will know what you created and can stop by to see it.';
+
+  @override
+  String get tutorialReady =>
+      'That\'s all! You can review this tutorial or the help for each screen at any time. Happy drawing!';
+
+  @override
+  String get infoFeedIdeas =>
+      'Here you can explore creative ideas from other users. Use them as inspiration. If you like an idea, you can tap on it to create a doodle or share your final artwork.';
+
+  @override
+  String get infoFeedDoodles =>
+      'Here you\'ll see the Doodles drawn by the community. If you see one you like and create your own artwork, share the link!';
+
+  @override
+  String get infoFeedArtworks =>
+      'Here you\'ll find the finished Artworks uploaded by users. These works always stem from a doodle or an idea. Tap on them to explore the idea or doodle that inspired them.';
+
+  @override
+  String get infoCreationHub =>
+      'This is your creation center. From here you can propose a new Idea for someone to draw, start painting a Doodle freely on our canvas, or access your Saved items to continue later.';
+
+  @override
+  String get infoCreateIdea =>
+      'Here you can propose a text-based creative idea. Add tags so others can find it, along with the language it\'s written in. Your ideas will appear in the Ideas tab of the Feed, and other users can use them to draw doodles inspired by them... or even to create a more elaborate artwork.';
+
+  @override
+  String get infoDoodleCanvas =>
+      'Welcome to our Canvas! Here you can draw your sketches in a simple way. Remember, we don\'t look for perfection—just to convey an idea—so follow your heart. Don\'t forget to add tags to make it easier to find. When you save your doodle, it will be published so other users can see it and, if they wish, use it to create a final Artwork.';
 }

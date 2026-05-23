@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:whatdoidraw/features/content_creation/viewmodels/create_idea_viewmodel.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/tag_input_field.dart';
+import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
 
 class CreateIdeaScreen extends ConsumerStatefulWidget {
   const CreateIdeaScreen({super.key});
@@ -57,9 +59,22 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(createIdeaControllerProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('💡 Nueva Idea'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('💡 Nueva Idea'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'Ayuda',
+            onPressed: () {
+              TutorialOverlay.showCreateIdeaInfo(context, l10n);
+            },
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24.0),

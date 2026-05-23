@@ -13,6 +13,7 @@ import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 import 'package:whatdoidraw/shared/widgets/load_more_button.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
+import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
 
 /// Pantalla principal de Exploración ("Feed").
 ///
@@ -245,6 +246,19 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
               ],
             ),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.info_outline),
+              tooltip: 'Ayuda',
+              onPressed: () {
+                TutorialOverlay.showFeedInfo(
+                  context,
+                  l10n,
+                  _tabController.index,
+                );
+              },
+            ),
+          ],
         ),
         body: Column(
           children: [

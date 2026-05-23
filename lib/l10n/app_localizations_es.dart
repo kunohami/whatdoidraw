@@ -286,4 +286,58 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get btnSave => 'Guardar';
+
+  @override
+  String get settingsTutorialReplay => 'Repetir Tutorial General';
+
+  @override
+  String get settingsTutorialSection => 'Ayuda y Soporte';
+
+  @override
+  String get tutorialWelcome =>
+      '¡Hola! Te doy la bienvenida a \"whatdoidraw\" Ya sea para dar ideas o para inspirarte,¡Espero que lo pases bien!';
+
+  @override
+  String get tutorialConcept =>
+      'Esta aplicación se basa en una idea muy simple: inspirar y ser inspirado. Hay tres formas principales de interactuar con la comunidad.';
+
+  @override
+  String get tutorialIdeas =>
+      '1. Ideas: ¿No sabes qué dibujar? Explora ideas sugeridas por otros, o escribe tu propio prompt creativo para desafiar a los demás.';
+
+  @override
+  String get tutorialDoodles =>
+      '2. Doodles: Dibuja bocetos rápidos basados en esas ideas... o lo que quieras.';
+
+  @override
+  String get tutorialArtworks =>
+      '3. Artworks: Lleva los doodles al siguiente nivel. Si te gusta alguna idea o boceto y creas una pieza de arte, publícala en tu red social y comparte el enlace por aquí. El creador de la idea o doodle sabrá que has creado y se podrá pasar a verlo. ';
+
+  @override
+  String get tutorialReady =>
+      '¡Eso es todo! Puedes repasar este tutorial o las ayudas de cada pantalla en cualquier momento. ¡A inspirar!';
+
+  @override
+  String get infoFeedIdeas =>
+      'Aquí puedes explorar las ideas creativas de otros usuarios. Úsalas como inspiración. Si una idea te gusta, puedes pulsar en ella para crear un doodle (boceto) o compartir tu creación final (Artwork)';
+
+  @override
+  String get infoFeedDoodles =>
+      'Aquí verás los Doodles dibujados por la comunidad. Si ves uno que te guste y creas alguna pieza de arte por tu cuenta, ¡comparte el link!';
+
+  @override
+  String get infoFeedArtworks =>
+      'Aquí están las obras de arte terminadas subidas por los usuarios. Estas obras siempre proceden de un doodle o una idea. Puedes pulsar sobre ellas para explorar la idea o doodle que las inspiraron.';
+
+  @override
+  String get infoCreationHub =>
+      'Este es tu centro de creación. Desde aquí puedes proponer una nueva Idea para que alguien la dibuje, empezar a pintar libremente un Doodle (un boceto en nuestro lienzo), o acceder a tus elementos Guardados para continuar más tarde.';
+
+  @override
+  String get infoCreateIdea =>
+      'Aquí puedes proponer una idea creativa en texto. Añade etiquetas para que la puedan encontrar y el idioma en que la has escrito. Tus ideas aparecerán en la pestaña Ideas del Feed, y otros usuarios podrán usarlas para dibujar doodles inspirados en ellas... O incluso para hacer una obra más elaborada.';
+
+  @override
+  String get infoDoodleCanvas =>
+      '¡Bienvenido a nuestro Lienzo! Aquí puedes dibujar tus bocetos de manera sencilla. Recuerda, no buscamos la perfección, solo dar una idea, así que sigue tu corazón. No olvides añadir etiquetas para que se pueda encontrar más fácilmente. Cuando guardes tu doodle, se publicará para que otros usuarios puedan verlo y, si lo desean, usarlo para crear una obra final (Artwork).';
 }

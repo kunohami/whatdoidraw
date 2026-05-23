@@ -4,6 +4,7 @@ import 'package:whatdoidraw/features/bookmarks/views/screens/bookmarks_screen.da
 import 'package:whatdoidraw/features/content_creation/views/screens/create_idea_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
+import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
 
 // [DOC]: Esta pantalla actúa como un "Hub" o enrutador visual.
 // Ya no obliga al usuario a rellenar texto al pulsar 'Crear',
@@ -18,7 +19,19 @@ class CreationHubScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.creationHubTitle), centerTitle: true),
+      appBar: AppBar(
+        title: Text(l10n.creationHubTitle),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'Ayuda',
+            onPressed: () {
+              TutorialOverlay.showCreationHubInfo(context, l10n);
+            },
+          ),
+        ],
+      ),
       // [DOC]: ListView con separaciones para un listado de menú limpio nativo M3.
       body: ListView(
         padding: const EdgeInsets.all(16),

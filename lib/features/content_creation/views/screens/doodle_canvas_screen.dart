@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:whatdoidraw/features/content_creation/viewmodels/doodle_canvas_viewmodel.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/tag_input_field.dart';
+import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
 
 /// Pantalla principal para la creación de dibujos vectoriales (Doodles).
 ///
@@ -89,6 +91,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Observamos el estado completo del lienzo.
     final canvasState = ref.watch(doodleCanvasProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     // Escuchamos reactivamente los mensajes de error para mostrarlos sin bloquear la UI.
     ref.listen(doodleCanvasProvider.select((s) => s.errorMessage), (
@@ -106,6 +109,13 @@ class DoodleCanvasScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Nuevo Doodle'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'Ayuda',
+            onPressed: () {
+              TutorialOverlay.showDoodleCanvasInfo(context, l10n);
+            },
+          ),
           // Botón Deshacer: Deshabilitado si no hay trazos o si se está enviando.
           IconButton(
             icon: const Icon(Icons.undo),
