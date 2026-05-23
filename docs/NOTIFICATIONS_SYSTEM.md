@@ -114,9 +114,13 @@ Escrita en TypeScript y desplegada en la infraestructura serverless de Supabase:
 
 ---
 
-## 3. Próxima Fase: Notificaciones por Correo (Resend)
+## 3. Notificaciones por Correo Electrónico (Resend)
 
-El sistema está diseñado de tal forma que en la próxima fase podremos añadir notificaciones por correo electrónico a través del proveedor **Resend**:
-* Crearemos una Edge Function en Supabase `send-email` (o unificaremos el webhook).
-* Evaluará la columna `email_notifications` de la tabla `users` para el destinatario.
-* Si está activa, enviará un correo dinámico utilizando plantillas de email atractivas mediante la API de Resend.
+El sistema de notificaciones también envía correos electrónicos automatizados utilizando **Resend** para notificar a los creadores cuando alguien usa sus creaciones (ideas o doodles), siempre que tengan activada la opción en sus Ajustes (`email_notifications: true`).
+
+#### Deno Edge Function (`send-email`)
+* Se ejecuta automáticamente a través de un Database Webhook al crearse un registro en la tabla `notifications`.
+* **Obtención segura del email:** El UUID del destinatario se utiliza para realizar una consulta administrativa a `auth.users` mediante `supabaseClient.auth.admin.getUserById()`, recuperando de forma segura su dirección de correo electrónico.
+* **Comprobación de preferencias:** La función verifica la columna `email_notifications` del usuario en la tabla `users` de Supabase. Si está en `false`, cancela el envío de forma limpia.
+* **Generación de plantilla HTML:** Se compila dinámicamente un correo HTML responsivo con una estética premium oscura y morada a tono con la app.
+* **Envío vía Resend:** Envía una petición `POST` a la API de Resend (`https://api.resend.com/emails`) utilizando el API key almacenada en los secretos de Supabase (`RESEND_API_KEY`). El remitente predeterminado de pruebas es `whatdoidraw? <onboarding@resend.dev>` (o el dominio personalizado verificado por el usuario).
