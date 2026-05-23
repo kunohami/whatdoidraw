@@ -48,11 +48,17 @@ class ProfileService {
   Future<List<IdeaModel>> getUserIdeas(String userId) async {
     final response = await supabase
         .from('ideas')
-        .select()
+        .select('*, users(username)')
         .eq('user_id', userId)
         .order('created_at', ascending: false);
 
-    return (response as List).map((data) => IdeaModel.fromJson(data)).toList();
+    return (response as List).map((data) {
+      final map = Map<String, dynamic>.from(data);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      return IdeaModel.fromJson(map);
+    }).toList();
   }
 
   /// Obtiene todos los Doodles dibujados por el usuario especificado.
@@ -62,13 +68,17 @@ class ProfileService {
   Future<List<DoodleModel>> getUserDoodles(String userId) async {
     final response = await supabase
         .from('doodles')
-        .select()
+        .select('*, users(username)')
         .eq('user_id', userId)
         .order('created_at', ascending: false);
 
-    return (response as List)
-        .map((data) => DoodleModel.fromJson(data))
-        .toList();
+    return (response as List).map((data) {
+      final map = Map<String, dynamic>.from(data);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      return DoodleModel.fromJson(map);
+    }).toList();
   }
 
   /// Obtiene un doodle específico por su ID.
@@ -96,13 +106,17 @@ class ProfileService {
   Future<List<ArtworkModel>> getUserArtworks(String userId) async {
     final response = await supabase
         .from('artworks')
-        .select()
+        .select('*, users(username)')
         .eq('user_id', userId)
         .order('created_at', ascending: false);
 
-    return (response as List)
-        .map((data) => ArtworkModel.fromJson(data))
-        .toList();
+    return (response as List).map((data) {
+      final map = Map<String, dynamic>.from(data);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      return ArtworkModel.fromJson(map);
+    }).toList();
   }
 
   /// Actualiza el mensaje corto (bio) de un usuario.
