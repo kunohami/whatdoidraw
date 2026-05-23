@@ -8,6 +8,7 @@ import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/artwork_model.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
+import 'package:whatdoidraw/shared/widgets/moving_gradient_placeholder.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 
 class ArtworkDetailScreen extends ConsumerWidget {
@@ -44,59 +45,80 @@ class ArtworkDetailScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // Preview or premium placeholder
-                  if (currentArtwork.previewUrl != null)
+                  if (currentArtwork.previewUrl != null &&
+                      currentArtwork.previewUrl!.isNotEmpty)
                     Image.network(
                       currentArtwork.previewUrl!,
                       height: 300,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        height: 300,
-                        color: Colors.grey[200],
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.broken_image,
-                              size: 64,
-                              color: Colors.grey,
+                      errorBuilder: (context, error, stackTrace) =>
+                          MovingGradientPlaceholder(
+                            height: 300,
+                            icon: Icons.link_off,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const FloatingIcon(icon: Icons.link_off),
+                                const SizedBox(height: 16),
+                                Text(
+                                  l10n.previewError,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    shadows: [
+                                      Shadow(
+                                        blurRadius: 8,
+                                        color: Colors.black45,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              l10n.previewError,
-                              style: const TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
+                          ),
                     )
                   else
-                    Container(
-                      height: 240,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .surfaceContainerHighest
-                          .withValues(alpha: 0.5),
+                    MovingGradientPlaceholder(
+                      height: 300,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.art_track_outlined,
-                            size: 80,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          const SizedBox(height: 12),
+                          const FloatingIcon(icon: Icons.link),
+                          const SizedBox(height: 16),
                           Text(
                             l10n.externalPlatformTitle,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 8,
+                                  color: Colors.black45,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             l10n.viewOnPlatform(
                               Uri.parse(currentArtwork.externalLink).host,
                             ),
-                            style: const TextStyle(color: Colors.grey),
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.85),
+                              fontSize: 14,
+                              shadows: const [
+                                Shadow(
+                                  blurRadius: 8,
+                                  color: Colors.black45,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

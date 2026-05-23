@@ -10,7 +10,7 @@ El sistema se basa en 3 tipos de contenido principales que se inspiran mutuament
 
 1. **Ideas (Prompts):** Texto simple generado por un usuario. Ej: "Un gato astronauta bebiendo café".
 2. **Doodles (Bocetos):** Dibujos creados en el lienzo integrado. Pueden ser diseños completamente libres o nacer como respuesta a una Idea previa.
-3. **Artworks (Arte Final):** Obras terminadas publicadas en redes sociales. Para compartir un Artwork, el usuario debe seleccionar obligatoriamente una Idea o un Doodle que haya guardado previamente en su colección. La app aloja una previsualización y enlaza al contenido original.
+3. **Artworks (Arte Final):** Obras terminadas publicadas en redes sociales. Para compartir un Artwork, el usuario debe seleccionar obligatoriamente una Idea o un Doodle que haya guardado previamente en su colección. La app aloja una previsualización (o un placeholder premium con gradiente animado en movimiento e icono flotante para enlaces externos sin soporte oEmbed nativo) y enlaza al contenido original.
 
 ### 🔀 Flujo de Uso
 La aplicación tiene un Hub central de creación y un sistema de descubrimiento social:

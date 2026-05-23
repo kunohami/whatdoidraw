@@ -166,5 +166,9 @@
   "infoFeedArtworks": "Aquí están las obras de arte terminadas subidas por los usuarios. Estas obras siempre proceden de un doodle o una idea. Puedes pulsar sobre ellas para explorar la idea o doodle que las inspiraron.",
   "infoCreationHub": "Este es tu centro de creación. Desde aquí puedes proponer una nueva Idea para que alguien la dibuje, empezar a pintar libremente un Doodle (un boceto en nuestro lienzo), o acceder a tus elementos Guardados para continuar más tarde.",
   "infoCreateIdea": "Aquí puedes proponer una idea creativa en texto. Añade etiquetas para que la puedan encontrar y el idioma en que la has escrito. Tus ideas aparecerán en la pestaña Ideas del Feed, y otros usuarios podrán usarlas para dibujar doodles inspirados en ellas... O incluso para hacer una obra más elaborada.",
-  "infoDoodleCanvas": "¡Bienvenido a nuestro Lienzo! Aquí puedes dibujar tus bocetos de manera sencilla. Recuerda, no buscamos la perfección, solo dar una idea, así que sigue tu corazón. No olvides añadir etiquetas para que se pueda encontrar más fácilmente. Cuando guardes tu doodle, se publicará para que otros usuarios puedan verlo y, si lo desean, usarlo para crear una obra final (Artwork)."
+  "infoDoodleCanvas": "¡Bienvenido a nuestro Lienzo! Aquí puedes dibujar tus bocetos de manera sencilla. Recuerda, no buscamos la perfección, solo dar una idea, así que sigue tu corazón. No olvides añadir etiquetas para que se pueda encontrar más fácilmente. Cuando guardes tu doodle, se publicará para que otros usuarios puedan verlo y, si lo desean, usarlo para crear una obra final (Artwork).",
+  "themeDark": "Oscuro",
+  "themeLight": "Verde Claro",
+  "themeDarkGreen": "Verde Oscuro",
+  "themeDarkPlus": "Oscuro Plus"
 }

@@ -232,6 +232,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 72.0,
           leading: IconButton(
             icon: const Icon(Icons.info_outline),
             tooltip: 'Ayuda',
@@ -240,20 +241,15 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
             },
           ),
           titleSpacing: 0,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 12.0),
-            child: TabBar(
-              controller: _tabController,
-              labelPadding: EdgeInsets.zero,
-              tabs: const [
-                Tab(
-                  icon: Icon(Icons.lightbulb_outline, size: 20),
-                  text: 'Ideas',
-                ),
-                Tab(icon: Icon(Icons.brush, size: 20), text: 'Doodles'),
-                Tab(icon: Icon(Icons.art_track, size: 20), text: 'Artworks'),
-              ],
-            ),
+          title: TabBar(
+            controller: _tabController,
+            labelPadding: EdgeInsets.zero,
+            indicatorSize: TabBarIndicatorSize.label,
+            tabs: const [
+              Tab(icon: Icon(Icons.lightbulb_outline, size: 20), text: 'Ideas'),
+              Tab(icon: Icon(Icons.brush, size: 20), text: 'Doodles'),
+              Tab(icon: Icon(Icons.art_track, size: 20), text: 'Artworks'),
+            ],
           ),
           actions: [
             IconButton(

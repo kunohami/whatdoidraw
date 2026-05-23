@@ -166,5 +166,9 @@
   "infoFeedArtworks": "Here you'll find the finished Artworks uploaded by users. These works always stem from a doodle or an idea. Tap on them to explore the idea or doodle that inspired them.",
   "infoCreationHub": "This is your creation center. From here you can propose a new Idea for someone to draw, start painting a Doodle freely on our canvas, or access your Saved items to continue later.",
   "infoCreateIdea": "Here you can propose a text-based creative idea. Add tags so others can find it, along with the language it's written in. Your ideas will appear in the Ideas tab of the Feed, and other users can use them to draw doodles inspired by them... or even to create a more elaborate artwork.",
-  "infoDoodleCanvas": "Welcome to our Canvas! Here you can draw your sketches in a simple way. Remember, we don't look for perfection—just to convey an idea—so follow your heart. Don't forget to add tags to make it easier to find. When you save your doodle, it will be published so other users can see it and, if they wish, use it to create a final Artwork."
+  "infoDoodleCanvas": "Welcome to our Canvas! Here you can draw your sketches in a simple way. Remember, we don't look for perfection—just to convey an idea—so follow your heart. Don't forget to add tags to make it easier to find. When you save your doodle, it will be published so other users can see it and, if they wish, use it to create a final Artwork.",
+  "themeDark": "Dark",
+  "themeLight": "Light Green",
+  "themeDarkGreen": "Dark Green",
+  "themeDarkPlus": "Dark Plus"
 }

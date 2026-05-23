@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/artworks/services/artwork_link_service.dart';
 import 'package:whatdoidraw/features/artworks/viewmodels/create_artwork_viewmodel.dart';
+import 'package:whatdoidraw/shared/widgets/moving_gradient_placeholder.dart';
 
 class CreateArtworkScreen extends ConsumerStatefulWidget {
   final String? ideaId;
@@ -189,21 +190,23 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                   clipBehavior: Clip.antiAlias,
                   child: Column(
                     children: [
-                      Image.network(
-                        state.preview!.thumbnailUrl,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const SizedBox(
-                              height: 200,
-                              child: Center(
-                                child: Icon(
-                                  Icons.broken_image,
-                                  size: 50,
-                                  color: Colors.grey,
-                                ),
+                      if (state.preview!.thumbnailUrl.isNotEmpty)
+                        Image.network(
+                          state.preview!.thumbnailUrl,
+                          height: 200,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              const MovingGradientPlaceholder(
+                                height: 200,
+                                icon: Icons.link_off,
                               ),
-                            ),
-                      ),
+                        )
+                      else
+                        const MovingGradientPlaceholder(
+                          height: 200,
+                          icon: Icons.link,
+                        ),
                       ListTile(
                         title: Text(state.preview!.title),
                         subtitle: Text(

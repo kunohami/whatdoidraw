@@ -9,6 +9,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
 import 'package:whatdoidraw/core/providers/supabase_provider.dart';
+import 'package:whatdoidraw/core/providers/theme_provider.dart';
+import 'package:whatdoidraw/core/theme/app_theme.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/auth/views/screens/auth_screen.dart';
 import 'package:whatdoidraw/features/auth/views/widgets/reset_password_dialog.dart';
@@ -58,6 +60,7 @@ class WdidApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentLocale = ref.watch(appLocaleProvider);
+    final currentThemeMode = ref.watch(appThemeProvider);
 
     return MaterialApp(
       title: 'whatdoidraw?',
@@ -65,13 +68,13 @@ class WdidApp extends ConsumerWidget {
       locale: currentLocale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurpleAccent,
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-      ),
+      theme: AppThemes.getThemeData(currentThemeMode),
+      builder: (context, child) {
+        if (currentThemeMode == AppThemeMode.darkPlus) {
+          return DarkPlusBackground(child: child!);
+        }
+        return child!;
+      },
       home: const AuthGate(),
     );
   }
@@ -90,14 +93,18 @@ class _AuthGateState extends ConsumerState<AuthGate> {
   @override
   void initState() {
     super.initState();
-    _authSubscription = ref.read(supabaseClientProvider).auth.onAuthStateChange.listen((data) {
-      final event = data.event;
-      if (event == AuthChangeEvent.passwordRecovery) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _showResetPasswordDialog();
+    _authSubscription = ref
+        .read(supabaseClientProvider)
+        .auth
+        .onAuthStateChange
+        .listen((data) {
+          final event = data.event;
+          if (event == AuthChangeEvent.passwordRecovery) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _showResetPasswordDialog();
+            });
+          }
         });
-      }
-    });
   }
 
   @override

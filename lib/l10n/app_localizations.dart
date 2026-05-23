@@ -679,6 +679,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Welcome to our Canvas! Here you can draw your sketches in a simple way. Remember, we don\'t look for perfection—just to convey an idea—so follow your heart. Don\'t forget to add tags to make it easier to find. When you save your doodle, it will be published so other users can see it and, if they wish, use it to create a final Artwork.'**
   String get infoDoodleCanvas;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Green'**
+  String get themeLight;
+
+  /// No description provided for @themeDarkGreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Green'**
+  String get themeDarkGreen;
+
+  /// No description provided for @themeDarkPlus.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Plus'**
+  String get themeDarkPlus;
 }
 
 class _AppLocalizationsDelegate
