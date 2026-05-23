@@ -35,6 +35,7 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 ### Iteración 4: Interacción Social y Artworks ✅
 - [x] Sistema de Bookmarks (Guardar contenido) y visualización en el perfil.
 - [x] Formulario para publicar Artwork final (enlazando url externa) con soporte de tags y multi-plataforma.
+- [x] Placeholder premium animado para Artworks compartidos de plataformas externas sin previsualización oEmbed nativa (con gradiente en movimiento e icono flotante).
 - [x] Lógica de filtrado por "popularidad" (Likes) y visualización de likes.
 - [x] Sistema para ver relación con otras ideas o doodles existentes en la app al abrir una idea o doodle.
 - [x] Mostrar el nombre del usuario al que pertenece la idea o doodle.
@@ -54,4 +55,4 @@ Este documento detalla el progreso actual y los planes futuros para **whatdoidra
 - [ ] Sistema de notificaciones por correo cada vez que alguien haga un artwork final de tu idea o doodle.
 
 ---
-*Última actualización: 21 de Mayo de 2026*
+*Última actualización: 23 de Mayo de 2026*

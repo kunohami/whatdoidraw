@@ -6,6 +6,7 @@ import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart'
 import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/artwork_model.dart';
+import 'package:whatdoidraw/shared/widgets/moving_gradient_placeholder.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 
 class ArtworkCard extends ConsumerWidget {
@@ -54,17 +55,22 @@ class ArtworkCard extends ConsumerWidget {
                 : null,
             child: Column(
               children: [
-                if (artwork.previewUrl != null)
+                if (artwork.previewUrl != null && artwork.previewUrl!.isNotEmpty)
                   Image.network(
                     artwork.previewUrl!,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
+                    errorBuilder: (context, error, stackTrace) =>
+                        const MovingGradientPlaceholder(
                       height: 200,
-                      color: Colors.grey[200],
-                      child: const Icon(Icons.broken_image, color: Colors.grey),
+                      icon: Icons.link_off,
                     ),
+                  )
+                else
+                  const MovingGradientPlaceholder(
+                    height: 200,
+                    icon: Icons.link,
                   ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
