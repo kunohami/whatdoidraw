@@ -11,7 +11,8 @@ class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
 
   @override
-  ConsumerState<NotificationsScreen> createState() => _NotificationsScreenState();
+  ConsumerState<NotificationsScreen> createState() =>
+      _NotificationsScreenState();
 }
 
 class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
@@ -31,7 +32,9 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
           context: context,
           builder: (context) => AlertDialog(
             title: const Text('Notificaciones Push'),
-            content: const Text('¿Quieres recibir notificaciones en tu móvil cuando alguien use tus ideas o doodles?'),
+            content: const Text(
+              '¿Quieres recibir notificaciones en tu móvil cuando alguien use tus ideas o doodles?',
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
@@ -45,7 +48,9 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
           ),
         );
         if (accept != null) {
-          await ref.read(notificationsProvider.notifier).markPushPromptAsSeen(user.id, accept);
+          await ref
+              .read(notificationsProvider.notifier)
+              .markPushPromptAsSeen(user.id, accept);
           ref.invalidate(userProfileProvider(user.id));
         }
       }
@@ -57,10 +62,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
     final notificationsAsync = ref.watch(notificationsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notificaciones'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Notificaciones'), centerTitle: true),
       body: notificationsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Error: $err')),
@@ -74,26 +76,38 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
               final notif = notifications[index];
               return ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: notif.isRead ? Colors.grey[200] : Theme.of(context).colorScheme.primaryContainer,
+                  backgroundColor: notif.isRead
+                      ? Colors.grey[200]
+                      : Theme.of(context).colorScheme.primaryContainer,
                   child: Icon(
-                    notif.type.contains('artwork') ? Icons.art_track : Icons.brush,
-                    color: notif.isRead ? Colors.grey : Theme.of(context).colorScheme.primary,
+                    notif.type.contains('artwork')
+                        ? Icons.art_track
+                        : Icons.brush,
+                    color: notif.isRead
+                        ? Colors.grey
+                        : Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 title: Text(
-                  notif.type == 'idea_used_for_doodle' 
-                    ? '@${notif.actor?.username} ha usado tu idea para un doodle'
-                    : notif.type == 'idea_used_for_artwork'
-                        ? '@${notif.actor?.username} ha usado tu idea para un artwork'
-                        : '@${notif.actor?.username} ha usado tu doodle para un artwork',
-                  style: TextStyle(fontWeight: notif.isRead ? FontWeight.normal : FontWeight.bold),
+                  notif.type == 'idea_used_for_doodle'
+                      ? '@${notif.actor?.username} ha usado tu idea para un doodle'
+                      : notif.type == 'idea_used_for_artwork'
+                      ? '@${notif.actor?.username} ha usado tu idea para un artwork'
+                      : '@${notif.actor?.username} ha usado tu doodle para un artwork',
+                  style: TextStyle(
+                    fontWeight: notif.isRead
+                        ? FontWeight.normal
+                        : FontWeight.bold,
+                  ),
                 ),
                 onTap: () async {
                   ref.read(notificationsProvider.notifier).markAsRead(notif.id);
                   final profileService = ref.read(profileServiceProvider);
-                  
+
                   if (notif.type == 'idea_used_for_doodle') {
-                    final doodle = await profileService.getDoodleById(notif.targetId);
+                    final doodle = await profileService.getDoodleById(
+                      notif.targetId,
+                    );
                     if (doodle != null && context.mounted) {
                       Navigator.push(
                         context,
@@ -103,7 +117,9 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                       );
                     }
                   } else {
-                    final artwork = await profileService.getArtworkById(notif.targetId);
+                    final artwork = await profileService.getArtworkById(
+                      notif.targetId,
+                    );
                     if (artwork != null && context.mounted) {
                       Navigator.push(
                         context,
@@ -125,4 +141,3 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
     );
   }
 }
-

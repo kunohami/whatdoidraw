@@ -89,7 +89,10 @@ class SettingsScreen extends ConsumerWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 title: const Text('Cuenta de correo'),
-                subtitle: Text(Supabase.instance.client.auth.currentUser?.email ?? 'No disponible'),
+                subtitle: Text(
+                  Supabase.instance.client.auth.currentUser?.email ??
+                      'No disponible',
+                ),
               ),
               const Divider(),
               ListTile(
@@ -138,21 +141,23 @@ class SettingsScreen extends ConsumerWidget {
                       barrierDismissible: false,
                       builder: (context) => const PopScope(
                         canPop: false,
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        child: Center(child: CircularProgressIndicator()),
                       ),
                     );
 
                     try {
-                      await ref.read(notificationsProvider.notifier).requestPushPermissionsAndSaveToken(user.id);
+                      await ref
+                          .read(notificationsProvider.notifier)
+                          .requestPushPermissionsAndSaveToken(user.id);
                     } finally {
                       if (context.mounted) {
                         Navigator.pop(context); // Cerrar el diálogo de carga
                       }
                     }
                   } else {
-                    await ref.read(profileServiceProvider).updatePushSettings(
+                    await ref
+                        .read(profileServiceProvider)
+                        .updatePushSettings(
                           user.id,
                           hasSeenPushPrompt: true,
                           pushNotifications: false,
@@ -169,7 +174,9 @@ class SettingsScreen extends ConsumerWidget {
                 title: const Text('Notificaciones por Correo'),
                 value: user.emailNotifications,
                 onChanged: (val) async {
-                  await ref.read(profileServiceProvider).updateNotificationPreferences(
+                  await ref
+                      .read(profileServiceProvider)
+                      .updateNotificationPreferences(
                         user.id,
                         emailNotifications: val,
                         pushNotifications: user.pushNotifications,

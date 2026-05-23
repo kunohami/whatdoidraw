@@ -19,7 +19,7 @@ CREATE TABLE users (
   portfolio_url VARCHAR,
   short_message VARCHAR(150),
   username_updated_at TIMESTAMP WITH TIME ZONE,
-  email_notifications BOOLEAN DEFAULT TRUE,
+  email_notifications BOOLEAN DEFAULT FALSE,
   push_notifications BOOLEAN DEFAULT FALSE,
   has_seen_push_prompt BOOLEAN DEFAULT FALSE,
   fcm_token TEXT,
@@ -80,7 +80,7 @@ CREATE TABLE notifications (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
   actor_id UUID REFERENCES users(id) ON DELETE CASCADE,
-  type VARCHAR NOT NULL CHECK (type IN ('idea_used', 'doodle_used')),
+  type VARCHAR NOT NULL CHECK (type IN ('idea_used_for_doodle', 'idea_used_for_artwork', 'doodle_used_for_artwork')),
   target_id UUID NOT NULL,
   is_read BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()

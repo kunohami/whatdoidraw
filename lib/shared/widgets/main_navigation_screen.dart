@@ -41,14 +41,18 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
   Future<void> _initializeFcmListeners() async {
     // 1. Manejar clic cuando la app está en segundo plano (background)
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      debugPrint('FCM Notification tapped (onMessageOpenedApp): ${message.data}');
+      debugPrint(
+        'FCM Notification tapped (onMessageOpenedApp): ${message.data}',
+      );
       _handleNotificationClick(message.data);
     });
 
     // 2. Manejar clic cuando la app estaba completamente CERRADA (terminated)
     final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      debugPrint('FCM Notification tapped (getInitialMessage): ${initialMessage.data}');
+      debugPrint(
+        'FCM Notification tapped (getInitialMessage): ${initialMessage.data}',
+      );
       _handleNotificationClick(initialMessage.data);
     }
   }
@@ -62,18 +66,17 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
     }
 
     final profileService = ref.read(profileServiceProvider);
-    
+
     if (type == 'idea_used_for_doodle') {
       final doodle = await profileService.getDoodleById(targetId);
       if (doodle != null && mounted) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (_) => DoodleDetailScreen(doodle: doodle),
-          ),
+          MaterialPageRoute(builder: (_) => DoodleDetailScreen(doodle: doodle)),
         );
       }
-    } else if (type == 'idea_used_for_artwork' || type == 'doodle_used_for_artwork') {
+    } else if (type == 'idea_used_for_artwork' ||
+        type == 'doodle_used_for_artwork') {
       final artwork = await profileService.getArtworkById(targetId);
       if (artwork != null && mounted) {
         Navigator.push(

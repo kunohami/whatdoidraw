@@ -33,8 +33,9 @@ class Notifications extends _$Notifications {
     final supabase = Supabase.instance.client;
     await supabase
         .from('notifications')
-        .update({'is_read': true}).eq('id', notificationId);
-    
+        .update({'is_read': true})
+        .eq('id', notificationId);
+
     if (state.value != null) {
       final newList = state.value!.map((n) {
         if (n.id == notificationId) {
@@ -48,7 +49,7 @@ class Notifications extends _$Notifications {
 
   Future<void> markPushPromptAsSeen(String userId, bool accepted) async {
     final profileService = ref.read(profileServiceProvider);
-    
+
     if (accepted) {
       await requestPushPermissionsAndSaveToken(userId);
     } else {
@@ -68,19 +69,22 @@ class Notifications extends _$Notifications {
 
     try {
       final messaging = FirebaseMessaging.instance;
-      
-      // Solicitar permisos nativos del sistema con un timeout de 5 segundos
-      final settings = await messaging.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true,
-      ).timeout(const Duration(seconds: 5));
 
-      final isAuthorized = settings.authorizationStatus == AuthorizationStatus.authorized ||
+      // Solicitar permisos nativos del sistema con un timeout de 5 segundos
+      final settings = await messaging
+          .requestPermission(
+            alert: true,
+            announcement: false,
+            badge: true,
+            carPlay: false,
+            criticalAlert: false,
+            provisional: false,
+            sound: true,
+          )
+          .timeout(const Duration(seconds: 5));
+
+      final isAuthorized =
+          settings.authorizationStatus == AuthorizationStatus.authorized ||
           settings.authorizationStatus == AuthorizationStatus.provisional;
 
       String? token;
@@ -99,7 +103,7 @@ class Notifications extends _$Notifications {
     } catch (e, stack) {
       print('Error al solicitar permisos FCM / Obtener Token: $e');
       print(stack);
-      
+
       // Si falla algo con Firebase (ej. en web o emulador sin Google Play), guardamos sin token
       try {
         await profileService.updatePushSettings(
@@ -108,7 +112,9 @@ class Notifications extends _$Notifications {
           pushNotifications: false,
         );
       } catch (dbError) {
-        print('Error crítico: También falló el guardado en base de datos: $dbError');
+        print(
+          'Error crítico: También falló el guardado en base de datos: $dbError',
+        );
       }
     }
   }

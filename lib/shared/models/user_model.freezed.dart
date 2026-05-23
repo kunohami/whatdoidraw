@@ -232,7 +232,7 @@ return $default(_that.id,_that.username,_that.avatarUrl,_that.isArtist,_that.por
 @JsonSerializable()
 
 class _UserModel implements UserModel {
-  const _UserModel({required this.id, required this.username, @JsonKey(name: 'avatar_url') this.avatarUrl, @JsonKey(name: 'is_artist') this.isArtist = false, @JsonKey(name: 'portfolio_url') this.portfolioUrl, @JsonKey(name: 'short_message') this.shortMessage, @JsonKey(name: 'username_updated_at') this.usernameUpdatedAt, @JsonKey(name: 'created_at') this.createdAt, @JsonKey(name: 'email_notifications') this.emailNotifications = true, @JsonKey(name: 'push_notifications') this.pushNotifications = false, @JsonKey(name: 'has_seen_push_prompt') this.hasSeenPushPrompt = false, @JsonKey(name: 'fcm_token') this.fcmToken});
+  const _UserModel({required this.id, required this.username, @JsonKey(name: 'avatar_url') this.avatarUrl, @JsonKey(name: 'is_artist') this.isArtist = false, @JsonKey(name: 'portfolio_url') this.portfolioUrl, @JsonKey(name: 'short_message') this.shortMessage, @JsonKey(name: 'username_updated_at') this.usernameUpdatedAt, @JsonKey(name: 'created_at') this.createdAt, @JsonKey(name: 'email_notifications') this.emailNotifications = false, @JsonKey(name: 'push_notifications') this.pushNotifications = false, @JsonKey(name: 'has_seen_push_prompt') this.hasSeenPushPrompt = false, @JsonKey(name: 'fcm_token') this.fcmToken});
   factory _UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
 /// Identificador único vinculado al sistema de autenticación (Supabase Auth).

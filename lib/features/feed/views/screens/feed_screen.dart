@@ -236,11 +236,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
             icon: const Icon(Icons.info_outline),
             tooltip: 'Ayuda',
             onPressed: () {
-              TutorialOverlay.showFeedInfo(
-                context,
-                l10n,
-                _tabController.index,
-              );
+              TutorialOverlay.showFeedInfo(context, l10n, _tabController.index);
             },
           ),
           titleSpacing: 0,
@@ -250,7 +246,10 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
               controller: _tabController,
               labelPadding: EdgeInsets.zero,
               tabs: const [
-                Tab(icon: Icon(Icons.lightbulb_outline, size: 20), text: 'Ideas'),
+                Tab(
+                  icon: Icon(Icons.lightbulb_outline, size: 20),
+                  text: 'Ideas',
+                ),
                 Tab(icon: Icon(Icons.brush, size: 20), text: 'Doodles'),
                 Tab(icon: Icon(Icons.art_track, size: 20), text: 'Artworks'),
               ],
@@ -279,7 +278,10 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                 children: [
                   Expanded(
                     child: SearchBar(
-                      constraints: const BoxConstraints(minHeight: 44, maxHeight: 44),
+                      constraints: const BoxConstraints(
+                        minHeight: 44,
+                        maxHeight: 44,
+                      ),
                       controller: _searchController,
                       hintText: l10n.feedSearchPlaceholder,
                       elevation: WidgetStateProperty.all(0),

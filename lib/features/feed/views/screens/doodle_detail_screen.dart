@@ -83,16 +83,18 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProfileScreen(userId: currentDoodle.userId),
+                            builder: (context) =>
+                                ProfileScreen(userId: currentDoodle.userId),
                           ),
                         );
                       },
                       child: Text(
                         l10n.doodledBy(currentDoodle.authorName ?? 'unknown'),
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                       ),
                     ),
                   ),

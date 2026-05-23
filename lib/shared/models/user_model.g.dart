@@ -19,7 +19,7 @@ _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
   createdAt: json['created_at'] == null
       ? null
       : DateTime.parse(json['created_at'] as String),
-  emailNotifications: json['email_notifications'] as bool? ?? true,
+  emailNotifications: json['email_notifications'] as bool? ?? false,
   pushNotifications: json['push_notifications'] as bool? ?? false,
   hasSeenPushPrompt: json['has_seen_push_prompt'] as bool? ?? false,
   fcmToken: json['fcm_token'] as String?,

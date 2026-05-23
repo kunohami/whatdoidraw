@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.192.0/http/server.ts"
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
-import { SmtpClient } from "https://deno.land/x/smtp@v0.7.0/mod.ts"
+import nodemailer from "npm:nodemailer"
 
 interface NotificationPayload {
   record: {
@@ -188,16 +188,16 @@ serve(async (req) => {
         <h1 class="title">¡Tu creación está inspirando a la comunidad!</h1>
         <p class="text">
           Hola,<br><br>
-          Queremos contarte que alguien se ha inspirado en tu trabajo en la comunidad de <strong>whatdoidraw?</strong>.<br><br>
+          Queremos contarte que alguien se ha inspirando en tu trabajo en la comunidad de <strong>whatdoidraw?</strong>.<br><br>
           <span class="highlight">${notificationMessage}</span>.
         </p>
         <div class="button-container">
-          <a href="https://whatdoidraw.com" class="button">Ver en la App</a>
+          <span class="button" style="cursor: default;">¡Abre la App en tu móvil!</span>
         </div>
       </div>
       <div class="footer">
-        <p>Has recibido este correo porque tienes activadas las notificaciones por correo de whatdoidraw?</p>
-        <p><a href="https://whatdoidraw.com">Administrar preferencias de notificaciones</a></p>
+        <p>Has recibido este correo porque tienes activadas las notificaciones por correo en la aplicación <strong>whatdoidraw?</strong>.</p>
+        <p style="margin-top: 10px; line-height: 1.5;">Puedes desactivar estas notificaciones en cualquier momento desde las opciones de la aplicación: ve a tu <strong>Perfil</strong>, toca el icono de <strong>engranaje (Ajustes)</strong> y desactiva <strong>Notificaciones por Correo</strong>.</p>
       </div>
     </div>
   </div>
@@ -205,28 +205,28 @@ serve(async (req) => {
 </html>
     `
 
-    // 8. Enviar el correo electrónico mediante Gmail SMTP TLS (Puerto 465)
-    const client = new SmtpClient()
-    
-    await client.connectTLS({
-      hostname: "smtp.gmail.com",
+    // 8. Configurar transportador de nodemailer para Gmail SMTP
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
       port: 465,
-      username: smtpUser,
-      password: smtpPass,
+      secure: true, // TLS
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
     })
 
-    await client.send({
-      from: `whatdoidraw? <${smtpUser}>`,
+    // 9. Enviar el correo electrónico
+    const info = await transporter.sendMail({
+      from: `"whatdoidraw?" <${smtpUser}>`,
       to: email,
       subject: '¡Alguien se ha inspirado en tu contenido!',
-      content: htmlContent,
       html: htmlContent,
     })
 
-    await client.close()
-    console.log('Email sent successfully via Gmail SMTP to:', email)
+    console.log('Email sent successfully via Nodemailer/Gmail SMTP to:', email, 'MessageId:', info.messageId)
 
-    return new Response(JSON.stringify({ success: true, message: 'Email sent successfully' }), {
+    return new Response(JSON.stringify({ success: true, message: 'Email sent successfully', messageId: info.messageId }), {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (error: any) {
