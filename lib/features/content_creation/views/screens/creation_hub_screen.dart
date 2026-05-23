@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:whatdoidraw/features/bookmarks/views/screens/bookmarks_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/create_idea_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
+import 'package:whatdoidraw/features/notifications/views/screens/notifications_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
-import 'package:whatdoidraw/features/notifications/views/screens/notifications_screen.dart';
 
 // [DOC]: Esta pantalla actúa como un "Hub" o enrutador visual.
 // Ya no obliga al usuario a rellenar texto al pulsar 'Crear',

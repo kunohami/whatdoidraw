@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
-import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
-import 'package:whatdoidraw/features/profile/services/profile_service.dart';
-import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dart';
 import 'package:whatdoidraw/features/feed/views/screens/artwork_detail_screen.dart';
-import 'package:whatdoidraw/l10n/app_localizations.dart';
+import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dart';
+import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
+import 'package:whatdoidraw/features/profile/services/profile_service.dart';
+import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
 
 class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
@@ -101,7 +100,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                   ),
                 ),
                 onTap: () async {
-                  ref.read(notificationsProvider.notifier).markAsRead(notif.id);
+                  await ref.read(notificationsProvider.notifier).markAsRead(notif.id);
                   final profileService = ref.read(profileServiceProvider);
 
                   if (notif.type == 'idea_used_for_doodle') {
@@ -109,7 +108,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                       notif.targetId,
                     );
                     if (doodle != null && context.mounted) {
-                      Navigator.push(
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => DoodleDetailScreen(doodle: doodle),
@@ -121,7 +120,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                       notif.targetId,
                     );
                     if (artwork != null && context.mounted) {
-                      Navigator.push(
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => ArtworkDetailScreen(

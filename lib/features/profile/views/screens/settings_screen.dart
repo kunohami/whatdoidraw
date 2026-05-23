@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
+import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
-import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/user_model.dart';
 import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
@@ -136,12 +138,14 @@ class SettingsScreen extends ConsumerWidget {
                 onChanged: (val) async {
                   if (val) {
                     // Mostrar un diálogo de carga transparente no bloqueante
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) => const PopScope(
-                        canPop: false,
-                        child: Center(child: CircularProgressIndicator()),
+                    unawaited(
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => const PopScope(
+                          canPop: false,
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
                       ),
                     );
 

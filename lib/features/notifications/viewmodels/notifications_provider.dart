@@ -1,8 +1,9 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:whatdoidraw/shared/models/notification_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
+import 'package:whatdoidraw/shared/models/notification_model.dart';
 
 part 'notifications_provider.g.dart';
 
@@ -90,7 +91,7 @@ class Notifications extends _$Notifications {
       String? token;
       if (isAuthorized) {
         token = await messaging.getToken().timeout(const Duration(seconds: 5));
-        print('FCM Token obtenido exitosamente: $token');
+        debugPrint('FCM Token obtenido exitosamente: $token');
       }
 
       // Guardar en base de datos usando la referencia de profileService ya guardada
@@ -101,8 +102,8 @@ class Notifications extends _$Notifications {
         fcmToken: token,
       );
     } catch (e, stack) {
-      print('Error al solicitar permisos FCM / Obtener Token: $e');
-      print(stack);
+      debugPrint('Error al solicitar permisos FCM / Obtener Token: $e');
+      debugPrint(stack.toString());
 
       // Si falla algo con Firebase (ej. en web o emulador sin Google Play), guardamos sin token
       try {
@@ -112,7 +113,7 @@ class Notifications extends _$Notifications {
           pushNotifications: false,
         );
       } catch (dbError) {
-        print(
+        debugPrint(
           'Error crítico: También falló el guardado en base de datos: $dbError',
         );
       }

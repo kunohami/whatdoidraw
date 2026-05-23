@@ -7,6 +7,7 @@ import 'package:whatdoidraw/features/feed/models/feed_sort_order.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/artworks_feed_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/doodles_feed_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/ideas_feed_notifier.dart';
+import 'package:whatdoidraw/features/notifications/views/screens/notifications_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/artwork_card.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
@@ -14,7 +15,6 @@ import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 import 'package:whatdoidraw/shared/widgets/load_more_button.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
-import 'package:whatdoidraw/features/notifications/views/screens/notifications_screen.dart';
 
 /// Pantalla principal de Exploración ("Feed").
 ///

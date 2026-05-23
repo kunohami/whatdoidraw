@@ -1,14 +1,14 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/creation_hub_screen.dart';
-import 'package:whatdoidraw/features/feed/views/screens/feed_screen.dart';
-import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
-import 'package:whatdoidraw/features/profile/services/profile_service.dart';
-import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dart';
 import 'package:whatdoidraw/features/feed/views/screens/artwork_detail_screen.dart';
+import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dart';
+import 'package:whatdoidraw/features/feed/views/screens/feed_screen.dart';
+import 'package:whatdoidraw/features/profile/services/profile_service.dart';
+import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
 
@@ -53,7 +53,7 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
       debugPrint(
         'FCM Notification tapped (getInitialMessage): ${initialMessage.data}',
       );
-      _handleNotificationClick(initialMessage.data);
+      await _handleNotificationClick(initialMessage.data);
     }
   }
 
@@ -70,7 +70,7 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
     if (type == 'idea_used_for_doodle') {
       final doodle = await profileService.getDoodleById(targetId);
       if (doodle != null && mounted) {
-        Navigator.push(
+        await Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => DoodleDetailScreen(doodle: doodle)),
         );
@@ -79,7 +79,7 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
         type == 'doodle_used_for_artwork') {
       final artwork = await profileService.getArtworkById(targetId);
       if (artwork != null && mounted) {
-        Navigator.push(
+        await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (_) => ArtworkDetailScreen(
