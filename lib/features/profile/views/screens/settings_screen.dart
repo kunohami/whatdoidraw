@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
 import 'package:whatdoidraw/core/providers/supabase_provider.dart';
 import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
