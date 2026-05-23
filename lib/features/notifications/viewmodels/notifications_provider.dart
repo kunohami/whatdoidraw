@@ -18,7 +18,7 @@ class Notifications extends _$Notifications {
 
     final response = await supabase
         .from('notifications')
-        .select()
+        .select('*, actor:users!actor_id(username, avatar_url)')
         .eq('user_id', user.id)
         .order('created_at', ascending: false);
 

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
+import 'package:whatdoidraw/features/profile/services/profile_service.dart';
+import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dart';
+import 'package:whatdoidraw/features/feed/views/screens/artwork_detail_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 
 class NotificationsScreen extends ConsumerStatefulWidget {
@@ -73,21 +76,46 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                 leading: CircleAvatar(
                   backgroundColor: notif.isRead ? Colors.grey[200] : Theme.of(context).colorScheme.primaryContainer,
                   child: Icon(
-                    notif.type == 'idea_used' ? Icons.lightbulb : Icons.brush,
+                    notif.type.contains('artwork') ? Icons.art_track : Icons.brush,
                     color: notif.isRead ? Colors.grey : Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 title: Text(
-                  notif.type == 'idea_used' 
-                    ? '¡Alguien ha usado tu idea!' 
-                    : '¡Alguien ha usado tu doodle!',
+                  notif.type == 'idea_used_for_doodle' 
+                    ? '@${notif.actor?.username} ha usado tu idea para un doodle'
+                    : notif.type == 'idea_used_for_artwork'
+                        ? '@${notif.actor?.username} ha usado tu idea para un artwork'
+                        : '@${notif.actor?.username} ha usado tu doodle para un artwork',
                   style: TextStyle(fontWeight: notif.isRead ? FontWeight.normal : FontWeight.bold),
                 ),
-                subtitle: const Text('Toca para ver la creación.'),
-                onTap: () {
+                onTap: () async {
                   ref.read(notificationsProvider.notifier).markAsRead(notif.id);
-                  // Navegar a la vista de la creación usando target_id
-                  // En un caso real: Navigator.push(...) al detail screen
+                  final profileService = ref.read(profileServiceProvider);
+                  
+                  if (notif.type == 'idea_used_for_doodle') {
+                    final doodle = await profileService.getDoodleById(notif.targetId);
+                    if (doodle != null && context.mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DoodleDetailScreen(doodle: doodle),
+                        ),
+                      );
+                    }
+                  } else {
+                    final artwork = await profileService.getArtworkById(notif.targetId);
+                    if (artwork != null && context.mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ArtworkDetailScreen(
+                            artworkId: artwork.id,
+                            initialArtwork: artwork,
+                          ),
+                        ),
+                      );
+                    }
+                  }
                 },
               );
             },

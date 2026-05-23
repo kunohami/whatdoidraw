@@ -33,7 +33,7 @@ final class NotificationsProvider
   Notifications create() => Notifications();
 }
 
-String _$notificationsHash() => r'27ca001ace347a968659740c134dd703d25b2d99';
+String _$notificationsHash() => r'af4b0ed366880c6881b4d306ba6a5000a8f9358d';
 
 abstract class _$Notifications extends $AsyncNotifier<List<NotificationModel>> {
   FutureOr<List<NotificationModel>> build();

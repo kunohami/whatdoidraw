@@ -81,6 +81,14 @@ class ProfileService {
     return DoodleModel.fromJson(list.first as Map<String, dynamic>);
   }
 
+  Future<ArtworkModel?> getArtworkById(String artworkId) async {
+    final response = await supabase.from('artworks').select().eq('id', artworkId);
+
+    final list = response as List;
+    if (list.isEmpty) return null;
+    return ArtworkModel.fromJson(list.first as Map<String, dynamic>);
+  }
+
   Future<List<ArtworkModel>> getUserArtworks(String userId) async {
     final response = await supabase
         .from('artworks')
