@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
+import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
 import 'package:whatdoidraw/features/content_creation/services/content_creation_service.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
@@ -74,6 +75,28 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // Author Info
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(userId: currentDoodle.userId),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        l10n.doodledBy(currentDoodle.authorName ?? 'unknown'),
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ),
+                  ),
+
                   // Interactive Doodle Viewer
                   Padding(
                     padding: const EdgeInsets.all(16.0),

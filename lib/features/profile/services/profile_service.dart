@@ -74,19 +74,23 @@ class ProfileService {
   /// Obtiene un doodle específico por su ID.
   /// Usado para cargar avatares personalizados.
   Future<DoodleModel?> getDoodleById(String doodleId) async {
-    final response = await supabase.from('doodles').select().eq('id', doodleId);
+    final response = await supabase.from('doodles').select('*, users(username)').eq('id', doodleId);
 
     final list = response as List;
     if (list.isEmpty) return null;
-    return DoodleModel.fromJson(list.first as Map<String, dynamic>);
+    final map = Map<String, dynamic>.from(list.first);
+    if (map['users'] != null) map['authorName'] = map['users']['username'];
+    return DoodleModel.fromJson(map);
   }
 
   Future<ArtworkModel?> getArtworkById(String artworkId) async {
-    final response = await supabase.from('artworks').select().eq('id', artworkId);
+    final response = await supabase.from('artworks').select('*, users(username)').eq('id', artworkId);
 
     final list = response as List;
     if (list.isEmpty) return null;
-    return ArtworkModel.fromJson(list.first as Map<String, dynamic>);
+    final map = Map<String, dynamic>.from(list.first);
+    if (map['users'] != null) map['authorName'] = map['users']['username'];
+    return ArtworkModel.fromJson(map);
   }
 
   Future<List<ArtworkModel>> getUserArtworks(String userId) async {
