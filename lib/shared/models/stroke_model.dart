@@ -38,6 +38,9 @@ abstract class StrokeModel with _$StrokeModel {
 
     /// El grosor de la línea en píxeles lógicos.
     @Default(3.0) double strokeWidth,
+
+    /// Indica si pertenece a la capa de color (se renderiza debajo de las líneas negras).
+    @Default(false) bool isColorLayer,
   }) = _StrokeModel;
 
   factory StrokeModel.fromJson(Map<String, dynamic> json) =>

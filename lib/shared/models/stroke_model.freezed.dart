@@ -288,7 +288,8 @@ mixin _$StrokeModel {
 /// Lista ordenada de puntos que componen el recorrido del trazo.
  List<PointModel> get points;/// Valor entero que representa el color en formato ARGB (ej: 0xFFFFFFFF para blanco).
  int get colorValue;/// El grosor de la línea en píxeles lógicos.
- double get strokeWidth;
+ double get strokeWidth;/// Indica si pertenece a la capa de color (se renderiza debajo de las líneas negras).
+ bool get isColorLayer;
 /// Create a copy of StrokeModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -301,16 +302,16 @@ $StrokeModelCopyWith<StrokeModel> get copyWith => _$StrokeModelCopyWithImpl<Stro
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StrokeModel&&const DeepCollectionEquality().equals(other.points, points)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.strokeWidth, strokeWidth) || other.strokeWidth == strokeWidth));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StrokeModel&&const DeepCollectionEquality().equals(other.points, points)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.strokeWidth, strokeWidth) || other.strokeWidth == strokeWidth)&&(identical(other.isColorLayer, isColorLayer) || other.isColorLayer == isColorLayer));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(points),colorValue,strokeWidth);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(points),colorValue,strokeWidth,isColorLayer);
 
 @override
 String toString() {
-  return 'StrokeModel(points: $points, colorValue: $colorValue, strokeWidth: $strokeWidth)';
+  return 'StrokeModel(points: $points, colorValue: $colorValue, strokeWidth: $strokeWidth, isColorLayer: $isColorLayer)';
 }
 
 
@@ -321,7 +322,7 @@ abstract mixin class $StrokeModelCopyWith<$Res>  {
   factory $StrokeModelCopyWith(StrokeModel value, $Res Function(StrokeModel) _then) = _$StrokeModelCopyWithImpl;
 @useResult
 $Res call({
- List<PointModel> points, int colorValue, double strokeWidth
+ List<PointModel> points, int colorValue, double strokeWidth, bool isColorLayer
 });
 
 
@@ -338,12 +339,13 @@ class _$StrokeModelCopyWithImpl<$Res>
 
 /// Create a copy of StrokeModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? points = null,Object? colorValue = null,Object? strokeWidth = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? points = null,Object? colorValue = null,Object? strokeWidth = null,Object? isColorLayer = null,}) {
   return _then(_self.copyWith(
 points: null == points ? _self.points : points // ignore: cast_nullable_to_non_nullable
 as List<PointModel>,colorValue: null == colorValue ? _self.colorValue : colorValue // ignore: cast_nullable_to_non_nullable
 as int,strokeWidth: null == strokeWidth ? _self.strokeWidth : strokeWidth // ignore: cast_nullable_to_non_nullable
-as double,
+as double,isColorLayer: null == isColorLayer ? _self.isColorLayer : isColorLayer // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -428,10 +430,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<PointModel> points,  int colorValue,  double strokeWidth)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<PointModel> points,  int colorValue,  double strokeWidth,  bool isColorLayer)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StrokeModel() when $default != null:
-return $default(_that.points,_that.colorValue,_that.strokeWidth);case _:
+return $default(_that.points,_that.colorValue,_that.strokeWidth,_that.isColorLayer);case _:
   return orElse();
 
 }
@@ -449,10 +451,10 @@ return $default(_that.points,_that.colorValue,_that.strokeWidth);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<PointModel> points,  int colorValue,  double strokeWidth)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<PointModel> points,  int colorValue,  double strokeWidth,  bool isColorLayer)  $default,) {final _that = this;
 switch (_that) {
 case _StrokeModel():
-return $default(_that.points,_that.colorValue,_that.strokeWidth);case _:
+return $default(_that.points,_that.colorValue,_that.strokeWidth,_that.isColorLayer);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -469,10 +471,10 @@ return $default(_that.points,_that.colorValue,_that.strokeWidth);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<PointModel> points,  int colorValue,  double strokeWidth)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<PointModel> points,  int colorValue,  double strokeWidth,  bool isColorLayer)?  $default,) {final _that = this;
 switch (_that) {
 case _StrokeModel() when $default != null:
-return $default(_that.points,_that.colorValue,_that.strokeWidth);case _:
+return $default(_that.points,_that.colorValue,_that.strokeWidth,_that.isColorLayer);case _:
   return null;
 
 }
@@ -484,7 +486,7 @@ return $default(_that.points,_that.colorValue,_that.strokeWidth);case _:
 @JsonSerializable()
 
 class _StrokeModel implements StrokeModel {
-  const _StrokeModel({required final  List<PointModel> points, this.colorValue = 0xFFFFFFFF, this.strokeWidth = 3.0}): _points = points;
+  const _StrokeModel({required final  List<PointModel> points, this.colorValue = 0xFFFFFFFF, this.strokeWidth = 3.0, this.isColorLayer = false}): _points = points;
   factory _StrokeModel.fromJson(Map<String, dynamic> json) => _$StrokeModelFromJson(json);
 
 /// Lista ordenada de puntos que componen el recorrido del trazo.
@@ -500,6 +502,8 @@ class _StrokeModel implements StrokeModel {
 @override@JsonKey() final  int colorValue;
 /// El grosor de la línea en píxeles lógicos.
 @override@JsonKey() final  double strokeWidth;
+/// Indica si pertenece a la capa de color (se renderiza debajo de las líneas negras).
+@override@JsonKey() final  bool isColorLayer;
 
 /// Create a copy of StrokeModel
 /// with the given fields replaced by the non-null parameter values.
@@ -514,16 +518,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StrokeModel&&const DeepCollectionEquality().equals(other._points, _points)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.strokeWidth, strokeWidth) || other.strokeWidth == strokeWidth));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StrokeModel&&const DeepCollectionEquality().equals(other._points, _points)&&(identical(other.colorValue, colorValue) || other.colorValue == colorValue)&&(identical(other.strokeWidth, strokeWidth) || other.strokeWidth == strokeWidth)&&(identical(other.isColorLayer, isColorLayer) || other.isColorLayer == isColorLayer));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_points),colorValue,strokeWidth);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_points),colorValue,strokeWidth,isColorLayer);
 
 @override
 String toString() {
-  return 'StrokeModel(points: $points, colorValue: $colorValue, strokeWidth: $strokeWidth)';
+  return 'StrokeModel(points: $points, colorValue: $colorValue, strokeWidth: $strokeWidth, isColorLayer: $isColorLayer)';
 }
 
 
@@ -534,7 +538,7 @@ abstract mixin class _$StrokeModelCopyWith<$Res> implements $StrokeModelCopyWith
   factory _$StrokeModelCopyWith(_StrokeModel value, $Res Function(_StrokeModel) _then) = __$StrokeModelCopyWithImpl;
 @override @useResult
 $Res call({
- List<PointModel> points, int colorValue, double strokeWidth
+ List<PointModel> points, int colorValue, double strokeWidth, bool isColorLayer
 });
 
 
@@ -551,12 +555,13 @@ class __$StrokeModelCopyWithImpl<$Res>
 
 /// Create a copy of StrokeModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? points = null,Object? colorValue = null,Object? strokeWidth = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? points = null,Object? colorValue = null,Object? strokeWidth = null,Object? isColorLayer = null,}) {
   return _then(_StrokeModel(
 points: null == points ? _self._points : points // ignore: cast_nullable_to_non_nullable
 as List<PointModel>,colorValue: null == colorValue ? _self.colorValue : colorValue // ignore: cast_nullable_to_non_nullable
 as int,strokeWidth: null == strokeWidth ? _self.strokeWidth : strokeWidth // ignore: cast_nullable_to_non_nullable
-as double,
+as double,isColorLayer: null == isColorLayer ? _self.isColorLayer : isColorLayer // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

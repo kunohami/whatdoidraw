@@ -10,7 +10,7 @@ _DoodleModel _$DoodleModelFromJson(Map<String, dynamic> json) => _DoodleModel(
   id: json['id'] as String,
   userId: json['user_id'] as String,
   ideaId: json['idea_id'] as String?,
-  doodleData: json['doodle_data'] as List<dynamic>,
+  doodleData: json['doodle_data'],
   tags:
       (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       const [],

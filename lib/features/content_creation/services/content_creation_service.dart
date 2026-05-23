@@ -50,9 +50,14 @@ class ContentCreationService {
     String userId,
     String? ideaId, {
     List<String> tags = const [],
+    int backgroundColor = 0xFFFFFFFF,
   }) async {
     // Transformación: Cada StrokeModel sabe convertirse a Map gracias a freezed.
-    final doodleData = strokes.map((s) => s.toJson()).toList();
+    final strokesJson = strokes.map((s) => s.toJson()).toList();
+    final doodleData = {
+      'backgroundColor': backgroundColor,
+      'strokes': strokesJson,
+    };
 
     await supabaseClient.from('doodles').insert({
       'user_id': userId,
