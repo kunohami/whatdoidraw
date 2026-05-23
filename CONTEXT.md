@@ -61,5 +61,16 @@ The full PostgreSQL relational schema and RLS policies are documented in:
 Full specification of the tag system (rules, UI, DB, filtering, pagination):
 👉 **[docs/TAGS_SYSTEM.md](docs/TAGS_SYSTEM.md)**
 
+## 7. Dynamic Theme System (Iteration 4+)
+The application supports persistent, live visual theme switching managed by Riverpod:
+- **Catálogo de Temas (`AppThemeMode`)**:
+  - `dark`: Default theme with deep purple accent (Material 3 Seed: `Colors.deepPurpleAccent`).
+  - `sakuraLight`: Light theme inspired by cherry blossoms (Seed: `Colors.pinkAccent`).
+  - `forestDark`: Calm dark theme inspired by dense forests (Seed: `Colors.tealAccent`).
+- **State & Persistence**:
+  - `AppThemeNotifier` (exposed as `appThemeProvider` after code-gen): Listens to changes and persists selections inside local storage via SharedPreferences (`selected_theme_mode` key).
+  - Injector: Reactively watched by `MaterialApp` inside `lib/main.dart` to apply `AppThemes.getThemeData(currentThemeMode)` globally.
+- Full spec & guide: **[docs/THEME_SYSTEM.md](docs/THEME_SYSTEM.md)**
+
 ---
-*Last update: April 26, 2026*
+*Last update: May 23, 2026*

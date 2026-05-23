@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
 import 'package:whatdoidraw/core/providers/supabase_provider.dart';
+import 'package:whatdoidraw/core/providers/theme_provider.dart';
+import 'package:whatdoidraw/core/theme/app_theme.dart';
 import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
@@ -58,9 +60,57 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
+  void _changeTheme(BuildContext context, WidgetRef ref, AppThemeMode currentTheme) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Seleccionar Tema'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: AppThemeMode.values.map((mode) {
+            Color indicatorColor;
+            switch (mode) {
+              case AppThemeMode.dark:
+                indicatorColor = Colors.deepPurpleAccent;
+                break;
+              case AppThemeMode.sakuraLight:
+                indicatorColor = Colors.pinkAccent;
+                break;
+              case AppThemeMode.forestDark:
+                indicatorColor = Colors.tealAccent;
+                break;
+            }
+
+            final isSelected = mode == currentTheme;
+
+            return ListTile(
+              title: Text(mode.displayName),
+              leading: Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: indicatorColor,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white24, width: 1.5),
+                ),
+              ),
+              trailing: isSelected ? const Icon(Icons.check, color: Colors.green) : null,
+              onTap: () {
+                ref.read(appThemeProvider.notifier).setTheme(mode);
+                Navigator.of(context).pop();
+              },
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentLocale = ref.watch(appLocaleProvider);
+    final currentThemeMode = ref.watch(appThemeProvider);
     final l10n = AppLocalizations.of(context)!;
     final profileAsync = ref.watch(currentUserProfileProvider);
 
@@ -126,6 +176,17 @@ class SettingsScreen extends ConsumerWidget {
                     }
                   },
                 ),
+              ),
+              const Divider(),
+              ListTile(
+                leading: Icon(
+                  Icons.palette_outlined,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: const Text('Tema visual'),
+                subtitle: Text(currentThemeMode.displayName),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => _changeTheme(context, ref, currentThemeMode),
               ),
               const Divider(),
               SwitchListTile(
