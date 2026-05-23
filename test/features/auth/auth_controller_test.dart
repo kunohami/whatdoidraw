@@ -12,9 +12,21 @@ import 'package:whatdoidraw/features/auth/auth_provider.dart';
 // Mocks & Fakes
 class MockSupabaseClient extends Mock implements SupabaseClient {}
 
+class MockUserResponse extends Mock implements UserResponse {}
+
 class FakeGoTrueClient extends Fake implements GoTrueClient {
   Session? session;
   AuthResponse? response;
+
+  bool resetPasswordCalled = false;
+  String? resetPasswordEmail;
+  String? resetPasswordRedirectTo;
+  bool shouldThrowResetError = false;
+
+  bool updatePasswordCalled = false;
+  String? updatedPassword;
+  bool shouldThrowUpdateError = false;
+  UserResponse? userResponse;
 
   @override
   Session? get currentSession => session;
@@ -29,6 +41,36 @@ class FakeGoTrueClient extends Fake implements GoTrueClient {
   }) async {
     if (response != null) return response!;
     throw UnimplementedError('No response set for FakeGoTrueClient');
+  }
+
+  @override
+  Future<void> resetPasswordForEmail(
+    String email, {
+    String? redirectTo,
+    String? captchaToken,
+  }) async {
+    resetPasswordCalled = true;
+    resetPasswordEmail = email;
+    resetPasswordRedirectTo = redirectTo;
+    if (shouldThrowResetError) {
+      throw Exception('Failed to send reset email');
+    }
+  }
+
+  @override
+  Future<UserResponse> updateUser(
+    UserAttributes attributes, {
+    String? emailRedirectTo,
+  }) async {
+    updatePasswordCalled = true;
+    updatedPassword = attributes.password;
+    if (shouldThrowUpdateError) {
+      throw Exception('Failed to update user');
+    }
+    if (userResponse != null) {
+      return userResponse!;
+    }
+    throw UnimplementedError('No userResponse set for FakeGoTrueClient');
   }
 }
 
@@ -156,5 +198,69 @@ void main() {
       },
       skip: 'Skipped to unblock CI. Needs more complex mock setup.',
     );
+
+    test('sendPasswordResetEmail success', () async {
+      final container = createContainer(
+        overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
+      );
+
+      final controller = container.read(authControllerProvider.notifier);
+      await controller.sendPasswordResetEmail('test@example.com');
+
+      expect(fakeAuth.resetPasswordCalled, isTrue);
+      expect(fakeAuth.resetPasswordEmail, equals('test@example.com'));
+      expect(
+        fakeAuth.resetPasswordRedirectTo,
+        equals('io.supabase.whatdoidraw://reset-password/'),
+      );
+    });
+
+    test('sendPasswordResetEmail failure throws exception', () async {
+      fakeAuth.shouldThrowResetError = true;
+
+      final container = createContainer(
+        overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
+      );
+
+      final controller = container.read(authControllerProvider.notifier);
+      expect(
+        () => controller.sendPasswordResetEmail('test@example.com'),
+        throwsA(isA<Exception>()),
+      );
+    });
+
+    test('updatePassword success updates user state', () async {
+      final mockUser = FakeUser();
+      final mockUserResponse = MockUserResponse();
+      when(() => mockUserResponse.user).thenReturn(mockUser);
+      fakeAuth.userResponse = mockUserResponse;
+
+      final container = createContainer(
+        overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
+      );
+
+      final controller = container.read(authControllerProvider.notifier);
+      await controller.updatePassword('new-secure-password');
+
+      expect(fakeAuth.updatePasswordCalled, isTrue);
+      expect(fakeAuth.updatedPassword, equals('new-secure-password'));
+      
+      final state = container.read(authControllerProvider);
+      expect(state.value, equals(mockUser));
+    });
+
+    test('updatePassword failure throws exception', () async {
+      fakeAuth.shouldThrowUpdateError = true;
+
+      final container = createContainer(
+        overrides: [supabaseClientProvider.overrideWithValue(mockSupabase)],
+      );
+
+      final controller = container.read(authControllerProvider.notifier);
+      expect(
+        () => controller.updatePassword('new-secure-password'),
+        throwsA(isA<Exception>()),
+      );
+    });
   });
 }

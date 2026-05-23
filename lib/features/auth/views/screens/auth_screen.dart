@@ -18,6 +18,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   final _passwordController = TextEditingController();
 
   bool _isLogin = true;
+  bool _isForgotPassword = false;
   late final AnimationController _floatController;
   late final Animation<double> _floatAnimation;
 
@@ -48,7 +49,37 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
     final controller = ref.read(authControllerProvider.notifier);
 
     try {
-      if (_isLogin) {
+      if (_isForgotPassword) {
+        await controller.sendPasswordResetEmail(
+          _emailController.text.trim(),
+        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Row(
+                children: [
+                  Icon(Icons.check_circle_outline, color: Colors.white),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'Correo de recuperación enviado. Revisa tu bandeja de entrada.',
+                    ),
+                  ),
+                ],
+              ),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          );
+          setState(() {
+            _isForgotPassword = false;
+            _isLogin = true;
+          });
+        }
+      } else if (_isLogin) {
         await controller.signIn(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
@@ -136,7 +167,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          _isLogin ? 'Iniciar Sesión' : 'Crear Cuenta',
+                          _isForgotPassword
+                              ? 'Recuperar Contraseña'
+                              : (_isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'),
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 24),
@@ -153,19 +186,35 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                               ? 'Email inválido'
                               : null,
                         ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          controller: _passwordController,
-                          decoration: const InputDecoration(
-                            labelText: 'Contraseña',
-                            prefixIcon: Icon(Icons.lock_outline),
-                            border: OutlineInputBorder(),
+                        if (!_isForgotPassword) ...[
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _passwordController,
+                            decoration: const InputDecoration(
+                              labelText: 'Contraseña',
+                              prefixIcon: Icon(Icons.lock_outline),
+                              border: OutlineInputBorder(),
+                            ),
+                            obscureText: true,
+                            validator: (val) => (val == null || val.length < 6)
+                                ? 'Mínimo 6 caracteres'
+                                : null,
                           ),
-                          obscureText: true,
-                          validator: (val) => (val == null || val.length < 6)
-                              ? 'Mínimo 6 caracteres'
-                              : null,
-                        ),
+                          if (_isLogin) ...[
+                            const SizedBox(height: 8),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isForgotPassword = true;
+                                  });
+                                },
+                                child: const Text('¿Olvidaste tu contraseña?'),
+                              ),
+                            ),
+                          ],
+                        ],
                         const SizedBox(height: 24),
                         SizedBox(
                           width: double.infinity,
@@ -187,35 +236,48 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                                 ? const CircularProgressIndicator(
                                     color: Colors.white,
                                   )
-                                : Text(_isLogin ? 'Entrar' : 'Registrarse'),
+                                : Text(
+                                    _isForgotPassword
+                                        ? 'Enviar correo de recuperación'
+                                        : (_isLogin ? 'Entrar' : 'Registrarse'),
+                                  ),
                           ),
                         ),
                         const SizedBox(height: 16),
                         TextButton(
                           onPressed: () {
                             setState(() {
-                              _isLogin = !_isLogin;
+                              if (_isForgotPassword) {
+                                _isForgotPassword = false;
+                                _isLogin = true;
+                              } else {
+                                _isLogin = !_isLogin;
+                              }
                             });
                           },
                           child: Text(
-                            _isLogin
-                                ? '¿No tienes cuenta? Regístrate'
-                                : '¿Ya tienes cuenta? Inicia sesión',
+                            _isForgotPassword
+                                ? 'Volver a iniciar sesión'
+                                : (_isLogin
+                                    ? '¿No tienes cuenta? Regístrate'
+                                    : '¿Ya tienes cuenta? Inicia sesión'),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        const Row(
-                          children: [
-                            Expanded(child: Divider()),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              child: Text('O'),
-                            ),
-                            Expanded(child: Divider()),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        const GoogleAuthButton(),
+                        if (!_isForgotPassword) ...[
+                          const SizedBox(height: 16),
+                          const Row(
+                            children: [
+                              Expanded(child: Divider()),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: Text('O'),
+                              ),
+                              Expanded(child: Divider()),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          const GoogleAuthButton(),
+                        ],
                       ],
                     ),
                   ),

@@ -171,6 +171,43 @@ class AuthController extends _$AuthController {
     state = const AsyncData(null);
   }
 
+  Future<void> sendPasswordResetEmail(String email) async {
+    final previousState = state;
+    state = const AsyncLoading();
+    final supabase = ref.read(supabaseClientProvider);
+
+    try {
+      await supabase.auth.resetPasswordForEmail(
+        email,
+        redirectTo: kIsWeb ? null : 'io.supabase.whatdoidraw://reset-password/',
+      );
+      state = previousState;
+    } catch (e) {
+      state = previousState;
+      rethrow;
+    }
+  }
+
+  Future<void> updatePassword(String newPassword) async {
+    final previousState = state;
+    state = const AsyncLoading();
+    final supabase = ref.read(supabaseClientProvider);
+
+    try {
+      final response = await supabase.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+      if (response.user != null) {
+        state = AsyncData(response.user);
+      } else {
+        state = previousState;
+      }
+    } catch (e) {
+      state = previousState;
+      rethrow;
+    }
+  }
+
   Future<void> _ensureUserExistsInPublicTable(
     String userId,
     String username,
