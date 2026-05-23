@@ -100,7 +100,9 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                   ),
                 ),
                 onTap: () async {
-                  await ref.read(notificationsProvider.notifier).markAsRead(notif.id);
+                  await ref
+                      .read(notificationsProvider.notifier)
+                      .markAsRead(notif.id);
                   final profileService = ref.read(profileServiceProvider);
 
                   if (notif.type == 'idea_used_for_doodle') {
