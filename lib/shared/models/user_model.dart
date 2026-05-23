@@ -34,6 +34,18 @@ abstract class UserModel with _$UserModel {
 
     /// Fecha en la que el usuario se unió a la comunidad.
     @JsonKey(name: 'created_at') DateTime? createdAt,
+
+    /// Preferencia: Recibir notificaciones por correo.
+    @JsonKey(name: 'email_notifications') @Default(true) bool emailNotifications,
+
+    /// Preferencia: Recibir notificaciones en el dispositivo móvil.
+    @JsonKey(name: 'push_notifications') @Default(false) bool pushNotifications,
+
+    /// Flag: Si ya se le preguntó al usuario sobre los permisos push.
+    @JsonKey(name: 'has_seen_push_prompt') @Default(false) bool hasSeenPushPrompt,
+
+    /// Token FCM para notificaciones push.
+    @JsonKey(name: 'fcm_token') String? fcmToken,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

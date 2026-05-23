@@ -156,4 +156,23 @@ class ProfileService {
 
     return UserModel.fromJson(response);
   }
+
+  /// Actualiza las preferencias de notificaciones.
+  Future<UserModel> updateNotificationPreferences(
+    String userId, {
+    required bool emailNotifications,
+    required bool pushNotifications,
+  }) async {
+    final response = await supabase
+        .from('users')
+        .update({
+          'email_notifications': emailNotifications,
+          'push_notifications': pushNotifications,
+        })
+        .eq('id', userId)
+        .select()
+        .single();
+
+    return UserModel.fromJson(response);
+  }
 }

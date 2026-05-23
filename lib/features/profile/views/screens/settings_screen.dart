@@ -113,6 +113,39 @@ class SettingsScreen extends ConsumerWidget {
                 ),
               ),
               const Divider(),
+              SwitchListTile(
+                secondary: Icon(
+                  Icons.notifications_active,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: const Text('Notificaciones en el móvil (Push)'),
+                value: user.pushNotifications,
+                onChanged: (val) async {
+                  await ref.read(profileServiceProvider).updateNotificationPreferences(
+                        user.id,
+                        emailNotifications: user.emailNotifications,
+                        pushNotifications: val,
+                      );
+                  ref.invalidate(currentUserProfileProvider);
+                },
+              ),
+              SwitchListTile(
+                secondary: Icon(
+                  Icons.email,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: const Text('Notificaciones por Correo'),
+                value: user.emailNotifications,
+                onChanged: (val) async {
+                  await ref.read(profileServiceProvider).updateNotificationPreferences(
+                        user.id,
+                        emailNotifications: val,
+                        pushNotifications: user.pushNotifications,
+                      );
+                  ref.invalidate(currentUserProfileProvider);
+                },
+              ),
+              const Divider(),
               ListTile(
                 leading: Icon(
                   Icons.help_outline,

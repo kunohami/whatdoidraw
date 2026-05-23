@@ -19,6 +19,10 @@ _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
   createdAt: json['created_at'] == null
       ? null
       : DateTime.parse(json['created_at'] as String),
+  emailNotifications: json['email_notifications'] as bool? ?? true,
+  pushNotifications: json['push_notifications'] as bool? ?? false,
+  hasSeenPushPrompt: json['has_seen_push_prompt'] as bool? ?? false,
+  fcmToken: json['fcm_token'] as String?,
 );
 
 Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
@@ -31,4 +35,8 @@ Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
       'short_message': instance.shortMessage,
       'username_updated_at': instance.usernameUpdatedAt?.toIso8601String(),
       'created_at': instance.createdAt?.toIso8601String(),
+      'email_notifications': instance.emailNotifications,
+      'push_notifications': instance.pushNotifications,
+      'has_seen_push_prompt': instance.hasSeenPushPrompt,
+      'fcm_token': instance.fcmToken,
     };
