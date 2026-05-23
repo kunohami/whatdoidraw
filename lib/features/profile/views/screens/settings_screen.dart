@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
+import 'package:whatdoidraw/core/providers/supabase_provider.dart';
 import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
@@ -92,7 +93,7 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 title: const Text('Cuenta de correo'),
                 subtitle: Text(
-                  Supabase.instance.client.auth.currentUser?.email ??
+                  ref.watch(supabaseClientProvider).auth.currentUser?.email ??
                       'No disponible',
                 ),
               ),
