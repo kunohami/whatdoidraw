@@ -14,6 +14,7 @@ import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 import 'package:whatdoidraw/shared/widgets/load_more_button.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
+import 'package:whatdoidraw/features/notifications/views/screens/notifications_screen.dart';
 
 /// Pantalla principal de Exploración ("Feed").
 ///
@@ -231,16 +232,25 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'Ayuda',
+            onPressed: () {
+              TutorialOverlay.showFeedInfo(
+                context,
+                l10n,
+                _tabController.index,
+              );
+            },
+          ),
           titleSpacing: 0,
           title: Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: TabBar(
               controller: _tabController,
+              labelPadding: EdgeInsets.zero,
               tabs: const [
-                Tab(
-                  icon: Icon(Icons.lightbulb_outline, size: 20),
-                  text: 'Ideas',
-                ),
+                Tab(icon: Icon(Icons.lightbulb_outline, size: 20), text: 'Ideas'),
                 Tab(icon: Icon(Icons.brush, size: 20), text: 'Doodles'),
                 Tab(icon: Icon(Icons.art_track, size: 20), text: 'Artworks'),
               ],
@@ -248,13 +258,14 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.info_outline),
-              tooltip: 'Ayuda',
+              icon: const Icon(Icons.notifications_none),
+              tooltip: 'Notificaciones',
               onPressed: () {
-                TutorialOverlay.showFeedInfo(
+                Navigator.push(
                   context,
-                  l10n,
-                  _tabController.index,
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationsScreen(),
+                  ),
                 );
               },
             ),
@@ -268,6 +279,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                 children: [
                   Expanded(
                     child: SearchBar(
+                      constraints: const BoxConstraints(minHeight: 44, maxHeight: 44),
                       controller: _searchController,
                       hintText: l10n.feedSearchPlaceholder,
                       elevation: WidgetStateProperty.all(0),

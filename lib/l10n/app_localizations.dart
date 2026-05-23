@@ -191,7 +191,7 @@ abstract class AppLocalizations {
   /// No description provided for @creationHubTitle.
   ///
   /// In en, this message translates to:
-  /// **'What are we creating today?'**
+  /// **'Create'**
   String get creationHubTitle;
 
   /// No description provided for @creationHubNewIdea.

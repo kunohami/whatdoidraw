@@ -5,6 +5,7 @@ import 'package:whatdoidraw/features/content_creation/views/screens/create_idea_
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
+import 'package:whatdoidraw/features/notifications/views/screens/notifications_screen.dart';
 
 // [DOC]: Esta pantalla actúa como un "Hub" o enrutador visual.
 // Ya no obliga al usuario a rellenar texto al pulsar 'Crear',
@@ -20,14 +21,26 @@ class CreationHubScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.info_outline),
+          tooltip: 'Ayuda',
+          onPressed: () {
+            TutorialOverlay.showCreationHubInfo(context, l10n);
+          },
+        ),
         title: Text(l10n.creationHubTitle),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.info_outline),
-            tooltip: 'Ayuda',
+            icon: const Icon(Icons.notifications_none),
+            tooltip: 'Notificaciones',
             onPressed: () {
-              TutorialOverlay.showCreationHubInfo(context, l10n);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsScreen(),
+                ),
+              );
             },
           ),
         ],
