@@ -121,7 +121,9 @@ void main() {
       when(
         () => mockSupabase.from('ideas'),
       ).thenAnswer((_) => mockQueryBuilder);
-      when(() => mockQueryBuilder.select('*, users(username)')).thenAnswer((_) => fakeBuilder);
+      when(
+        () => mockQueryBuilder.select('*, users(username)'),
+      ).thenAnswer((_) => fakeBuilder);
 
       final result = await profileService.getUserIdeas(testUserId);
 
@@ -154,7 +156,9 @@ void main() {
       when(
         () => mockSupabase.from('doodles'),
       ).thenAnswer((_) => mockQueryBuilder);
-      when(() => mockQueryBuilder.select('*, users(username)')).thenAnswer((_) => fakeBuilder);
+      when(
+        () => mockQueryBuilder.select('*, users(username)'),
+      ).thenAnswer((_) => fakeBuilder);
 
       final result = await profileService.getUserDoodles(testUserId);
 
@@ -188,7 +192,9 @@ void main() {
       when(
         () => mockSupabase.from('artworks'),
       ).thenAnswer((_) => mockQueryBuilder);
-      when(() => mockQueryBuilder.select('*, users(username)')).thenAnswer((_) => fakeBuilder);
+      when(
+        () => mockQueryBuilder.select('*, users(username)'),
+      ).thenAnswer((_) => fakeBuilder);
 
       final result = await profileService.getUserArtworks(testUserId);
 
