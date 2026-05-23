@@ -18,6 +18,8 @@ class ArtworksRepository {
     // Eliminar cualquier variante del nombre del autor (es una columna de JOIN)
     data.remove('authorName');
     data.remove('author_name');
+    data.remove('isLiked');
+    data.remove('is_liked');
 
     await _supabase.from('artworks').insert(data);
   }

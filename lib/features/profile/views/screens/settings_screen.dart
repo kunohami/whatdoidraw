@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
+import 'package:whatdoidraw/core/providers/supabase_provider.dart';
+import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
@@ -81,6 +85,17 @@ class SettingsScreen extends ConsumerWidget {
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => _editUsername(context, ref, user),
               ),
+              ListTile(
+                leading: Icon(
+                  Icons.email_outlined,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: const Text('Cuenta de correo'),
+                subtitle: Text(
+                  ref.watch(supabaseClientProvider).auth.currentUser?.email ??
+                      'No disponible',
+                ),
+              ),
               const Divider(),
               ListTile(
                 leading: Icon(
@@ -111,6 +126,67 @@ class SettingsScreen extends ConsumerWidget {
                     }
                   },
                 ),
+              ),
+              const Divider(),
+              SwitchListTile(
+                secondary: Icon(
+                  Icons.notifications_active,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: const Text('Notificaciones en el móvil (Push)'),
+                value: user.pushNotifications,
+                onChanged: (val) async {
+                  if (val) {
+                    // Mostrar un diálogo de carga transparente no bloqueante
+                    unawaited(
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => const PopScope(
+                          canPop: false,
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                      ),
+                    );
+
+                    try {
+                      await ref
+                          .read(notificationsProvider.notifier)
+                          .requestPushPermissionsAndSaveToken(user.id);
+                    } finally {
+                      if (context.mounted) {
+                        Navigator.pop(context); // Cerrar el diálogo de carga
+                      }
+                    }
+                  } else {
+                    await ref
+                        .read(profileServiceProvider)
+                        .updatePushSettings(
+                          user.id,
+                          hasSeenPushPrompt: true,
+                          pushNotifications: false,
+                        );
+                  }
+                  ref.invalidate(userProfileProvider(user.id));
+                },
+              ),
+              SwitchListTile(
+                secondary: Icon(
+                  Icons.email,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: const Text('Notificaciones por Correo'),
+                value: user.emailNotifications,
+                onChanged: (val) async {
+                  await ref
+                      .read(profileServiceProvider)
+                      .updateNotificationPreferences(
+                        user.id,
+                        emailNotifications: val,
+                        pushNotifications: user.pushNotifications,
+                      );
+                  ref.invalidate(userProfileProvider(user.id));
+                },
               ),
               const Divider(),
               ListTile(

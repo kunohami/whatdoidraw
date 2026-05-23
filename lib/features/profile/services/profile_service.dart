@@ -48,11 +48,17 @@ class ProfileService {
   Future<List<IdeaModel>> getUserIdeas(String userId) async {
     final response = await supabase
         .from('ideas')
-        .select()
+        .select('*, users(username)')
         .eq('user_id', userId)
         .order('created_at', ascending: false);
 
-    return (response as List).map((data) => IdeaModel.fromJson(data)).toList();
+    return (response as List).map((data) {
+      final map = Map<String, dynamic>.from(data);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      return IdeaModel.fromJson(map);
+    }).toList();
   }
 
   /// Obtiene todos los Doodles dibujados por el usuario especificado.
@@ -62,35 +68,61 @@ class ProfileService {
   Future<List<DoodleModel>> getUserDoodles(String userId) async {
     final response = await supabase
         .from('doodles')
-        .select()
+        .select('*, users(username)')
         .eq('user_id', userId)
         .order('created_at', ascending: false);
 
-    return (response as List)
-        .map((data) => DoodleModel.fromJson(data))
-        .toList();
+    return (response as List).map((data) {
+      final map = Map<String, dynamic>.from(data);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      return DoodleModel.fromJson(map);
+    }).toList();
   }
 
   /// Obtiene un doodle específico por su ID.
   /// Usado para cargar avatares personalizados.
   Future<DoodleModel?> getDoodleById(String doodleId) async {
-    final response = await supabase.from('doodles').select().eq('id', doodleId);
+    final response = await supabase
+        .from('doodles')
+        .select('*, users(username)')
+        .eq('id', doodleId);
 
     final list = response as List;
     if (list.isEmpty) return null;
-    return DoodleModel.fromJson(list.first as Map<String, dynamic>);
+    final map = Map<String, dynamic>.from(list.first);
+    if (map['users'] != null) map['authorName'] = map['users']['username'];
+    return DoodleModel.fromJson(map);
+  }
+
+  Future<ArtworkModel?> getArtworkById(String artworkId) async {
+    final response = await supabase
+        .from('artworks')
+        .select('*, users(username)')
+        .eq('id', artworkId);
+
+    final list = response as List;
+    if (list.isEmpty) return null;
+    final map = Map<String, dynamic>.from(list.first);
+    if (map['users'] != null) map['authorName'] = map['users']['username'];
+    return ArtworkModel.fromJson(map);
   }
 
   Future<List<ArtworkModel>> getUserArtworks(String userId) async {
     final response = await supabase
         .from('artworks')
-        .select()
+        .select('*, users(username)')
         .eq('user_id', userId)
         .order('created_at', ascending: false);
 
-    return (response as List)
-        .map((data) => ArtworkModel.fromJson(data))
-        .toList();
+    return (response as List).map((data) {
+      final map = Map<String, dynamic>.from(data);
+      if (map['users'] != null) {
+        map['authorName'] = map['users']['username'];
+      }
+      return ArtworkModel.fromJson(map);
+    }).toList();
   }
 
   /// Actualiza el mensaje corto (bio) de un usuario.
@@ -150,6 +182,50 @@ class ProfileService {
     final response = await supabase
         .from('users')
         .update({'avatar_url': avatarUrl})
+        .eq('id', userId)
+        .select()
+        .single();
+
+    return UserModel.fromJson(response);
+  }
+
+  /// Actualiza las preferencias de notificaciones.
+  Future<UserModel> updateNotificationPreferences(
+    String userId, {
+    required bool emailNotifications,
+    required bool pushNotifications,
+  }) async {
+    final response = await supabase
+        .from('users')
+        .update({
+          'email_notifications': emailNotifications,
+          'push_notifications': pushNotifications,
+        })
+        .eq('id', userId)
+        .select()
+        .single();
+
+    return UserModel.fromJson(response);
+  }
+
+  /// Actualiza la preferencia push y el token FCM del usuario.
+  Future<UserModel> updatePushSettings(
+    String userId, {
+    required bool hasSeenPushPrompt,
+    required bool pushNotifications,
+    String? fcmToken,
+  }) async {
+    final Map<String, dynamic> updateData = {
+      'has_seen_push_prompt': hasSeenPushPrompt,
+      'push_notifications': pushNotifications,
+    };
+    if (fcmToken != null) {
+      updateData['fcm_token'] = fcmToken;
+    }
+
+    final response = await supabase
+        .from('users')
+        .update(updateData)
         .eq('id', userId)
         .select()
         .single();

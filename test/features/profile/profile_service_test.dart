@@ -121,7 +121,9 @@ void main() {
       when(
         () => mockSupabase.from('ideas'),
       ).thenAnswer((_) => mockQueryBuilder);
-      when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
+      when(
+        () => mockQueryBuilder.select('*, users(username)'),
+      ).thenAnswer((_) => fakeBuilder);
 
       final result = await profileService.getUserIdeas(testUserId);
 
@@ -131,7 +133,7 @@ void main() {
       expect(result.first.content, equals('A cute space cat playing guitar'));
 
       verify(() => mockSupabase.from('ideas')).called(1);
-      verify(() => mockQueryBuilder.select()).called(1);
+      verify(() => mockQueryBuilder.select('*, users(username)')).called(1);
     });
 
     test('getUserDoodles successfully returns List<DoodleModel>', () async {
@@ -154,7 +156,9 @@ void main() {
       when(
         () => mockSupabase.from('doodles'),
       ).thenAnswer((_) => mockQueryBuilder);
-      when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
+      when(
+        () => mockQueryBuilder.select('*, users(username)'),
+      ).thenAnswer((_) => fakeBuilder);
 
       final result = await profileService.getUserDoodles(testUserId);
 
@@ -163,7 +167,7 @@ void main() {
       expect(result.first.id, equals('doodle-1'));
 
       verify(() => mockSupabase.from('doodles')).called(1);
-      verify(() => mockQueryBuilder.select()).called(1);
+      verify(() => mockQueryBuilder.select('*, users(username)')).called(1);
     });
 
     test('getUserArtworks successfully returns List<ArtworkModel>', () async {
@@ -188,7 +192,9 @@ void main() {
       when(
         () => mockSupabase.from('artworks'),
       ).thenAnswer((_) => mockQueryBuilder);
-      when(() => mockQueryBuilder.select()).thenAnswer((_) => fakeBuilder);
+      when(
+        () => mockQueryBuilder.select('*, users(username)'),
+      ).thenAnswer((_) => fakeBuilder);
 
       final result = await profileService.getUserArtworks(testUserId);
 
@@ -198,7 +204,7 @@ void main() {
       expect(result.first.externalLink, equals('https://instagram.com/p/123'));
 
       verify(() => mockSupabase.from('artworks')).called(1);
-      verify(() => mockQueryBuilder.select()).called(1);
+      verify(() => mockQueryBuilder.select('*, users(username)')).called(1);
     });
 
     test(

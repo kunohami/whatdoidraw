@@ -7,6 +7,7 @@ import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canva
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/doodle_detail_artworks_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/doodle_detail_notifier.dart';
+import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
 import 'package:whatdoidraw/shared/models/stroke_model.dart';
@@ -74,6 +75,30 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // Author Info
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ProfileScreen(userId: currentDoodle.userId),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        l10n.doodledBy(currentDoodle.authorName ?? 'unknown'),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                      ),
+                    ),
+                  ),
+
                   // Interactive Doodle Viewer
                   Padding(
                     padding: const EdgeInsets.all(16.0),

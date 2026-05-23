@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:whatdoidraw/features/bookmarks/views/screens/bookmarks_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/create_idea_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
+import 'package:whatdoidraw/features/notifications/views/screens/notifications_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/tutorial_overlay.dart';
 
@@ -20,14 +21,26 @@ class CreationHubScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.info_outline),
+          tooltip: 'Ayuda',
+          onPressed: () {
+            TutorialOverlay.showCreationHubInfo(context, l10n);
+          },
+        ),
         title: Text(l10n.creationHubTitle),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.info_outline),
-            tooltip: 'Ayuda',
+            icon: const Icon(Icons.notifications_none),
+            tooltip: 'Notificaciones',
             onPressed: () {
-              TutorialOverlay.showCreationHubInfo(context, l10n);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsScreen(),
+                ),
+              );
             },
           ),
         ],

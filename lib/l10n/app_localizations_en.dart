@@ -55,7 +55,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'You haven\'t published any final artworks yet.';
 
   @override
-  String get creationHubTitle => 'What are we creating today?';
+  String get creationHubTitle => 'Create';
 
   @override
   String get creationHubNewIdea => 'New Idea';

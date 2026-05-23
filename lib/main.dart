@@ -1,10 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'package:whatdoidraw/core/providers/locale_provider.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/auth/views/screens/auth_screen.dart';
@@ -13,6 +14,13 @@ import 'package:whatdoidraw/shared/widgets/main_navigation_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Inicializar Firebase
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    debugPrint('Error al inicializar Firebase: $e');
+  }
 
   // Bloquear orientación a vertical
   await SystemChrome.setPreferredOrientations([
