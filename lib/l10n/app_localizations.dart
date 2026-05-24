@@ -853,6 +853,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The original doodle that inspired this artwork has been deleted by its creator.'**
   String get deletedDoodlePlaceholder;
+
+  /// No description provided for @settingsLogoutConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out?'**
+  String get settingsLogoutConfirmTitle;
+
+  /// No description provided for @settingsLogoutConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out of your account?'**
+  String get settingsLogoutConfirmMessage;
 }
 
 class _AppLocalizationsDelegate

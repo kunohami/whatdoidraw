@@ -239,13 +239,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     icon: const Icon(Icons.settings),
                     tooltip: l10n.profileTooltipSettings,
                   ),
-                  IconButton(
-                    onPressed: () {
-                      ref.read(authControllerProvider.notifier).signOut();
-                    },
-                    icon: const Icon(Icons.logout),
-                    tooltip: l10n.profileTooltipLogout,
-                  ),
                 ],
               ],
       ),

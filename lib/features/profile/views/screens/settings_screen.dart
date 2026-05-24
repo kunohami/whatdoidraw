@@ -6,6 +6,7 @@ import 'package:whatdoidraw/core/providers/locale_provider.dart';
 import 'package:whatdoidraw/core/providers/supabase_provider.dart';
 import 'package:whatdoidraw/core/providers/theme_provider.dart';
 import 'package:whatdoidraw/core/theme/app_theme.dart';
+import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
@@ -112,6 +113,41 @@ class SettingsScreen extends ConsumerWidget {
             );
           }).toList(),
         ),
+      ),
+    );
+  }
+
+  void _confirmSignOut(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.settingsLogoutConfirmTitle),
+        content: Text(l10n.settingsLogoutConfirmMessage),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(l10n.btnCancel),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.of(context).pop(); // Cerrar diálogo
+              Navigator.of(context).pop(); // Cerrar ajustes
+              await ref.read(authControllerProvider.notifier).signOut();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: Text(l10n.btnConfirm),
+          ),
+        ],
       ),
     );
   }
@@ -270,6 +306,25 @@ class SettingsScreen extends ConsumerWidget {
                   // Re-show the general tutorial
                   TutorialOverlay.showGeneral(context, l10n);
                 },
+              ),
+              const Divider(),
+              ListTile(
+                leading: const Icon(
+                  Icons.logout,
+                  color: Colors.redAccent,
+                ),
+                title: Text(
+                  l10n.profileTooltipLogout,
+                  style: const TextStyle(
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                trailing: const Icon(
+                  Icons.chevron_right,
+                  color: Colors.redAccent,
+                ),
+                onTap: () => _confirmSignOut(context, ref),
               ),
             ],
           );

@@ -195,5 +195,7 @@
   "deleteArtworkSuccess": "Artwork deleted successfully",
   "deleteArtworkTooltip": "Delete artwork",
   "deletedIdeaPlaceholder": "The original idea has been deleted by its creator.",
-  "deletedDoodlePlaceholder": "The original doodle that inspired this artwork has been deleted by its creator."
+  "deletedDoodlePlaceholder": "The original doodle that inspired this artwork has been deleted by its creator.",
+  "settingsLogoutConfirmTitle": "Log out?",
+  "settingsLogoutConfirmMessage": "Are you sure you want to log out of your account?"
 }

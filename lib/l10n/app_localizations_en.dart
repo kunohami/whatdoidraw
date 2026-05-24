@@ -429,4 +429,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deletedDoodlePlaceholder =>
       'The original doodle that inspired this artwork has been deleted by its creator.';
+
+  @override
+  String get settingsLogoutConfirmTitle => 'Log out?';
+
+  @override
+  String get settingsLogoutConfirmMessage =>
+      'Are you sure you want to log out of your account?';
 }
