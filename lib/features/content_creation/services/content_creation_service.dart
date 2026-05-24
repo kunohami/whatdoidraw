@@ -74,4 +74,20 @@ class ContentCreationService {
   Future<void> deleteDoodle(String doodleId) async {
     await supabaseClient.from('doodles').delete().eq('id', doodleId);
   }
+
+  /// Elimina una idea (Prompt) de la base de datos.
+  ///
+  /// Utiliza RLS nativo de Supabase para asegurar que solo el creador
+  /// pueda eliminarla.
+  Future<void> deleteIdea(String ideaId) async {
+    await supabaseClient.from('ideas').delete().eq('id', ideaId);
+  }
+
+  /// Elimina una obra final (Artwork) de la base de datos.
+  ///
+  /// Utiliza RLS nativo de Supabase para asegurar que solo el creador
+  /// pueda eliminarla.
+  Future<void> deleteArtwork(String artworkId) async {
+    await supabaseClient.from('artworks').delete().eq('id', artworkId);
+  }
 }

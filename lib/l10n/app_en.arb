@@ -179,5 +179,21 @@
   "canvasEraserLineHelper": "Line Eraser active. Drag your finger over a line to erase it.",
   "canvasEraserColorHelper": "Color Eraser active. Drag your finger over a color stroke to erase it.",
   "canvasBackgroundColorDialogTitle": "Background Color",
-  "canvasDialogClose": "Close"
+  "canvasDialogClose": "Close",
+  "btnCancel": "Cancel",
+  "btnDelete": "Delete",
+  "deleteIdeaDialogTitle": "Delete Idea?",
+  "deleteIdeaDialogContent": "This action cannot be undone. Creations (doodles or artworks) inspired by this idea will remain active for their creators, but the original idea will disappear.",
+  "deleteIdeaSuccess": "Idea deleted successfully",
+  "deleteIdeaTooltip": "Delete idea",
+  "deleteDoodleDialogTitle": "Delete Doodle?",
+  "deleteDoodleDialogContent": "This action cannot be undone.",
+  "deleteDoodleSuccess": "Doodle deleted successfully",
+  "deleteDoodleTooltip": "Delete drawing",
+  "deleteArtworkDialogTitle": "Delete Artwork?",
+  "deleteArtworkDialogContent": "This action cannot be undone.",
+  "deleteArtworkSuccess": "Artwork deleted successfully",
+  "deleteArtworkTooltip": "Delete artwork",
+  "deletedIdeaPlaceholder": "The original idea has been deleted by its creator.",
+  "deletedDoodlePlaceholder": "The original doodle that inspired this artwork has been deleted by its creator."
 }
