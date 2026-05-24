@@ -15,37 +15,44 @@ class DoodlePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Iteramos sobre cada trazo almacenado en el ViewModel.
-    for (final stroke in strokes) {
-      if (stroke.points.isEmpty) continue;
-
-      /// Configuramos la 'brocha' ([Paint]) para este trazo específico.
-      final paint = Paint()
-        ..color = Color(stroke.colorValue)
-        ..strokeWidth = stroke.strokeWidth
-        ..strokeCap = StrokeCap
-            .round // Bordes redondeados para suavidad.
-        ..strokeJoin = StrokeJoin
-            .round // Uniones redondeadas.
-        ..style = PaintingStyle.stroke; // Modo dibujo de líneas (no relleno).
-
-      /// Un 'Path' es un objeto que agrupa una serie de instrucciones de
-      /// movimiento para crear formas complejas.
-      final path = Path();
-
-      // Situamos el origen del camino en el primer punto del trazo.
-      path.moveTo(stroke.points.first.x, stroke.points.first.y);
-
-      // Conectamos el resto de puntos con líneas rectas.
-      // Debido a la alta frecuencia de actualización, estas líneas cortas
-      // parecen curvas suaves al ojo humano.
-      for (int i = 1; i < stroke.points.length; i++) {
-        path.lineTo(stroke.points[i].x, stroke.points[i].y);
-      }
-
-      // Enviamos las instrucciones finales al [Canvas] nativo.
-      canvas.drawPath(path, paint);
+    // 1. Dibujamos los trazos de color (capa inferior)
+    for (final stroke in strokes.where((s) => s.isColorLayer)) {
+      _paintStroke(canvas, stroke);
     }
+
+    // 2. Dibujamos los trazos de línea (capa superior - líneas negras)
+    for (final stroke in strokes.where((s) => !s.isColorLayer)) {
+      _paintStroke(canvas, stroke);
+    }
+  }
+
+  void _paintStroke(Canvas canvas, StrokeModel stroke) {
+    if (stroke.points.isEmpty) return;
+
+    /// Configuramos la 'brocha' ([Paint]) para este trazo específico.
+    final paint = Paint()
+      ..color = Color(stroke.colorValue)
+      ..strokeWidth = stroke.strokeWidth
+      ..strokeCap = StrokeCap
+          .round // Bordes redondeados para suavidad.
+      ..strokeJoin = StrokeJoin
+          .round // Uniones redondeadas.
+      ..style = PaintingStyle.stroke; // Modo dibujo de líneas (no relleno).
+
+    /// Un 'Path' es un objeto que agrupa una serie de instrucciones de
+    /// movimiento para crear formas complejas.
+    final path = Path();
+
+    // Situamos el origen del camino en el primer punto del trazo.
+    path.moveTo(stroke.points.first.x, stroke.points.first.y);
+
+    // Conectamos el resto de puntos con líneas rectas.
+    for (int i = 1; i < stroke.points.length; i++) {
+      path.lineTo(stroke.points[i].x, stroke.points[i].y);
+    }
+
+    // Enviamos las instrucciones finales al [Canvas] nativo.
+    canvas.drawPath(path, paint);
   }
 
   /// Determina si el sistema debe redibujar el lienzo.

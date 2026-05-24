@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
-import 'package:whatdoidraw/shared/models/stroke_model.dart';
 
 /// Provider para cachéar la obtención de doodles por ID
 final doodleByIdProvider = FutureProvider.family<DoodleModel?, String>((
@@ -69,14 +68,15 @@ class DoodleAvatar extends ConsumerWidget {
 
     // Obtenemos el doodle asíncronamente
     final doodleAsyncValue = ref.watch(doodleByIdProvider(doodleId));
+    final doodle = doodleAsyncValue.asData?.value;
+    final bgColor = doodle != null
+        ? Color(doodle.backgroundColorValue)
+        : Colors.white;
 
     return Container(
       width: diameter,
       height: diameter,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.white,
-      ),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: bgColor),
       clipBehavior: Clip.antiAlias, // Hace la máscara circular
       child: doodleAsyncValue.when(
         data: (doodle) {
@@ -111,15 +111,7 @@ class DoodleAvatar extends ConsumerWidget {
                       height: 800,
                       child: CustomPaint(
                         size: const Size(600, 800),
-                        painter: DoodlePainter(
-                          strokes: doodle.doodleData
-                              .map(
-                                (e) => StrokeModel.fromJson(
-                                  e as Map<String, dynamic>,
-                                ),
-                              )
-                              .toList(),
-                        ),
+                        painter: DoodlePainter(strokes: doodle.strokes),
                       ),
                     ),
                   ),

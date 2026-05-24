@@ -352,4 +352,33 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get themeDarkPlus => 'Oscuro Plus';
+
+  @override
+  String get canvasToolLine => 'Línea';
+
+  @override
+  String get canvasToolBrush => 'Pincel';
+
+  @override
+  String get canvasToolEraserLine => 'Borrador Líneas';
+
+  @override
+  String get canvasToolEraserColor => 'Borrador Colores';
+
+  @override
+  String get canvasToolBackground => 'Fondo';
+
+  @override
+  String get canvasEraserLineHelper =>
+      'Borrador de Líneas activo. Pasa el dedo por una línea para borrarla.';
+
+  @override
+  String get canvasEraserColorHelper =>
+      'Borrador de Color activo. Pasa el dedo por una pincelada para borrarla.';
+
+  @override
+  String get canvasBackgroundColorDialogTitle => 'Color del Fondo';
+
+  @override
+  String get canvasDialogClose => 'Cerrar';
 }

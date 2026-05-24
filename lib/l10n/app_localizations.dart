@@ -703,6 +703,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark Plus'**
   String get themeDarkPlus;
+
+  /// No description provided for @canvasToolLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Line'**
+  String get canvasToolLine;
+
+  /// No description provided for @canvasToolBrush.
+  ///
+  /// In en, this message translates to:
+  /// **'Brush'**
+  String get canvasToolBrush;
+
+  /// No description provided for @canvasToolEraserLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Erase Line'**
+  String get canvasToolEraserLine;
+
+  /// No description provided for @canvasToolEraserColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Erase Color'**
+  String get canvasToolEraserColor;
+
+  /// No description provided for @canvasToolBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get canvasToolBackground;
+
+  /// No description provided for @canvasEraserLineHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Line Eraser active. Drag your finger over a line to erase it.'**
+  String get canvasEraserLineHelper;
+
+  /// No description provided for @canvasEraserColorHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Eraser active. Drag your finger over a color stroke to erase it.'**
+  String get canvasEraserColorHelper;
+
+  /// No description provided for @canvasBackgroundColorDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Background Color'**
+  String get canvasBackgroundColorDialogTitle;
+
+  /// No description provided for @canvasDialogClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get canvasDialogClose;
 }
 
 class _AppLocalizationsDelegate

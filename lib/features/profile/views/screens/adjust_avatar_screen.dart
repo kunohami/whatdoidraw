@@ -5,7 +5,6 @@ import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_paint
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
-import 'package:whatdoidraw/shared/models/stroke_model.dart';
 
 class AdjustAvatarScreen extends ConsumerStatefulWidget {
   final DoodleModel doodle;
@@ -130,7 +129,7 @@ class _AdjustAvatarScreenState extends ConsumerState<AdjustAvatarScreen> {
               height: baseDimension,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                color: Color(widget.doodle.backgroundColorValue),
                 border: Border.all(
                   color: Theme.of(context).colorScheme.primary,
                   width: 2,
@@ -156,13 +155,7 @@ class _AdjustAvatarScreenState extends ConsumerState<AdjustAvatarScreen> {
                         child: CustomPaint(
                           size: const Size(600, 800),
                           painter: DoodlePainter(
-                            strokes: widget.doodle.doodleData
-                                .map(
-                                  (e) => StrokeModel.fromJson(
-                                    e as Map<String, dynamic>,
-                                  ),
-                                )
-                                .toList(),
+                            strokes: widget.doodle.strokes,
                           ),
                         ),
                       ),

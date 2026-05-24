@@ -20,6 +20,7 @@ _StrokeModel _$StrokeModelFromJson(Map<String, dynamic> json) => _StrokeModel(
       .toList(),
   colorValue: (json['colorValue'] as num?)?.toInt() ?? 0xFFFFFFFF,
   strokeWidth: (json['strokeWidth'] as num?)?.toDouble() ?? 3.0,
+  isColorLayer: json['isColorLayer'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$StrokeModelToJson(_StrokeModel instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$StrokeModelToJson(_StrokeModel instance) =>
       'points': instance.points,
       'colorValue': instance.colorValue,
       'strokeWidth': instance.strokeWidth,
+      'isColorLayer': instance.isColorLayer,
     };

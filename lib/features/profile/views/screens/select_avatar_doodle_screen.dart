@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
 import 'package:whatdoidraw/features/profile/views/screens/adjust_avatar_screen.dart';
-import 'package:whatdoidraw/shared/models/stroke_model.dart';
+import 'package:whatdoidraw/shared/models/doodle_model.dart';
 
 class SelectAvatarDoodleScreen extends ConsumerWidget {
   const SelectAvatarDoodleScreen({super.key});
@@ -53,9 +53,7 @@ class SelectAvatarDoodleScreen extends ConsumerWidget {
             itemCount: doodles.length,
             itemBuilder: (context, index) {
               final doodle = doodles[index];
-              final strokes = doodle.doodleData
-                  .map((e) => StrokeModel.fromJson(e as Map<String, dynamic>))
-                  .toList();
+              final strokes = doodle.strokes;
 
               return GestureDetector(
                 onTap: () {
@@ -81,7 +79,7 @@ class SelectAvatarDoodleScreen extends ConsumerWidget {
                         width: 1,
                       ),
                     ),
-                    color: Colors.white,
+                    color: Color(doodle.backgroundColorValue),
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Center(

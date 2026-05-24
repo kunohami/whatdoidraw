@@ -10,7 +10,6 @@ import 'package:whatdoidraw/features/feed/viewmodels/doodle_detail_notifier.dart
 import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
-import 'package:whatdoidraw/shared/models/stroke_model.dart';
 import 'package:whatdoidraw/shared/widgets/artwork_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 import 'package:whatdoidraw/shared/widgets/load_more_button.dart';
@@ -38,9 +37,7 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
     final currentDoodle = detailState.doodle ?? widget.doodle;
     final isCreator = currentUser?.id == currentDoodle.userId;
 
-    final strokes = currentDoodle.doodleData
-        .map((e) => StrokeModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final strokes = currentDoodle.strokes;
 
     return Scaffold(
       appBar: AppBar(
@@ -107,7 +104,7 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                         aspectRatio: 3 / 4,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Color(currentDoodle.backgroundColorValue),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(

@@ -7,7 +7,6 @@ import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart'
 import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
-import 'package:whatdoidraw/shared/models/stroke_model.dart';
 import 'package:whatdoidraw/shared/widgets/tag_chip.dart';
 
 /// Widget reutilizable que renderiza una miniatura de un [DoodleModel].
@@ -42,9 +41,7 @@ class DoodleCard extends ConsumerWidget {
         false;
 
     // Parsea los datos brutos guardados a entidades StrokeModel en memoria
-    final strokes = doodle.doodleData
-        .map((e) => StrokeModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final strokes = doodle.strokes;
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -63,7 +60,9 @@ class DoodleCard extends ConsumerWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Container(color: Colors.white), // Lienzo blanco
+            Container(
+              color: Color(doodle.backgroundColorValue),
+            ), // Fondo dinámico
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Center(
