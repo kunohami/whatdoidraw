@@ -69,15 +69,14 @@ class DoodleAvatar extends ConsumerWidget {
     // Obtenemos el doodle asíncronamente
     final doodleAsyncValue = ref.watch(doodleByIdProvider(doodleId));
     final doodle = doodleAsyncValue.asData?.value;
-    final bgColor = doodle != null ? Color(doodle.backgroundColorValue) : Colors.white;
+    final bgColor = doodle != null
+        ? Color(doodle.backgroundColorValue)
+        : Colors.white;
 
     return Container(
       width: diameter,
       height: diameter,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: bgColor,
-      ),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: bgColor),
       clipBehavior: Clip.antiAlias, // Hace la máscara circular
       child: doodleAsyncValue.when(
         data: (doodle) {
@@ -112,9 +111,7 @@ class DoodleAvatar extends ConsumerWidget {
                       height: 800,
                       child: CustomPaint(
                         size: const Size(600, 800),
-                        painter: DoodlePainter(
-                          strokes: doodle.strokes,
-                        ),
+                        painter: DoodlePainter(strokes: doodle.strokes),
                       ),
                     ),
                   ),

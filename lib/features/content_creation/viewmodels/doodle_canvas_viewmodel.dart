@@ -9,10 +9,10 @@ part 'doodle_canvas_viewmodel.freezed.dart';
 part 'doodle_canvas_viewmodel.g.dart';
 
 enum DrawingTool {
-  pen,         // Líneas negras (capa de líneas)
-  brush,       // Pincel de color (capa de color)
-  eraserLine,  // Borrador de líneas
-  eraserColor  // Borrador de color
+  pen, // Líneas negras (capa de líneas)
+  brush, // Pincel de color (capa de color)
+  eraserLine, // Borrador de líneas
+  eraserColor, // Borrador de color
 }
 
 /// Representa el estado atómico y reactivo del lienzo de dibujo.
@@ -71,16 +71,23 @@ class DoodleCanvas extends _$DoodleCanvas {
     // Capturamos el estado actual del dibujo en el historial antes de realizar cualquier cambio
     final updatedHistory = [...state.undoHistory, state.strokes];
 
-    if (state.activeTool == DrawingTool.eraserLine || state.activeTool == DrawingTool.eraserColor) {
+    if (state.activeTool == DrawingTool.eraserLine ||
+        state.activeTool == DrawingTool.eraserColor) {
       // Guardamos el historial primero en el estado para poder deshacer toda esta tirada de borrado
       state = state.copyWith(undoHistory: updatedHistory);
-      eraseStrokeAt(x, y, isColorLayer: state.activeTool == DrawingTool.eraserColor);
+      eraseStrokeAt(
+        x,
+        y,
+        isColorLayer: state.activeTool == DrawingTool.eraserColor,
+      );
       return;
     }
 
     final newStroke = StrokeModel(
       points: [PointModel(x: x, y: y)],
-      colorValue: state.activeTool == DrawingTool.pen ? 0xFF000000 : state.brushColor,
+      colorValue: state.activeTool == DrawingTool.pen
+          ? 0xFF000000
+          : state.brushColor,
       strokeWidth: state.strokeWidth,
       isColorLayer: state.activeTool == DrawingTool.brush,
     );
@@ -95,8 +102,13 @@ class DoodleCanvas extends _$DoodleCanvas {
 
   /// Actualiza el último trazo añadiendo nuevos puntos mientras se arrastra el dedo o borra continuamente.
   void updateStroke(double x, double y) {
-    if (state.activeTool == DrawingTool.eraserLine || state.activeTool == DrawingTool.eraserColor) {
-      eraseStrokeAt(x, y, isColorLayer: state.activeTool == DrawingTool.eraserColor);
+    if (state.activeTool == DrawingTool.eraserLine ||
+        state.activeTool == DrawingTool.eraserColor) {
+      eraseStrokeAt(
+        x,
+        y,
+        isColorLayer: state.activeTool == DrawingTool.eraserColor,
+      );
       return;
     }
 
@@ -159,7 +171,8 @@ class DoodleCanvas extends _$DoodleCanvas {
   void undo() {
     if (state.undoHistory.isNotEmpty) {
       final previousStrokes = state.undoHistory.last;
-      final updatedHistory = List<List<StrokeModel>>.from(state.undoHistory)..removeLast();
+      final updatedHistory = List<List<StrokeModel>>.from(state.undoHistory)
+        ..removeLast();
       state = state.copyWith(
         strokes: previousStrokes,
         undoHistory: updatedHistory,
@@ -204,17 +217,17 @@ class DoodleCanvas extends _$DoodleCanvas {
       await ref
           .read(contentCreationServiceProvider)
           .insertDoodle(
-            state.strokes, 
-            user.id, 
-            ideaId, 
+            state.strokes,
+            user.id,
+            ideaId,
             tags: state.tags,
             backgroundColor: state.backgroundColor,
           );
 
       // Si tiene éxito, limpiamos y desactivamos carga, y volvemos a valores por defecto
       state = state.copyWith(
-        strokes: [], 
-        tags: [], 
+        strokes: [],
+        tags: [],
         undoHistory: [],
         isSubmitting: false,
         backgroundColor: 0xFFFFFFFF,

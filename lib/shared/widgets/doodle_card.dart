@@ -60,7 +60,9 @@ class DoodleCard extends ConsumerWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Container(color: Color(doodle.backgroundColorValue)), // Fondo dinámico
+            Container(
+              color: Color(doodle.backgroundColorValue),
+            ), // Fondo dinámico
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Center(

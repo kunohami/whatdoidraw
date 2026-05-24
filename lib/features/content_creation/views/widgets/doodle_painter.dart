@@ -33,8 +33,10 @@ class DoodlePainter extends CustomPainter {
     final paint = Paint()
       ..color = Color(stroke.colorValue)
       ..strokeWidth = stroke.strokeWidth
-      ..strokeCap = StrokeCap.round // Bordes redondeados para suavidad.
-      ..strokeJoin = StrokeJoin.round // Uniones redondeadas.
+      ..strokeCap = StrokeCap
+          .round // Bordes redondeados para suavidad.
+      ..strokeJoin = StrokeJoin
+          .round // Uniones redondeadas.
       ..style = PaintingStyle.stroke; // Modo dibujo de líneas (no relleno).
 
     /// Un 'Path' es un objeto que agrupa una serie de instrucciones de

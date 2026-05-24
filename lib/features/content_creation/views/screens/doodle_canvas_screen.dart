@@ -119,7 +119,8 @@ class DoodleCanvasScreen extends ConsumerWidget {
           // Botón Deshacer: Deshabilitado si el historial está vacío o si se está enviando.
           IconButton(
             icon: const Icon(Icons.undo),
-            onPressed: canvasState.isSubmitting || canvasState.undoHistory.isEmpty
+            onPressed:
+                canvasState.isSubmitting || canvasState.undoHistory.isEmpty
                 ? null
                 : () => ref.read(doodleCanvasProvider.notifier).undo(),
             tooltip: 'Deshacer última acción',
@@ -257,13 +258,17 @@ class DoodleCanvasScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Bandeja de herramientas contextuales
                       _buildContextualTray(context, ref, canvasState),
-                      if (canvasState.activeTool == DrawingTool.pen || canvasState.activeTool == DrawingTool.brush)
+                      if (canvasState.activeTool == DrawingTool.pen ||
+                          canvasState.activeTool == DrawingTool.brush)
                         const Divider(height: 16),
                       // Fila de herramientas
                       _buildToolsRow(context, ref, canvasState),
@@ -285,7 +290,11 @@ class DoodleCanvasScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildToolsRow(BuildContext context, WidgetRef ref, DoodleCanvasState state) {
+  Widget _buildToolsRow(
+    BuildContext context,
+    WidgetRef ref,
+    DoodleCanvasState state,
+  ) {
     final notifier = ref.read(doodleCanvasProvider.notifier);
     final l10n = AppLocalizations.of(context)!;
 
@@ -320,13 +329,18 @@ class DoodleCanvasScreen extends ConsumerWidget {
           icon: Icons.color_lens_outlined,
           label: l10n.canvasToolBackground,
           isSelected: false,
-          onTap: () => _showBackgroundDialog(context, ref, state.backgroundColor),
+          onTap: () =>
+              _showBackgroundDialog(context, ref, state.backgroundColor),
         ),
       ],
     );
   }
 
-  Widget _buildContextualTray(BuildContext context, WidgetRef ref, DoodleCanvasState state) {
+  Widget _buildContextualTray(
+    BuildContext context,
+    WidgetRef ref,
+    DoodleCanvasState state,
+  ) {
     final notifier = ref.read(doodleCanvasProvider.notifier);
     final l10n = AppLocalizations.of(context)!;
 
@@ -344,7 +358,8 @@ class DoodleCanvasScreen extends ConsumerWidget {
       0xFF7D4F3D, // Marrón vibrante
     ];
 
-    if (state.activeTool == DrawingTool.pen || state.activeTool == DrawingTool.brush) {
+    if (state.activeTool == DrawingTool.pen ||
+        state.activeTool == DrawingTool.brush) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -378,7 +393,9 @@ class DoodleCanvasScreen extends ConsumerWidget {
                             ? Icon(
                                 Icons.check,
                                 size: 14,
-                                color: color == 0xFFFFFFFF ? Colors.black : Colors.white,
+                                color: color == 0xFFFFFFFF
+                                    ? Colors.black
+                                    : Colors.white,
                               )
                             : null,
                       ),
@@ -401,8 +418,12 @@ class DoodleCanvasScreen extends ConsumerWidget {
                 child: SliderTheme(
                   data: SliderTheme.of(context).copyWith(
                     trackHeight: 3,
-                    thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                    overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
+                    thumbShape: const RoundSliderThumbShape(
+                      enabledThumbRadius: 6,
+                    ),
+                    overlayShape: const RoundSliderOverlayShape(
+                      overlayRadius: 12,
+                    ),
                   ),
                   child: Slider(
                     min: 1.0,
@@ -427,7 +448,11 @@ class DoodleCanvasScreen extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Text(
           l10n.canvasEraserLineHelper,
-          style: const TextStyle(fontSize: 12, color: Colors.grey, fontStyle: FontStyle.italic),
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+            fontStyle: FontStyle.italic,
+          ),
         ),
       );
     }
@@ -437,7 +462,11 @@ class DoodleCanvasScreen extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Text(
           l10n.canvasEraserColorHelper,
-          style: const TextStyle(fontSize: 12, color: Colors.grey, fontStyle: FontStyle.italic),
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+            fontStyle: FontStyle.italic,
+          ),
         ),
       );
     }
@@ -445,7 +474,11 @@ class DoodleCanvasScreen extends ConsumerWidget {
     return const SizedBox.shrink();
   }
 
-  void _showBackgroundDialog(BuildContext context, WidgetRef ref, int currentColor) {
+  void _showBackgroundDialog(
+    BuildContext context,
+    WidgetRef ref,
+    int currentColor,
+  ) {
     final l10n = AppLocalizations.of(context)!;
     final colors = [
       0xFFFFFFFF,
@@ -481,7 +514,9 @@ class DoodleCanvasScreen extends ConsumerWidget {
               final isSelected = currentColor == color;
               return GestureDetector(
                 onTap: () {
-                  ref.read(doodleCanvasProvider.notifier).setBackgroundColor(color);
+                  ref
+                      .read(doodleCanvasProvider.notifier)
+                      .setBackgroundColor(color);
                   Navigator.pop(ctx);
                 },
                 child: Container(
