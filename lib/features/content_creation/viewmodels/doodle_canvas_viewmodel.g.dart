@@ -53,7 +53,7 @@ final class DoodleCanvasProvider
   }
 }
 
-String _$doodleCanvasHash() => r'741504bd2e08f1f8d85a4480af446407465ff00a';
+String _$doodleCanvasHash() => r'a3f3d15f66662e80b50d2214a1507099225f3ce2';
 
 /// Gestor de la lógica de negocio para el lienzo de dibujo (ViewModel).
 ///

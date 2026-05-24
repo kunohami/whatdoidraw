@@ -46,6 +46,9 @@ abstract class DoodleCanvasState with _$DoodleCanvasState {
 
     /// Color de fondo del lienzo en formato ARGB.
     @Default(0xFFFFFFFF) int backgroundColor,
+
+    /// Historial de estados anteriores de trazos para la función deshacer.
+    @Default([]) List<List<StrokeModel>> undoHistory,
   }) = _DoodleCanvasState;
 }
 
@@ -65,7 +68,12 @@ class DoodleCanvas extends _$DoodleCanvas {
   ///
   /// Recibe las coordenadas [x] e [y] locales al área de dibujo.
   void startStroke(double x, double y) {
+    // Capturamos el estado actual del dibujo en el historial antes de realizar cualquier cambio
+    final updatedHistory = [...state.undoHistory, state.strokes];
+
     if (state.activeTool == DrawingTool.eraserLine || state.activeTool == DrawingTool.eraserColor) {
+      // Guardamos el historial primero en el estado para poder deshacer toda esta tirada de borrado
+      state = state.copyWith(undoHistory: updatedHistory);
       eraseStrokeAt(x, y, isColorLayer: state.activeTool == DrawingTool.eraserColor);
       return;
     }
@@ -79,6 +87,7 @@ class DoodleCanvas extends _$DoodleCanvas {
 
     // Actualizamos el estado sustituyendo la lista por una nueva copia (Reactividad).
     state = state.copyWith(
+      undoHistory: updatedHistory,
       strokes: [...state.strokes, newStroke],
       errorMessage: null, // Limpiamos errores al empezar a dibujar de nuevo
     );
@@ -146,17 +155,25 @@ class DoodleCanvas extends _$DoodleCanvas {
     state = state.copyWith(backgroundColor: color);
   }
 
-  /// Elimina el último trazo realizado (Función Deshacer).
+  /// Restaura el estado anterior del lienzo de dibujo (Deshace el último trazo, borrado o limpieza).
   void undo() {
-    if (state.strokes.isNotEmpty) {
-      final newStrokes = List<StrokeModel>.from(state.strokes)..removeLast();
-      state = state.copyWith(strokes: newStrokes);
+    if (state.undoHistory.isNotEmpty) {
+      final previousStrokes = state.undoHistory.last;
+      final updatedHistory = List<List<StrokeModel>>.from(state.undoHistory)..removeLast();
+      state = state.copyWith(
+        strokes: previousStrokes,
+        undoHistory: updatedHistory,
+      );
     }
   }
 
-  /// Limpia por completo el lienzo.
+  /// Limpia por completo el lienzo guardando el estado actual en el historial.
   void clear() {
-    state = state.copyWith(strokes: [], errorMessage: null);
+    state = state.copyWith(
+      undoHistory: [...state.undoHistory, state.strokes],
+      strokes: [],
+      errorMessage: null,
+    );
   }
 
   /// Actualiza las etiquetas que se asociarán al doodle al publicarlo.
@@ -198,6 +215,7 @@ class DoodleCanvas extends _$DoodleCanvas {
       state = state.copyWith(
         strokes: [], 
         tags: [], 
+        undoHistory: [],
         isSubmitting: false,
         backgroundColor: 0xFFFFFFFF,
         activeTool: DrawingTool.pen,

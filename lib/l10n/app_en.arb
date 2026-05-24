@@ -170,5 +170,14 @@
   "themeDark": "Dark",
   "themeLight": "Light Green",
   "themeDarkGreen": "Dark Green",
-  "themeDarkPlus": "Dark Plus"
+  "themeDarkPlus": "Dark Plus",
+  "canvasToolLine": "Line",
+  "canvasToolBrush": "Brush",
+  "canvasToolEraserLine": "Erase Line",
+  "canvasToolEraserColor": "Erase Color",
+  "canvasToolBackground": "Background",
+  "canvasEraserLineHelper": "Line Eraser active. Drag your finger over a line to erase it.",
+  "canvasEraserColorHelper": "Color Eraser active. Drag your finger over a color stroke to erase it.",
+  "canvasBackgroundColorDialogTitle": "Background Color",
+  "canvasDialogClose": "Close"
 }

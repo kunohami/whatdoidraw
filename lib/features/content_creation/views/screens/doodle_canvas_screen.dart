@@ -116,13 +116,13 @@ class DoodleCanvasScreen extends ConsumerWidget {
               TutorialOverlay.showDoodleCanvasInfo(context, l10n);
             },
           ),
-          // Botón Deshacer: Deshabilitado si no hay trazos o si se está enviando.
+          // Botón Deshacer: Deshabilitado si el historial está vacío o si se está enviando.
           IconButton(
             icon: const Icon(Icons.undo),
-            onPressed: canvasState.isSubmitting || canvasState.strokes.isEmpty
+            onPressed: canvasState.isSubmitting || canvasState.undoHistory.isEmpty
                 ? null
                 : () => ref.read(doodleCanvasProvider.notifier).undo(),
-            tooltip: 'Deshacer último trazo',
+            tooltip: 'Deshacer última acción',
           ),
           // Botón Limpiar: Borra todo el lienzo.
           IconButton(
@@ -287,37 +287,38 @@ class DoodleCanvasScreen extends ConsumerWidget {
 
   Widget _buildToolsRow(BuildContext context, WidgetRef ref, DoodleCanvasState state) {
     final notifier = ref.read(doodleCanvasProvider.notifier);
+    final l10n = AppLocalizations.of(context)!;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         _ToolButton(
           icon: Icons.edit,
-          label: 'Línea',
+          label: l10n.canvasToolLine,
           isSelected: state.activeTool == DrawingTool.pen,
           onTap: () => notifier.selectTool(DrawingTool.pen),
         ),
         _ToolButton(
           icon: Icons.brush,
-          label: 'Pincel',
+          label: l10n.canvasToolBrush,
           isSelected: state.activeTool == DrawingTool.brush,
           onTap: () => notifier.selectTool(DrawingTool.brush),
         ),
         _ToolButton(
           icon: Icons.layers_clear,
-          label: 'Borrar Línea',
+          label: l10n.canvasToolEraserLine,
           isSelected: state.activeTool == DrawingTool.eraserLine,
           onTap: () => notifier.selectTool(DrawingTool.eraserLine),
         ),
         _ToolButton(
           icon: Icons.format_color_reset,
-          label: 'Borrar Color',
+          label: l10n.canvasToolEraserColor,
           isSelected: state.activeTool == DrawingTool.eraserColor,
           onTap: () => notifier.selectTool(DrawingTool.eraserColor),
         ),
         _ToolButton(
           icon: Icons.color_lens_outlined,
-          label: 'Fondo',
+          label: l10n.canvasToolBackground,
           isSelected: false,
           onTap: () => _showBackgroundDialog(context, ref, state.backgroundColor),
         ),
@@ -327,6 +328,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
 
   Widget _buildContextualTray(BuildContext context, WidgetRef ref, DoodleCanvasState state) {
     final notifier = ref.read(doodleCanvasProvider.notifier);
+    final l10n = AppLocalizations.of(context)!;
 
     final brushColors = [
       0xFF000000, // Negro
@@ -421,21 +423,21 @@ class DoodleCanvasScreen extends ConsumerWidget {
     }
 
     if (state.activeTool == DrawingTool.eraserLine) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 4),
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
         child: Text(
-          'Borrador de Líneas activo. Pasa el dedo por una línea para borrarla.',
-          style: TextStyle(fontSize: 12, color: Colors.grey, fontStyle: FontStyle.italic),
+          l10n.canvasEraserLineHelper,
+          style: const TextStyle(fontSize: 12, color: Colors.grey, fontStyle: FontStyle.italic),
         ),
       );
     }
 
     if (state.activeTool == DrawingTool.eraserColor) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 4),
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
         child: Text(
-          'Borrador de Color activo. Pasa el dedo por una pincelada para borrarla.',
-          style: TextStyle(fontSize: 12, color: Colors.grey, fontStyle: FontStyle.italic),
+          l10n.canvasEraserColorHelper,
+          style: const TextStyle(fontSize: 12, color: Colors.grey, fontStyle: FontStyle.italic),
         ),
       );
     }
@@ -444,6 +446,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
   }
 
   void _showBackgroundDialog(BuildContext context, WidgetRef ref, int currentColor) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = [
       0xFFFFFFFF,
       0xFFFAFAFA,
@@ -462,7 +465,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Color del Fondo'),
+        title: Text(l10n.canvasBackgroundColorDialogTitle),
         content: SizedBox(
           width: 300,
           child: GridView.builder(
@@ -508,7 +511,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cerrar'),
+            child: Text(l10n.canvasDialogClose),
           ),
         ],
       ),

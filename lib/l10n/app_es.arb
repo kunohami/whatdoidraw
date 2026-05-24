@@ -170,5 +170,14 @@
   "themeDark": "Oscuro",
   "themeLight": "Verde Claro",
   "themeDarkGreen": "Verde Oscuro",
-  "themeDarkPlus": "Oscuro Plus"
+  "themeDarkPlus": "Oscuro Plus",
+  "canvasToolLine": "Línea",
+  "canvasToolBrush": "Pincel",
+  "canvasToolEraserLine": "Borrador Líneas",
+  "canvasToolEraserColor": "Borrador Colores",
+  "canvasToolBackground": "Fondo",
+  "canvasEraserLineHelper": "Borrador de Líneas activo. Pasa el dedo por una línea para borrarla.",
+  "canvasEraserColorHelper": "Borrador de Color activo. Pasa el dedo por una pincelada para borrarla.",
+  "canvasBackgroundColorDialogTitle": "Color del Fondo",
+  "canvasDialogClose": "Cerrar"
 }

@@ -22,7 +22,8 @@ mixin _$DoodleCanvasState {
  DrawingTool get activeTool;/// Color activo del pincel en formato ARGB.
  int get brushColor;/// Grosor activo de la línea/pincel.
  double get strokeWidth;/// Color de fondo del lienzo en formato ARGB.
- int get backgroundColor;
+ int get backgroundColor;/// Historial de estados anteriores de trazos para la función deshacer.
+ List<List<StrokeModel>> get undoHistory;
 /// Create a copy of DoodleCanvasState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -33,16 +34,16 @@ $DoodleCanvasStateCopyWith<DoodleCanvasState> get copyWith => _$DoodleCanvasStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DoodleCanvasState&&const DeepCollectionEquality().equals(other.strokes, strokes)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.activeTool, activeTool) || other.activeTool == activeTool)&&(identical(other.brushColor, brushColor) || other.brushColor == brushColor)&&(identical(other.strokeWidth, strokeWidth) || other.strokeWidth == strokeWidth)&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DoodleCanvasState&&const DeepCollectionEquality().equals(other.strokes, strokes)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.activeTool, activeTool) || other.activeTool == activeTool)&&(identical(other.brushColor, brushColor) || other.brushColor == brushColor)&&(identical(other.strokeWidth, strokeWidth) || other.strokeWidth == strokeWidth)&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&const DeepCollectionEquality().equals(other.undoHistory, undoHistory));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(strokes),const DeepCollectionEquality().hash(tags),isSubmitting,errorMessage,activeTool,brushColor,strokeWidth,backgroundColor);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(strokes),const DeepCollectionEquality().hash(tags),isSubmitting,errorMessage,activeTool,brushColor,strokeWidth,backgroundColor,const DeepCollectionEquality().hash(undoHistory));
 
 @override
 String toString() {
-  return 'DoodleCanvasState(strokes: $strokes, tags: $tags, isSubmitting: $isSubmitting, errorMessage: $errorMessage, activeTool: $activeTool, brushColor: $brushColor, strokeWidth: $strokeWidth, backgroundColor: $backgroundColor)';
+  return 'DoodleCanvasState(strokes: $strokes, tags: $tags, isSubmitting: $isSubmitting, errorMessage: $errorMessage, activeTool: $activeTool, brushColor: $brushColor, strokeWidth: $strokeWidth, backgroundColor: $backgroundColor, undoHistory: $undoHistory)';
 }
 
 
@@ -53,7 +54,7 @@ abstract mixin class $DoodleCanvasStateCopyWith<$Res>  {
   factory $DoodleCanvasStateCopyWith(DoodleCanvasState value, $Res Function(DoodleCanvasState) _then) = _$DoodleCanvasStateCopyWithImpl;
 @useResult
 $Res call({
- List<StrokeModel> strokes, List<String> tags, bool isSubmitting, String? errorMessage, DrawingTool activeTool, int brushColor, double strokeWidth, int backgroundColor
+ List<StrokeModel> strokes, List<String> tags, bool isSubmitting, String? errorMessage, DrawingTool activeTool, int brushColor, double strokeWidth, int backgroundColor, List<List<StrokeModel>> undoHistory
 });
 
 
@@ -70,7 +71,7 @@ class _$DoodleCanvasStateCopyWithImpl<$Res>
 
 /// Create a copy of DoodleCanvasState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? strokes = null,Object? tags = null,Object? isSubmitting = null,Object? errorMessage = freezed,Object? activeTool = null,Object? brushColor = null,Object? strokeWidth = null,Object? backgroundColor = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? strokes = null,Object? tags = null,Object? isSubmitting = null,Object? errorMessage = freezed,Object? activeTool = null,Object? brushColor = null,Object? strokeWidth = null,Object? backgroundColor = null,Object? undoHistory = null,}) {
   return _then(_self.copyWith(
 strokes: null == strokes ? _self.strokes : strokes // ignore: cast_nullable_to_non_nullable
 as List<StrokeModel>,tags: null == tags ? _self.tags : tags // ignore: cast_nullable_to_non_nullable
@@ -80,7 +81,8 @@ as String?,activeTool: null == activeTool ? _self.activeTool : activeTool // ign
 as DrawingTool,brushColor: null == brushColor ? _self.brushColor : brushColor // ignore: cast_nullable_to_non_nullable
 as int,strokeWidth: null == strokeWidth ? _self.strokeWidth : strokeWidth // ignore: cast_nullable_to_non_nullable
 as double,backgroundColor: null == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
-as int,
+as int,undoHistory: null == undoHistory ? _self.undoHistory : undoHistory // ignore: cast_nullable_to_non_nullable
+as List<List<StrokeModel>>,
   ));
 }
 
@@ -165,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<StrokeModel> strokes,  List<String> tags,  bool isSubmitting,  String? errorMessage,  DrawingTool activeTool,  int brushColor,  double strokeWidth,  int backgroundColor)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<StrokeModel> strokes,  List<String> tags,  bool isSubmitting,  String? errorMessage,  DrawingTool activeTool,  int brushColor,  double strokeWidth,  int backgroundColor,  List<List<StrokeModel>> undoHistory)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DoodleCanvasState() when $default != null:
-return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage,_that.activeTool,_that.brushColor,_that.strokeWidth,_that.backgroundColor);case _:
+return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage,_that.activeTool,_that.brushColor,_that.strokeWidth,_that.backgroundColor,_that.undoHistory);case _:
   return orElse();
 
 }
@@ -186,10 +188,10 @@ return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<StrokeModel> strokes,  List<String> tags,  bool isSubmitting,  String? errorMessage,  DrawingTool activeTool,  int brushColor,  double strokeWidth,  int backgroundColor)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<StrokeModel> strokes,  List<String> tags,  bool isSubmitting,  String? errorMessage,  DrawingTool activeTool,  int brushColor,  double strokeWidth,  int backgroundColor,  List<List<StrokeModel>> undoHistory)  $default,) {final _that = this;
 switch (_that) {
 case _DoodleCanvasState():
-return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage,_that.activeTool,_that.brushColor,_that.strokeWidth,_that.backgroundColor);case _:
+return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage,_that.activeTool,_that.brushColor,_that.strokeWidth,_that.backgroundColor,_that.undoHistory);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +208,10 @@ return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<StrokeModel> strokes,  List<String> tags,  bool isSubmitting,  String? errorMessage,  DrawingTool activeTool,  int brushColor,  double strokeWidth,  int backgroundColor)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<StrokeModel> strokes,  List<String> tags,  bool isSubmitting,  String? errorMessage,  DrawingTool activeTool,  int brushColor,  double strokeWidth,  int backgroundColor,  List<List<StrokeModel>> undoHistory)?  $default,) {final _that = this;
 switch (_that) {
 case _DoodleCanvasState() when $default != null:
-return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage,_that.activeTool,_that.brushColor,_that.strokeWidth,_that.backgroundColor);case _:
+return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage,_that.activeTool,_that.brushColor,_that.strokeWidth,_that.backgroundColor,_that.undoHistory);case _:
   return null;
 
 }
@@ -221,7 +223,7 @@ return $default(_that.strokes,_that.tags,_that.isSubmitting,_that.errorMessage,_
 
 
 class _DoodleCanvasState implements DoodleCanvasState {
-  const _DoodleCanvasState({final  List<StrokeModel> strokes = const [], final  List<String> tags = const [], this.isSubmitting = false, this.errorMessage, this.activeTool = DrawingTool.pen, this.brushColor = 0xFFE53935, this.strokeWidth = 4.0, this.backgroundColor = 0xFFFFFFFF}): _strokes = strokes,_tags = tags;
+  const _DoodleCanvasState({final  List<StrokeModel> strokes = const [], final  List<String> tags = const [], this.isSubmitting = false, this.errorMessage, this.activeTool = DrawingTool.pen, this.brushColor = 0xFFE53935, this.strokeWidth = 4.0, this.backgroundColor = 0xFFFFFFFF, final  List<List<StrokeModel>> undoHistory = const []}): _strokes = strokes,_tags = tags,_undoHistory = undoHistory;
   
 
 /// Lista de trazos vectoriales dibujados actualmente.
@@ -254,6 +256,15 @@ class _DoodleCanvasState implements DoodleCanvasState {
 @override@JsonKey() final  double strokeWidth;
 /// Color de fondo del lienzo en formato ARGB.
 @override@JsonKey() final  int backgroundColor;
+/// Historial de estados anteriores de trazos para la función deshacer.
+ final  List<List<StrokeModel>> _undoHistory;
+/// Historial de estados anteriores de trazos para la función deshacer.
+@override@JsonKey() List<List<StrokeModel>> get undoHistory {
+  if (_undoHistory is EqualUnmodifiableListView) return _undoHistory;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_undoHistory);
+}
+
 
 /// Create a copy of DoodleCanvasState
 /// with the given fields replaced by the non-null parameter values.
@@ -265,16 +276,16 @@ _$DoodleCanvasStateCopyWith<_DoodleCanvasState> get copyWith => __$DoodleCanvasS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DoodleCanvasState&&const DeepCollectionEquality().equals(other._strokes, _strokes)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.activeTool, activeTool) || other.activeTool == activeTool)&&(identical(other.brushColor, brushColor) || other.brushColor == brushColor)&&(identical(other.strokeWidth, strokeWidth) || other.strokeWidth == strokeWidth)&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DoodleCanvasState&&const DeepCollectionEquality().equals(other._strokes, _strokes)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.activeTool, activeTool) || other.activeTool == activeTool)&&(identical(other.brushColor, brushColor) || other.brushColor == brushColor)&&(identical(other.strokeWidth, strokeWidth) || other.strokeWidth == strokeWidth)&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor)&&const DeepCollectionEquality().equals(other._undoHistory, _undoHistory));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_strokes),const DeepCollectionEquality().hash(_tags),isSubmitting,errorMessage,activeTool,brushColor,strokeWidth,backgroundColor);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_strokes),const DeepCollectionEquality().hash(_tags),isSubmitting,errorMessage,activeTool,brushColor,strokeWidth,backgroundColor,const DeepCollectionEquality().hash(_undoHistory));
 
 @override
 String toString() {
-  return 'DoodleCanvasState(strokes: $strokes, tags: $tags, isSubmitting: $isSubmitting, errorMessage: $errorMessage, activeTool: $activeTool, brushColor: $brushColor, strokeWidth: $strokeWidth, backgroundColor: $backgroundColor)';
+  return 'DoodleCanvasState(strokes: $strokes, tags: $tags, isSubmitting: $isSubmitting, errorMessage: $errorMessage, activeTool: $activeTool, brushColor: $brushColor, strokeWidth: $strokeWidth, backgroundColor: $backgroundColor, undoHistory: $undoHistory)';
 }
 
 
@@ -285,7 +296,7 @@ abstract mixin class _$DoodleCanvasStateCopyWith<$Res> implements $DoodleCanvasS
   factory _$DoodleCanvasStateCopyWith(_DoodleCanvasState value, $Res Function(_DoodleCanvasState) _then) = __$DoodleCanvasStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<StrokeModel> strokes, List<String> tags, bool isSubmitting, String? errorMessage, DrawingTool activeTool, int brushColor, double strokeWidth, int backgroundColor
+ List<StrokeModel> strokes, List<String> tags, bool isSubmitting, String? errorMessage, DrawingTool activeTool, int brushColor, double strokeWidth, int backgroundColor, List<List<StrokeModel>> undoHistory
 });
 
 
@@ -302,7 +313,7 @@ class __$DoodleCanvasStateCopyWithImpl<$Res>
 
 /// Create a copy of DoodleCanvasState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? strokes = null,Object? tags = null,Object? isSubmitting = null,Object? errorMessage = freezed,Object? activeTool = null,Object? brushColor = null,Object? strokeWidth = null,Object? backgroundColor = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? strokes = null,Object? tags = null,Object? isSubmitting = null,Object? errorMessage = freezed,Object? activeTool = null,Object? brushColor = null,Object? strokeWidth = null,Object? backgroundColor = null,Object? undoHistory = null,}) {
   return _then(_DoodleCanvasState(
 strokes: null == strokes ? _self._strokes : strokes // ignore: cast_nullable_to_non_nullable
 as List<StrokeModel>,tags: null == tags ? _self._tags : tags // ignore: cast_nullable_to_non_nullable
@@ -312,7 +323,8 @@ as String?,activeTool: null == activeTool ? _self.activeTool : activeTool // ign
 as DrawingTool,brushColor: null == brushColor ? _self.brushColor : brushColor // ignore: cast_nullable_to_non_nullable
 as int,strokeWidth: null == strokeWidth ? _self.strokeWidth : strokeWidth // ignore: cast_nullable_to_non_nullable
 as double,backgroundColor: null == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
-as int,
+as int,undoHistory: null == undoHistory ? _self._undoHistory : undoHistory // ignore: cast_nullable_to_non_nullable
+as List<List<StrokeModel>>,
   ));
 }
 
