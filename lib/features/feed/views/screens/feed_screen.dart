@@ -84,7 +84,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
             child: StatefulBuilder(
               builder: (context, setModalState) {
                 // Inicialización diferida del estado local con el tipo correcto
-                currentLang ??= currentState.languageFilter;
+                currentLang ??= currentState.languageFilter ?? 'all';
                 currentSort ??= currentState.sortOrder;
 
                 return Column(
@@ -108,7 +108,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                           value: currentLang ?? 'all',
                           underline: const SizedBox(),
                           onChanged: (value) {
-                            final newLang = value == 'all' ? null : value;
+                            final newLang = value ?? 'all';
                             if (tab == 0) {
                               ref
                                   .read(ideasFeedProvider.notifier)
@@ -185,7 +185,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                               final notifier = ref.read(
                                 ideasFeedProvider.notifier,
                               );
-                              notifier.setLanguageFilter(currentLang);
+                              notifier.setLanguageFilter(currentLang ?? 'all');
                               notifier.setSortOrder(
                                 currentSort ?? FeedSortOrder.recent,
                               );

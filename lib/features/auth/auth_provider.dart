@@ -214,11 +214,20 @@ class AuthController extends _$AuthController {
   ) async {
     final supabase = ref.read(supabaseClientProvider);
     try {
-      // Usamos upsert para no fallar si ya existe
-      await supabase.from('users').upsert({
-        'id': userId,
-        'username': username,
-      }, onConflict: 'id');
+      // Primero comprobamos si el usuario ya existe en la tabla pública
+      final existingUser = await supabase
+          .from('users')
+          .select('id')
+          .eq('id', userId)
+          .maybeSingle();
+
+      // Solo lo insertamos si no existe previamente
+      if (existingUser == null) {
+        await supabase.from('users').insert({
+          'id': userId,
+          'username': username,
+        });
+      }
     } catch (e) {
       // Error silencioso en perfil público.
     }

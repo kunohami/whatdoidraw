@@ -195,5 +195,13 @@
   "deleteArtworkSuccess": "Artwork eliminado correctamente",
   "deleteArtworkTooltip": "Eliminar artwork",
   "deletedIdeaPlaceholder": "La idea original ha sido borrada por su creador.",
-  "deletedDoodlePlaceholder": "El doodle original que inspiró este artwork ha sido borrado por su creador."
+  "deletedDoodlePlaceholder": "El doodle original que inspiró este artwork ha sido borrado por su creador.",
+  "settingsLogoutConfirmTitle": "¿Cerrar sesión?",
+  "settingsLogoutConfirmMessage": "¿Estás seguro de que deseas cerrar sesión en tu cuenta?",
+  "canvasClearConfirmTitle": "¿Limpiar lienzo?",
+  "canvasClearConfirmMessage": "¿Estás seguro de que deseas limpiar todo tu dibujo? Esta acción no se puede deshacer.",
+  "createIdeaSuccessDialogTitle": "¡Idea publicada!",
+  "createIdeaSuccessDialogContent": "¿Te gustaría escribir otra idea creativa o prefieres salir?",
+  "btnWriteAnother": "Escribir otra",
+  "btnExit": "Salir"
 }

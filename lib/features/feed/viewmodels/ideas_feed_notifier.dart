@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:whatdoidraw/core/constants/feed_constants.dart';
@@ -34,7 +32,7 @@ class IdeasFeedState {
   final FeedSortOrder sortOrder;
 
   /// Filtro de idioma activo ('en', 'es', o 'all').
-  final String? languageFilter;
+  final String languageFilter;
 
   /// Mensaje de error, si lo hay.
   final String? errorMessage;
@@ -47,7 +45,7 @@ class IdeasFeedState {
     this.searchQuery = '',
     this.selectedTags = const [],
     this.sortOrder = FeedSortOrder.recent,
-    this.languageFilter,
+    this.languageFilter = 'all',
     this.errorMessage,
   });
 
@@ -87,12 +85,9 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
 
   @override
   IdeasFeedState build() {
-    final locale = PlatformDispatcher.instance.locale.languageCode;
-    final defaultLanguage = locale.startsWith('es') ? 'es' : 'en';
-
     // Cargamos la primera página automáticamente al inicializar.
     Future.microtask(loadInitial);
-    return IdeasFeedState(languageFilter: defaultLanguage);
+    return const IdeasFeedState(languageFilter: 'all');
   }
 
   /// Carga la primera página desde cero (usado en la inicialización y refresh).
@@ -157,7 +152,7 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
   }
 
   /// Cambia el filtro de idioma y recarga.
-  Future<void> setLanguageFilter(String? language) async {
+  Future<void> setLanguageFilter(String language) async {
     state = state.copyWith(languageFilter: language);
   }
 
@@ -189,14 +184,11 @@ class IdeasFeedNotifier extends _$IdeasFeedNotifier {
 
   /// Limpia todos los filtros activos y recarga.
   Future<void> clearFilters() async {
-    final locale = PlatformDispatcher.instance.locale.languageCode;
-    final defaultLanguage = locale.startsWith('es') ? 'es' : 'en';
-
     state = state.copyWith(
       searchQuery: '',
       selectedTags: [],
       sortOrder: FeedSortOrder.recent,
-      languageFilter: defaultLanguage,
+      languageFilter: 'all',
     );
     await loadInitial();
   }

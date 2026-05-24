@@ -41,11 +41,36 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
           .read(createIdeaControllerProvider.notifier)
           .submitIdea(_controller.text, _tags, _selectedLanguage);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('¡Idea publicada exitosamente!')),
-        );
         _controller.clear();
         setState(() => _tags = []);
+
+        final l10n = AppLocalizations.of(context)!;
+        await showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (ctx) => AlertDialog(
+            title: Text(l10n.createIdeaSuccessDialogTitle),
+            content: Text(l10n.createIdeaSuccessDialogContent),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  Navigator.pop(context);
+                },
+                child: Text(l10n.btnExit),
+              ),
+              FilledButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: Text(l10n.btnWriteAnother),
+              ),
+            ],
+          ),
+        );
       }
     } catch (e) {
       if (mounted) {
