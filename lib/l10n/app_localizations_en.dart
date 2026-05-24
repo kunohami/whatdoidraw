@@ -436,4 +436,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsLogoutConfirmMessage =>
       'Are you sure you want to log out of your account?';
+
+  @override
+  String get canvasClearConfirmTitle => 'Clear canvas?';
+
+  @override
+  String get canvasClearConfirmMessage =>
+      'Are you sure you want to clear all your drawing? This action cannot be undone.';
 }

@@ -865,6 +865,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to log out of your account?'**
   String get settingsLogoutConfirmMessage;
+
+  /// No description provided for @canvasClearConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear canvas?'**
+  String get canvasClearConfirmTitle;
+
+  /// No description provided for @canvasClearConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to clear all your drawing? This action cannot be undone.'**
+  String get canvasClearConfirmMessage;
 }
 
 class _AppLocalizationsDelegate

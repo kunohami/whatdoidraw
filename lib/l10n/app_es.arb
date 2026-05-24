@@ -197,5 +197,7 @@
   "deletedIdeaPlaceholder": "La idea original ha sido borrada por su creador.",
   "deletedDoodlePlaceholder": "El doodle original que inspiró este artwork ha sido borrado por su creador.",
   "settingsLogoutConfirmTitle": "¿Cerrar sesión?",
-  "settingsLogoutConfirmMessage": "¿Estás seguro de que deseas cerrar sesión en tu cuenta?"
+  "settingsLogoutConfirmMessage": "¿Estás seguro de que deseas cerrar sesión en tu cuenta?",
+  "canvasClearConfirmTitle": "¿Limpiar lienzo?",
+  "canvasClearConfirmMessage": "¿Estás seguro de que deseas limpiar todo tu dibujo? Esta acción no se puede deshacer."
 }

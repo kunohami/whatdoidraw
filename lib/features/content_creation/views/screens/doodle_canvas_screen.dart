@@ -87,6 +87,37 @@ class DoodleCanvasScreen extends ConsumerWidget {
     }
   }
 
+  void _confirmClearCanvas(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.canvasClearConfirmTitle),
+        content: Text(l10n.canvasClearConfirmMessage),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.btnCancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(ctx);
+              ref.read(doodleCanvasProvider.notifier).clear();
+            },
+            child: Text(l10n.btnDelete),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Observamos el estado completo del lienzo.
@@ -130,7 +161,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
             icon: const Icon(Icons.delete_outline),
             onPressed: canvasState.isSubmitting || canvasState.strokes.isEmpty
                 ? null
-                : () => ref.read(doodleCanvasProvider.notifier).clear(),
+                : () => _confirmClearCanvas(context, ref),
             tooltip: 'Limpiar lienzo',
           ),
           const SizedBox(width: 8),

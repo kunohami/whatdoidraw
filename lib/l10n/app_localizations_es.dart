@@ -439,4 +439,11 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get settingsLogoutConfirmMessage =>
       '¿Estás seguro de que deseas cerrar sesión en tu cuenta?';
+
+  @override
+  String get canvasClearConfirmTitle => '¿Limpiar lienzo?';
+
+  @override
+  String get canvasClearConfirmMessage =>
+      '¿Estás seguro de que deseas limpiar todo tu dibujo? Esta acción no se puede deshacer.';
 }

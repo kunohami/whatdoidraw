@@ -197,5 +197,7 @@
   "deletedIdeaPlaceholder": "The original idea has been deleted by its creator.",
   "deletedDoodlePlaceholder": "The original doodle that inspired this artwork has been deleted by its creator.",
   "settingsLogoutConfirmTitle": "Log out?",
-  "settingsLogoutConfirmMessage": "Are you sure you want to log out of your account?"
+  "settingsLogoutConfirmMessage": "Are you sure you want to log out of your account?",
+  "canvasClearConfirmTitle": "Clear canvas?",
+  "canvasClearConfirmMessage": "Are you sure you want to clear all your drawing? This action cannot be undone."
 }
