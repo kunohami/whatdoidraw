@@ -877,6 +877,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to clear all your drawing? This action cannot be undone.'**
   String get canvasClearConfirmMessage;
+
+  /// No description provided for @createIdeaSuccessDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Idea Published!'**
+  String get createIdeaSuccessDialogTitle;
+
+  /// No description provided for @createIdeaSuccessDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to write another creative idea or exit?'**
+  String get createIdeaSuccessDialogContent;
+
+  /// No description provided for @btnWriteAnother.
+  ///
+  /// In en, this message translates to:
+  /// **'Write another'**
+  String get btnWriteAnother;
+
+  /// No description provided for @btnExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get btnExit;
 }
 
 class _AppLocalizationsDelegate

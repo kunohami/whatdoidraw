@@ -199,5 +199,9 @@
   "settingsLogoutConfirmTitle": "Log out?",
   "settingsLogoutConfirmMessage": "Are you sure you want to log out of your account?",
   "canvasClearConfirmTitle": "Clear canvas?",
-  "canvasClearConfirmMessage": "Are you sure you want to clear all your drawing? This action cannot be undone."
+  "canvasClearConfirmMessage": "Are you sure you want to clear all your drawing? This action cannot be undone.",
+  "createIdeaSuccessDialogTitle": "Idea Published!",
+  "createIdeaSuccessDialogContent": "Would you like to write another creative idea or exit?",
+  "btnWriteAnother": "Write another",
+  "btnExit": "Exit"
 }

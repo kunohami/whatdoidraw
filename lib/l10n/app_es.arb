@@ -199,5 +199,9 @@
   "settingsLogoutConfirmTitle": "¿Cerrar sesión?",
   "settingsLogoutConfirmMessage": "¿Estás seguro de que deseas cerrar sesión en tu cuenta?",
   "canvasClearConfirmTitle": "¿Limpiar lienzo?",
-  "canvasClearConfirmMessage": "¿Estás seguro de que deseas limpiar todo tu dibujo? Esta acción no se puede deshacer."
+  "canvasClearConfirmMessage": "¿Estás seguro de que deseas limpiar todo tu dibujo? Esta acción no se puede deshacer.",
+  "createIdeaSuccessDialogTitle": "¡Idea publicada!",
+  "createIdeaSuccessDialogContent": "¿Te gustaría escribir otra idea creativa o prefieres salir?",
+  "btnWriteAnother": "Escribir otra",
+  "btnExit": "Salir"
 }

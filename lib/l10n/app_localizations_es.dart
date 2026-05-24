@@ -446,4 +446,17 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get canvasClearConfirmMessage =>
       '¿Estás seguro de que deseas limpiar todo tu dibujo? Esta acción no se puede deshacer.';
+
+  @override
+  String get createIdeaSuccessDialogTitle => '¡Idea publicada!';
+
+  @override
+  String get createIdeaSuccessDialogContent =>
+      '¿Te gustaría escribir otra idea creativa o prefieres salir?';
+
+  @override
+  String get btnWriteAnother => 'Escribir otra';
+
+  @override
+  String get btnExit => 'Salir';
 }

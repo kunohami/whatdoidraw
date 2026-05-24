@@ -443,4 +443,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get canvasClearConfirmMessage =>
       'Are you sure you want to clear all your drawing? This action cannot be undone.';
+
+  @override
+  String get createIdeaSuccessDialogTitle => 'Idea Published!';
+
+  @override
+  String get createIdeaSuccessDialogContent =>
+      'Would you like to write another creative idea or exit?';
+
+  @override
+  String get btnWriteAnother => 'Write another';
+
+  @override
+  String get btnExit => 'Exit';
 }
