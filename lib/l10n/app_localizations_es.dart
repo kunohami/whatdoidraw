@@ -381,4 +381,55 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get canvasDialogClose => 'Cerrar';
+
+  @override
+  String get btnCancel => 'Cancelar';
+
+  @override
+  String get btnDelete => 'Eliminar';
+
+  @override
+  String get deleteIdeaDialogTitle => '¿Eliminar Idea?';
+
+  @override
+  String get deleteIdeaDialogContent =>
+      'Esta acción no se puede deshacer. Las creaciones (doodles o artworks) inspiradas en esta idea seguirán activas para sus creadores, pero la idea original desaparecerá.';
+
+  @override
+  String get deleteIdeaSuccess => 'Idea eliminada correctamente';
+
+  @override
+  String get deleteIdeaTooltip => 'Eliminar idea';
+
+  @override
+  String get deleteDoodleDialogTitle => '¿Eliminar Doodle?';
+
+  @override
+  String get deleteDoodleDialogContent => 'Esta acción no se puede deshacer.';
+
+  @override
+  String get deleteDoodleSuccess => 'Doodle eliminado correctamente';
+
+  @override
+  String get deleteDoodleTooltip => 'Eliminar dibujo';
+
+  @override
+  String get deleteArtworkDialogTitle => '¿Eliminar Artwork?';
+
+  @override
+  String get deleteArtworkDialogContent => 'Esta acción no se puede deshacer.';
+
+  @override
+  String get deleteArtworkSuccess => 'Artwork eliminado correctamente';
+
+  @override
+  String get deleteArtworkTooltip => 'Eliminar artwork';
+
+  @override
+  String get deletedIdeaPlaceholder =>
+      'La idea original ha sido borrada por su creador.';
+
+  @override
+  String get deletedDoodlePlaceholder =>
+      'El doodle original que inspiró este artwork ha sido borrado por su creador.';
 }

@@ -378,4 +378,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get canvasDialogClose => 'Close';
+
+  @override
+  String get btnCancel => 'Cancel';
+
+  @override
+  String get btnDelete => 'Delete';
+
+  @override
+  String get deleteIdeaDialogTitle => 'Delete Idea?';
+
+  @override
+  String get deleteIdeaDialogContent =>
+      'This action cannot be undone. Creations (doodles or artworks) inspired by this idea will remain active for their creators, but the original idea will disappear.';
+
+  @override
+  String get deleteIdeaSuccess => 'Idea deleted successfully';
+
+  @override
+  String get deleteIdeaTooltip => 'Delete idea';
+
+  @override
+  String get deleteDoodleDialogTitle => 'Delete Doodle?';
+
+  @override
+  String get deleteDoodleDialogContent => 'This action cannot be undone.';
+
+  @override
+  String get deleteDoodleSuccess => 'Doodle deleted successfully';
+
+  @override
+  String get deleteDoodleTooltip => 'Delete drawing';
+
+  @override
+  String get deleteArtworkDialogTitle => 'Delete Artwork?';
+
+  @override
+  String get deleteArtworkDialogContent => 'This action cannot be undone.';
+
+  @override
+  String get deleteArtworkSuccess => 'Artwork deleted successfully';
+
+  @override
+  String get deleteArtworkTooltip => 'Delete artwork';
+
+  @override
+  String get deletedIdeaPlaceholder =>
+      'The original idea has been deleted by its creator.';
+
+  @override
+  String get deletedDoodlePlaceholder =>
+      'The original doodle that inspired this artwork has been deleted by its creator.';
 }

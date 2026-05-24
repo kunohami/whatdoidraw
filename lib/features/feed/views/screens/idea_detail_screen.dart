@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatdoidraw/features/auth/auth_provider.dart';
+import 'package:whatdoidraw/features/content_creation/services/content_creation_service.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/artworks_feed_notifier.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/doodles_feed_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/idea_detail_notifier.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/ideas_feed_notifier.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/artwork_model.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
@@ -16,10 +21,23 @@ class IdeaDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(ideaDetailProvider(ideaId));
+    final currentUser = ref.watch(authControllerProvider).value;
     final l10n = AppLocalizations.of(context)!;
 
+    final isCreator = currentUser?.id == state.idea?.userId;
+
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.ideaDetailTitle)),
+      appBar: AppBar(
+        title: Text(l10n.ideaDetailTitle),
+        actions: [
+          if (isCreator && state.idea != null)
+            IconButton(
+              icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+              tooltip: l10n.deleteIdeaTooltip,
+              onPressed: () => _confirmDeletion(context, ref, state.idea!.id),
+            ),
+        ],
+      ),
       body: state.isLoading
           ? const Center(child: CircularProgressIndicator())
           : state.errorMessage != null
@@ -116,6 +134,55 @@ class IdeaDetailScreen extends ConsumerWidget {
                   ),
               ],
             ),
+    );
+  }
+
+  void _confirmDeletion(BuildContext context, WidgetRef ref, String ideaId) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.deleteIdeaDialogTitle),
+        content: Text(l10n.deleteIdeaDialogContent),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.btnCancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
+            onPressed: () async {
+              Navigator.pop(ctx);
+              try {
+                await ref
+                    .read(contentCreationServiceProvider)
+                    .deleteIdea(ideaId);
+
+                // Invalidate all relevant feeds so they refresh
+                ref.invalidate(ideasFeedProvider);
+                ref.invalidate(doodlesFeedProvider);
+                ref.invalidate(artworksFeedProvider);
+
+                if (context.mounted) {
+                  Navigator.pop(context); // Vuelve atrás tras eliminar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.deleteIdeaSuccess),
+                    ),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error al eliminar: $e')),
+                  );
+                }
+              }
+            },
+            child: Text(l10n.btnDelete),
+          ),
+        ],
+      ),
     );
   }
 }

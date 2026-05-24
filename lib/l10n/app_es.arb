@@ -179,5 +179,21 @@
   "canvasEraserLineHelper": "Borrador de Líneas activo. Pasa el dedo por una línea para borrarla.",
   "canvasEraserColorHelper": "Borrador de Color activo. Pasa el dedo por una pincelada para borrarla.",
   "canvasBackgroundColorDialogTitle": "Color del Fondo",
-  "canvasDialogClose": "Cerrar"
+  "canvasDialogClose": "Cerrar",
+  "btnCancel": "Cancelar",
+  "btnDelete": "Eliminar",
+  "deleteIdeaDialogTitle": "¿Eliminar Idea?",
+  "deleteIdeaDialogContent": "Esta acción no se puede deshacer. Las creaciones (doodles o artworks) inspiradas en esta idea seguirán activas para sus creadores, pero la idea original desaparecerá.",
+  "deleteIdeaSuccess": "Idea eliminada correctamente",
+  "deleteIdeaTooltip": "Eliminar idea",
+  "deleteDoodleDialogTitle": "¿Eliminar Doodle?",
+  "deleteDoodleDialogContent": "Esta acción no se puede deshacer.",
+  "deleteDoodleSuccess": "Doodle eliminado correctamente",
+  "deleteDoodleTooltip": "Eliminar dibujo",
+  "deleteArtworkDialogTitle": "¿Eliminar Artwork?",
+  "deleteArtworkDialogContent": "Esta acción no se puede deshacer.",
+  "deleteArtworkSuccess": "Artwork eliminado correctamente",
+  "deleteArtworkTooltip": "Eliminar artwork",
+  "deletedIdeaPlaceholder": "La idea original ha sido borrada por su creador.",
+  "deletedDoodlePlaceholder": "El doodle original que inspiró este artwork ha sido borrado por su creador."
 }

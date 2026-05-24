@@ -231,4 +231,25 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER on_like_added AFTER INSERT ON likes FOR EACH ROW EXECUTE FUNCTION update_likes_count();
 CREATE TRIGGER on_like_removed AFTER DELETE ON likes FOR EACH ROW EXECUTE FUNCTION update_likes_count();
 ```
+
+---
+
+## 🛠️ Actualización del Esquema: Borrado Físico Seguro y Supervivencia de Hijos
+
+Para permitir que los usuarios eliminen físicamente sus ideas o doodles, y que los artworks o doodles derivados de ellos sobrevivan de forma independiente sin perder la referencia del linaje histórico, se realizaron las siguientes alteraciones en Supabase:
+
+1. **Eliminación de la restricción de validación de padres en Artworks:**
+   Permite que un Artwork exista sin padres vinculados en caso de que estos hayan sido físicamente borrados de las tablas `ideas` o `doodles`.
+   ```sql
+   ALTER TABLE artworks DROP CONSTRAINT IF EXISTS artwork_must_have_parent;
+   ```
+
+2. **Eliminación de las restricciones de clave foránea strictly restrictivas:**
+   Al eliminar las claves foráneas de relación, las tablas hijas siguen conservando el UUID del padre original (`idea_id` o `doodle_id`) en sus columnas tras el borrado físico de la fila padre, en lugar de ponerlas a `NULL` automáticamente (debido al anterior `ON DELETE SET NULL`). Esto permite que la aplicación reconozca que hubo una procedencia histórica y muestre que el origen fue eliminado.
+   ```sql
+   ALTER TABLE doodles DROP CONSTRAINT IF EXISTS doodles_idea_id_fkey;
+   ALTER TABLE artworks DROP CONSTRAINT IF EXISTS artworks_idea_id_fkey;
+   ALTER TABLE artworks DROP CONSTRAINT IF EXISTS artworks_doodle_id_fkey;
+   ```
+
 ```

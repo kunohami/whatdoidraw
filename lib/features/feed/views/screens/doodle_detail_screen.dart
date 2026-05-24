@@ -5,8 +5,11 @@ import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/content_creation/services/content_creation_service.dart';
 import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/artworks_feed_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/doodle_detail_artworks_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/doodle_detail_notifier.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/doodles_feed_notifier.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/ideas_feed_notifier.dart';
 import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/models/doodle_model.dart';
@@ -59,7 +62,7 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
           if (isCreator)
             IconButton(
               icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
-              tooltip: 'Eliminar dibujo',
+              tooltip: l10n.deleteDoodleTooltip,
               onPressed: () => _confirmDeletion(context, ref, currentDoodle.id),
             ),
         ],
@@ -229,7 +232,7 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                           isExpanded: true,
                           hint: Text(l10n.exploreRelationsLabel),
                           items: [
-                            if (detailState.parentIdea != null)
+                            if (currentDoodle.ideaId != null)
                               DropdownMenuItem(
                                 value: 'idea',
                                 child: Text(l10n.viewOriginalIdeaOption),
@@ -251,7 +254,7 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
 
                   // Selection content area
                   if (_selectedOption == 'idea' &&
-                      detailState.parentIdea != null)
+                      currentDoodle.ideaId != null)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
                       child: Column(
@@ -277,11 +280,17 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                             ],
                           ),
                           const SizedBox(height: 8),
-                          IdeaCard(
-                            idea: detailState.parentIdea!,
-                            showDrawButton: true,
-                            isClickable: false,
-                          ),
+                          if (detailState.parentIdea != null)
+                            IdeaCard(
+                              idea: detailState.parentIdea!,
+                              showDrawButton: true,
+                              isClickable: false,
+                            )
+                          else
+                            _buildDeletedPlaceholder(
+                              context,
+                              l10n.deletedIdeaPlaceholder,
+                            ),
                         ],
                       ),
                     ),
@@ -382,16 +391,51 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
     );
   }
 
+  Widget _buildDeletedPlaceholder(BuildContext context, String message) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.info_outline,
+            color: colorScheme.secondary,
+            size: 20,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              message,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                    fontStyle: FontStyle.italic,
+                  ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _confirmDeletion(BuildContext context, WidgetRef ref, String doodleId) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('¿Eliminar Doodle?'),
-        content: const Text('Esta acción no se puede deshacer.'),
+        title: Text(l10n.deleteDoodleDialogTitle),
+        content: Text(l10n.deleteDoodleDialogContent),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancelar'),
+            child: Text(l10n.btnCancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
@@ -402,11 +446,16 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                     .read(contentCreationServiceProvider)
                     .deleteDoodle(doodleId);
 
+                // Invalidate all relevant feeds so they refresh
+                ref.invalidate(ideasFeedProvider);
+                ref.invalidate(doodlesFeedProvider);
+                ref.invalidate(artworksFeedProvider);
+
                 if (context.mounted) {
                   Navigator.pop(context); // Vuelve atrás tras eliminar
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Doodle eliminado correctamente'),
+                    SnackBar(
+                      content: Text(l10n.deleteDoodleSuccess),
                     ),
                   );
                 }
@@ -418,7 +467,7 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                 }
               }
             },
-            child: const Text('Eliminar'),
+            child: Text(l10n.btnDelete),
           ),
         ],
       ),

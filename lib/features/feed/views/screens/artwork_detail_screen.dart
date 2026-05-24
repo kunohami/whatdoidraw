@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:whatdoidraw/features/auth/auth_provider.dart';
+import 'package:whatdoidraw/features/content_creation/services/content_creation_service.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/artwork_detail_notifier.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/artworks_feed_notifier.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/doodles_feed_notifier.dart';
+import 'package:whatdoidraw/features/feed/viewmodels/ideas_feed_notifier.dart';
 import 'package:whatdoidraw/features/interaction/viewmodels/like_viewmodel.dart';
 import 'package:whatdoidraw/features/profile/views/screens/profile_screen.dart';
 import 'package:whatdoidraw/l10n/app_localizations.dart';
@@ -32,10 +37,23 @@ class ArtworkDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(artworkDetailProvider(artworkId));
     final currentArtwork = state.artwork ?? initialArtwork;
+    final currentUser = ref.watch(authControllerProvider).value;
     final l10n = AppLocalizations.of(context)!;
 
+    final isCreator = currentUser?.id == currentArtwork.userId;
+
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.artworkDetailTitle)),
+      appBar: AppBar(
+        title: Text(l10n.artworkDetailTitle),
+        actions: [
+          if (isCreator)
+            IconButton(
+              icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+              tooltip: l10n.deleteArtworkTooltip,
+              onPressed: () => _confirmDeletion(context, ref, currentArtwork.id),
+            ),
+        ],
+      ),
       body: state.isLoading
           ? const Center(child: CircularProgressIndicator())
           : state.errorMessage != null
@@ -241,11 +259,31 @@ class ArtworkDetailScreen extends ConsumerWidget {
                         const SizedBox(height: 16),
 
                         // If Doodle was the direct parent
-                        if (state.parentDoodle != null) ...[
+                        if (currentArtwork.doodleId != null) ...[
                           // Case 1: Doodle based on Idea (shows both)
-                          if (state.doodleParentIdea != null) ...[
+                          if (state.parentDoodle != null) ...[
+                            if (state.doodleParentIdea != null) ...[
+                              Text(
+                                l10n.seedIdeaTraceTitle,
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey[600],
+                                    ),
+                              ),
+                              const SizedBox(height: 8),
+                              IdeaCard(
+                                idea: state.doodleParentIdea!,
+                                showDrawButton: true,
+                                isClickable: false,
+                              ),
+                              const SizedBox(height: 16),
+                            ],
+
                             Text(
-                              l10n.seedIdeaTraceTitle,
+                              state.doodleParentIdea != null
+                                  ? l10n.doodleTraceTitle
+                                  : l10n.singleDoodleTraceTitle,
                               style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(
                                     fontWeight: FontWeight.w500,
@@ -253,32 +291,29 @@ class ArtworkDetailScreen extends ConsumerWidget {
                                   ),
                             ),
                             const SizedBox(height: 8),
-                            IdeaCard(
-                              idea: state.doodleParentIdea!,
-                              showDrawButton: true,
-                              isClickable: false,
+                            SizedBox(
+                              height: 300,
+                              child: DoodleCard(doodle: state.parentDoodle!),
                             ),
-                            const SizedBox(height: 16),
+                          ] else ...[
+                            // Doodle is deleted!
+                            Text(
+                              l10n.singleDoodleTraceTitle,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey[600],
+                                  ),
+                            ),
+                            const SizedBox(height: 8),
+                            _buildDeletedPlaceholder(
+                              context,
+                              l10n.deletedDoodlePlaceholder,
+                            ),
                           ],
-
-                          Text(
-                            state.doodleParentIdea != null
-                                ? l10n.doodleTraceTitle
-                                : l10n.singleDoodleTraceTitle,
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey[600],
-                                ),
-                          ),
-                          const SizedBox(height: 8),
-                          SizedBox(
-                            height: 300,
-                            child: DoodleCard(doodle: state.parentDoodle!),
-                          ),
                         ]
                         // If Idea was the direct parent (no Doodle)
-                        else if (state.parentIdea != null) ...[
+                        else if (currentArtwork.ideaId != null) ...[
                           Text(
                             l10n.originalIdeaHeader,
                             style: Theme.of(context).textTheme.bodyMedium
@@ -288,11 +323,17 @@ class ArtworkDetailScreen extends ConsumerWidget {
                                 ),
                           ),
                           const SizedBox(height: 8),
-                          IdeaCard(
-                            idea: state.parentIdea!,
-                            showDrawButton: true,
-                            isClickable: false,
-                          ),
+                          if (state.parentIdea != null)
+                            IdeaCard(
+                              idea: state.parentIdea!,
+                              showDrawButton: true,
+                              isClickable: false,
+                            )
+                          else
+                            _buildDeletedPlaceholder(
+                              context,
+                              l10n.deletedIdeaPlaceholder,
+                            ),
                         ]
                         // No lineage registered
                         else ...[
@@ -319,6 +360,89 @@ class ArtworkDetailScreen extends ConsumerWidget {
                 ],
               ),
             ),
+    );
+  }
+
+  Widget _buildDeletedPlaceholder(BuildContext context, String message) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.info_outline,
+            color: colorScheme.secondary,
+            size: 20,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              message,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                    fontStyle: FontStyle.italic,
+                  ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDeletion(BuildContext context, WidgetRef ref, String artworkId) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.deleteArtworkDialogTitle),
+        content: Text(l10n.deleteArtworkDialogContent),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.btnCancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
+            onPressed: () async {
+              Navigator.pop(ctx);
+              try {
+                await ref
+                    .read(contentCreationServiceProvider)
+                    .deleteArtwork(artworkId);
+
+                // Invalidate all relevant feeds so they refresh
+                ref.invalidate(ideasFeedProvider);
+                ref.invalidate(doodlesFeedProvider);
+                ref.invalidate(artworksFeedProvider);
+
+                if (context.mounted) {
+                  Navigator.pop(context); // Vuelve atrás tras eliminar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.deleteArtworkSuccess),
+                    ),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error al eliminar: $e')),
+                  );
+                }
+              }
+            },
+            child: Text(l10n.btnDelete),
+          ),
+        ],
+      ),
     );
   }
 }

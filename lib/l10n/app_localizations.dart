@@ -757,6 +757,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get canvasDialogClose;
+
+  /// No description provided for @btnCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get btnCancel;
+
+  /// No description provided for @btnDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get btnDelete;
+
+  /// No description provided for @deleteIdeaDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Idea?'**
+  String get deleteIdeaDialogTitle;
+
+  /// No description provided for @deleteIdeaDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone. Creations (doodles or artworks) inspired by this idea will remain active for their creators, but the original idea will disappear.'**
+  String get deleteIdeaDialogContent;
+
+  /// No description provided for @deleteIdeaSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Idea deleted successfully'**
+  String get deleteIdeaSuccess;
+
+  /// No description provided for @deleteIdeaTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete idea'**
+  String get deleteIdeaTooltip;
+
+  /// No description provided for @deleteDoodleDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Doodle?'**
+  String get deleteDoodleDialogTitle;
+
+  /// No description provided for @deleteDoodleDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get deleteDoodleDialogContent;
+
+  /// No description provided for @deleteDoodleSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Doodle deleted successfully'**
+  String get deleteDoodleSuccess;
+
+  /// No description provided for @deleteDoodleTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete drawing'**
+  String get deleteDoodleTooltip;
+
+  /// No description provided for @deleteArtworkDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Artwork?'**
+  String get deleteArtworkDialogTitle;
+
+  /// No description provided for @deleteArtworkDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get deleteArtworkDialogContent;
+
+  /// No description provided for @deleteArtworkSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Artwork deleted successfully'**
+  String get deleteArtworkSuccess;
+
+  /// No description provided for @deleteArtworkTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete artwork'**
+  String get deleteArtworkTooltip;
+
+  /// No description provided for @deletedIdeaPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'The original idea has been deleted by its creator.'**
+  String get deletedIdeaPlaceholder;
+
+  /// No description provided for @deletedDoodlePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'The original doodle that inspired this artwork has been deleted by its creator.'**
+  String get deletedDoodlePlaceholder;
 }
 
 class _AppLocalizationsDelegate

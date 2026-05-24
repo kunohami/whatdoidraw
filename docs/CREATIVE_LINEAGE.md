@@ -73,5 +73,21 @@ La persistencia y el filtrado relacional se realizan en el archivo `FeedService`
 ## 4. Navegación Fluida (Traversability)
 
 Tanto `IdeaCard` como `ArtworkCard` y `DoodleCard` cuentan con un parámetro reactivo `isClickable` (que por defecto es `true`).
-*   Esto habilita que cualquier listado general de la aplicación actúe como un portal interactivo.
 *   Al pulsar sobre cualquier elemento del linaje en cualquier pantalla (incluyendo las secciones de genealogía), la aplicación realiza una transición de página navegando de forma recursiva hacia el detalle de ese nodo, permitiendo una exploración orgánica del contenido.
+
+---
+
+## 5. Sistema de Borrado Físico y Preservación de Inspiraciones
+
+Para respetar la propiedad de las creaciones ajenas, los usuarios de **whatdoidraw?** pueden eliminar físicamente sus propios elementos (Ideas, Doodles, Artworks) sin que esto signifique la destrucción o alteración de los elementos inspirados por otros usuarios (los cuales sobreviven independientemente).
+
+### Comportamiento del Linaje tras el Borrado
+Cuando un elemento original (Padre) es borrado de la base de datos por su autor:
+1.  **Enlace Histórico Persistente:** Dado que se han eliminado las restricciones de clave foránea `ON DELETE SET NULL` y la validación en cascada en la base de datos, el UUID del padre se conserva almacenado en el registro del hijo (`idea_id` o `doodle_id`).
+2.  **Detección de Borrado en la Aplicación:** Al abrir la pantalla de detalles del hijo, el ViewModel/Notifier intentará buscar el padre por su ID en Supabase. Si no existe en la base de datos (devolviendo `null`):
+    *   La aplicación reconoce que existía una procedencia histórica pero que el elemento ya no está presente físicamente.
+    *   En lugar de la tarjeta normal (`IdeaCard` o `DoodleCard`), la interfaz renderiza un contenedor informativo estilizado (`_buildDeletedPlaceholder`) usando claves de localización localizadas.
+3.  **Mensajes Localizados de Origen Borrado:**
+    *   **Ideas eliminadas:** *"La idea original ha sido borrada por su creador."* (o su traducción en inglés: *"The original idea has been deleted by its creator."*)
+    *   **Doodles eliminados:** *"El doodle original que inspiró este artwork ha sido borrado por su creador."* (o su traducción en inglés: *"The original doodle that inspired this artwork has been deleted by its creator."*)
+
