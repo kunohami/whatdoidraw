@@ -94,9 +94,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
       builder: (ctx) => AlertDialog(
         title: Text(l10n.canvasClearConfirmTitle),
         content: Text(l10n.canvasClearConfirmMessage),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),

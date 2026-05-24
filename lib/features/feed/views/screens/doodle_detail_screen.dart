@@ -28,7 +28,6 @@ class DoodleDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
-
   @override
   Widget build(BuildContext context) {
     final detailState = ref.watch(doodleDetailProvider(widget.doodle.id));
@@ -212,9 +211,7 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                         doodleDetailArtworksProvider(currentDoodle.id),
                       );
                       final artworksNotifier = ref.read(
-                        doodleDetailArtworksProvider(
-                          currentDoodle.id,
-                        ).notifier,
+                        doodleDetailArtworksProvider(currentDoodle.id).notifier,
                       );
 
                       return Padding(
@@ -224,9 +221,7 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                           children: [
                             Text(
                               l10n.sharedArtworksHeader,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall
+                              style: Theme.of(context).textTheme.titleSmall
                                   ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 8),

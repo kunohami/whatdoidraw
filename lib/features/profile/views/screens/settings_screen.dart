@@ -124,9 +124,7 @@ class SettingsScreen extends ConsumerWidget {
       builder: (context) => AlertDialog(
         title: Text(l10n.settingsLogoutConfirmTitle),
         content: Text(l10n.settingsLogoutConfirmMessage),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -309,10 +307,7 @@ class SettingsScreen extends ConsumerWidget {
               ),
               const Divider(),
               ListTile(
-                leading: const Icon(
-                  Icons.logout,
-                  color: Colors.redAccent,
-                ),
+                leading: const Icon(Icons.logout, color: Colors.redAccent),
                 title: Text(
                   l10n.profileTooltipLogout,
                   style: const TextStyle(
