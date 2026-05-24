@@ -166,9 +166,7 @@ class IdeaDetailScreen extends ConsumerWidget {
                 if (context.mounted) {
                   Navigator.pop(context); // Vuelve atrás tras eliminar
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.deleteIdeaSuccess),
-                    ),
+                    SnackBar(content: Text(l10n.deleteIdeaSuccess)),
                   );
                 }
               } catch (e) {

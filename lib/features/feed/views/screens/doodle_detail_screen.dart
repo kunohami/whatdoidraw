@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/artworks/presentation/screens/create_artwork_screen.dart';
 import 'package:whatdoidraw/features/auth/auth_provider.dart';
 import 'package:whatdoidraw/features/content_creation/services/content_creation_service.dart';
-import 'package:whatdoidraw/features/content_creation/views/screens/doodle_canvas_screen.dart';
+
 import 'package:whatdoidraw/features/content_creation/views/widgets/doodle_painter.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/artworks_feed_notifier.dart';
 import 'package:whatdoidraw/features/feed/viewmodels/doodle_detail_artworks_notifier.dart';
@@ -151,29 +151,6 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DoodleCanvasScreen(
-                                    ideaId: currentDoodle.ideaId,
-                                  ),
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.brush),
-                            label: Text(l10n.btnCreateAnother),
-                            style: FilledButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: FilledButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
                                   builder: (context) => CreateArtworkScreen(
                                     doodleId: currentDoodle.id,
                                     initialTags: currentDoodle.tags,
@@ -253,8 +230,7 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                   ),
 
                   // Selection content area
-                  if (_selectedOption == 'idea' &&
-                      currentDoodle.ideaId != null)
+                  if (_selectedOption == 'idea' && currentDoodle.ideaId != null)
                     Padding(
                       padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
                       child: Column(
@@ -405,19 +381,15 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.info_outline,
-            color: colorScheme.secondary,
-            size: 20,
-          ),
+          Icon(Icons.info_outline, color: colorScheme.secondary, size: 20),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               message,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                    fontStyle: FontStyle.italic,
-                  ),
+                color: colorScheme.onSurfaceVariant,
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ),
         ],
@@ -454,9 +426,7 @@ class _DoodleDetailScreenState extends ConsumerState<DoodleDetailScreen> {
                 if (context.mounted) {
                   Navigator.pop(context); // Vuelve atrás tras eliminar
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.deleteDoodleSuccess),
-                    ),
+                    SnackBar(content: Text(l10n.deleteDoodleSuccess)),
                   );
                 }
               } catch (e) {

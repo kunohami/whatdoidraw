@@ -50,7 +50,8 @@ class ArtworkDetailScreen extends ConsumerWidget {
             IconButton(
               icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
               tooltip: l10n.deleteArtworkTooltip,
-              onPressed: () => _confirmDeletion(context, ref, currentArtwork.id),
+              onPressed: () =>
+                  _confirmDeletion(context, ref, currentArtwork.id),
             ),
         ],
       ),
@@ -377,19 +378,15 @@ class ArtworkDetailScreen extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.info_outline,
-            color: colorScheme.secondary,
-            size: 20,
-          ),
+          Icon(Icons.info_outline, color: colorScheme.secondary, size: 20),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               message,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                    fontStyle: FontStyle.italic,
-                  ),
+                color: colorScheme.onSurfaceVariant,
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ),
         ],
@@ -426,9 +423,7 @@ class ArtworkDetailScreen extends ConsumerWidget {
                 if (context.mounted) {
                   Navigator.pop(context); // Vuelve atrás tras eliminar
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.deleteArtworkSuccess),
-                    ),
+                    SnackBar(content: Text(l10n.deleteArtworkSuccess)),
                   );
                 }
               } catch (e) {
