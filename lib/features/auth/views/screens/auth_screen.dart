@@ -119,46 +119,78 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
     final isLoading = authState is AsyncLoading;
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    final bool isKeyboardOpen = keyboardHeight > 0;
+
+    final double mascotHeight = isKeyboardOpen ? 0.0 : 100.0;
+    final double mascotSpacing = isKeyboardOpen ? 0.0 : 12.0;
+    final double titleHeight = isKeyboardOpen ? 0.0 : 36.0;
+    final double titleSpacing = isKeyboardOpen ? 0.0 : 16.0;
+    final double googleButtonHeight = isKeyboardOpen ? 0.0 : 50.0;
+    final double dividerSpacing = isKeyboardOpen ? 0.0 : 10.0;
 
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Logo o Icono animado de la mascota con float suave y stop-motion wiggling
-              AnimatedBuilder(
-                animation: _floatAnimation,
-                builder: (context, child) {
-                  return Transform.translate(
-                    offset: Offset(0, _floatAnimation.value),
-                    child: child,
-                  );
-                },
-                child: const MascotJitterWidget(
-                  imagePath: 'assets/images/mascot_idle.png',
-                  width: 140,
-                  height: 140,
-                  jitterIntensity: 0.3,
-                ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeInOut,
+                height: mascotHeight,
+                child: isKeyboardOpen
+                    ? const SizedBox.shrink()
+                    : AnimatedBuilder(
+                        animation: _floatAnimation,
+                        builder: (context, child) {
+                          return Transform.translate(
+                            offset: Offset(0, _floatAnimation.value),
+                            child: child,
+                          );
+                        },
+                        child: const MascotJitterWidget(
+                          imagePath: 'assets/images/mascot_idle.png',
+                          width: 100,
+                          height: 100,
+                          jitterIntensity: 0.3,
+                        ),
+                      ),
               ),
-              const SizedBox(height: 16),
-              Text(
-                'whatdoidraw?',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeInOut,
+                height: mascotSpacing,
               ),
-              const SizedBox(height: 32),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeInOut,
+                height: titleHeight,
+                child: isKeyboardOpen
+                    ? const SizedBox.shrink()
+                    : Text(
+                        'whatdoidraw?',
+                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeInOut,
+                height: titleSpacing,
+              ),
               Card(
                 elevation: 4,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -170,7 +202,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                               : (_isLogin ? 'Iniciar Sesión' : 'Crear Cuenta'),
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 16),
                         TextFormField(
                           controller: _emailController,
                           decoration: const InputDecoration(
@@ -185,7 +217,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                               : null,
                         ),
                         if (!_isForgotPassword) ...[
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
                           TextFormField(
                             controller: _passwordController,
                             decoration: const InputDecoration(
@@ -199,7 +231,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                                 : null,
                           ),
                           if (_isLogin) ...[
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 4),
                             Align(
                               alignment: Alignment.centerRight,
                               child: TextButton(
@@ -213,7 +245,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                             ),
                           ],
                         ],
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 16),
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -241,7 +273,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                                   ),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 10),
                         TextButton(
                           onPressed: () {
                             setState(() {
@@ -262,19 +294,41 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                           ),
                         ),
                         if (!_isForgotPassword) ...[
-                          const SizedBox(height: 16),
-                          const Row(
-                            children: [
-                              Expanded(child: Divider()),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                child: Text('O'),
-                              ),
-                              Expanded(child: Divider()),
-                            ],
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            curve: Curves.easeInOut,
+                            height: dividerSpacing,
                           ),
-                          const SizedBox(height: 16),
-                          const GoogleAuthButton(),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            curve: Curves.easeInOut,
+                            height: isKeyboardOpen ? 0.0 : 20.0,
+                            child: isKeyboardOpen
+                                ? const SizedBox.shrink()
+                                : const Row(
+                                    children: [
+                                      Expanded(child: Divider()),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 16),
+                                        child: Text('O'),
+                                      ),
+                                      Expanded(child: Divider()),
+                                    ],
+                                  ),
+                          ),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            curve: Curves.easeInOut,
+                            height: dividerSpacing,
+                          ),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            curve: Curves.easeInOut,
+                            height: googleButtonHeight,
+                            child: isKeyboardOpen
+                                ? const SizedBox.shrink()
+                                : const GoogleAuthButton(),
+                          ),
                         ],
                       ],
                     ),
