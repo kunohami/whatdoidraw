@@ -1147,6 +1147,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search'**
   String get profileTooltipSearchAction;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no notifications yet.'**
+  String get notificationsEmpty;
+
+  /// No description provided for @notificationsPushDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Push Notifications'**
+  String get notificationsPushDialogTitle;
+
+  /// No description provided for @notificationsPushDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to receive push notifications on your phone when someone uses your ideas or doodles?'**
+  String get notificationsPushDialogContent;
+
+  /// No description provided for @notificationsPushDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notificationsPushDialogCancel;
+
+  /// No description provided for @notificationsPushDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, enable'**
+  String get notificationsPushDialogConfirm;
+
+  /// No description provided for @notifIdeaUsedForDoodle.
+  ///
+  /// In en, this message translates to:
+  /// **'@{username} used your idea for a doodle'**
+  String notifIdeaUsedForDoodle(String username);
+
+  /// No description provided for @notifIdeaUsedForArtwork.
+  ///
+  /// In en, this message translates to:
+  /// **'@{username} used your idea for an artwork'**
+  String notifIdeaUsedForArtwork(String username);
+
+  /// No description provided for @notifDoodleUsedForArtwork.
+  ///
+  /// In en, this message translates to:
+  /// **'@{username} used your doodle for an artwork'**
+  String notifDoodleUsedForArtwork(String username);
 }
 
 class _AppLocalizationsDelegate

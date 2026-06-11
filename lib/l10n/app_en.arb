@@ -262,5 +262,35 @@
   "profileVisitorMode": "Visitor Mode",
   "profileExpandHint": "Swipe down to expand",
   "profileTooltipSearch": "Search creators",
-  "profileTooltipSearchAction": "Search"
+  "profileTooltipSearchAction": "Search",
+  "notificationsTitle": "Notifications",
+  "notificationsEmpty": "You have no notifications yet.",
+  "notificationsPushDialogTitle": "Push Notifications",
+  "notificationsPushDialogContent": "Do you want to receive push notifications on your phone when someone uses your ideas or doodles?",
+  "notificationsPushDialogCancel": "Not now",
+  "notificationsPushDialogConfirm": "Yes, enable",
+  "notifIdeaUsedForDoodle": "@{username} used your idea for a doodle",
+  "@notifIdeaUsedForDoodle": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "notifIdeaUsedForArtwork": "@{username} used your idea for an artwork",
+  "@notifIdeaUsedForArtwork": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "notifDoodleUsedForArtwork": "@{username} used your doodle for an artwork",
+  "@notifDoodleUsedForArtwork": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -589,4 +589,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileTooltipSearchAction => 'Search';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsEmpty => 'You have no notifications yet.';
+
+  @override
+  String get notificationsPushDialogTitle => 'Push Notifications';
+
+  @override
+  String get notificationsPushDialogContent =>
+      'Do you want to receive push notifications on your phone when someone uses your ideas or doodles?';
+
+  @override
+  String get notificationsPushDialogCancel => 'Not now';
+
+  @override
+  String get notificationsPushDialogConfirm => 'Yes, enable';
+
+  @override
+  String notifIdeaUsedForDoodle(String username) {
+    return '@$username used your idea for a doodle';
+  }
+
+  @override
+  String notifIdeaUsedForArtwork(String username) {
+    return '@$username used your idea for an artwork';
+  }
+
+  @override
+  String notifDoodleUsedForArtwork(String username) {
+    return '@$username used your doodle for an artwork';
+  }
 }

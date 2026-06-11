@@ -20,7 +20,7 @@
 
   "creationHubTitle": "Crear",
   "creationHubNewIdea": "Nueva Idea",
-  "creationHubNewIdeaSubtitle": "Escribe un prompt para desafiar a los dibujantes.",
+  "creationHubNewIdeaSubtitle": "Escribe una sugerencia para desafiar a los dibujantes.",
   "creationHubNewDoodle": "Nuevo Boceto",
   "creationHubNewDoodleSubtitle": "Abre el lienzo y dibuja por tu cuenta.",
   "creationHubBookmarks": "Guardados",
@@ -157,7 +157,7 @@
   "settingsTutorialSection": "Ayuda y Soporte",
   "tutorialWelcome": "¡Hola! Te doy la bienvenida a \"whatdoidraw\" Ya sea para dar ideas o para inspirarte,¡Espero que lo pases bien!",
   "tutorialConcept": "Esta aplicación se basa en una idea muy simple: inspirar y ser inspirado. Hay tres formas principales de interactuar con la comunidad.",
-  "tutorialIdeas": "1. Ideas: ¿No sabes qué dibujar? Explora ideas sugeridas por otros, o escribe tu propio prompt creativo para desafiar a los demás.",
+  "tutorialIdeas": "1. Ideas: ¿No sabes qué dibujar? Explora ideas sugeridas por otros, o escribe tu propia sugerencia creativa para desafiar a los demás.",
   "tutorialDoodles": "2. Bocetos: Dibuja bocetos rápidos basados en esas ideas... o lo que quieras.",
   "tutorialArtworks": "3. Arte: Lleva los bocetos al siguiente nivel. Si te gusta alguna idea o boceto y creas arte, publícalo en tu red social y comparte el enlace por aquí. El creador de la idea o boceto sabrá qué has creado y se podrá pasar a verlo. ",
   "tutorialReady": "¡Eso es todo! Puedes repasar este tutorial o las ayudas de cada pantalla en cualquier momento. ¡A inspirar!",
@@ -262,5 +262,35 @@
   "profileVisitorMode": "Modo Visitante",
   "profileExpandHint": "Desliza hacia abajo para expandir",
   "profileTooltipSearch": "Buscar creadores",
-  "profileTooltipSearchAction": "Buscar"
+  "profileTooltipSearchAction": "Buscar",
+  "notificationsTitle": "Notificaciones",
+  "notificationsEmpty": "No tienes notificaciones aún.",
+  "notificationsPushDialogTitle": "Notificaciones Push",
+  "notificationsPushDialogContent": "¿Quieres recibir notificaciones en tu móvil cuando alguien use tus ideas o bocetos?",
+  "notificationsPushDialogCancel": "Ahora no",
+  "notificationsPushDialogConfirm": "Sí, activar",
+  "notifIdeaUsedForDoodle": "@{username} ha usado tu idea para un boceto",
+  "@notifIdeaUsedForDoodle": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "notifIdeaUsedForArtwork": "@{username} ha usado tu idea para un arte",
+  "@notifIdeaUsedForArtwork": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "notifDoodleUsedForArtwork": "@{username} ha usado tu boceto para un arte",
+  "@notifDoodleUsedForArtwork": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -61,7 +61,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get creationHubNewIdeaSubtitle =>
-      'Escribe un prompt para desafiar a los dibujantes.';
+      'Escribe una sugerencia para desafiar a los dibujantes.';
 
   @override
   String get creationHubNewDoodle => 'Nuevo Boceto';
@@ -302,7 +302,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tutorialIdeas =>
-      '1. Ideas: ¿No sabes qué dibujar? Explora ideas sugeridas por otros, o escribe tu propio prompt creativo para desafiar a los demás.';
+      '1. Ideas: ¿No sabes qué dibujar? Explora ideas sugeridas por otros, o escribe tu propia sugerencia creativa para desafiar a los demás.';
 
   @override
   String get tutorialDoodles =>
@@ -590,4 +590,38 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get profileTooltipSearchAction => 'Buscar';
+
+  @override
+  String get notificationsTitle => 'Notificaciones';
+
+  @override
+  String get notificationsEmpty => 'No tienes notificaciones aún.';
+
+  @override
+  String get notificationsPushDialogTitle => 'Notificaciones Push';
+
+  @override
+  String get notificationsPushDialogContent =>
+      '¿Quieres recibir notificaciones en tu móvil cuando alguien use tus ideas o bocetos?';
+
+  @override
+  String get notificationsPushDialogCancel => 'Ahora no';
+
+  @override
+  String get notificationsPushDialogConfirm => 'Sí, activar';
+
+  @override
+  String notifIdeaUsedForDoodle(String username) {
+    return '@$username ha usado tu idea para un boceto';
+  }
+
+  @override
+  String notifIdeaUsedForArtwork(String username) {
+    return '@$username ha usado tu idea para un arte';
+  }
+
+  @override
+  String notifDoodleUsedForArtwork(String username) {
+    return '@$username ha usado tu boceto para un arte';
+  }
 }
