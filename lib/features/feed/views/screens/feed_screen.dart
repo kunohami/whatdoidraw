@@ -235,7 +235,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
           toolbarHeight: 72.0,
           leading: IconButton(
             icon: const Icon(Icons.info_outline),
-            tooltip: 'Ayuda',
+            tooltip: l10n.tooltipHelp,
             onPressed: () {
               TutorialOverlay.showFeedInfo(context, l10n, _tabController.index);
             },
@@ -245,16 +245,16 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
             controller: _tabController,
             labelPadding: EdgeInsets.zero,
             indicatorSize: TabBarIndicatorSize.label,
-            tabs: const [
-              Tab(icon: Icon(Icons.lightbulb_outline, size: 20), text: 'Ideas'),
-              Tab(icon: Icon(Icons.brush, size: 20), text: 'Doodles'),
-              Tab(icon: Icon(Icons.art_track, size: 20), text: 'Artworks'),
+            tabs: [
+              Tab(icon: const Icon(Icons.lightbulb_outline, size: 20), text: l10n.tabIdeas),
+              Tab(icon: const Icon(Icons.brush, size: 20), text: l10n.tabDoodles),
+              Tab(icon: const Icon(Icons.art_track, size: 20), text: l10n.tabArtworks),
             ],
           ),
           actions: [
             IconButton(
               icon: const Icon(Icons.notifications_none),
-              tooltip: 'Notificaciones',
+              tooltip: l10n.tooltipNotifications,
               onPressed: () {
                 Navigator.push(
                   context,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/bookmarks/viewmodels/bookmark_viewmodel.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/doodle_card.dart';
 import 'package:whatdoidraw/shared/widgets/idea_card.dart';
 
@@ -9,16 +10,17 @@ class BookmarksScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Guardados'),
+          title: Text(l10n.creationHubBookmarks),
           centerTitle: true,
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.lightbulb_outline), text: "Ideas"),
-              Tab(icon: Icon(Icons.brush), text: "Doodles"),
+              Tab(icon: const Icon(Icons.lightbulb_outline), text: l10n.tabIdeas),
+              Tab(icon: const Icon(Icons.brush), text: l10n.tabDoodles),
             ],
           ),
         ),
@@ -36,11 +38,12 @@ class _BookmarkedIdeasTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ideasAsync = ref.watch(bookmarkedIdeasProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return ideasAsync.when(
       data: (ideas) {
         if (ideas.isEmpty) {
-          return const Center(child: Text("No tienes ideas guardadas."));
+          return Center(child: Text(l10n.bookmarksNoIdeas));
         }
         return ListView.builder(
           padding: const EdgeInsets.all(16),
@@ -62,11 +65,12 @@ class _BookmarkedDoodlesTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final doodlesAsync = ref.watch(bookmarkedDoodlesProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return doodlesAsync.when(
       data: (doodles) {
         if (doodles.isEmpty) {
-          return const Center(child: Text("No tienes doodles guardados."));
+          return Center(child: Text(l10n.bookmarksNoDoodles));
         }
         return GridView.builder(
           padding: const EdgeInsets.all(16),

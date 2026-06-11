@@ -149,7 +149,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         });
                       },
                       icon: const Icon(Icons.search),
-                      tooltip: 'Buscar creadores',
+                      tooltip: l10n.profileTooltipSearch,
                     )
                   : null),
         title: _isSearching
@@ -199,7 +199,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () => _performSearch(_searchController.text),
-                    tooltip: 'Buscar',
+                    tooltip: l10n.profileTooltipSearchAction,
                   ),
                   IconButton(
                     icon: const Icon(Icons.close),
@@ -224,7 +224,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       });
                     },
                     icon: const Icon(Icons.search),
-                    tooltip: 'Buscar creadores',
+                    tooltip: l10n.profileTooltipSearch,
                   ),
                 if (isOwnProfile) ...[
                   IconButton(
@@ -368,7 +368,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                         ),
                                         const SizedBox(width: 4),
                                         Text(
-                                          "Desliza hacia abajo para expandir",
+                                          l10n.profileExpandHint,
                                           style: TextStyle(
                                             fontSize: 9,
                                             color: Theme.of(
@@ -454,19 +454,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(16),
                                                 ),
-                                                child: const Row(
+                                                child: Row(
                                                   mainAxisSize:
                                                       MainAxisSize.min,
                                                   children: [
-                                                    Icon(
+                                                    const Icon(
                                                       Icons.explore_outlined,
                                                       color: Colors.white,
                                                       size: 12,
                                                     ),
-                                                    SizedBox(width: 4),
+                                                    const SizedBox(width: 4),
                                                     Text(
-                                                      "Visitor Mode",
-                                                      style: TextStyle(
+                                                      l10n.profileVisitorMode,
+                                                      style: const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 11,
                                                         fontWeight:
@@ -499,11 +499,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                   ),
                   // Tabs
-                  const TabBar(
+                  TabBar(
                     tabs: [
-                      Tab(icon: Icon(Icons.lightbulb_outline), text: "Ideas"),
-                      Tab(icon: Icon(Icons.brush), text: "Doodles"),
-                      Tab(icon: Icon(Icons.palette), text: "Artworks"),
+                      Tab(icon: const Icon(Icons.lightbulb_outline), text: l10n.tabIdeas),
+                      Tab(icon: const Icon(Icons.brush), text: l10n.tabDoodles),
+                      Tab(icon: const Icon(Icons.palette), text: l10n.tabArtworks),
                     ],
                   ),
                   // Tab Views

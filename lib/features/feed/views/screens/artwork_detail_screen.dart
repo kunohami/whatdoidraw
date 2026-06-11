@@ -429,7 +429,7 @@ class ArtworkDetailScreen extends ConsumerWidget {
               } catch (e) {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error al eliminar: $e')),
+                    SnackBar(content: Text(l10n.genericError(e.toString()))),
                   );
                 }
               }

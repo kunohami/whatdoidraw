@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatdoidraw/features/artworks/services/artwork_link_service.dart';
 import 'package:whatdoidraw/features/artworks/viewmodels/create_artwork_viewmodel.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/moving_gradient_placeholder.dart';
 
 class CreateArtworkScreen extends ConsumerStatefulWidget {
@@ -49,6 +50,7 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
   }
 
   void _publish() async {
+    final l10n = AppLocalizations.of(context)!;
     final success = await ref
         .read(createArtworkViewModelProvider.notifier)
         .publishArtwork(
@@ -60,7 +62,7 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
 
     if (success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('¡Artwork publicado correctamente!')),
+        SnackBar(content: Text(l10n.createArtworkSuccessSnackBar)),
       );
       Navigator.of(context).pop(); // Volver atrás
     }
@@ -85,9 +87,10 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(createArtworkViewModelProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Publicar Artwork')),
+      appBar: AppBar(title: Text(l10n.createArtworkTitle)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -95,27 +98,27 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                'Enlaza tu obra final para compartirla. Si usas DeviantArt o Bluesky, se mostrará una miniatura automáticamente.',
-                style: TextStyle(fontSize: 16),
+              Text(
+                l10n.createArtworkInstruction,
+                style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _urlController,
-                decoration: const InputDecoration(
-                  labelText: 'URL del Artwork',
-                  hintText: 'DeviantArt o Bluesky...',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.link),
+                decoration: InputDecoration(
+                  labelText: l10n.createArtworkUrlLabel,
+                  hintText: l10n.createArtworkUrlHint,
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.link),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Introduce una URL';
+                    return l10n.createArtworkUrlRequired;
                   }
                   if (!ref
                       .read(artworkLinkServiceProvider.notifier)
                       .isValidUrl(value)) {
-                    return 'Introduce una red social válida (Instagram, ArtStation, Cara, etc.)';
+                    return l10n.createArtworkUrlInvalid;
                   }
                   return null;
                 },
@@ -129,9 +132,9 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                 },
               ),
               const SizedBox(height: 24),
-              const Text(
-                'Etiquetas (Tags)',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              Text(
+                l10n.createArtworkTagsLabel,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Wrap(
@@ -150,9 +153,9 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                   Expanded(
                     child: TextField(
                       controller: _tagController,
-                      decoration: const InputDecoration(
-                        hintText: 'Añadir etiqueta...',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        hintText: l10n.createArtworkTagAddHint,
+                        border: const OutlineInputBorder(),
                       ),
                       onSubmitted: (_) => _addTag(),
                     ),
@@ -173,7 +176,7 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                         width: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text('Cargar Vista Previa'),
+                    : Text(l10n.createArtworkLoadPreviewBtn),
               ),
               const SizedBox(height: 24),
               if (state.error != null)
@@ -210,15 +213,18 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                       ListTile(
                         title: Text(state.preview!.title),
                         subtitle: Text(
-                          'por ${state.preview!.authorName} (${state.preview!.providerName})',
+                          l10n.createArtworkAuthorFormat(
+                            state.preview!.authorName,
+                            state.preview!.providerName,
+                          ),
                         ),
                       ),
                       if (state.preview!.thumbnailUrl.isEmpty)
-                        const Padding(
-                          padding: EdgeInsets.all(16.0),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
                           child: Text(
-                            'Nota: No hay miniatura disponible para esta red social. Se mostrará solo el enlace.',
-                            style: TextStyle(
+                            l10n.createArtworkNoThumbnailNote,
+                            style: const TextStyle(
                               fontStyle: FontStyle.italic,
                               fontSize: 12,
                             ),
@@ -232,7 +238,7 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
                 FilledButton.icon(
                   onPressed: state.isLoading ? null : _publish,
                   icon: const Icon(Icons.publish),
-                  label: const Text('Publicar Artwork'),
+                  label: Text(l10n.createArtworkTitle),
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.all(16),
                   ),

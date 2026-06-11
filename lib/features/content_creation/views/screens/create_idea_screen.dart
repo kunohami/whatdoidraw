@@ -35,6 +35,7 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
 
   void _submit() async {
     if (_controller.text.trim().isEmpty) return;
+    final l10n = AppLocalizations.of(context)!;
 
     try {
       await ref
@@ -44,7 +45,6 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
         _controller.clear();
         setState(() => _tags = []);
 
-        final l10n = AppLocalizations.of(context)!;
         await showDialog(
           context: context,
           barrierDismissible: false,
@@ -75,7 +75,7 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(l10n.genericError(e.toString())), backgroundColor: Colors.red),
         );
       }
     }
@@ -88,12 +88,12 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('💡 Nueva Idea'),
+        title: Text('💡 ${l10n.creationHubNewIdea}'),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),
-            tooltip: 'Ayuda',
+            tooltip: l10n.tooltipHelp,
             onPressed: () {
               TutorialOverlay.showCreateIdeaInfo(context, l10n);
             },
@@ -106,9 +106,9 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                '¿Qué te gustaría que alguien dibujara hoy?',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              Text(
+                l10n.createIdeaPromptQuestion,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 24),
               TextField(
@@ -116,7 +116,7 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
                 maxLines: 5,
                 maxLength: 300,
                 decoration: InputDecoration(
-                  hintText: 'Ej: Un gato astronauta bebiendo café...',
+                  hintText: l10n.createIdeaPromptHint,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -131,9 +131,9 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
               ),
               const SizedBox(height: 16),
               SegmentedButton<String>(
-                segments: const [
-                  ButtonSegment(value: 'en', label: Text('English')),
-                  ButtonSegment(value: 'es', label: Text('Español')),
+                segments: [
+                  ButtonSegment(value: 'en', label: Text(l10n.languageEnglish)),
+                  ButtonSegment(value: 'es', label: Text(l10n.languageSpanish)),
                 ],
                 selected: {_selectedLanguage},
                 onSelectionChanged: (Set<String> newSelection) {
@@ -157,7 +157,7 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
                         width: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text('Enviar Idea', style: TextStyle(fontSize: 16)),
+                    : Text(l10n.createIdeaSubmitBtn, style: const TextStyle(fontSize: 16)),
               ),
               const SizedBox(height: 24),
             ],

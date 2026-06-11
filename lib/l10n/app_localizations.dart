@@ -901,6 +901,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exit'**
   String get btnExit;
+
+  /// No description provided for @settingsSelectThemeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Theme'**
+  String get settingsSelectThemeTitle;
+
+  /// No description provided for @settingsEmailAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Account'**
+  String get settingsEmailAccount;
+
+  /// No description provided for @settingsNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available'**
+  String get settingsNotAvailable;
+
+  /// No description provided for @settingsVisualTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Visual Theme'**
+  String get settingsVisualTheme;
+
+  /// No description provided for @settingsPushNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Push Notifications'**
+  String get settingsPushNotifications;
+
+  /// No description provided for @settingsEmailNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Notifications'**
+  String get settingsEmailNotifications;
+
+  /// No description provided for @tooltipHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get tooltipHelp;
+
+  /// No description provided for @tooltipNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get tooltipNotifications;
+
+  /// No description provided for @tutorialSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip tutorial'**
+  String get tutorialSkip;
+
+  /// No description provided for @tutorialNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get tutorialNext;
+
+  /// No description provided for @tutorialStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started!'**
+  String get tutorialStart;
+
+  /// No description provided for @tabIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'Ideas'**
+  String get tabIdeas;
+
+  /// No description provided for @tabDoodles.
+  ///
+  /// In en, this message translates to:
+  /// **'Doodles'**
+  String get tabDoodles;
+
+  /// No description provided for @tabArtworks.
+  ///
+  /// In en, this message translates to:
+  /// **'Artworks'**
+  String get tabArtworks;
+
+  /// No description provided for @bookmarksNoIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no saved ideas.'**
+  String get bookmarksNoIdeas;
+
+  /// No description provided for @bookmarksNoDoodles.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no saved doodles.'**
+  String get bookmarksNoDoodles;
+
+  /// No description provided for @createIdeaPromptQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'What would you like someone to draw today?'**
+  String get createIdeaPromptQuestion;
+
+  /// No description provided for @createIdeaPromptHint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g., An astronaut cat drinking coffee...'**
+  String get createIdeaPromptHint;
+
+  /// No description provided for @createIdeaSubmitBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Idea'**
+  String get createIdeaSubmitBtn;
+
+  /// No description provided for @canvasAddTagsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tags'**
+  String get canvasAddTagsTitle;
+
+  /// No description provided for @canvasAddTagsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help others discover your sketch with descriptive tags.'**
+  String get canvasAddTagsSubtitle;
+
+  /// No description provided for @canvasPublishBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish Sketch'**
+  String get canvasPublishBtn;
+
+  /// No description provided for @canvasPublishAction.
+  ///
+  /// In en, this message translates to:
+  /// **'PUBLISH'**
+  String get canvasPublishAction;
+
+  /// No description provided for @canvasUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading your sketch...'**
+  String get canvasUploading;
+
+  /// No description provided for @createArtworkSuccessSnackBar.
+  ///
+  /// In en, this message translates to:
+  /// **'Artwork published successfully!'**
+  String get createArtworkSuccessSnackBar;
+
+  /// No description provided for @createArtworkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish Artwork'**
+  String get createArtworkTitle;
+
+  /// No description provided for @createArtworkInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Link your final artwork to share it. If you use DeviantArt or Bluesky, a thumbnail will be shown automatically.'**
+  String get createArtworkInstruction;
+
+  /// No description provided for @createArtworkUrlLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Artwork URL'**
+  String get createArtworkUrlLabel;
+
+  /// No description provided for @createArtworkUrlHint.
+  ///
+  /// In en, this message translates to:
+  /// **'DeviantArt or Bluesky...'**
+  String get createArtworkUrlHint;
+
+  /// No description provided for @createArtworkUrlRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a URL'**
+  String get createArtworkUrlRequired;
+
+  /// No description provided for @createArtworkUrlInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid social network URL (Instagram, ArtStation, Cara, etc.)'**
+  String get createArtworkUrlInvalid;
+
+  /// No description provided for @createArtworkTagsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get createArtworkTagsLabel;
+
+  /// No description provided for @createArtworkTagAddHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tag...'**
+  String get createArtworkTagAddHint;
+
+  /// No description provided for @createArtworkLoadPreviewBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Load Preview'**
+  String get createArtworkLoadPreviewBtn;
+
+  /// No description provided for @createArtworkAuthorFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'by {author} ({provider})'**
+  String createArtworkAuthorFormat(String author, String provider);
+
+  /// No description provided for @createArtworkNoThumbnailNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note: No thumbnail available for this platform. Only the link will be shown.'**
+  String get createArtworkNoThumbnailNote;
+
+  /// No description provided for @genericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String genericError(String error);
+
+  /// No description provided for @profileVisitorMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Visitor Mode'**
+  String get profileVisitorMode;
+
+  /// No description provided for @profileExpandHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe down to expand'**
+  String get profileExpandHint;
+
+  /// No description provided for @profileTooltipSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search creators'**
+  String get profileTooltipSearch;
+
+  /// No description provided for @profileTooltipSearchAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get profileTooltipSearchAction;
 }
 
 class _AppLocalizationsDelegate

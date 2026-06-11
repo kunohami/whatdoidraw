@@ -203,5 +203,64 @@
   "createIdeaSuccessDialogTitle": "Idea Published!",
   "createIdeaSuccessDialogContent": "Would you like to write another creative idea or exit?",
   "btnWriteAnother": "Write another",
-  "btnExit": "Exit"
+  "btnExit": "Exit",
+
+  "settingsSelectThemeTitle": "Select Theme",
+  "settingsEmailAccount": "Email Account",
+  "settingsNotAvailable": "Not available",
+  "settingsVisualTheme": "Visual Theme",
+  "settingsPushNotifications": "Push Notifications",
+  "settingsEmailNotifications": "Email Notifications",
+  "tooltipHelp": "Help",
+  "tooltipNotifications": "Notifications",
+  "tutorialSkip": "Skip tutorial",
+  "tutorialNext": "Next",
+  "tutorialStart": "Get Started!",
+  "tabIdeas": "Ideas",
+  "tabDoodles": "Doodles",
+  "tabArtworks": "Artworks",
+  "bookmarksNoIdeas": "You have no saved ideas.",
+  "bookmarksNoDoodles": "You have no saved doodles.",
+  "createIdeaPromptQuestion": "What would you like someone to draw today?",
+  "createIdeaPromptHint": "E.g., An astronaut cat drinking coffee...",
+  "createIdeaSubmitBtn": "Submit Idea",
+  "canvasAddTagsTitle": "Add tags",
+  "canvasAddTagsSubtitle": "Help others discover your sketch with descriptive tags.",
+  "canvasPublishBtn": "Publish Sketch",
+  "canvasPublishAction": "PUBLISH",
+  "canvasUploading": "Uploading your sketch...",
+  "createArtworkSuccessSnackBar": "Artwork published successfully!",
+  "createArtworkTitle": "Publish Artwork",
+  "createArtworkInstruction": "Link your final artwork to share it. If you use DeviantArt or Bluesky, a thumbnail will be shown automatically.",
+  "createArtworkUrlLabel": "Artwork URL",
+  "createArtworkUrlHint": "DeviantArt or Bluesky...",
+  "createArtworkUrlRequired": "Please enter a URL",
+  "createArtworkUrlInvalid": "Please enter a valid social network URL (Instagram, ArtStation, Cara, etc.)",
+  "createArtworkTagsLabel": "Tags",
+  "createArtworkTagAddHint": "Add tag...",
+  "createArtworkLoadPreviewBtn": "Load Preview",
+  "createArtworkAuthorFormat": "by {author} ({provider})",
+  "@createArtworkAuthorFormat": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      },
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "createArtworkNoThumbnailNote": "Note: No thumbnail available for this platform. Only the link will be shown.",
+  "genericError": "Error: {error}",
+  "@genericError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "profileVisitorMode": "Visitor Mode",
+  "profileExpandHint": "Swipe down to expand",
+  "profileTooltipSearch": "Search creators",
+  "profileTooltipSearchAction": "Search"
 }

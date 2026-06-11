@@ -456,4 +456,137 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get btnExit => 'Exit';
+
+  @override
+  String get settingsSelectThemeTitle => 'Select Theme';
+
+  @override
+  String get settingsEmailAccount => 'Email Account';
+
+  @override
+  String get settingsNotAvailable => 'Not available';
+
+  @override
+  String get settingsVisualTheme => 'Visual Theme';
+
+  @override
+  String get settingsPushNotifications => 'Push Notifications';
+
+  @override
+  String get settingsEmailNotifications => 'Email Notifications';
+
+  @override
+  String get tooltipHelp => 'Help';
+
+  @override
+  String get tooltipNotifications => 'Notifications';
+
+  @override
+  String get tutorialSkip => 'Skip tutorial';
+
+  @override
+  String get tutorialNext => 'Next';
+
+  @override
+  String get tutorialStart => 'Get Started!';
+
+  @override
+  String get tabIdeas => 'Ideas';
+
+  @override
+  String get tabDoodles => 'Doodles';
+
+  @override
+  String get tabArtworks => 'Artworks';
+
+  @override
+  String get bookmarksNoIdeas => 'You have no saved ideas.';
+
+  @override
+  String get bookmarksNoDoodles => 'You have no saved doodles.';
+
+  @override
+  String get createIdeaPromptQuestion =>
+      'What would you like someone to draw today?';
+
+  @override
+  String get createIdeaPromptHint =>
+      'E.g., An astronaut cat drinking coffee...';
+
+  @override
+  String get createIdeaSubmitBtn => 'Submit Idea';
+
+  @override
+  String get canvasAddTagsTitle => 'Add tags';
+
+  @override
+  String get canvasAddTagsSubtitle =>
+      'Help others discover your sketch with descriptive tags.';
+
+  @override
+  String get canvasPublishBtn => 'Publish Sketch';
+
+  @override
+  String get canvasPublishAction => 'PUBLISH';
+
+  @override
+  String get canvasUploading => 'Uploading your sketch...';
+
+  @override
+  String get createArtworkSuccessSnackBar => 'Artwork published successfully!';
+
+  @override
+  String get createArtworkTitle => 'Publish Artwork';
+
+  @override
+  String get createArtworkInstruction =>
+      'Link your final artwork to share it. If you use DeviantArt or Bluesky, a thumbnail will be shown automatically.';
+
+  @override
+  String get createArtworkUrlLabel => 'Artwork URL';
+
+  @override
+  String get createArtworkUrlHint => 'DeviantArt or Bluesky...';
+
+  @override
+  String get createArtworkUrlRequired => 'Please enter a URL';
+
+  @override
+  String get createArtworkUrlInvalid =>
+      'Please enter a valid social network URL (Instagram, ArtStation, Cara, etc.)';
+
+  @override
+  String get createArtworkTagsLabel => 'Tags';
+
+  @override
+  String get createArtworkTagAddHint => 'Add tag...';
+
+  @override
+  String get createArtworkLoadPreviewBtn => 'Load Preview';
+
+  @override
+  String createArtworkAuthorFormat(String author, String provider) {
+    return 'by $author ($provider)';
+  }
+
+  @override
+  String get createArtworkNoThumbnailNote =>
+      'Note: No thumbnail available for this platform. Only the link will be shown.';
+
+  @override
+  String genericError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get profileVisitorMode => 'Visitor Mode';
+
+  @override
+  String get profileExpandHint => 'Swipe down to expand';
+
+  @override
+  String get profileTooltipSearch => 'Search creators';
+
+  @override
+  String get profileTooltipSearchAction => 'Search';
 }
