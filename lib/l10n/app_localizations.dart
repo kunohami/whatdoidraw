@@ -1201,6 +1201,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'@{username} used your doodle for an artwork'**
   String notifDoodleUsedForArtwork(String username);
+
+  /// No description provided for @feedNoSearchResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found for \"{query}\"'**
+  String feedNoSearchResults(String query);
 }
 
 class _AppLocalizationsDelegate

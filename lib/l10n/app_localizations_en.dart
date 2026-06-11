@@ -623,4 +623,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String notifDoodleUsedForArtwork(String username) {
     return '@$username used your doodle for an artwork';
   }
+
+  @override
+  String feedNoSearchResults(String query) {
+    return 'No results found for \"$query\"';
+  }
 }

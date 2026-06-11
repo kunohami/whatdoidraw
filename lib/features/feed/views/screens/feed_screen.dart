@@ -38,14 +38,34 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_handleTabChange);
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_handleTabChange);
     _tabController.dispose();
     _searchController.dispose();
     _debounce?.cancel();
     super.dispose();
+  }
+
+  void _handleTabChange() {
+    if (!_tabController.indexIsChanging) {
+      final tab = _tabController.index;
+      String activeQuery = '';
+      if (tab == 0) {
+        activeQuery = ref.read(ideasFeedProvider).searchQuery;
+      } else if (tab == 1) {
+        activeQuery = ref.read(doodlesFeedProvider).searchQuery;
+      } else if (tab == 2) {
+        activeQuery = ref.read(artworksFeedProvider).searchQuery;
+      }
+      if (_searchController.text != activeQuery) {
+        _searchController.text = activeQuery;
+        setState(() {});
+      }
+    }
   }
 
   void _onSearchChanged(String query) {
@@ -54,12 +74,20 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
       final tab = _tabController.index;
       if (tab == 0) {
         ref.read(ideasFeedProvider.notifier).updateSearch(query);
-      } else if (tab == 1) {
-        ref.read(doodlesFeedProvider.notifier).updateSearch(query);
-      } else if (tab == 2) {
-        ref.read(artworksFeedProvider.notifier).updateSearch(query);
       }
     });
+  }
+
+  void _onSearchSubmitted(String query) {
+    _debounce?.cancel();
+    final tab = _tabController.index;
+    if (tab == 0) {
+      ref.read(ideasFeedProvider.notifier).updateSearch(query);
+    } else if (tab == 1) {
+      ref.read(doodlesFeedProvider.notifier).updateSearch(query.trim());
+    } else if (tab == 2) {
+      ref.read(artworksFeedProvider.notifier).updateSearch(query.trim());
+    }
   }
 
   void _showFilterSheet() {
@@ -286,14 +314,22 @@ class _FeedScreenState extends ConsumerState<FeedScreen>
                             .withValues(alpha: 0.5),
                       ),
                       leading: const Icon(Icons.search, size: 20),
-                      onChanged: _onSearchChanged,
+                      onChanged: (value) {
+                        final tab = _tabController.index;
+                        if (tab == 0) {
+                          _onSearchChanged(value);
+                        } else {
+                          setState(() {});
+                        }
+                      },
+                      onSubmitted: _onSearchSubmitted,
                       trailing: [
                         if (_searchController.text.isNotEmpty)
                           IconButton(
                             icon: const Icon(Icons.clear, size: 20),
                             onPressed: () {
                               _searchController.clear();
-                              _onSearchChanged('');
+                              _onSearchSubmitted('');
                             },
                           ),
                       ],
@@ -420,7 +456,13 @@ class _IdeasFeedTab extends ConsumerWidget {
     }
 
     if (state.ideas.isEmpty) {
-      return Center(child: Text(l10n.feedNoIdeas));
+      return Center(
+        child: Text(
+          state.searchQuery.isNotEmpty
+              ? l10n.feedNoSearchResults(state.searchQuery)
+              : l10n.feedNoIdeas,
+        ),
+      );
     }
 
     return ListView.builder(
@@ -464,7 +506,13 @@ class _DoodlesFeedTab extends ConsumerWidget {
     }
 
     if (state.doodles.isEmpty) {
-      return Center(child: Text(l10n.feedNoDoodles));
+      return Center(
+        child: Text(
+          state.searchQuery.isNotEmpty
+              ? l10n.feedNoSearchResults(state.searchQuery)
+              : l10n.feedNoDoodles,
+        ),
+      );
     }
 
     return CustomScrollView(
@@ -520,7 +568,13 @@ class _ArtworksFeedTab extends ConsumerWidget {
     }
 
     if (state.artworks.isEmpty) {
-      return Center(child: Text(l10n.feedNoArtworks));
+      return Center(
+        child: Text(
+          state.searchQuery.isNotEmpty
+              ? l10n.feedNoSearchResults(state.searchQuery)
+              : l10n.feedNoArtworks,
+        ),
+      );
     }
 
     return ListView.builder(

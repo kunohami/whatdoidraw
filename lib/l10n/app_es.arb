@@ -292,5 +292,13 @@
         "type": "String"
       }
     }
+  },
+  "feedNoSearchResults": "No se encontraron resultados para \"{query}\"",
+  "@feedNoSearchResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
   }
 }
