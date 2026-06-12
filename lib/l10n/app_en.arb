@@ -300,5 +300,22 @@
         "type": "String"
       }
     }
+  },
+  "tagInputHint": "Add tag (max. {maxTags})",
+  "@tagInputHint": {
+    "placeholders": {
+      "maxTags": {
+        "type": "int"
+      }
+    }
+  },
+  "tagInputHelper": "Press space, comma, or enter to confirm",
+  "tagInputLimitReached": "Limit of {maxTags} tags reached",
+  "@tagInputLimitReached": {
+    "placeholders": {
+      "maxTags": {
+        "type": "int"
+      }
+    }
   }
 }

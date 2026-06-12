@@ -628,4 +628,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String feedNoSearchResults(String query) {
     return 'No results found for \"$query\"';
   }
+
+  @override
+  String tagInputHint(int maxTags) {
+    return 'Add tag (max. $maxTags)';
+  }
+
+  @override
+  String get tagInputHelper => 'Press space, comma, or enter to confirm';
+
+  @override
+  String tagInputLimitReached(int maxTags) {
+    return 'Limit of $maxTags tags reached';
+  }
 }

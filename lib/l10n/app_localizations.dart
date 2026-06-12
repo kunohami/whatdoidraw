@@ -1207,6 +1207,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No results found for \"{query}\"'**
   String feedNoSearchResults(String query);
+
+  /// No description provided for @tagInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tag (max. {maxTags})'**
+  String tagInputHint(int maxTags);
+
+  /// No description provided for @tagInputHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Press space, comma, or enter to confirm'**
+  String get tagInputHelper;
+
+  /// No description provided for @tagInputLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Limit of {maxTags} tags reached'**
+  String tagInputLimitReached(int maxTags);
 }
 
 class _AppLocalizationsDelegate

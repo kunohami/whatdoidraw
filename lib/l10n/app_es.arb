@@ -300,5 +300,22 @@
         "type": "String"
       }
     }
+  },
+  "tagInputHint": "Añadir etiqueta (máx. {maxTags})",
+  "@tagInputHint": {
+    "placeholders": {
+      "maxTags": {
+        "type": "int"
+      }
+    }
+  },
+  "tagInputHelper": "Pulsa espacio, coma o intro para confirmar",
+  "tagInputLimitReached": "Límite de {maxTags} etiquetas alcanzado",
+  "@tagInputLimitReached": {
+    "placeholders": {
+      "maxTags": {
+        "type": "int"
+      }
+    }
   }
 }
