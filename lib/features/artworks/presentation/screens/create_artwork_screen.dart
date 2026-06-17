@@ -134,7 +134,10 @@ class _CreateArtworkScreenState extends ConsumerState<CreateArtworkScreen> {
               const SizedBox(height: 24),
               Text(
                 l10n.createArtworkTagsLabel,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 8),
               Wrap(

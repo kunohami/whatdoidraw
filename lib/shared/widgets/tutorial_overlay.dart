@@ -246,8 +246,12 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
                                     ),
                                     child: Text(
                                       isLastStep
-                                          ? AppLocalizations.of(context)!.tutorialStart
-                                          : AppLocalizations.of(context)!.tutorialNext,
+                                          ? AppLocalizations.of(
+                                              context,
+                                            )!.tutorialStart
+                                          : AppLocalizations.of(
+                                              context,
+                                            )!.tutorialNext,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),

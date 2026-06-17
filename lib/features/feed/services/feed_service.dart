@@ -128,7 +128,10 @@ class FeedService {
         .eq('is_active', true);
 
     if (query.isNotEmpty) {
-      final normalizedTag = query.trim().toLowerCase().replaceAll(RegExp(r'[^a-z0-9\-]'), '');
+      final normalizedTag = query.trim().toLowerCase().replaceAll(
+        RegExp(r'[^a-z0-9\-]'),
+        '',
+      );
       final sanitizedUserQuery = query.replaceAll(RegExp(r'[\\"{}]'), '');
 
       // 1. Fetch matching user IDs first to avoid PostgREST cross-table OR limitations
@@ -152,9 +155,7 @@ class FeedService {
           'user_id.in.($idsInClause),tags.cs.{"$normalizedTag"}',
         );
       } else {
-        queryBuilder = queryBuilder.or(
-          'tags.cs.{"$normalizedTag"}',
-        );
+        queryBuilder = queryBuilder.or('tags.cs.{"$normalizedTag"}');
       }
     }
 
@@ -230,7 +231,10 @@ class FeedService {
         .eq('is_active', true);
 
     if (query.isNotEmpty) {
-      final normalizedTag = query.trim().toLowerCase().replaceAll(RegExp(r'[^a-z0-9\-]'), '');
+      final normalizedTag = query.trim().toLowerCase().replaceAll(
+        RegExp(r'[^a-z0-9\-]'),
+        '',
+      );
       final sanitizedUserQuery = query.replaceAll(RegExp(r'[\\"{}]'), '');
 
       // 1. Fetch matching user IDs first to avoid PostgREST cross-table OR limitations
@@ -254,9 +258,7 @@ class FeedService {
           'user_id.in.($idsInClause),tags.cs.{"$normalizedTag"}',
         );
       } else {
-        queryBuilder = queryBuilder.or(
-          'tags.cs.{"$normalizedTag"}',
-        );
+        queryBuilder = queryBuilder.or('tags.cs.{"$normalizedTag"}');
       }
     }
 

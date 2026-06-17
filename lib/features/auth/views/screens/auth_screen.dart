@@ -173,10 +173,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                     ? const SizedBox.shrink()
                     : Text(
                         'whatdoidraw?',
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                       ),
               ),
               AnimatedContainer(
@@ -190,7 +191,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 16.0,
+                  ),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -309,7 +313,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen>
                                     children: [
                                       Expanded(child: Divider()),
                                       Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 16),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                        ),
                                         child: Text('O'),
                                       ),
                                       Expanded(child: Divider()),

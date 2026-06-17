@@ -501,9 +501,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   // Tabs
                   TabBar(
                     tabs: [
-                      Tab(icon: const Icon(Icons.lightbulb_outline), text: l10n.tabIdeas),
+                      Tab(
+                        icon: const Icon(Icons.lightbulb_outline),
+                        text: l10n.tabIdeas,
+                      ),
                       Tab(icon: const Icon(Icons.brush), text: l10n.tabDoodles),
-                      Tab(icon: const Icon(Icons.palette), text: l10n.tabArtworks),
+                      Tab(
+                        icon: const Icon(Icons.palette),
+                        text: l10n.tabArtworks,
+                      ),
                     ],
                   ),
                   // Tab Views

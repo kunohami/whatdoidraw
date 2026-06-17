@@ -67,7 +67,8 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
       appBar: AppBar(title: Text(l10n.notificationsTitle), centerTitle: true),
       body: notificationsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text(l10n.genericError(err.toString()))),
+        error: (err, stack) =>
+            Center(child: Text(l10n.genericError(err.toString()))),
         data: (notifications) {
           if (notifications.isEmpty) {
             return Center(child: Text(l10n.notificationsEmpty));
@@ -94,8 +95,12 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                   notif.type == 'idea_used_for_doodle'
                       ? l10n.notifIdeaUsedForDoodle(notif.actor?.username ?? '')
                       : notif.type == 'idea_used_for_artwork'
-                      ? l10n.notifIdeaUsedForArtwork(notif.actor?.username ?? '')
-                      : l10n.notifDoodleUsedForArtwork(notif.actor?.username ?? ''),
+                      ? l10n.notifIdeaUsedForArtwork(
+                          notif.actor?.username ?? '',
+                        )
+                      : l10n.notifDoodleUsedForArtwork(
+                          notif.actor?.username ?? '',
+                        ),
                   style: TextStyle(
                     fontWeight: notif.isRead
                         ? FontWeight.normal

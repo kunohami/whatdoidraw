@@ -19,7 +19,10 @@ class BookmarksScreen extends ConsumerWidget {
           centerTitle: true,
           bottom: TabBar(
             tabs: [
-              Tab(icon: const Icon(Icons.lightbulb_outline), text: l10n.tabIdeas),
+              Tab(
+                icon: const Icon(Icons.lightbulb_outline),
+                text: l10n.tabIdeas,
+              ),
               Tab(icon: const Icon(Icons.brush), text: l10n.tabDoodles),
             ],
           ),

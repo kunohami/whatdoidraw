@@ -75,7 +75,10 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.genericError(e.toString())), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(l10n.genericError(e.toString())),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -108,7 +111,10 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
             children: [
               Text(
                 l10n.createIdeaPromptQuestion,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               const SizedBox(height: 24),
               TextField(
@@ -157,7 +163,10 @@ class _CreateIdeaScreenState extends ConsumerState<CreateIdeaScreen> {
                         width: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : Text(l10n.createIdeaSubmitBtn, style: const TextStyle(fontSize: 16)),
+                    : Text(
+                        l10n.createIdeaSubmitBtn,
+                        style: const TextStyle(fontSize: 16),
+                      ),
               ),
               const SizedBox(height: 24),
             ],
