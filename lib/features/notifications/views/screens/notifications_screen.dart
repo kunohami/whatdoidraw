@@ -5,6 +5,7 @@ import 'package:whatdoidraw/features/feed/views/screens/doodle_detail_screen.dar
 import 'package:whatdoidraw/features/notifications/viewmodels/notifications_provider.dart';
 import 'package:whatdoidraw/features/profile/services/profile_service.dart';
 import 'package:whatdoidraw/features/profile/viewmodels/profile_viewmodel.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 
 class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
@@ -24,29 +25,30 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   }
 
   Future<void> _checkPushPrompt() async {
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
     final profileOpt = ref.read(currentUserProfileProvider);
     profileOpt.whenData((user) async {
       if (user != null && !user.hasSeenPushPrompt) {
+        if (!mounted) return;
         final accept = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Notificaciones Push'),
-            content: const Text(
-              '¿Quieres recibir notificaciones en tu móvil cuando alguien use tus ideas o doodles?',
-            ),
+            title: Text(l10n.notificationsPushDialogTitle),
+            content: Text(l10n.notificationsPushDialogContent),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text('Ahora no'),
+                child: Text(l10n.notificationsPushDialogCancel),
               ),
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text('Sí, activar'),
+                child: Text(l10n.notificationsPushDialogConfirm),
               ),
             ],
           ),
         );
-        if (accept != null) {
+        if (accept != null && mounted) {
           await ref
               .read(notificationsProvider.notifier)
               .markPushPromptAsSeen(user.id, accept);
@@ -59,15 +61,17 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     final notificationsAsync = ref.watch(notificationsProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Notificaciones'), centerTitle: true),
+      appBar: AppBar(title: Text(l10n.notificationsTitle), centerTitle: true),
       body: notificationsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) =>
+            Center(child: Text(l10n.genericError(err.toString()))),
         data: (notifications) {
           if (notifications.isEmpty) {
-            return const Center(child: Text('No tienes notificaciones aún.'));
+            return Center(child: Text(l10n.notificationsEmpty));
           }
           return ListView.builder(
             itemCount: notifications.length,
@@ -89,10 +93,14 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                 ),
                 title: Text(
                   notif.type == 'idea_used_for_doodle'
-                      ? '@${notif.actor?.username} ha usado tu idea para un doodle'
+                      ? l10n.notifIdeaUsedForDoodle(notif.actor?.username ?? '')
                       : notif.type == 'idea_used_for_artwork'
-                      ? '@${notif.actor?.username} ha usado tu idea para un artwork'
-                      : '@${notif.actor?.username} ha usado tu doodle para un artwork',
+                      ? l10n.notifIdeaUsedForArtwork(
+                          notif.actor?.username ?? '',
+                        )
+                      : l10n.notifDoodleUsedForArtwork(
+                          notif.actor?.username ?? '',
+                        ),
                   style: TextStyle(
                     fontWeight: notif.isRead
                         ? FontWeight.normal

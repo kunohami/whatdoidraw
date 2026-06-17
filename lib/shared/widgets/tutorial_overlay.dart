@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 import 'package:whatdoidraw/shared/widgets/mascot_jitter_widget.dart';
 
 /// Define un paso individual dentro del sistema de tutoriales.
@@ -160,7 +161,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
                   color: Colors.white70,
                   size: 28,
                 ),
-                tooltip: 'Saltar tutorial',
+                tooltip: AppLocalizations.of(context)!.tutorialSkip,
                 onPressed: _skipTutorial,
               ),
             ),
@@ -244,7 +245,13 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
                                       ),
                                     ),
                                     child: Text(
-                                      isLastStep ? '¡Empezar!' : 'Siguiente',
+                                      isLastStep
+                                          ? AppLocalizations.of(
+                                              context,
+                                            )!.tutorialStart
+                                          : AppLocalizations.of(
+                                              context,
+                                            )!.tutorialNext,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),

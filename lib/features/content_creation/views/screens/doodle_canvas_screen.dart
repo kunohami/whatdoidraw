@@ -28,6 +28,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
     String? ideaId,
   ) async {
     List<String> pendingTags = [];
+    final l10n = AppLocalizations.of(context)!;
 
     final confirmed = await showModalBottomSheet<bool>(
       context: context,
@@ -48,12 +49,12 @@ class DoodleCanvasScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Añadir etiquetas',
+                l10n.canvasAddTagsTitle,
                 style: Theme.of(ctx).textTheme.titleLarge,
               ),
               const SizedBox(height: 8),
               Text(
-                'Ayuda a otros a descubrir tu doodle con etiquetas descriptivas.',
+                l10n.canvasAddTagsSubtitle,
                 style: Theme.of(ctx).textTheme.bodySmall,
               ),
               const SizedBox(height: 20),
@@ -64,12 +65,12 @@ class DoodleCanvasScreen extends ConsumerWidget {
               const SizedBox(height: 24),
               FilledButton(
                 onPressed: () => Navigator.pop(ctx, true),
-                child: const Text('Publicar Doodle'),
+                child: Text(l10n.canvasPublishBtn),
               ),
               const SizedBox(height: 8),
               TextButton(
                 onPressed: () => Navigator.pop(ctx, false),
-                child: const Text('Cancelar'),
+                child: Text(l10n.btnCancel),
               ),
             ],
           ),
@@ -136,11 +137,11 @@ class DoodleCanvasScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nuevo Doodle'),
+        title: Text(l10n.creationHubNewDoodle),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),
-            tooltip: 'Ayuda',
+            tooltip: l10n.tooltipHelp,
             onPressed: () {
               TutorialOverlay.showDoodleCanvasInfo(context, l10n);
             },
@@ -181,7 +182,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
                     onPressed: canvasState.strokes.isEmpty
                         ? null
                         : () => _showPublishSheet(context, ref, ideaId),
-                    child: const Text('PUBLICAR'),
+                    child: Text(l10n.canvasPublishAction),
                   ),
                 ),
         ],
@@ -312,7 +313,7 @@ class DoodleCanvasScreen extends ConsumerWidget {
           if (canvasState.isSubmitting)
             Container(
               color: Colors.black12,
-              child: const Center(child: Text('Subiendo tu obra...')),
+              child: Center(child: Text(l10n.canvasUploading)),
             ),
         ],
       ),

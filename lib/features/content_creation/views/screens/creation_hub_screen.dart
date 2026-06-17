@@ -23,7 +23,7 @@ class CreationHubScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.info_outline),
-          tooltip: 'Ayuda',
+          tooltip: l10n.tooltipHelp,
           onPressed: () {
             TutorialOverlay.showCreationHubInfo(context, l10n);
           },
@@ -33,7 +33,7 @@ class CreationHubScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_none),
-            tooltip: 'Notificaciones',
+            tooltip: l10n.tooltipNotifications,
             onPressed: () {
               Navigator.push(
                 context,

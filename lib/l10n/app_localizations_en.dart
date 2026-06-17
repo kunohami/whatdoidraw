@@ -456,4 +456,189 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get btnExit => 'Exit';
+
+  @override
+  String get settingsSelectThemeTitle => 'Select Theme';
+
+  @override
+  String get settingsEmailAccount => 'Email Account';
+
+  @override
+  String get settingsNotAvailable => 'Not available';
+
+  @override
+  String get settingsVisualTheme => 'Visual Theme';
+
+  @override
+  String get settingsPushNotifications => 'Push Notifications';
+
+  @override
+  String get settingsEmailNotifications => 'Email Notifications';
+
+  @override
+  String get tooltipHelp => 'Help';
+
+  @override
+  String get tooltipNotifications => 'Notifications';
+
+  @override
+  String get tutorialSkip => 'Skip tutorial';
+
+  @override
+  String get tutorialNext => 'Next';
+
+  @override
+  String get tutorialStart => 'Get Started!';
+
+  @override
+  String get tabIdeas => 'Ideas';
+
+  @override
+  String get tabDoodles => 'Doodles';
+
+  @override
+  String get tabArtworks => 'Artworks';
+
+  @override
+  String get bookmarksNoIdeas => 'You have no saved ideas.';
+
+  @override
+  String get bookmarksNoDoodles => 'You have no saved doodles.';
+
+  @override
+  String get createIdeaPromptQuestion =>
+      'What would you like someone to draw today?';
+
+  @override
+  String get createIdeaPromptHint =>
+      'E.g., An astronaut cat drinking coffee...';
+
+  @override
+  String get createIdeaSubmitBtn => 'Submit Idea';
+
+  @override
+  String get canvasAddTagsTitle => 'Add tags';
+
+  @override
+  String get canvasAddTagsSubtitle =>
+      'Help others discover your sketch with descriptive tags.';
+
+  @override
+  String get canvasPublishBtn => 'Publish Sketch';
+
+  @override
+  String get canvasPublishAction => 'PUBLISH';
+
+  @override
+  String get canvasUploading => 'Uploading your sketch...';
+
+  @override
+  String get createArtworkSuccessSnackBar => 'Artwork published successfully!';
+
+  @override
+  String get createArtworkTitle => 'Publish Artwork';
+
+  @override
+  String get createArtworkInstruction =>
+      'Link your final artwork to share it. If you use DeviantArt or Bluesky, a thumbnail will be shown automatically.';
+
+  @override
+  String get createArtworkUrlLabel => 'Artwork URL';
+
+  @override
+  String get createArtworkUrlHint => 'DeviantArt or Bluesky...';
+
+  @override
+  String get createArtworkUrlRequired => 'Please enter a URL';
+
+  @override
+  String get createArtworkUrlInvalid =>
+      'Please enter a valid social network URL (Instagram, ArtStation, Cara, etc.)';
+
+  @override
+  String get createArtworkTagsLabel => 'Tags';
+
+  @override
+  String get createArtworkTagAddHint => 'Add tag...';
+
+  @override
+  String get createArtworkLoadPreviewBtn => 'Load Preview';
+
+  @override
+  String createArtworkAuthorFormat(String author, String provider) {
+    return 'by $author ($provider)';
+  }
+
+  @override
+  String get createArtworkNoThumbnailNote =>
+      'Note: No thumbnail available for this platform. Only the link will be shown.';
+
+  @override
+  String genericError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get profileVisitorMode => 'Visitor Mode';
+
+  @override
+  String get profileExpandHint => 'Swipe down to expand';
+
+  @override
+  String get profileTooltipSearch => 'Search creators';
+
+  @override
+  String get profileTooltipSearchAction => 'Search';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsEmpty => 'You have no notifications yet.';
+
+  @override
+  String get notificationsPushDialogTitle => 'Push Notifications';
+
+  @override
+  String get notificationsPushDialogContent =>
+      'Do you want to receive push notifications on your phone when someone uses your ideas or doodles?';
+
+  @override
+  String get notificationsPushDialogCancel => 'Not now';
+
+  @override
+  String get notificationsPushDialogConfirm => 'Yes, enable';
+
+  @override
+  String notifIdeaUsedForDoodle(String username) {
+    return '@$username used your idea for a doodle';
+  }
+
+  @override
+  String notifIdeaUsedForArtwork(String username) {
+    return '@$username used your idea for an artwork';
+  }
+
+  @override
+  String notifDoodleUsedForArtwork(String username) {
+    return '@$username used your doodle for an artwork';
+  }
+
+  @override
+  String feedNoSearchResults(String query) {
+    return 'No results found for \"$query\"';
+  }
+
+  @override
+  String tagInputHint(int maxTags) {
+    return 'Add tag (max. $maxTags)';
+  }
+
+  @override
+  String get tagInputHelper => 'Press space, comma, or enter to confirm';
+
+  @override
+  String tagInputLimitReached(int maxTags) {
+    return 'Limit of $maxTags tags reached';
+  }
 }

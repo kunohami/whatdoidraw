@@ -21,7 +21,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get languageSpanish => 'Español';
 
   @override
-  String get navFeed => 'Feed';
+  String get navFeed => 'Novedades';
 
   @override
   String get navCreate => 'Crear';
@@ -48,10 +48,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileNoIdeas => 'Aún no has publicado ideas.';
 
   @override
-  String get profileNoDoodles => 'Aún no has dibujado ningún doodle.';
+  String get profileNoDoodles => 'Aún no has dibujado ningún boceto.';
 
   @override
-  String get profileNoArtworks => 'Aún no has publicado ningún artwork final.';
+  String get profileNoArtworks => 'Aún no has publicado ningún arte final.';
 
   @override
   String get creationHubTitle => 'Crear';
@@ -61,10 +61,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get creationHubNewIdeaSubtitle =>
-      'Escribe un prompt para desafiar a los dibujantes.';
+      'Escribe una sugerencia para desafiar a los dibujantes.';
 
   @override
-  String get creationHubNewDoodle => 'Nuevo Doodle';
+  String get creationHubNewDoodle => 'Nuevo Boceto';
 
   @override
   String get creationHubNewDoodleSubtitle =>
@@ -75,7 +75,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get creationHubBookmarksSubtitle =>
-      'Tus ideas y doodles favoritos listos para usar.';
+      'Tus ideas y bocetos favoritos listos para usar.';
 
   @override
   String get feedFiltersTitle => 'Filtros y Ordenación';
@@ -111,10 +111,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get feedNoIdeas => 'No hay ideas que coincidan.';
 
   @override
-  String get feedNoDoodles => 'No hay doodles que coincidan.';
+  String get feedNoDoodles => 'No hay bocetos que coincidan.';
 
   @override
-  String get feedNoArtworks => 'No hay obras que coincidan.';
+  String get feedNoArtworks => 'No hay arte que coincida.';
 
   @override
   String suggestedBy(String username) {
@@ -139,14 +139,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get emptyIdeaCreationsTitle =>
-      '¡Aún no hay doodles ni obras de arte para esta idea!';
+      '¡Aún no hay bocetos ni arte para esta idea!';
 
   @override
   String get emptyIdeaCreationsSubtitle =>
       'Sé el primero en dar vida a esta idea dibujando un boceto.';
 
   @override
-  String get doodleDetailTitle => 'Detalle del Doodle';
+  String get doodleDetailTitle => 'Detalle del Boceto';
 
   @override
   String get exploreRelationsLabel => 'Explorar relaciones';
@@ -155,36 +155,35 @@ class AppLocalizationsEs extends AppLocalizations {
   String get viewOriginalIdeaOption => 'Ver idea original';
 
   @override
-  String get viewSharedArtworksOption => 'Ver obras de arte compartidas';
+  String get viewSharedArtworksOption => 'Ver arte compartido';
 
   @override
   String get originalIdeaHeader => 'Idea Original:';
 
   @override
-  String get sharedArtworksHeader => 'Obras de arte compartidas:';
+  String get sharedArtworksHeader => 'Arte compartido:';
 
   @override
-  String get emptyDoodleArtworksTitle =>
-      '¡Aún no hay obras de arte para este doodle!';
+  String get emptyDoodleArtworksTitle => '¡Aún no hay arte para este boceto!';
 
   @override
   String get emptyDoodleArtworksSubtitle =>
-      'Sé el primero en crear una obra de arte basada en este doodle.';
+      'Sé el primero en crear arte basado en este boceto.';
 
   @override
-  String get btnShareArtwork => 'Compartir Obra';
+  String get btnShareArtwork => 'Compartir Arte';
 
   @override
   String get btnCreateAnother => 'Crear otro';
 
   @override
-  String get artworkDetailTitle => 'Detalle de la Obra';
+  String get artworkDetailTitle => 'Detalle del Arte';
 
   @override
   String get previewError => 'Error al cargar la previsualización';
 
   @override
-  String get externalPlatformTitle => 'Obra en plataforma externa';
+  String get externalPlatformTitle => 'Arte en plataforma externa';
 
   @override
   String viewOnPlatform(String platform) {
@@ -196,16 +195,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get independentArtworkText =>
-      'Esta obra fue subida de forma independiente, sin un boceto o idea vinculada.';
+      'Este arte fue subido de forma independiente, sin un boceto o idea vinculados.';
 
   @override
   String get seedIdeaTraceTitle => '1. Idea Semilla Original:';
 
   @override
-  String get doodleTraceTitle => '2. Boceto (Doodle) de Inspiración:';
+  String get doodleTraceTitle => '2. Boceto de Inspiración:';
 
   @override
-  String get singleDoodleTraceTitle => 'Boceto (Doodle) de Inspiración:';
+  String get singleDoodleTraceTitle => 'Boceto de Inspiración:';
 
   @override
   String get viewOriginalArtwork => 'Ver obra original';
@@ -235,11 +234,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get otherProfileNoIdeas => 'Aún no ha publicado ideas.';
 
   @override
-  String get otherProfileNoDoodles => 'Aún no ha dibujado ningún doodle.';
+  String get otherProfileNoDoodles => 'Aún no ha dibujado ningún boceto.';
 
   @override
   String get otherProfileNoArtworks =>
-      'Aún no ha compartido ningún artwork final.';
+      'Aún no ha compartido ningún arte final.';
 
   @override
   String get profileSearchHint => 'Buscar creador...';
@@ -303,15 +302,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tutorialIdeas =>
-      '1. Ideas: ¿No sabes qué dibujar? Explora ideas sugeridas por otros, o escribe tu propio prompt creativo para desafiar a los demás.';
+      '1. Ideas: ¿No sabes qué dibujar? Explora ideas sugeridas por otros, o escribe tu propia sugerencia creativa para desafiar a los demás.';
 
   @override
   String get tutorialDoodles =>
-      '2. Doodles: Dibuja bocetos rápidos basados en esas ideas... o lo que quieras.';
+      '2. Bocetos: Dibuja bocetos rápidos basados en esas ideas... o lo que quieras.';
 
   @override
   String get tutorialArtworks =>
-      '3. Artworks: Lleva los doodles al siguiente nivel. Si te gusta alguna idea o boceto y creas una pieza de arte, publícala en tu red social y comparte el enlace por aquí. El creador de la idea o doodle sabrá que has creado y se podrá pasar a verlo. ';
+      '3. Arte: Lleva los bocetos al siguiente nivel. Si te gusta alguna idea o boceto y creas arte, publícalo en tu red social y comparte el enlace por aquí. El creador de la idea o boceto sabrá qué has creado y se podrá pasar a verlo. ';
 
   @override
   String get tutorialReady =>
@@ -319,27 +318,27 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get infoFeedIdeas =>
-      'Aquí puedes explorar las ideas creativas de otros usuarios. Úsalas como inspiración. Si una idea te gusta, puedes pulsar en ella para crear un doodle (boceto) o compartir tu creación final (Artwork)';
+      'Aquí puedes explorar las ideas creativas de otros usuarios. Úsalas como inspiración. Si una idea te gusta, puedes pulsar en ella para crear un boceto o compartir tu arte final';
 
   @override
   String get infoFeedDoodles =>
-      'Aquí verás los Doodles dibujados por la comunidad. Si ves uno que te guste y creas alguna pieza de arte por tu cuenta, ¡comparte el link!';
+      'Aquí verás los bocetos dibujados por la comunidad. Si ves uno que te guste y creas arte por tu cuenta, ¡comparte el enlace!';
 
   @override
   String get infoFeedArtworks =>
-      'Aquí están las obras de arte terminadas subidas por los usuarios. Estas obras siempre proceden de un doodle o una idea. Puedes pulsar sobre ellas para explorar la idea o doodle que las inspiraron.';
+      'Aquí está el arte terminado subido por los usuarios. Este arte siempre procede de un boceto o una idea. Puedes pulsar sobre él para explorar la idea o boceto que lo inspiraron.';
 
   @override
   String get infoCreationHub =>
-      'Este es tu centro de creación. Desde aquí puedes proponer una nueva Idea para que alguien la dibuje, empezar a pintar libremente un Doodle (un boceto en nuestro lienzo), o acceder a tus elementos Guardados para continuar más tarde.';
+      'Este es tu centro de creación. Desde aquí puedes proponer una nueva Idea para que alguien la dibuje, empezar a pintar libremente un boceto (en nuestro lienzo), o acceder a tus elementos guardados para continuar más tarde.';
 
   @override
   String get infoCreateIdea =>
-      'Aquí puedes proponer una idea creativa en texto. Añade etiquetas para que la puedan encontrar y el idioma en que la has escrito. Tus ideas aparecerán en la pestaña Ideas del Feed, y otros usuarios podrán usarlas para dibujar doodles inspirados en ellas... O incluso para hacer una obra más elaborada.';
+      'Aquí puedes proponer una idea creativa en texto. Añade etiquetas para que la puedan encontrar y el idioma en que la has escrito. Tus ideas aparecerán en la pestaña Ideas de Novedades, y otros usuarios podrán usarlas para dibujar bocetos inspirados en ellas... O incluso para crear arte.';
 
   @override
   String get infoDoodleCanvas =>
-      '¡Bienvenido a nuestro Lienzo! Aquí puedes dibujar tus bocetos de manera sencilla. Recuerda, no buscamos la perfección, solo dar una idea, así que sigue tu corazón. No olvides añadir etiquetas para que se pueda encontrar más fácilmente. Cuando guardes tu doodle, se publicará para que otros usuarios puedan verlo y, si lo desean, usarlo para crear una obra final (Artwork).';
+      '¡Bienvenido a nuestro lienzo! Aquí puedes dibujar tus bocetos de manera sencilla. Recuerda, no buscamos la perfección, solo dar una idea, así que sigue tu corazón. No olvides añadir etiquetas para que se pueda encontrar más fácilmente. Cuando guardes tu boceto, se publicará para que otros usuarios puedan verlo y, si lo desean, usarlo para crear arte final.';
 
   @override
   String get themeDark => 'Oscuro';
@@ -402,28 +401,28 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteIdeaTooltip => 'Eliminar idea';
 
   @override
-  String get deleteDoodleDialogTitle => '¿Eliminar Doodle?';
+  String get deleteDoodleDialogTitle => '¿Eliminar Boceto?';
 
   @override
   String get deleteDoodleDialogContent => 'Esta acción no se puede deshacer.';
 
   @override
-  String get deleteDoodleSuccess => 'Doodle eliminado correctamente';
+  String get deleteDoodleSuccess => 'Boceto eliminado correctamente';
 
   @override
-  String get deleteDoodleTooltip => 'Eliminar dibujo';
+  String get deleteDoodleTooltip => 'Eliminar boceto';
 
   @override
-  String get deleteArtworkDialogTitle => '¿Eliminar Artwork?';
+  String get deleteArtworkDialogTitle => '¿Eliminar Arte?';
 
   @override
   String get deleteArtworkDialogContent => 'Esta acción no se puede deshacer.';
 
   @override
-  String get deleteArtworkSuccess => 'Artwork eliminado correctamente';
+  String get deleteArtworkSuccess => 'Arte eliminado correctamente';
 
   @override
-  String get deleteArtworkTooltip => 'Eliminar artwork';
+  String get deleteArtworkTooltip => 'Eliminar arte';
 
   @override
   String get deletedIdeaPlaceholder =>
@@ -431,7 +430,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get deletedDoodlePlaceholder =>
-      'El doodle original que inspiró este artwork ha sido borrado por su creador.';
+      'El boceto original que inspiró este arte ha sido borrado por su creador.';
 
   @override
   String get settingsLogoutConfirmTitle => '¿Cerrar sesión?';
@@ -459,4 +458,188 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get btnExit => 'Salir';
+
+  @override
+  String get settingsSelectThemeTitle => 'Seleccionar Tema';
+
+  @override
+  String get settingsEmailAccount => 'Cuenta de correo';
+
+  @override
+  String get settingsNotAvailable => 'No disponible';
+
+  @override
+  String get settingsVisualTheme => 'Tema visual';
+
+  @override
+  String get settingsPushNotifications => 'Notificaciones en el móvil (Push)';
+
+  @override
+  String get settingsEmailNotifications => 'Notificaciones por Correo';
+
+  @override
+  String get tooltipHelp => 'Ayuda';
+
+  @override
+  String get tooltipNotifications => 'Notificaciones';
+
+  @override
+  String get tutorialSkip => 'Saltar tutorial';
+
+  @override
+  String get tutorialNext => 'Siguiente';
+
+  @override
+  String get tutorialStart => '¡Empezar!';
+
+  @override
+  String get tabIdeas => 'Ideas';
+
+  @override
+  String get tabDoodles => 'Bocetos';
+
+  @override
+  String get tabArtworks => 'Arte';
+
+  @override
+  String get bookmarksNoIdeas => 'No tienes ideas guardadas.';
+
+  @override
+  String get bookmarksNoDoodles => 'No tienes bocetos guardados.';
+
+  @override
+  String get createIdeaPromptQuestion =>
+      '¿Qué te gustaría que alguien dibujara hoy?';
+
+  @override
+  String get createIdeaPromptHint => 'Ej: Un gato astronauta bebiendo café...';
+
+  @override
+  String get createIdeaSubmitBtn => 'Enviar Idea';
+
+  @override
+  String get canvasAddTagsTitle => 'Añadir etiquetas';
+
+  @override
+  String get canvasAddTagsSubtitle =>
+      'Ayuda a otros a descubrir tu boceto con etiquetas descriptivas.';
+
+  @override
+  String get canvasPublishBtn => 'Publicar Boceto';
+
+  @override
+  String get canvasPublishAction => 'PUBLICAR';
+
+  @override
+  String get canvasUploading => 'Subiendo tu boceto...';
+
+  @override
+  String get createArtworkSuccessSnackBar => '¡Arte publicado correctamente!';
+
+  @override
+  String get createArtworkTitle => 'Publicar Arte';
+
+  @override
+  String get createArtworkInstruction =>
+      'Enlaza tu obra final para compartirla. Si usas DeviantArt o Bluesky, se mostrará una miniatura automáticamente.';
+
+  @override
+  String get createArtworkUrlLabel => 'URL del Arte';
+
+  @override
+  String get createArtworkUrlHint => 'DeviantArt o Bluesky...';
+
+  @override
+  String get createArtworkUrlRequired => 'Introduce una URL';
+
+  @override
+  String get createArtworkUrlInvalid =>
+      'Introduce una red social válida (Instagram, ArtStation, Cara, etc.)';
+
+  @override
+  String get createArtworkTagsLabel => 'Etiquetas (Tags)';
+
+  @override
+  String get createArtworkTagAddHint => 'Añadir etiqueta...';
+
+  @override
+  String get createArtworkLoadPreviewBtn => 'Cargar Vista Previa';
+
+  @override
+  String createArtworkAuthorFormat(String author, String provider) {
+    return 'por $author ($provider)';
+  }
+
+  @override
+  String get createArtworkNoThumbnailNote =>
+      'Nota: No hay miniatura disponible para esta plataforma. Se mostrará solo el enlace.';
+
+  @override
+  String genericError(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get profileVisitorMode => 'Modo Visitante';
+
+  @override
+  String get profileExpandHint => 'Desliza hacia abajo para expandir';
+
+  @override
+  String get profileTooltipSearch => 'Buscar creadores';
+
+  @override
+  String get profileTooltipSearchAction => 'Buscar';
+
+  @override
+  String get notificationsTitle => 'Notificaciones';
+
+  @override
+  String get notificationsEmpty => 'No tienes notificaciones aún.';
+
+  @override
+  String get notificationsPushDialogTitle => 'Notificaciones Push';
+
+  @override
+  String get notificationsPushDialogContent =>
+      '¿Quieres recibir notificaciones en tu móvil cuando alguien use tus ideas o bocetos?';
+
+  @override
+  String get notificationsPushDialogCancel => 'Ahora no';
+
+  @override
+  String get notificationsPushDialogConfirm => 'Sí, activar';
+
+  @override
+  String notifIdeaUsedForDoodle(String username) {
+    return '@$username ha usado tu idea para un boceto';
+  }
+
+  @override
+  String notifIdeaUsedForArtwork(String username) {
+    return '@$username ha usado tu idea para un arte';
+  }
+
+  @override
+  String notifDoodleUsedForArtwork(String username) {
+    return '@$username ha usado tu boceto para un arte';
+  }
+
+  @override
+  String feedNoSearchResults(String query) {
+    return 'No se encontraron resultados para \"$query\"';
+  }
+
+  @override
+  String tagInputHint(int maxTags) {
+    return 'Añadir etiqueta (máx. $maxTags)';
+  }
+
+  @override
+  String get tagInputHelper => 'Pulsa espacio, coma o intro para confirmar';
+
+  @override
+  String tagInputLimitReached(int maxTags) {
+    return 'Límite de $maxTags etiquetas alcanzado';
+  }
 }

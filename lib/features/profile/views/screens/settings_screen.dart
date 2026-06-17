@@ -66,10 +66,11 @@ class SettingsScreen extends ConsumerWidget {
     WidgetRef ref,
     AppThemeMode currentTheme,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Seleccionar Tema'),
+        title: Text(l10n.settingsSelectThemeTitle),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -183,10 +184,10 @@ class SettingsScreen extends ConsumerWidget {
                   Icons.email_outlined,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: const Text('Cuenta de correo'),
+                title: Text(l10n.settingsEmailAccount),
                 subtitle: Text(
                   ref.watch(supabaseClientProvider).auth.currentUser?.email ??
-                      'No disponible',
+                      l10n.settingsNotAvailable,
                 ),
               ),
               const Divider(),
@@ -226,7 +227,7 @@ class SettingsScreen extends ConsumerWidget {
                   Icons.palette_outlined,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: const Text('Tema visual'),
+                title: Text(l10n.settingsVisualTheme),
                 subtitle: Text(currentThemeMode.getLocalizedName(context)),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => _changeTheme(context, ref, currentThemeMode),
@@ -237,7 +238,7 @@ class SettingsScreen extends ConsumerWidget {
                   Icons.notifications_active,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: const Text('Notificaciones en el móvil (Push)'),
+                title: Text(l10n.settingsPushNotifications),
                 value: user.pushNotifications,
                 onChanged: (val) async {
                   if (val) {
@@ -279,7 +280,7 @@ class SettingsScreen extends ConsumerWidget {
                   Icons.email,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: const Text('Notificaciones por Correo'),
+                title: Text(l10n.settingsEmailNotifications),
                 value: user.emailNotifications,
                 onChanged: (val) async {
                   await ref

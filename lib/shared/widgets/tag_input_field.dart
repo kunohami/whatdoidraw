@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatdoidraw/l10n/app_localizations.dart';
 
 /// Widget reutilizable para la entrada de etiquetas (tags) mediante chips.
 ///
@@ -84,6 +85,7 @@ class _TagInputFieldState extends State<TagInputField> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final atLimit = _tags.length >= widget.maxTags;
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,8 +122,8 @@ class _TagInputFieldState extends State<TagInputField> {
             controller: _controller,
             focusNode: _focusNode,
             decoration: InputDecoration(
-              hintText: 'Añadir etiqueta (máx. ${widget.maxTags})',
-              helperText: 'Pulsa espacio, coma o intro para confirmar',
+              hintText: l10n.tagInputHint(widget.maxTags),
+              helperText: l10n.tagInputHelper,
               prefixIcon: const Icon(Icons.tag, size: 18),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -151,7 +153,7 @@ class _TagInputFieldState extends State<TagInputField> {
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Text(
-              'Límite de ${widget.maxTags} etiquetas alcanzado',
+              l10n.tagInputLimitReached(widget.maxTags),
               style: TextStyle(fontSize: 12, color: colorScheme.outline),
             ),
           ),

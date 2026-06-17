@@ -128,9 +128,35 @@ class FeedService {
         .eq('is_active', true);
 
     if (query.isNotEmpty) {
-      queryBuilder = queryBuilder.or(
-        'content.ilike.%$query%,tags.cs.{"$query"}',
+      final normalizedTag = query.trim().toLowerCase().replaceAll(
+        RegExp(r'[^a-z0-9\-]'),
+        '',
       );
+      final sanitizedUserQuery = query.replaceAll(RegExp(r'[\\"{}]'), '');
+
+      // 1. Fetch matching user IDs first to avoid PostgREST cross-table OR limitations
+      final List<String> matchingUserIds = [];
+      try {
+        final usersData = await supabaseClient
+            .from('users')
+            .select('id')
+            .ilike('username', '%$sanitizedUserQuery%');
+        for (final u in usersData) {
+          matchingUserIds.add(u['id'] as String);
+        }
+      } catch (e) {
+        // Silently catch and proceed with tag-only search if user lookup fails
+      }
+
+      // 2. Perform local OR filter on doodles table
+      if (matchingUserIds.isNotEmpty) {
+        final idsInClause = matchingUserIds.join(',');
+        queryBuilder = queryBuilder.or(
+          'user_id.in.($idsInClause),tags.cs.{"$normalizedTag"}',
+        );
+      } else {
+        queryBuilder = queryBuilder.or('tags.cs.{"$normalizedTag"}');
+      }
     }
 
     if (tags.isNotEmpty) {
@@ -201,15 +227,39 @@ class FeedService {
     // Join con la tabla 'users' para obtener el 'username'
     dynamic queryBuilder = supabaseClient
         .from('artworks')
-        .select('*, users!inner(username)')
+        .select('*, users(username)')
         .eq('is_active', true);
 
     if (query.isNotEmpty) {
-      // Búsqueda por username del artista o tags (usando or)
-      // Nota: Para filtrar por nombre de usuario en el join usamos la sintaxis de Supabase
-      queryBuilder = queryBuilder.or(
-        'users.username.ilike.%$query%,tags.cs.{"$query"}',
+      final normalizedTag = query.trim().toLowerCase().replaceAll(
+        RegExp(r'[^a-z0-9\-]'),
+        '',
       );
+      final sanitizedUserQuery = query.replaceAll(RegExp(r'[\\"{}]'), '');
+
+      // 1. Fetch matching user IDs first to avoid PostgREST cross-table OR limitations
+      final List<String> matchingUserIds = [];
+      try {
+        final usersData = await supabaseClient
+            .from('users')
+            .select('id')
+            .ilike('username', '%$sanitizedUserQuery%');
+        for (final u in usersData) {
+          matchingUserIds.add(u['id'] as String);
+        }
+      } catch (e) {
+        // Silently catch and proceed with tag-only search if user lookup fails
+      }
+
+      // 2. Perform local OR filter on artworks table
+      if (matchingUserIds.isNotEmpty) {
+        final idsInClause = matchingUserIds.join(',');
+        queryBuilder = queryBuilder.or(
+          'user_id.in.($idsInClause),tags.cs.{"$normalizedTag"}',
+        );
+      } else {
+        queryBuilder = queryBuilder.or('tags.cs.{"$normalizedTag"}');
+      }
     }
 
     if (tags.isNotEmpty) {
